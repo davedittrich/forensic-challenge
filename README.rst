@@ -5,10 +5,9 @@ Honeynet Project Forensic Challenge
 ===================================
 
 This repository mirrors and repackages the original data and analyses
-from the Honeynet Project `Forensic Challenge`_.  The original web site
-can be found at 
-Python CLI for managing secrets (passwords, API keys, etc.) You can read
-about the Honeynet Project Forensic Challenge in the article
+from the Honeynet Project `Forensic Challenge`_.
+
+You can read about the Honeynet Project Forensic Challenge in the article
 `Tales from the CRYPT(3): Stories from the early Honeynet Project years (1999 to 2005)
 <https://medium.com/@dave.dittrich/tales-from-the-crypt-3-ca8801b9f725>`_.
 
