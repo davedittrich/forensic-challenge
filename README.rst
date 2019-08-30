@@ -12,6 +12,10 @@ about the Honeynet Project Forensic Challenge in the article
 `Tales from the CRYPT(3): Stories from the early Honeynet Project years (1999 to 2005)
 <https://medium.com/@dave.dittrich/tales-from-the-crypt-3-ca8801b9f725>`_.
 
+.. note::
+
+    If you just want to get the image files, skip to `Getting Just Image Files`_
+
 The Forensic Challenge
 ----------------------
 
@@ -412,6 +416,57 @@ Dave Dittrich
    :width: 82px
    :height: 20px
    :target: #top
+
+Getting Just Image Files
+------------------------
+
+If you only want to get the uncompressed partition image files to
+perform forensic analysis on them, you can use the script
+``get-images-only.sh`` to do that.
+
+.. code-block:: shell
+
+   $ wget -q https://raw.githubusercontent.com/davedittrich/forensic-challenge/master/get-images-only.sh
+   $ less get-images-only.sh   # I will *not* suggest you pipe this to sh! Bad Practice! Bad!
+
+..
+
+When you are satisfied the script is safe, run it giving a path for a
+new directory that will contain just the raw partition images.
+
+.. code-block:: shell
+
+   $ bash get-images-only.sh /tmp/forensic-challenge
+   [+] Creating directory /tmp/forensic-challenge
+   [+] Sparse cloning repo https://github.com/davedittrich/forensic-challenge.git
+   Updating origin
+   remote: Enumerating objects: 234, done.
+   remote: Counting objects: 100% (234/234), done.
+   remote: Compressing objects: 100% (183/183), done.
+   remote: Total 234 (delta 58), reused 222 (delta 46), pack-reused 0
+   Receiving objects: 100% (234/234), 145.27 MiB | 4.47 MiB/s, done.
+   Resolving deltas: 100% (58/58), done.
+   From https://github.com/davedittrich/forensic-challenge
+    * [new branch]      master     -> origin/master
+   From https://github.com/davedittrich/forensic-challenge
+    * branch            master     -> FETCH_HEAD
+   [+] Decompressing partition images:
+   [+]   honeypot.hda1.dd.bz2...done.
+   [+]   honeypot.hda6.dd.bz2...done.
+   [+]   honeypot.hda7.dd.bz2...done.
+   [+]   honeypot.hda8.dd.bz2...done.
+   [+]   honeypot.hda9.dd.bz2...done.
+   [+]   honeypot.hda5.dd.bz2...done.
+   [+] Verifying integrity of decompressed files in /tmp/forensic-challenge:
+   honeypot.hda1.dd: OK
+   honeypot.hda5.dd: OK
+   honeypot.hda6.dd: OK
+   honeypot.hda7.dd: OK
+   honeypot.hda8.dd: OK
+   honeypot.hda9.dd: OK
+
+..
+
 Credits
 ---------
 
