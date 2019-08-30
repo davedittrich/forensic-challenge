@@ -29,11 +29,11 @@ The Honeynet Project's **Forensic Challenge** was launched on January 15, 2001.
 This page links to all the information we've assembled about the Challenge.
 This index will help you quickly get to what you want.
 
--  ``Introduction_``
--  ```The Challenge`_``
--  ```The Rules`_``
--  `Partition images <images/>`__
--  `Frequently Asked Questions about the Challenge <faq.html>`__
+-  Introduction_
+-  `The Challenge`_
+-  `The Rules`_
+-  `Partition images <partition-images/>`__
+-  `Frequently Asked Questions about the Challenge <faq/>`__
 -  `Results of the Challenge <results/>`__
 
 .. _intro:
