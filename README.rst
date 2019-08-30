@@ -29,12 +29,14 @@ The Honeynet Project's **Forensic Challenge** was launched on January 15, 2001.
 This page links to all the information we've assembled about the Challenge.
 This index will help you quickly get to what you want.
 
--  `Introduction <#intro>`__ 
--  `The Challenge <#challenge>`__
--  `The Rules <#rules>`__
--  `Partition images <images.html>`__
+-  ``Introduction_``
+-  ```The Challenge`_``
+-  ```The Rules`_``
+-  `Partition images <images/>`__
 -  `Frequently Asked Questions about the Challenge <faq.html>`__
--  `Results of the Challenge <results/index.html>`__
+-  `Results of the Challenge <results/>`__
+
+.. _intro:
 
 Introduction
 ~~~~~~~~~~~~
@@ -194,159 +196,158 @@ expect that everyone undertaking the challenge can or will address all of the
 following items, but the list below of questions and deliverables is provided
 as a guideline for what to produce and what to focus on:
 
-#. Identify the intrusion method, its date, and time. (Assume
-   the clock on the IDS was synchronized with an NTP reference
-   time source.)
+#. Identify the intrusion method, its date, and time. (Assume the clock on
+   the IDS was synchronized with an NTP reference time source.)
+
 #. Identify as much as possible about the intruder(s).
-#. List all the files that were added/modified by the intruder.
-   Provide an analysis of these programs (including
-   decompilation or disassembly where necessary to determine
-   their function and role in the incident.)
+
+#. List all the files that were added/modified by the intruder.  Provide
+   an analysis of these programs (including decompilation or disassembly
+   where necessary to determine their function and role in the incident.)
+
 #. Was there a sniffer or password harvesting program installed?
    If so, where and what files are associated with it?
-#. Was there a "rootkit" or other post-concealment trojan horse
-   programs installed on the system? If so, what operating
-   system programs were replaced and how could you get around
-   them? Hint: If you don't know what a "rootkit" is, read this:
+
+#. Was there a "rootkit" or other post-concealment trojan horse programs
+   installed on the system? If so, what operating system programs were
+   replaced and how could you get around them? Hint: If you don't know
+   what a "rootkit" is, read this:
    `http://staff.washington.edu/dittrich/misc/faqs/rootkits.faq
    <https://staff.washington.edu/dittrich/misc/faqs/rootkits.faq>`__
-#. What is publicly known about the source of any programs found
-   on the system? (e.g., their authors, where source code can be
-   found, what exploits or advisories exist about them, etc.)
-#. Build a time line of events and provide a detailed analysis
-   of activity on the system, noting sources of supporting or
-   confirming evidence (elsewhere on the system or compared with
-   a known "clean" system of similar configuration.)
-#. Provide a report suitable for management or news media
-   (general aspects of the intrusion without specific
-   identifying data).
-#. Provide an advisory for use within the home organization (a
-   fictitious university, "honeyp.edu", in this case, where I
-   hold an honorary Doctorate, by the way) to explain the key
-   aspects of the vulnerability exploited, how to detect and
-   defend against this vulnerability, and how to determine if
-   other systems were similarly compromised.
-#. Produce a cost-estimate for this incident using the following
-   guidelines and method:
+
+#. What is publicly known about the source of any programs found on the
+   system? (e.g., their authors, where source code can be found, what
+   exploits or advisories exist about them, etc.)
+
+#. Build a time line of events and provide a detailed analysis of activity
+   on the system, noting sources of supporting or confirming evidence
+   (elsewhere on the system or compared with a known "clean" system of
+   similar configuration.)
+
+#. Provide a report suitable for management or news media (general aspects
+   of the intrusion without specific identifying data).
+
+#. Provide an advisory for use within the home organization (a fictitious
+   university, "honeyp.edu", in this case, where I hold an honorary Doctorate,
+   by the way) to explain the key aspects of the vulnerability exploited,
+   how to detect and defend against this vulnerability, and how to
+   determine whether or not other systems were similarly compromised.
+
+#. Produce a cost-estimate for this incident using the following guidelines
+   and method: 
 
    `http://staff.washington.edu/dittrich/misc/faqs/incidentcosts.faq
    <https://staff.washington.edu/dittrich/misc/faqs/incidentcosts.faq>`__
 
-   To simplify and to normalize the results, assume that your
-   annual salary is $70,000 and that there are no user-related
-   costs. (If you work as a team, break out hours by person, but
-   all members should use the same annual salary. Please also
-   include a brief description of each investigator's number of
-   years of experience in the fields of system administration,
-   programming, and security, just to help us compare the number
-   of hours spent with other entrants).
+   To simplify and to normalize the results, assume that your annual salary is
+   $70,000 and that there are no user-related costs. (If you work as a team,
+   break out hours by person, but all members should use the same annual
+   salary. Please also include a brief description of each investigator's
+   number of years of experience in the fields of system administration,
+   programming, and security, just to help us compare the number of hours spent
+   with other entrants).
 
-To summarize (and standardize) the deliverables, please produce
-the following:
+To summarize (and standardize) the deliverables, please produce the following:
 
 ::
 
       File                   Contents
-      ---------------------------------------------------------------------
-      index.txt              Index of files/directories submitted
-                             (including any not listed below)
-      timestamp.txt          Timestamp of MD5 checksums of all files
-                             listed and submitted (dating when produced
-                             -- see deadline information below)
-      costs.txt              Incident cost-estimate
-      evidence.txt           Time line and detailed (technical) analysis.
-                             (Use an Appendix, and/or mark answers to
-                             questions above with "[Q1]", etc.)
-      summary.txt            Management and media (non-technical) summary
+      -----------------------------------------------------------------------
+      index.txt              Index of files/directories submitted (including
+                             any not listed below.)
+
+      timestamp.txt          Timestamp of MD5 checksums of all files listed
+                             and submitted (dating when produced -- see
+                             deadline information below.)
+
+      costs.txt              Incident cost-estimate.
+
+      evidence.txt           Time line and detailed (technical) analysis. (Use
+                             an Appendix, and/or mark answers to questions
+                             above with "[Q1]", etc.)
+
+      summary.txt            Management and media (non-technical) summary.
+
       advisory.txt           Advisory for consumption by other system
-                             administrators and incident handlers within
-                             your organization
+                             administrators and incident handlers within your
+                             organization.
+
       files.tar              Any other files produced during analysis and/or
-                             excerpts (e.g., strings output or
-                             dissassembly listings) from files on the
-                             compromised file system, which are referenced in
-                             the previous files
+                             excerpts (e.g., strings output or dissassembly
+                             listings) from files on the compromised file
+                             system, which are referenced in the previous files.
 
 The Rules
 ~~~~~~~~~
 
--  You are free to use any tools or techniques that you choose,
-   provided that the judges are able to readily interpret your
-   results and duplicate or verify their accuracy using publicly
-   available means (i.e., don't expect us all to have a copy of
-   your favorite "Law Enforcement Only" or multi-hundred dollar
+-  You are free to use any tools or techniques that you choose, provided that
+   the judges are able to readily interpret your results and duplicate or verify
+   their accuracy using publicly available means (i.e., don't expect us all to
+   have a copy of your favorite "Law Enforcement Only" or multi-hundred dollar
    commercial Windows-only tool). A good publicly available free
-   forensic toolkit is Dan Farmer and Wietse Venema's `The
-   Coroner's Toolkit
-   (TCT) <http://www.porcupine.org/forensics/tct.html>`__. If
-   you want examples of the use of TCT, or other
-   tools/techniques, see the Forensics section of the following
-   web page:
+   forensic toolkit is `TASK <https://www.sleuthkit.org>`__ (made up of
+   `Autopsy <https://www.sleuthkit.org/autopsy/download.php>`__ and
+   `The Sleuth Kit <https://www.sleuthkit.org/sleuthkit/download.php>`__.
+   These tools build on Dan Farmer and Wietse Venema's original `The
+   Coroner's Toolkit (TCT)
+   <http://www.porcupine.org/forensics/tct.html>`__. If you want
+   examples of the use of TCT, or other tools/techniques, see the Forensics
+   section of the following web page:
 
-   `http://staff.washington.edu/dittrich/ <https://staff.washington.edu/dittrich/>`__
+   `https://davedittrich.github.io/ <https://davedittrich.github.io/>`__
 
-   No matter what tools/methods you choose, please make sure you
-   explain them in your analysis and cite references to
-   resources (e.g., RFCs, CERT or SANS "how to" documents) to
-   help others learn by example. Don't forget: this is a
-   Honeynet Project brainchild, so learning is what it's all
-   about. And fun. It's all about learning and fun. Oh yeah, and
-   security. Learning, fun, AND security. ;)
+   No matter what tools/methods you choose, please make sure you explain them
+   in your analysis and cite references to resources (e.g., RFCs, CERT or
+   SANS "how to" documents) to help others learn by example. Don't forget:
+   this is a Honeynet Project brainchild, so learning is what it's all about.
+   And fun. It's all about learning and fun. Oh yeah, and security. Learning,
+   fun, AND security. ;)
 
--  You may work as a team, but if your entry is selected as a
-   Top 20, you'll have to fight over one copy of the book.
+-  You may work as a team, but if your entry is selected as a Top 20, you'll
+   have to fight over one copy of the book.
 
--  Deliver the results of the analysis in such a way that the
-   judges can quickly and easily consume the information, and
-   such that its authenticity, time of production, and integrity
-   can be verified independently. (e.g., ISO 9660 CD-ROM or
-   ``.tar`` archive, with digital time stamps, and PGP
-   signatures and/or MD5 checksums.)
-   Please DO NOT SEND COPIES OF COMPLETE FILES FROM THE FILE
-   SYSTEM. We already have a copy of the file system and its
-   contents. Just note the path (e.g., "[See file /bin/foo]").
--  All submissions **MUST** be time stamped prior to 00:00 GMT
-   on Monday, February 19, 2001 [**not** February 15 as the
-   announcement email said], and delivery to the judges
-   initiated later that same day. (This is to accommodate
-   submissions on IS0 9660 format CD-ROM, which should be
-   postmarked by this time. The digital time stamps and
-   postmarks will be used to determine the 20 "Hacking Exposed"
-   book winners.) One free digital time stamping service you can
-   use is `Stamper <http://www.itconsult.co.uk/stamper.htm>`__ .
--  All submissions should be sent (or shipping address arranged,
-   if CD-ROMs are being produced) to
-   `[email protected] </cdn-cgi/l/email-protection#52313a333e3e3
-73c3537123a3d3c372b3c37267c3d20356d012730383731266f063a3772143d2
-0373c213b3172113a333e3e373c3537580127303f3b21213b3d3c>`__.
--  The person who hacked the box is NOT eligible, nor are
-   members of the Honeynet Project. Members of the companies
-   employing Honeynet Project members are eligible (and
-   encouraged!) to enter, but their entries (even if Top 20)
-   will not receive copies of "Hacking Exposed." The books go to
-   other entrants.
--  Entries must be written in English (UK and Aussie English
-   accepted, but go light on the regional slang, please! I only
-   have a copy of "*Best of Aussie Slang*," and the other judges
-   don't live in Seattle.)
--  Only one entry per household, please. Must be sentient to
-   enter. Sorry, no Ginsu Knives come with this offer!
+-  Deliver the results of the analysis in such a way that the judges can quickly
+   and easily consume the information, and such that its authenticity, time of
+   production, and integrity can be verified independently. (e.g., ISO 9660
+   CD-ROM or ``.tar`` archive, with digital time stamps, and PGP signatures
+   and/or MD5 checksums.) Please DO NOT SEND COPIES OF COMPLETE FILES FROM THE
+   FILE SYSTEM. We already have a copy of the file system and its contents.
+   Just note the path (e.g., "[See file /bin/foo]").
 
-Submissions will be judged by a panel of experts and winners
-selected and announced on Monday, March 19, 2001. All decisions
-of the judges are final (no recounts or legal challenges by
-teams of grossly overpaid lawyers will be tolerated!).
+-  All submissions **MUST** be time stamped prior to 00:00 GMT on Monday,
+   February 19, 2001 [**not** February 15 as the announcement email said], and
+   delivery to the judges initiated later that same day. (This is to accommodate
+   submissions on IS0 9660 format CD-ROM, which should be postmarked by this
+   time. The digital time stamps and postmarks will be used to determine the
+   20 "Hacking Exposed" book winners.) One free digital time stamping service
+   you can use is `Stamper <http://www.itconsult.co.uk/stamper.htm>`__ .
 
-After the winners are announced, all entries will be posted for
-the security community to review. We hope that the community can
-better learn from and improve from all the different techniques
-that different people and organizations use.
+-  The person who hacked the box is NOT eligible, nor are members of the
+   Honeynet Project. Members of the companies employing Honeynet Project members
+   are eligible (and encouraged!) to enter, but their entries (even if Top 20)
+   will not receive copies of "Hacking Exposed." The books go to other entrants.
 
-Also, we wouldn't be the Honeynet Project if we didn't capture
-all of the blackhat's keystrokes as he exploited, accessed, and
-modified the honeypot! We will release the Honeypot Project's
-analysis of the hacked system, as well as the blackhat's
-keystrokes, along with the results of the Challenge on March 19.
+-  Entries must be written in English (UK and Aussie English accepted, but go
+   light on the regional slang, please! I only have a copy of "*Best of Aussie
+   Slang*," and the other judges don't live in Seattle.)
+
+-  Only one entry per household, please. Must be sentient to enter. Sorry, no
+   Ginsu Knives come with this offer!
+
+Submissions will be judged by a panel of experts and winners selected and
+announced on Monday, March 19, 2001. All decisions of the judges are final (no
+recounts or legal challenges by teams of grossly overpaid lawyers will be
+tolerated!).
+
+After the winners are announced, all entries will be posted for the security
+community to review. We hope that the community can better learn from and
+improve from all the different techniques that different people and
+organizations use.
+
+Also, we wouldn't be the Honeynet Project if we didn't capture all of the
+blackhat's keystrokes as he exploited, accessed, and modified the honeypot! We
+will release the Honeypot Project's analysis of the hacked system, as well as
+the blackhat's keystrokes, along with the results of the Challenge on March 19.
 
 Good luck, and have fun!
 
