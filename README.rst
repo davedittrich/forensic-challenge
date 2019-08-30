@@ -138,34 +138,10 @@ To get you started, here are the basic facts about the compromise:
    74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  t...............
    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 
-A bit-image copy of the active partitions was obtained, as detailed here:
+..
 
-::
-
-   /dev/hda8       /
-   /dev/hda1       /boot
-   /dev/hda6       /home
-   /dev/hda5       /usr
-   /dev/hda7       /var
-   /dev/hda9       swap
-
-MD5 Checksums (both uncompressed and GNU gzip compressed):
-
-::
-
-   a1dd64dea2ed889e61f19bab154673ab  honeypot.hda1.dd
-   c1e1b0dc502173ff5609244e3ce8646b  honeypot.hda5.dd
-   4a20a173a82eb76546a7806ebf8a78a6  honeypot.hda6.dd
-   1b672df23d3af577975809ad4f08c49d  honeypot.hda7.dd
-   8f244a87b8d38d06603396810a91c43b  honeypot.hda8.dd
-   b763a14d2c724e23ebb5354a27624f5f  honeypot.hda9.dd
-
-   f8e5cdb6f1109035807af1e141edd76d  honeypot.hda1.dd.gz
-   6ef29886be0d9140ff325fe463fce301  honeypot.hda5.dd.gz
-   8eb98a676dbffad563896a9b1e99a95f  honeypot.hda6.dd.gz
-   be215f3e8c2602695229d4c7810b9798  honeypot.hda7.dd.gz
-   b4ff10d5fd1b889a6237fa9c2979ce77  honeypot.hda8.dd.gz
-   9eed26448c881b53325a597eed8685ea  honeypot.hda9.dd.gz
+The disk partition images are found in the
+`partition-images/ <partition-images/>`__ directory.
 
 Please be aware that these are new images. This is **not** a system that the
 Honeynet Project has previously written about or discussed publically. (I.e.,
