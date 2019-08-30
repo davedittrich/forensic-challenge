@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <TITLE>Index of /challenge/results/submissions/andy/files</TITLE>
+ </HEAD>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+<H1>Index of /challenge/results/submissions/andy/files</H1>
+<UL><LI><A HREF="/challenge/results/submissions/andy/"> Parent Directory</A>
+<LI><A HREF="chkconfig--list.out"> chkconfig--list.out</A>
+<LI><A HREF="cpio.in"> cpio.in</A>
+<LI><A HREF="find-ctime.out"> find-ctime.out</A>
+<LI><A HREF="identd.dis"> identd.dis</A>
+<LI><A HREF="rpm-V-postreboot.out"> rpm-V-postreboot.out</A>
+<LI><A HREF="rpm-V.out"> rpm-V.out</A>
+<LI><A HREF="rpm-q-a.out"> rpm-q-a.out</A>
+<LI><A HREF="sshd1.dis"> sshd1.dis</A>
+<LI><A HREF="stat.out"> stat.out</A>
+<LI><A HREF="tcpd.dis"> tcpd.dis</A>
+</UL><ADDRESS>Apache/1.3.29 Server at www.honeynet.org Port 80</ADDRESS>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>

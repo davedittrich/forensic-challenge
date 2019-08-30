@@ -1,0 +1,101 @@
+
+
+
+
+
+
+
+
+        THE HONEYNET FORENSIC CHALLENGE
+
+        January/February 2001
+
+
+        Prepared for the HoneyP.edu Incident Response Team (HIRT)
+
+        by  Brian Coyle <brianc@magicnet.net>
+
+
+
+
+
+-----------------------------------------------------------------------
+
+
+timestamp.txt          Timestamp of MD5 checksums of all files
+                       listed and submitted (dating when produced)
+
+
+-----------------------------------------------------------------------
+
+86f91dfa766cc2a78771ea433cc3e5d7  advisory.txt
+2b0205881c54ed673b808b71755c3cfe  costs.txt
+370d3e65acc0c1931e2b1aa430cfbf5c  evidence.txt
+167b6bb7c8ea064548188ce8699c4ac0  files.tar
+5064c81b313cc0e7653bb90b6b5f961b  index.txt
+da5e07cb4fe33f57e3b026005668198d  summary.txt
+
+55a700d030d220718cab08b79a247d40  brian.coyle/etc_Nov08
+f75c43784846791311d0d5ba23733617  brian.coyle/hda1.lsdel.out
+0d03e61cc6d8947b4e20321e1fdf22e5  brian.coyle/hda5.del_dirs.out
+eb5ec40247e392e30f2d0eb81e1a0221  brian.coyle/hda5.inode.109791_ssh-1.2.27.tar
+fd46067026a95985f455c2d0a8ec192b  brian.coyle/hda5.inode.109801_ssh-install
+07079c61d5af9bfe561520a8e659d632  brian.coyle/hda5.inode.109802_ssh-install
+d576e848ea36a7051e432d79fd866aeb  brian.coyle/hda5.inode.109803_named-install
+61ee5017a369f85a3bc309490b2dda84  brian.coyle/hda5.inode.109864_statd-rpm-install
+c8fb4d05baca53e48e94c7759304726f  brian.coyle/hda5.inode.109865_nfs-utils-0.1.9.1-1.rpm
+50c11f333641277ab75e6207bffb13b4  brian.coyle/hda5.inode.109866_wu-ftpd-2.6.0-14.6x.rpm
+d3572cb8816c048fc3b7ffbc81888d0e  brian.coyle/hda5.inode.109867_wuftp-rpm-install
+abb40017621605aa2bbb5b5138f0c5a4  brian.coyle/hda5.inode.60518_run
+91c2e5be01588508fe8e03f6cdeaabbf  brian.coyle/hda5.inode.63126_DNS-install
+8d96c7e70be62b338e0be5dee76483f4  brian.coyle/hda5.inode.93839_telnetd
+78989909cc50cbebe73b7faab880b657  brian.coyle/hda5.inode.94398_ssh
+d37918ae980e0cdda61cd90f2a01a260  brian.coyle/hda5.inode.94409_sshd
+250c4340d18cbc3375605db52ca2ae40  brian.coyle/hda5.inode.94411_ssh-keygen
+9b1c523817f182137bd9df1605f52674  brian.coyle/hda5.inode.94413_ssh-agent
+5188df0b74f02800398fef798ead1bd8  brian.coyle/hda5.inode.94415_ssh-add
+31f5419c553d045bbbfea6ce71505bcd  brian.coyle/hda5.inode.94417_scp
+433365f19450705faa014220f82db19d  brian.coyle/hda5.inode.94418_make-ssh-known-hosts
+097e64cff53878cda3ce5866886236e0  brian.coyle/hda5.lsdel.out
+c64aa1a8c748b833275c89eba1bd64d6  brian.coyle/hda5.orphan.inodes
+1e874af87f5ed46768b25c0e965be760  brian.coyle/hda5.orphan.inodes.info
+f75c43784846791311d0d5ba23733617  brian.coyle/hda6.lsdel.out
+523bd10c728c2b9f1b9e6e5372043233  brian.coyle/hda7.lsdel.out
+4796e3c9b83a94947386c5746807f7d3  brian.coyle/hda7.var.log.messages
+d44a89c3bb471ed30d4dc014b09f8fe1  brian.coyle/hda8.del_dirs.inodes
+a256dbe8752c309df0175fd743b0a683  brian.coyle/hda8.del_dirs.out
+d09cc0f22968d741d99cfb88406fffd2  brian.coyle/hda8.inode.25_transfer.c
+16a028e1e96254345d19571c95f2666c  brian.coyle/hda8.inode.26_Makefile
+b7fa83aaa408f503f38ab27b5959bd3d  brian.coyle/hda8.inode.60502_encrypt
+b9cda6e2a67460b60078b5d27e0c3ff2  brian.coyle/hda8.inode.60505_configure-install
+7c8e65f7caebdd1da01959b2c57da9fb  brian.coyle/hda8.inode.60506_Makefile.EGGDROP
+64c30b420ec594a94c795b34a8eb54f0  brian.coyle/hda8.inode.60507_tcl.h
+80ee4365084cc690c65864275354921b  brian.coyle/hda8.inode.60508_config.h
+44f6df889fa23b7fe700757a978aadd5  brian.coyle/hda8.inode.60509_tcl.h
+291bd14991505c34e123a41f19ef3f8d  brian.coyle/hda8.inode.60510_Makefile.EGGDROP
+5482d4486b40877817fc01d90504759d  brian.coyle/hda8.inode.60511_eggdrop_configure
+84c8fd3f7f617d8378641a0b99599419  brian.coyle/hda8.inode.60512_autoconf
+12e2ff748430a40b09cac8c9eb7d31fa  brian.coyle/hda8.inode.60513_config.h.in
+dd0cdf2b38a325175bf573aa07f3ee40  brian.coyle/hda8.inode.60514_encrypt.c
+02fa68c1b4db58c462a33acac7229b05  brian.coyle/hda8.inode.60515_eggdrop.conf
+2f7fd976502890f3fb828886fb82041e  brian.coyle/hda8.inode.60516_egg.log
+6c8f802dfb27f344ff12c1cd88880c9b  brian.coyle/hda8.inode.60519_tpack-install
+34e539b048441f9d1ad7983819067256  brian.coyle/hda8.inode.60520_python1.5-lib
+b564427917e45acb9e72fb42e7335cf1  brian.coyle/hda8.inode.60521_config.cache
+ab5d2937fa46893083667b3e7e2f5750  brian.coyle/hda8.inode.60522_log.yesterday
+f6c06bc0bcecbbbb0483230ee00d98f8  brian.coyle/hda8.inode.60525_eggdrop_info
+8c57135c46a9535afb65c15fb5519eee  brian.coyle/hda8.inode.60526_salt.h
+431ffef53d14bcd5a129d5b8e7eedd65  brian.coyle/hda8.inode.60531_EGGDROP.stamp
+83bde4e05c6a813cdc8c7e7bba8fc589  brian.coyle/hda8.inode.60533_python-lib-2
+4e771250050d5cc26fda8e1c5d97f0b1  brian.coyle/hda8.inode.8133_eggdrop.tar
+4369bc295b197f725f7bb892858dd101  brian.coyle/hda8.ls.60501.out
+1ad03b77abbea14f3f320db47951ac2d  brian.coyle/hda8.lsdel.inodes
+6cf012b26f89f29bcb4ef8d7239f566b  brian.coyle/hda8.lsdel.out
+669a9013134b508dd9f2cfae6c299aa3  brian.coyle/hda8.orphan.inodes
+b43b3306dae7f60fb4c915486d01c60d  brian.coyle/hda8.orphan.inodes.info
+3bec5fea50084b462d132a4ce83592af  brian.coyle/man_Nov08
+e8033f904337e90a1bab6c8fe7e76287  brian.coyle/missing_link
+bccffc9228c22650dd4c1d8b4ada519e  brian.coyle/mount_cracked
+98ace666c53d2dd00701cd91a82172fb  brian.coyle/recovered.messages
+b38b108757a787d7d31556a830c3189e  brian.coyle/unowned_files
+4eb0bca9cd5f8893cf67a1df27e0e0c9  brian.coyle/usr_doc_files

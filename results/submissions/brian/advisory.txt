@@ -1,0 +1,107 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        THE HONEYNET FORENSIC CHALLENGE
+
+        January/February 2001
+
+
+        Prepared for the HoneyP.edu Incident Response Team (HIRT)
+
+        by  Brian Coyle <brianc@magicnet.net>
+
+
+
+
+
+-----------------------------------------------------------------------
+
+advisory.txt           Advisory for consumption by other system
+                       administrators and incident handlers within
+                       your organization
+
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TO: All HoneyP.edu System Administrators and Managers
+
+FROM: HoneyP.edu Incident Response Team (HIRT)
+
+RE: recent RedHat 6.2 rpc.statd compromise
+
+
+
+               **** IMMEDIATE ACTION REQUIRED ****
+
+
+
+On November 7, 2000, The HoneyP.edu intrusion detection alarms triggered,
+alerting the incident response team to a possible break-in.  Upon further
+investigation, it was discovered a breach did occur against one of the
+university computer systems.
+
+Appropriate actions by the incident response team were undertaken to
+quickly remove the subject computer from the network, collect system
+evidence for forensic review and possible prosecution of the 
+perpetrator(s).
+
+Analysis of the evidence revealed a known vulnerability with rpc.statd
+was exploited.
+
+This advisory is being issued to all HoneyP.edu System Administrators 
+and Managers with details on patching the exposure. In addition, HIRT 
+strongly recommends similarly configured systems be inspected for 
+possible intrusion. 
+
+
+
+All HoneyP.edu administrators are advised to obtain and apply the latest 
+RedHat 6.2 security updates from the URL below. 
+
+
+This is rpc.statd vulnerability:
+
+	http://www.cert.org/advisories/CA-2000-17.html
+	http://www.redhat.com/support/errata/RHSA-2000-043-03.html
+
+Discussion of exploit and sample code:
+
+	http://www.securityfocus.com/vdb/bottom.html?section=discussion&vid=1480
+    http://www.securityfocus.com/vdb/bottom.html?section=exploit&vid=1480
+
+
+As always, if you have any questions about this advisory, please contact
+your HIRT liason.
+
+

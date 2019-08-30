@@ -1,0 +1,64 @@
+evidence.txt	Time line and technical analysis, text version.
+evidence.ps	Time line and technical analysis, PostScript version.
+advisory.txt	Technical advisory, text version.
+advisory.ps	Technical advisory, PostScript version.
+summary.txt	Executive summary, text version.
+summary.ps	Executive summary, PostScript version.
+costs.txt	Cost estimate, text version.
+costs.ps	Cost estimate, PostScript version.
+
+Contents of files.tar:
+
+md5sum.mismatches
+		Output from checking system consistency with rpm.
+
+dot-fileMeYV0p	The file written by the in.identd installed on the
+		system.
+in.identd.S	Raw output from running objdump on in.identd.
+in.identd.s	A commented version of some excerpts from the
+		disassembler listing.
+
+dirlist		Output from investigating directory mtimes.
+
+bash-histories	find(1) output concerning the .bash_history files
+		and/or links found on the system.
+
+logsnippets	Log file snippets grepped from the /var partition.
+logsnippets.swap
+		Log file snippets grepped from the swap partition.
+
+swap-environments
+		Environment-like strings found in the swap partition.
+
+passwd.suspects
+		passwd-like strings found on the root partition.
+passwd.snippets
+		actual passwd entries found in passwd.suspects.
+bash_history.root
+		Fragments from root's .bash_history, recovered from
+		the root partition.
+
+ssh.diff	Diff between a known-good version of ssh-1.2.27 and
+		the version installed on the system.
+
+bigbody		Combined output from ils|ils2mac and graverobber.
+timeline.txt	mactime output, generated from bigbody.
+
+lastlog.c	The C source code of a simple tool to dump the
+		entire lastlog file of the victim system.
+
+trojan.sh  	The script used by the attacker to adapt the system
+ 		to his needs.  Recovered from the evidence.
+
+addbd.sh	The addbd shell script, as extracted from the evidence.
+
+linsniffer.c	Source code for linsniffer, from lrk4.
+snif.s		Objdump output generated from the snif binary.
+
+libfake.tar	The source code for the shared library used for
+		examining the slice2 binary found on the system.
+sendto.log
+sendto.log.apollo
+headers
+headers.apollo
+		The output files generated during that examination.

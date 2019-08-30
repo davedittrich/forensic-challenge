@@ -1,0 +1,22 @@
+File			Contents
+---------------------------------------------------------------------
+index.txt		Index of files/directories submitted
+			(including any not listed below)
+timestamp.txt		Timestamp of MD5 checksums of all files
+			listed and submitted (dating when produced
+			-- see deadline information below)
+costs.txt		Incident cost-estimate
+evidence.txt		Procedure of collecting and securing
+			evidence and bringing the machine back up.
+analysis.txt		Time line and detailed (technical) analysis.
+			(Use an Appendix, and/or mark answers to
+			questions above with "[Q1]", etc.)
+summary.txt		Management and media (non-technical) summary
+advisory.txt		Advisory for consumption by other system
+			administrators and incident handlers within
+			your organization
+files/			Any other files produced during analysis and/or
+			excerpts (e.g., strings output or
+			dissassembly listings) from files on the
+			compromised file system, which are referenced in
+			the previous files

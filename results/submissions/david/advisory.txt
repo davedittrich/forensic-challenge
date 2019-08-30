@@ -1,0 +1,44 @@
+                         Honeyp Uni. - Advisory HU-2001-01 
+                         =================================
+
+                          Date: Sunday, February 18, 2001
+
+
+Systems Affected
+----------------
+Systems running daemon rpc.statd without the appropriate patch
+
+Overview
+--------
+
+There is a format string vulnerability in many versions of rpc.statd that allows remote root access. This daemon is part of the NFS package which is very common among unix systems.
+
+Description
+-----------
+Vulnerable versions of the rpc.statd program do not perform a correct input validation on user input before using it as a format string. This allows a carefully crafted user input to cause the execution of arbitrary code with the privileges of the user running rpc.statd, usually root.
+
+Impact
+------
+A remote or local attacker may be able to execute arbitrary code on the system with the privileges of the user running rpc.statd, usually root.
+
+
+Solution
+--------
+
+First, please verify that system has not yet been compromised. In order to do so please follow the steps outlined in http://www.cert.org/tech_tips/intruder_detection_checklist.html but please use a 'trusted' copy of any program you execute to verify the integrity of the system (e.g. from a CD). If an intruder has entered the system he or she will most probably have modified many system commands to hide his or her activity.
+
+If your system has been compromised please disconnect the system from the network (do not shut it down or power it off, simply disconnect the LAN cable) and contact the Honey University CERT immediately at phone number 999-999999.
+
+If your system has not been compromised or you are installing a new system then apply appropriate patches from your vendor to eliminate the vulnerability.
+
+Further information
+-------------------
+http://www.cert.org/advisories/CA-2000-17.html
+
+
+
+Authors
+-------
+German Martin
+Jorge Ortiz
+David Perez

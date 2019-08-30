@@ -1,0 +1,50 @@
+Brian Carrier                                                  advisory.txt
+-----------------------------------------------------------------------------
+
+                      Honeypot University Security Advisory
+                                  #000001
+                              February 19, 2001
+
+-------------------------------------------------------------------------------
+
+System Information:
+System: apollo.honey.edu (172.16.1.101)
+OS: Redhat Linux 6.2
+Patches: None
+
+Compromise Information:
+Date: Nov 7, 2000 23:11:50 CST
+Method: Format string overflow in rpc.statd
+Detection Date: Nov 8 19:40:20 CST
+
+-------------------------------------------------------------------------------
+
+The host was compromised using an unpatched version of rpc.statd that
+contains a format string vulnerability[1].  This action was detected by
+the snort Intrusion Detection System.   
+
+After gaining access, the attacker installed a rootkit into /usr/man/.Ci.
+The rootkit is a modified version of the Linux RootKit 4 (lrk4).  It
+contained several trojaned binaries including /bin/ps, /bin/ls, /bin/netstat,
+/sbin/ifconfig, /usr/bin/top, /usr/sbin/syslogd, and /usr/sbin/tcpd.
+A trojan copy of sshd was also installed that logs user name and passwords
+to /var/tmp/nap.
+
+The attacker also upgraded several services including: am-utils, lpd,
+make, screen, telnet, ypserv, wu-ftp, nfs-utils, named.
+
+The attacker also installed several IRC binaries including bitchX and
+eggdrop.  bitchX was installed as part of the .Ci rootkit and eggdrop was
+installed separately in /dev/tpack.  Eggdrop was installed using a 
+distribution called tPACK 2.3.  
+
+The system had not been used when it was compromised so no data was stolen.
+
+Our forensics analysis was able to recover almost all of the deleted files
+including the rootkit and eggdrop installation .tar files.  We were also able
+to recover deleted log entries and the IP addresses of where the attack
+came from.
+
+REFERENCES
+[1]: http://www.linuxsecurity.com/advisories/redhat_advisory-562.html
+

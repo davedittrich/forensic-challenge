@@ -1,0 +1,9 @@
+On November 8 at 8:10 pm we discovered that one of our Linux 6.2 computers
+had been successfully attacked. The computer was removed from service at
+that time. Our logs indicate that the attack occurred Nov 7 11:11pm CST. The
+attack originated from a home.com cable modem account. Although attackers
+had gained full access to this computer, no sensitive data was compromised.
+The attackers only used this computer to set up a communications link using
+IRC. We have upgraded the computer to remove the vulnerability used by the
+attacker. The files the attacker added or changed were removed and the
+computer returned to service.

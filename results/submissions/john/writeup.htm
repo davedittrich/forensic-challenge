@@ -1,0 +1,139 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>The Forensic Analysis</TITLE>
+</HEAD>
+<BODY>
+
+<B><FONT SIZE=5><P ALIGN="CENTER">The Forensic Analysis</P>
+</B></FONT><FONT SIZE=2><P>&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;By John F. Nguyen</P>
+<P>&#9;&#9;</P>
+</FONT><B><P>Overview</P>
+</B><FONT SIZE=2>
+<P>The contents of this paper revolve around the &quot;Black Hat’s&quot; intrusion of a &quot;honeypot&quot; that was created by the &quot;Honeynet Project&quot; in an attempt to &quot;learn the tools, tactics, and motives of the blackhat community, and share those lessons learned.&quot;  Many of the dates and times are speculative, and are based on the files recovered during the forensic analysis. </P>
+
+</FONT><B><P>Initial Stages Preceding a Successful Intrusion </P>
+</B><FONT SIZE=2>
+<P>A successful intrusion begins with the information obtained by massive scans of the Internet, recently labeled by the courts as legal.  The scans are easy to conduct and very fast.  A port scan of 65 thousand IP addresses in a class B subnet can be done in 15 minutes.  These scans are run daily and sometimes hourly by the Black Hat community.  In many cases reported on the Internet, a system could be compromised within minutes of being placed on a network.  </P>
+
+<P>The system compromised was a Default Server Installation of Red Hat Linux 6.2.  Ames has taken numerous measures to educate users as to the problems with default installations of any operating system.  There are numerous problems and vulnerabilities associated with default installations of Red Hat Linux 6.2 in particular.  By default, The Red Hat Linux operating system offers many services, many of which will either be vulnerable to attack, or will give valuable information to an intruder.  The more ports and services open/available, the more potential for vulnerabilities will exist.  </P>
+
+<P>To discover the vulnerable system in question, the Black Hat could have used one of many scanning tactics.  One method that is commonly seen is a port scan of port 21 (file transfer protocol or ftp).  The next step a Black Hat would use is to run a program that will connect to this port to determine what version of ftp is running based on the service’s banner information.  Since Red Hat Linux 6.2 was shipped with vulnerable versions of Wu-ftp (the Washington University release of the ftp service), all systems found to run the 2.6.0 version with this second step would probably be vulnerable to remote exploits. </P>
+
+<P>The next step for the Black Hat is to compile and run an exploit for Wu-ftp on the vulnerable systems found in the preceding step.  Exploits such as the exploit for Wu-ftp are remote exploits that can result in a root compromise.  These exploits can be run from anywhere on the Internet, and ultimately the world, if no firewalls or precautionary security measures are implemented.  The nature of exploits such as these is to send crafted information to a victim’s system, causing the system to &quot;panic&quot; and either crash or give the intruder access to a root shell account.  As root (the super-user account), an intruder has complete control of the system.  The motives of a Black Hat in compromising systems vary anywhere from bragging rights in the Black Hat community, to the more serious criminal acts of obtaining sensitive information for economic or political gain.  </P>
+<B>
+<P>Black Hats and White Hats</P>
+</B>
+<P>The difference between a Black Hat versus a White Hat has often been described in terms of their motives.  The White Hat is often described as someone who will break into systems, but cause very little to no damage to the system.  Instead, the White Hat would either patch the systems they break into, or notify the system administrator of the systems vulnerabilities.  The Black Hat, however, will intentionally cause more damage and will often try to hide or destroy all traces of his/her &quot;footsteps&quot;.  This will enable the Black Hat to use the compromised system to break into other systems.  The more systems they break into, the less likelihood they would get caught.  For a Law Enforcement Agency to catch the Black Hat, an analysis would need to be done on every system that the Black Hat used as &quot;hopping points&quot;, eventually leading to the physical location of the Black Hat.  Because of this &quot;hopping&quot; that a Black Hat does, it is more than likely that the scanning/attacking systems are also victims of intrusion by the Black Hat.  This is also why counter-attacks are not options in responding to attacks or intrusions.  </P>
+
+<P>&nbsp;</P>
+</FONT><B><U><P ALIGN="CENTER">Who, What, When, Where, How and Why?</P>
+
+<P>Who?</P>
+</B></U><FONT SIZE=2>
+<P>The &quot;who&quot; aspect is perhaps the most difficult question to answer with respect to this intrusion.  A program recovered by TCT implicates a group/person by the name of T0R0. This hypothesis is based on the program (apparently authored by T0R0) recovered by TCT, used to &quot;clean up&quot; IRC servers broken into by the group/person.  This is perhaps the most speculative aspect of this analysis, and can only be used in conjunction with other, more substantial forms of evidence.  </P>
+
+</FONT><B><U><P>What?</P>
+<FONT SIZE=2>
+</B></U><P>The intruder broke into the honeypot system and installed his/her programs.  The intruder sets up the system to &quot;sniff&quot; the network for clear-text traffic to break into any nearby victim systems. The intruder installed his/her rootkit, trojaning the binaries and cleaning the logs.  </P>
+<B><U>
+</FONT><P>When?</P>
+</B></U><FONT SIZE=2>
+<P>The intruder broke in on November 6, 2000, at approximately 3:00 AM CST.  The intruder abandoned the system on November 8, 2000 at approximately 9:03 AM. </P>
+
+</FONT><B><U><P>Where?</P>
+</B></U><FONT SIZE=2>
+<P>Based on the information gleaned from the honeypot, the intruder could have come from any one or more of the following IP Addresses (or none listed below): </P>
+
+<P>216.216.74.2 (ATHM-216-216-xxx-2.home.net), </P>
+<P>128.121.247.126, </P>
+<P>207.239.115.11 (stan.ksni.net),</P>
+<P>24.12.200.186 (c871553-b.jffsn1.mo.home.com)</P>
+
+<P>However, much of this information appears to be intentionally left by the intruder him/herself, so the information (especially the last one) remains highly suspicious.    </P>
+<B><U>
+<P>How?</P>
+</B></U>
+<P>The intruder broke into the system through a well-known vulnerability with Wu-ftp 2.6.0.  The vulnerable version of the ftp service comes shipped with Red Hat 6.2 and is enabled in default server installations of the Red Hat Linux 6.2, which is what the honeypot was running.</P>
+
+</FONT><B><U><P>Why?</P>
+</B></U><FONT SIZE=2>
+<P>The intruder is trying to break into as many systems as he/she can to run the IRC service with somebody else’s bandwidth.   This can be used to chat with other friends, to share &quot;warez&quot; (pirated software, hacking programs, etc).  The IRC bot can also be used to launch DDoS attacks on anyone the intruder deems to be offensive.  If caught, the intruder can simply clean up and abandon the system without any consequences.  The more systems the intruder breaks into, the better chance the intruder has of getting away with it.  </P>
+
+<P>&nbsp;</P>
+</FONT><B><U><P ALIGN="CENTER">Time Line</P>
+</B></U><FONT SIZE=2>
+</FONT><B><P>November 4, 2000, 18:55:30  19:05:41 CST</P>
+</B><FONT SIZE=2>
+<P>System Administrator begins to install a default installation of Red Hat Linux 6.2 (server). </P>
+
+</FONT><B><P>November 5, 2000, 09:33:20  09:41:57 CST</P>
+</B><FONT SIZE=2>
+<P>System Administrator reboots the system, and connects the system to the local network.   </P>
+
+</FONT><B><P>November 5, 2000, 10:50:26  10:50:30 CST</P>
+</B><FONT SIZE=2>
+<P>Evidence was collected with the Coroner’s Toolkit to recover any logs deleted or removed in the /var/ directory/partition.  The log shows a &quot;FAILED&quot; login attempt for user ROOT at 10:50:26, followed by a successful login for user ROOT at 10:50:30 CST.  (The failed login is suspicious, but could easily have been the result of a system administrator’s error.  An interview with the System Administrator would confirm or deny this possibility).  </P>
+
+</FONT><B><P>November 5, 2000, 10:52:27  10:55:11 CST</P>
+</B><FONT SIZE=2>
+<P>System is given DNS name and configured for the Internet.</P>
+
+</FONT><B><P>November 5, 2000, 10:54:49 CST</P>
+</B><FONT SIZE=2>
+<P>Telnet from 207.239.115.11, according to /var/log/secure (which was modified by the intruder).  The same log file implicates the IP Address 216.216.74.2, which corresponds to the hostile activity logged by the Snort IDS System.  If this IP address was not used or owned by the user or System Administrator, I would consider this IP Address to be hostile and a possible (but unlikely)  intrusion point. </P>
+
+</FONT><B><P>November 5, 2000, 12:52:00 CST</P>
+</B><FONT SIZE=2>
+<P>System Administrator/ intruder accesses system information regarding network configuration and services provided.   (Once again, an interview with the System Administrator would confirm or deny this possibility that an intruder had access to the system at this time).</P>
+
+</FONT><B><P>November 6, 2000, 02:59:23 - 03:00:41 CST</P>
+</B><FONT SIZE=2>
+<P>First sign of intrusion.  Modification, Access, and Status change to file &quot;ftp.pids-all&quot; at 03:00:41 CST, according to the output of the tool, &quot;mactimes&quot;, from the Coroner’s toolkit.  </P>
+
+<P>The &quot;secure&quot; log file in the /var/log/ directory, shows a ftp connection from 128.121.247.126 at 02:59:23 (This IP address is suspicious, since the log file was modified by an intruder at 06:56:02 on November 8, 2000.) An ftp session was closed at 03:00:41 according to the &quot;messages&quot; log file (also modified by an intruder).  While the hostile IP address is suspicious, the evidence would indicate that this is either an ftp probe or the result of a successful Wu-ftpd exploit on the system. </P>
+
+<P>The intruder is given root access with the wu-ftpd exploit.  He/she then checks to see how long the system has been online, removes the hosts.deny file, edits the etc/passwd file, removes the contents of /wtmp/ (lastlog), and disables syslogd and klogd (logging capability).  The intruder also checks to see if the telnet service is turned on in the inetd.conf file, so that he/she can login to the system at a later time (Extrapolated from a recovered with TCT).</P>
+
+<P>Based on the evidence so far, and the vulnerabilities associated with default installations of Red Hat Linux 6.2 Servers, the intruder broke into the system through the Wu-ftp 2.6.0 service (which comes shipped with Red Hat 6.2).  The system, from which the intruder broke in, remains unclear, but could very easy be one of the following systems/ IP Addresses: </P>
+
+<P>216.216.74.2 (ATHM-216-216-xxx-2.home.net), </P>
+<P>128.121.247.126, </P>
+<P>207.239.115.11 (stan.ksni.net),</P>
+<P>24.12.200.186 (c871553-b.jffsn1.mo.home.com)</P>
+
+<P>(In a &quot;real world&quot; situation, we would have to speak to the system administrator, asking him/her if any authorized users connected to the system remotely and if so, from where and when.  In addition, we would have to investigate all IP addresses implicated by the intrusion, even those that could have been modified by the intruder.)  </P>
+<P> </P>
+</FONT><B><P>Undetermined Time and Date (between November 6, 03:00:41 and Nov 8, 07:03:00)</P>
+</B><FONT SIZE=2>
+<P>All logs pertaining to November 7</FONT><FONT SIZE=1>th</FONT><FONT SIZE=2> seem to have been removed by the intruder, or the Internet connection could have been disconnected during this time.  The mactimes utility show no files being accessed, modified, or changed during this day.  The only activity that is evident is the daily cron job that begins at 04:02:00 CST.</P>
+
+<P>Since there is no conclusive evidence as to when the intruder installed his/her programs, I will generally hypothesize that the intruder installed his/her programs sometime between November 6, 3:00:41 and November 8, 00:08:41.  The intruder appears to have installed patched versions of Wu-ftp and Named, probably after he/she scanned the system for additional vulnerabilities.  This way, no other intruder can break into the system. </P>
+
+<P>All the files and programs the intruder used may have come pre-packaged in a compressed file named &quot;tpack.tgz&quot;.  There is evidence of commands run by the intruder in /drosen/.bash_history that show the decompression, the removal of files, and the installation of the package. </P>
+
+<P>Based on some of the intruder’s shell scripts, the intruder installed at least Secure Shell (SSH), and an IRC Server called Eggdrop.  The intruder also installed his/her rootkit in the hidden directory, &quot;/usr/man/‘.Ci/’&quot;, so that the directory would not show up with a simple ls command.  This rootkit is a software package that contains log cleaning scripts, scanning tools, denial of service tools, trojaned binaries, an IRC server (not used) and a sniffer.  The rootkit installer script (written in Shell Code) installs the rpms in the rootkit, starts the sniffer, cleans the logs, and runs several other programs to &quot;trojan&quot; the system (Extrapolated from files recovered with TCT).</P>
+
+</FONT><B><P>November 7, 2000, 23:11:50 CST</P>
+</B><FONT SIZE=2>
+<P>Snort logs detect suspicious activity.  This suspicious activity corresponds to a connection logged by the &quot;messages&quot; log, also recovered with TCT, to the rpc.statd service.  This appears to be a buffer overflow of the rpcstatd service, to gain access to the system, and to inject a line into the inetd.conf file.  If this exploit was successful, the intruder (possibly a 2</FONT><FONT SIZE=1>nd</FONT><FONT SIZE=2> intruder) would have been able to get a shell account using the service &quot;4545&quot;.  There is no evidence of this exploit being successful.  My hypothesis is that this is another intruder that did not successfully intrude upon the system.  The original intruder may have intentionally left evidence of this &quot;fake&quot; to throw off law enforcement, should he/she get caught. </P>
+
+</FONT><B><P>November 8, 2000, 08:25:53  09:03:15 CST</P>
+</B><FONT SIZE=2>
+<P>The intruder returns to the system, probably through SSH.  The intruder always starts by checking the &quot;uptime&quot; to see how long the system has been online and if it has been rebooted recently.  The intruder then checks to see that his/her processes are still running.  The intruder then ftp’s any data that his/her sniffer has collected over the past day or two.  When the intruder realizes, by looking at his/her sniffer logs, that the system may be a trap/honeypot, he/she starts to &quot;clean-up&quot; the hack and to abandon the system. </P>
+
+</FONT><B><P>November 8, 2000, 18:25:13 CST</P>
+</B><FONT SIZE=2>
+<P>The System Administrator takes the system offline and begins to make his/her dd images of all the system’s partitions. </P>
+<B><U>
+</FONT><P>Methodology</P>
+</B></U><FONT SIZE=2>
+<P>One of the first things to do in the event of a possible intrusion is to remove the compromised system off the network.  Law enforcement should be notified immediately after the intrusion is verified, either with network logs or through an interview with the system administrator.  If the system administrator or the IDS system cannot verify the intrusion, then an assessment would need to be done physically at the console of the compromised system.  </P>
+
+<P>To ensure that we have a clean set of binaries, we mount our own floppy disk with basic commands such as ls, ps, netstat, ifconfig, top, pstree, and find.  The system’s binaries should be checked to ensure that they are not trojaned (larger or smaller in size than they should be).  Of the many things that can be done like running ps to show what processes are running, all activity should be kept to a minimum as to preserve the crime scene.  All commands should also be logged, so as to record the changes made to the system after discovery.  A dd image of the system should be done and &quot;dumped&quot; onto an external system.  This is done to do a more detailed forensic analysis to determine the scope of the break-in.  Often times, a forensic analysis such as this will reveal information pertaining to other systems on your network.  </P>
+
+<P>The TCT Coroner’s Toolkit was then used to analyze the system’s mactimes, and files that were removed by the intruder, but remain on the hard disk. </P>
+
+<P>&nbsp;</P></FONT></BODY>
+</HTML>

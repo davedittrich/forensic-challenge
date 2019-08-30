@@ -1,0 +1,20 @@
+Brian Carrier                                                  summary.txt
+-----------------------------------------------------------------------------
+
+Honeypot University
+February 16, 2001
+
+On November 7, 2000 at 23:11:50 CST an attacker gained unauthorized
+access to a University computer system.  After gaining access they
+installed some applications to fix the vulnerabilities that gave them
+access, installed applications to allow easy "back door" access to the
+system in the future, and installed some applications for use in
+Internet Relay Chat (IRC).
+
+This system had only been running since November 5, 2000 and did not 
+contain any university related data.
+
+The identity of the attacker is not known at this time, but the Honeypot
+University Police Department (HUPD) is following leads that were gathered
+by the Honeypot University Computer Center (HUCC).  
+

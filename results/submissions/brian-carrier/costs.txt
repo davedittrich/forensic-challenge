@@ -1,0 +1,52 @@
+Brian Carrier                                                  costs.txt
+-----------------------------------------------------------------------------
+
+A cost estimate for this analysis is slightly hard to calculate since I 
+started the analysis as a test case for my forensic tools, TCTUtils and 
+autopsy.  It was only after I had finished half of the analysis that I
+decided to complete it and enter the results.  
+
+Therefore, my time spent was not recorded in the beginning and much time
+was spent debugging my applications and developing new ones.  It is 
+assumed that future investigations would be done much quicker.  
+
+I will estimate my time at 8 days (at 8 hours per day).  This includes
+writing the report, which has gone through many formats.  This too would
+be done much quicker the next time around.  We will assume my yearly salary
+is $70,000/yr ($33.65/hr).
+
+
+                 Hours   Cost      Total      +15%      -15%
+Investigation    64      $33.65    $2154      $2476     $1831
+
+Benefits (28%)                      $603       $693      $512
+
+Total                              $2757      $3169     $2343
+
+
+Since this challenge is supposed to be fun, lets recalculate this with my
+graduate student salary of $13,200/yr ($6.35/hr).
+
+                 Hours   Cost      Total      +15%      -15%
+Investigation    64      $6.35     $406       $467      $345
+
+Benefits (28%)                     $114       $131      $96
+
+Total                              $520       $598      $441
+
+
+
+BACKGROUND
+I am a computer science graduate student at Purdue University doing research
+with the Center for Education in Information Assurance and Security (CERIAS).  
+This was my first complete forensic analysis.
+
+System Administration: 7 years of administering personal UNIX flavors and 
+  did administration for year in undergrad.
+
+Programming: 7 years of programming.  My main languages are C and Java.
+
+Security: Have been involved with security for 6 years and done research in
+  cryptography and forensics.   I have worked as a security consultant and
+  have done development for a commercial VPN system.
+

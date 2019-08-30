@@ -1,0 +1,19 @@
+Index of submitted files
+========================
+
+index.txt      - This file
+timestamp.txt  - As requested in http://project.honeynet.org/challenge/
+summary.txt    - As requested in http://project.honeynet.org/challenge/
+advisory.txt   - As requested in http://project.honeynet.org/challenge/
+costs.txt      - As requested in http://project.honeynet.org/challenge/
+evidence.txt   - As requested in http://project.honeynet.org/challenge/
+evidence.html  - HTML version of evidence.txt. Easier to read.
+files.tar      - TAR archive containing the following files:
+
+ files/                         - Directory
+ files/Q1_intrusion_method.txt  - Answer to question 1 - Description of the intrusion method
+ files/Q2_intruder.txt          - Answer to question 2 - Info about the intruder
+ files/Q3_file_analysis.txt     - Answer to question 3 - Analysis of the files of honeypot
+ files/eggdrop.txt              - README file about eggdrop
+ files/chkrootkit.out           - Output from a tool that checks for the presence of a rootkit
+ files/authors.txt              - Names and e-mail addresses of the authors

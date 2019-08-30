@@ -1,0 +1,98 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Lance Spitzner">
+<style type="text/css">
+<!--
+a:active {  text-decoration: none}
+a:hover {  text-decoration: none; color: blue}
+a:link {  text-decoration: none}
+a:visited {  text-decoration: none}
+-->
+</style>
+</head>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+
+<h1>marco</h1>
+<ul>
+<li> Mactime analysis does not include deleted files (uses debugfs
+instead).</p>
+<li> Uses e2recover for file recovery.</p>
+<li> Good lastlog analysis finds non-existent user.</p>
+<li> Recovered parts of deleted tar files.</p>
+<li> Good origins of /usr/man/.Ci files.</p>
+<li> Detects libc differences in /usr/man/.Ci files.</p>
+<li> Recovers deleted messages from free blocks.</p>
+<li> Recovers environments from swap.</p>
+<li> Recovers /proc/net/tcp from swap.</p>
+<li> Recovers logging from swap.</p>
+<li> Recovers rootkit install from free blocks (link bash history,
+	install modified system utilities, install rpms, sshd).</p>
+<li> Recovers ssh tar, named tar.</p>
+<li> Recovers passwd+shadow entries.</p>
+<li> No disassembly.</p>
+<li> Little checksum analysis.</p>
+<li> Identification of intrusion method is OK, but mis-estimates clock
+skew between IDS and victim host.</p>
+<li> Produced a good list of replaced programs in Ci_log file.</p>
+<li> See Ci_log for origins, backdoors, config files, no
+advisories.</p>
+<li> Semi-detailed time line, references some files that
+	are not shipped with the submission.</p>
+
+<li> Summary report is very short, perhaps too short. But the essential
+	information is there.</p>
+
+<li> Advisory over-estimates the impact of sniffers/password grabbers,
+	as no evidence exists that passwords were actually recorded.
+	The "how to detect" refers to evidence.txt, rather than
+	summarizing.
+	The "how to protect" instructions are not specific enough
+	(install specific RPM). </p>
+
+<li> Files overall are relatively rough material.</p>
+
+<li> Technically he is on the right track.</p>
+
+<li> Uses standard tools, occasionally writes a modified
+	version to get what he wants (blowfish decryptor,
+	lastlog dumper).</p>
+
+<li> Excellent technical analysis, great point in advisory.txt.
+Especially liked the PERL script for the decryption and the
+data pulled out of swap.</p>
+
+<li> Difficult to read at times (though evidence.txt was well
+written).  Also, more information on how you obtained the
+data would have been helpful.</p>
+
+<li> Used an ongoing investigative log technique in his "Changelog"
+file, which timestamps and annotates his activites during the
+investigation.  This is preferable to the method that I commonly use,
+which is to build the "evidence.txt" file in chronological order, but
+working on sections in an ad-hoc way and moving them around to fit the
+activity timeline.</p>
+
+</ul>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+</html>

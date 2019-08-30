@@ -1,0 +1,25 @@
+============================================
+Management and media (non-technical) summary
+============================================
+
+At 11:11 pm CST on November 7, 2000 monitoring programs on the Honeypot University network 
+recorded activity from an outside machine attempting to break into a campus computer.  The 
+logs revealed that an intruder did manage to compromise the host through a service that 
+had been running because of the default configuration.  The RPC (Remote Procedure Call) 
+status monitor is used in association with NFS, a networked file system.  By sending a 
+specially formatted string containing machine instructions to the status monitor, the 
+intruder was able to gain control of the system.
+
+After infiltrating the host, the intruder replaced commonly used programs and removed log file
+information to hide his/her activity.  An analysis of the system showed that this intruder 
+installed a modified version of a secure login program that collected usernames and passwords
+to a file, presumably for the intruder to use later.  Additionally, a program to record
+information travelling over the network was also installed and running.  Captured data could
+contain other user passwords being transmitted across the network.
+
+The intruder remained on the compromised machine for less than one hour.  After noticing the
+attack, system administrators made copies of the disk for analysis and shutdown the machine.
+
+A campus-wide advisory has been sent to all system and network administrators to check for
+other vulnerable machines and make appropriate upgrades to eliminate the problem.
+

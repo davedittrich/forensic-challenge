@@ -1,0 +1,150 @@
+[=-=-=-=-=-=-=-=]                Timeline                [=-=-=-=-=-=-=-=]
+
+Events marked with asterisk (*) are related to the intrusion, those with
+question mark (?) are unclear (they are certainly non-standard, but their
+relation to the intrusion is unproved).  In the timeline I'll use these
+abbreviations:
+
+messages	= /var/log/messages, after completition, can be found in
+		  files/messages.txt
+utmp		= /var/run/utmp
+secure		= /var/log/secure
+boot		= /var/log/boot.log
+roothist	= /root/.bash_history, after completition, can be found in
+		  files/root_history.txt
+snort		= data from IDS
+hda?		= dd image of hda?
+swap		= dd image of swap
+cron		= cron analysis (see cron.txt)
+lastlog		= /var/log/lastlog
+atime		= atime(s) on the files (see atimes.txt)
+
+Except where explicitly stated, all the date/time information is based on
+the date/time at the compromised system (not at the IDS).  According to
+the time of attack itself, we can find the correspondence between these
+two times.  23:11:51 (IDS) = 00:09:00 (honeypot = apollo.honeyp.edu)
+A copy of this file with IDS-based timestamps is provided as 
+timeline.idstime, but in the case of inconsistence, this file is the
+authoritative one.
+
+
+
+[-=Date, Time=-]	[-=Event=-]			[-=Evidence/Support=-]
+----------------------- Startup and administration ---------------------------
+ Nov  5, 09:33:19	Mount /				hda8
+	 Mount-time of hda8 (root fs) is Nov  5, 09:33:19
+ Nov  5, 09:33:40	Startup				messages, utmp, boot, /var/log/maillog, swap, /var/log/boot.log
+ Nov  5, 09:33:53	Startup finished		messages, boot
+ Nov  5, 09:37:31	Admin login			messages
+ ................	Admistration			roothist
+ Nov  5, 09:41:59	Admin logout			messages, roothist
+
+ Nov  5, 10:50:26	Unsuccesful Admin login		messages
+	 This failed login is OK, because it was followed by immediate
+	 successful login
+ Nov  5, 10:50:30	Admin login			messages
+ ................	Administration			roothist
+?Nov  5, 10:54:49	Telnet connection		secure
+?Nov  5, 10:54:52	Telnet connection closed	messages
+?	 Telnet connection from 207.239.115.11.  Purpose of this
+?	 connection is unknown - while it could be a test of network
+?	 connectivity performed by Admin, it also could be a hostile
+?	 activity.
+ Nov  5, 10:55:11	Admin logout			messages
+?Nov  6, 02:59:23	Ftp connection			secure
+?	 Ftp connection from 128.121.247.126.  Again, purpose of this
+?	 connection is not clear.
+?Nov  6, 03:00:41	Ftp connection closed		messages
+
+
+
+----------------------- Attack ! (from 216.216.74.2) --------------------------
+*Nov  8, 00:08:15	RPC info query			snort
+*	 The used attack requires two connections to RPC service
+*	 first is used to determine port used by rpc.statd and
+*	 second is the actual attack.  This looks like the first
+*	 one.
+?Nov  8, 00:08:40	2*Telnet scan			secure
+?Nov  8, 00:08:41	2*End of scan			messages
+?	 There is a small catch - these connections WERE NOT reported
+?	 by IDS (those `TELNET - daemon active' were destinated to .101
+?	 and we are .107).  Now I see two possibilities - either it
+?	 was a scan and probably the attacker was simultaneously
+?	 scanning more than one host.  Or, it could be just a typo
+?	 in cut&paste from snort logs, where .107 got replaced by .101.
+?	 If we assume the latter, these connections are clearly related
+?	 to the attack.
+
+*Nov  8, 00:09:00	rpc.statd attack		messages, snort, swap
+*	 Successful attack -  Following line was added into /etc/inetd.conf
+*	 and inetd was restarted afterwards (killall -HUP inetd):
+*
+*	 4545 stream tcp nowait root /bin/sh sh -i
+*
+*	 Analysis of the attack-code is provided in shellcode.txt.
+*	 The only effect of the attack was a rootshell bound to port 4545.
+*	 45 seconds between first and second RPC query would suggest that
+*	 either attacker is on a very slow (/busy) link, or he is quite
+*	 far from attacked system.  The latter is highly probable, because
+*	 IDS log shows that his system is 22 hops away (the exploit is
+*	 designed for Linux machines and those have default TTL of 64,
+*	 while snort shows TTL equal only to 42).
+ ................
+         The simultaneous connections to other computer on the same
+	 network would suggest that the attacker (till now) was an automated
+	 tool (if the connections were really destinated to .101).
+*	 During this period of time (more than eight hours) was the system
+*	 open to everyone, although according to the analysis (see
+*	 cron.txt), no one (ab)used it.
+
+
+
+
+----------------------- Now comes the real attacker --------------------------
+*Nov  8, 08:25:53-	Connection to backdoor		atime(/usr/bin/uptime)
+*	 The attacker logged into the backdoor and his first command
+*	 was uptime (see files/root_history.txt:Section 3), which allows
+*	 us to find the time of this connection.
+*Nov  8, 08:28:41	adm1 login			messages
+*	 This login came from .home.com address (see questions.txt:Q2)
+*................
+*Nov  8, 08:29:27	ftp-ing rootkit			atime(/usr/bin/ftp)
+*	 He ran ftp, probably in order to download the rootkit.  For more
+*	 than 10 minutes (08:30-08:40) nothing happened in the system
+*	 (see cron analysis), so it is highly probable that the attacker
+*	 logged out for this short period of time.
+*
+*Nov  8, 08:45:24	last adm1 login			/var/log/lastlog
+*	 According to /var/log/lastlog, this was the last login made
+*	 to uid 5000 (which corresponded to adm1).  It was made from
+*	 the .home.com address.
+
+
+----------------------- Installation of rootkit ------------------------------
+*Nov  8, 08:51:53	tar xvf ci.tar			atime(/usr/man/.Ci/*)
+*	 The attacker extracted downloaded rootkit (which was probably saved
+*	 under the name ci.tar - we cannot be sure about the first letter,
+*	 because the directory (see misc/Cidir) entry corresponding to this
+*	 file had the first letter overwritten.
+*Nov  8, 08:52:10	rootkit installation		see atime.txt
+*	 See rkit.txt:Installation for further information and timestamps.
+*Nov  8, 08:54:25	named start			messages, atimes
+*
+*        Further time references for this period can be found in atime.txt
+*
+*Nov  8, 08:59:52	telnet connection closed	messages
+*	 Finally, he logged out.  It is probable that he was planning to
+*	 return later, because the rootkit was not yet installed completely.
+*	 On the other hand, it is possible that the attacker never planned
+*	 to install all trojans he had (this supports the idea of attacker
+*	 being a script kiddie).
+*Nov  8, 09:02:22	login using ssh backdoor	atimes
+*	 The attacker logged in using SSH backdoor (see rkit.txt:ssh).
+*	 Thanks to the logging feature of ssh, we know the magic ssh
+*	 password (which is otherwise MD5-hashed).
+*Nov  8, 09:02:42	remove inetd backdoor		atimes
+*	 He removed the last line from /etc/inetd.conf (the one which
+*	 was inserted by the exploit)
+
+----------------------- And the rest of the story ----------------------------
+Nov  8,	20:37:37	intrusion analyst login		messages, utmp

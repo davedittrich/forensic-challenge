@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+
+########################################################
+#
+# This is a proof of posting certificate from
+# stamper.itconsult.co.uk certifying that a user
+# claiming to be:-
+#     appro@fy.chalmers.se
+# requested that this message be sent to:-
+#     appro@fy.chalmers.se
+#
+# This certificate was issued at 00:21 (GMT)
+# on Monday 19 February 2001 with reference 0047919
+#
+# CAUTION: while the message may well be from the sender
+#          indicated in the "From:" header, the sender
+#          has NOT been authenticated by this service
+#
+# For information about the Stamper service see
+#        http://www.itconsult.co.uk/stamper.htm
+#
+########################################################
+
+
+14eb5b6f374c43faf3ee28a6e7c27f00  ./index.txt
+d810c0f40e9d5ff5b7fdb9b040c3e5eb  ./evidence.txt
+97957e204716ec2b00362f298dad32db  ./analysis.txt
+a08c698b134fb483240ee37f3b7721ed  ./summary.txt
+8e8d13f33885c863efd3d8bc2d011afa  ./costs.txt
+e78253aa2aea9dbb222541fe9c52885d  ./advisory.txt
+9e6652fadd7181d65c23dbcfd344d01b  ./files/rpm-V.out
+ecc85d6914dd1aa60c9be31f8dae2524  ./files/tcpd.dis
+1d381d969cf9f5979465d65a90af5a7e  ./files/stat.out
+c38e7b06c5a7274a47384b3b9793bd86  ./files/cpio.in
+bb1a72b872c4a1c30f2c4a9c2c998b2c  ./files/rpm-q-a.out
+832be6979c6e74dde887f32285bb7bba  ./files/sshd1.dis
+68d1964a66fb12254cff72d232eb7600  ./files/rpm-V-postreboot.out
+80ebaf6a6822a519343129e7b015fadd  ./files/find-ctime.out
+06bcb60d914e1552ca8c700fbc0449d7  ./files/identd.dis
+1fa8057ab33c6638115a97f419a16c6a  ./files/chkconfig--list.out
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3i
+Charset: noconv
+Comment: Stamper Reference Id: 0047919
+
+iQEVAgUBOpBnEIGVnbVwth+BAQGkogf9EwY6g2Kl2is9U088W96h7T/TqiEjOotD
+T5q4f9K+tk0tVszPUM8BO/7Ot5SgY6ieeswJjy8MPipQ7uiTCcnmW5Vfenj7ytWr
+l1lSGKKUmtt8bzOHtKZ0wg/zl4lTk4nCfVowhSoQVvlkJoY2YD58GHIOe6qBG5KY
+bfHmvb9XAE17HUUihuD8161dWm51wbbOA2HmPyzbR9RiaMp161nw7ZO6X7CVcqUT
+TJrWrItobhXKRau1LeO7ZHhp7kmjdhjNEjqSYTLj/5U04GrSG2rLsd2iT4oGKUpy
+P50An86uLwfQJihpGoTieEayMPs+j5hLGY2zUKxRwD7E+aiW/XRBAA==
+=/Sf4
+-----END PGP SIGNATURE-----

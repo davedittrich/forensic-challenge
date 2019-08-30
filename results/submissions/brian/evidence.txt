@@ -1,0 +1,1300 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        THE HONEYNET FORENSIC CHALLENGE
+
+        January/February 2001
+
+
+        Prepared for the HoneyP.edu Incident Response Team (HIRT)
+
+        by  Brian Coyle <brianc@magicnet.net>
+
+
+
+
+
+-----------------------------------------------------------------------
+
+evidence.txt           Time line and detailed (technical) analysis.
+                          (answers to HIRT questions marked  
+                           with "[Q1]", etc.)
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TOC
+---
+
+Methodologies
+	Chain of Custody and Preservation of Evidence  
+	Techniques and Processes
+The Analysis
+	The Givens
+	The Exploit
+	The Attacker
+	The Compromise
+Peeling back the onion
+	Disk Inode Analysis and Recovery
+	hda8 ($ROOT filesystem)
+    hda5 ($ROOT/usr filesystem)
+    hda7 ($ROOT/var filesystem)
+Timeline Summary
+Rootkit Analysis
+Conclusions
+Appendix A - HIRT Questions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Methodologies
+-------------
+
+   1) Chain of Custody and Preservation of Evidence.  
+
+      The HoneyP.edu Incident Response Team (HIRT) collected and secured
+      the hard disk drives of the compromised system.  Only copies of the
+      disk images (created with the Linux dd command) were used for forensic
+      study.   
+
+      The copies used for this investigation were obtained via ftp from the
+      HIRT distribution site (http://project.honeynet.org/challenge/images.html)
+      MD5 checksums were verified prior to every use of the disk images
+      to ensure integrity.  The disk images were stored on a hardened and
+      physically secure system while under investigation.
+
+   2) Techniques and Processes.
+
+      The raw disk images were mounted on the investigative system
+      to replicate the compromised machine, yet protect the host 
+      machine from possible exposure.  This was accomplished by using
+      the Linux loopback feature combined with the read-only and no 
+      execute options as follows:
+
+         # mount -o ro,loop,nodev,noexec {image_name} {mount_point}
+
+      Shell environment variables were employed to make navigation
+      between the host filesystems and the compromised system easier.
+
+      Refer to the 'mount_cracked' script for specific details.
+
+      Since the subject computer's timezone was CST (confirmed by
+      checking $ROOT/etc/localtime) the investigative system clock
+      was setup to use CST as well.
+
+      Preliminary analysis was performed manually using standard Linux
+      commands and utilities.  Recovery of deleted inodes and low-level
+      analysis of filesystems was done using debugfs. 
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The Analysis
+============
+
+
+
+The Givens
+----------
+
+Even though the HIRT provided some information about the subject computer, 
+it is always good practice to verify any givens before starting the
+investigation:
+
+
+   $ cat $ROOT/etc/redhat-release
+
+       Red Hat Linux release 6.2 (Zoot)
+
+From $ROOT/etc/hosts, $ROOT/etc/sysconfig/network, and 
+$ROOT/etc/sysconfig/network-scripts/ifcfg-eth0 
+
+   hostname == apollo.honeyp.edu
+   IP_ADDR  == 172.16.1.107   (eth0)
+   MASK     == 255.255.255.0
+   GATEWAY  == 172.16.1.254
+   NAMESERVER  207.229.143.1  (dns-1.enteract.com   Hi Lance!)
+
+The system appears to have been installed on Nov 4 ~18:56 to 19:04
+based on timestamps for $ROOT directories, symlinks in /bin, and 
+$ROOT/tmp/install.log
+
+$ROOT/etc/inittab shows the system normally boots into runlevel 3 (no X).
+
+$ROOT/var/log/boot.log and dmesg indicate the system was rebooted 
+on Nov  5 09:33
+
+$ROOT/var/wtmp appears to have been cleared in an attempt to cover the
+intruders trail.
+
+	  $ last -f $ROOT/var/log/wtmp
+
+       shows wtmp begins Wed Nov  8 08:59:52 2000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The Exploit [Q1]
+----------------
+
+The IDS notification bears the signature of an automated (scripted) 
+attack.  First an RPC Query is sent, followed by two telnet connections,
+and finally a RPC status request which attacks a known vulnerability.
+
+The RPC query accomplishes two things.  First, it verifies RPC services
+are running on the target and if rpc.statd is offered.
+
+The telnet connections are most likely used to verify the target system
+is running a RedHat version that would be vulnerable to the attack.  This
+method relies on the administrator not changing the standard /etc/issue.net
+file.
+
+The IDS Shellcode packet dissects into a typical rpc.statd exploit.
+The rpc program number field (bytes 14-16) of the packet contains
+0x0186B8 which is 100024 (status).
+
+The payload injects a rootshell bound to port 4545 into 
+/etc/inetd.conf then signals the inetd daemon to reread the
+the configuration.
+
+This vulnerability has been designated CVE-2000-0666 in the CVE list.
+
+    http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2000-0666
+
+
+Here are the CERT and RedHat advisories about this rpc.statd vulnerability:
+
+	http://www.cert.org/advisories/CA-2000-17.html
+	http://www.redhat.com/support/errata/RHSA-2000-043-03.html
+
+And discussion of exploit and sample code:
+
+	http://www.securityfocus.com/vdb/bottom.html?section=discussion&vid=1480
+    http://www.securityfocus.com/vdb/bottom.html?section=exploit&vid=1480
+
+Based on the time deltas from the IDS activity (45 seconds from rpc query
+to exploit), it is safe to assume the attack was performed by an
+automated, or scripted utility.  Further substantiating this proposition, 
+the attacker did not return to the subject system until some eight 
+hours later.  This is typical of an automated system that scans and
+attempts to exploit many systems, then reports on successful break-ins.
+
+$ROOT/var/log/secure shows two telnet connections (pid#'s 2077 and 2078) 
+from the attackers IP address on Nov 8 00:08:40.
+
+At Nov 8 00:08:41, $ROOT/var/log/messages inetd recorded those same pid 
+numbers with an exit status of 1.
+
+** NOTE **  Although HIRT claimed the IDS was synchronized to an NTP source, 
+this does not appear to be true for the subject computer.  The IDS recorded
+the telnet connections at Nov 7 23:11:31, while the subject logged
+these at Nov 8 00:08:40.
+
+
+Furthermore, entries recovered using debugfs and dd from /var/log/messages
+show the rpc.statd exploit logged at Nov  8 00:09:00  (see the
+'recovered.messages' file).  IDS reported this at Nov 7 23:11:51.
+Because the time in the deleted log is at the moment of intrusion, it is
+unlikely this difference is the result of the attackers activity.
+
+All times in this report, unless otherwise indicated, are based on the 
+subject computer's clock. An adjustment of -00:57:09 must be applied to
+obtain true wall clock time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The Attacker [Q2]
+-----------------
+
+The IDS notification shows the attacking system is at IP address
+216.216.74.2  This address resolves to an @HOME.net cable modem
+user.
+
+		$ nslookup 216.216.74.2
+		Server:  hank.mjudge.net
+		Address:  192.168.1.254
+
+		Name:    ATHM-216-216-xxx-2.home.net
+		Address:  216.216.74.2
+
+A traceroute to the attacker IP address, leads (based on the resolved 
+router names) to Texas.  However, two hops prior to the destination 
+do not resolve.  In addition, we do not know if that system wasn't 
+compromised and used as a stepping stone for the attack.  Thus, we cannot 
+positively conclude the attacker's geographical location.
+
+
+$ traceroute 216.216.74.2
+traceroute to 216.216.74.2 (216.216.74.2), 30 hops max, 38 byte packets
+ 1  hank (192.168.1.254)  1.225 ms  0.779 ms  0.510 ms
+ 2  ts1.orl.fl.verio.net (198.172.160.251)  65.516 ms  65.683 ms  77.641 ms
+ 3  fe-0-1-0.a00.orldfl01.us.ra.verio.net (198.172.160.8)  68.050 ms  66.642
+ms  76.574 ms
+ 4  fa-0-0-0.r00.orldfl01.us.bb.verio.net (129.250.29.65)  65.011 ms  65.792
+ms  87.548 ms
+ 5  p1-1-0-1.r01.atlnga02.us.bb.verio.net (129.250.2.241)  95.829 ms  76.576
+ms  118.604 ms
+ 6  p4-0-2-0.r00.hstntx01.us.bb.verio.net (129.250.2.45)  97.216 ms  135.888
+ms  97.390 ms
+ 7  p4-4-0-0.r01.dllstx01.us.bb.verio.net (129.250.3.193)  103.463 ms  106.081
+ms  106.617 ms
+ 8  c1-pos10-0.dllstx1.home.net (24.7.70.97)  117.265 ms  105.423 ms  148.825
+ms 9  bb1-pos5-0.rdc2.tx.home.net (24.7.74.70)  107.393 ms  146.758 ms
+107.408 ms
+10  * * *
+11  * * *
+12  ATHM-216-216-xxx-2.home.net (216.216.74.2)  124.181 ms  137.850 ms
+119.522 ms
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The Compromise [Q3]
+-------------------
+
+Once the rootshell was in place, the intruder used it to gain access
+to the subject computer.  Because the rootshell is running as a 
+standalone daemon, it avoids host-based logging.
+
+In typical intruder fashion, the first order of business is to patch the
+compromised system to protect it from other intruders.  As shown later
+(in the Timeline Summary) patches for wuftpd, named and nfs-utils (which
+includes rpc.stat) were installed shortly after the intruder returned to 
+the system.
+
+It is common for an attacker to create a new user with root privileges 
+so a review of the /etc/passwd and shadow files is in order.  Luckily, 
+this system maintained a backup copy of the files (appended with a '-').  
+
+The diff utility shows the user 'shutdown' was removed from the passwd file.  
+This may have been done by the SysAdmin as part of the install process.
+
+		# diff $ROOT/etc/passwd $ROOT/etc/passwd-
+		6a7
+		> shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+
+The diff utility also shows the user 'drosen' has had a password
+added to shadow.  However, rather than root privileges, this user has a
+UID and GID of 500.
+
+	# diff $ROOT/etc/shadow $ROOT/etc/shadow-
+	19c20
+	< drosen:$1$X2MTV07B$jKfJisg1QOjpfXouUcg0i0:11266:0:99999:7:-1:-1:134540380
+	---
+	> drosen:!!:11266:0:99999:7:::
+
+
+Interestingly, the $ROOT/etc/shadow file now has incorrect permissions.
+They are now 644, but should be 400.
+
+A review of the $ROOT/home/drosen directory shows a fairly typical
+structure and no obviously improper files.  The .bash_history file
+reveals traces of a rootkit install in a " " directory.
+
+		# cat $ROOT/home/drosen/.bash_history
+        gunzip *
+        tar -xvf *
+        rm tpack*
+        cd " "
+        ./install
+        exit
+
+A directory with a non printable 'space' for the name is very questionable.
+The find command was used to locate this bogus directory.
+
+		# find $ROOT -name " " -print
+
+		$ROOT/usr/man/.Ci/" "
+
+		[ the path to this is referred to by $ROOTKIT ]
+
+
+
+The timestamp on the $ROOTKIT directory is 'Nov  8 08:56', and the
+$ROOT/usr/man directory shows activity around 08:52 (see man_Nov08).
+
+The '.Ci' directory is not part of a standard RedHat installation, and is
+thus questionable.  This directory also has improper ownership. The UID
+is 1010, which doesn't match any user in the $ROOT/etc/passwd file.
+The find command was used to determine all the files without a proper owner.
+
+		# find $ROOT/ -nouser -print
+
+The results of this are in the 'unowned_files' file.
+
+There is a directory named 'backup' in the $ROOTKIT, suggesting original
+versions of replaced binaries may be stored within.  The backup directory
+contains: ifconfig,  ls,  netstat,  ps,  tcpd, and  top. [Q5]  Each of these, 
+if compromised, could hide an intruders activity on the system. by keeping
+copies of good binaries, an intruder would be able to bypass the incorrect 
+output of the compromised utilities.
+
+These $ROOT directories have timestamps indicating activity near 'Nov 8 08:52'.
+
+# ls -la $ROOT/ | grep 'Nov  8 08:5'
+drwxr-xr-x   19 root     root         1024 Nov  8 08:52 .
+lrwxrwxrwx    1 root     root            9 Nov  8 08:52 .bash_history ->
+/dev/null
+drwxr-xr-x    2 root     root         2048 Nov  8 08:52 bin
+drwxr-xr-x    6 root     root        34816 Nov  8 08:59 dev
+drwxr-x---    3 root     root         1024 Nov  8 08:53 root
+drwxr-xr-x    3 root     root         3072 Nov  8 08:53 sbin
+drwxrwxrwt    3 root     root         1024 Nov  8 08:58 tmp
+
+
+$ROOT also contains a .bash_history (symlink to /dev/null) with a 
+Nov 8 08:52 timestamp.  What other .bash_history files might be
+linked to /dev/null?
+
+$ find $ROOT -name .bash_history  -exec ls -al {} \;
+-rw-------    1 500      500            52 Nov  8 08:59
+/mnt/cracked_box/home/drosen/.bash_history
+lrwxrwxrwx    1 root     root            9 Nov  8 08:52
+/mnt/cracked_box/usr/games/.bash_history -> /dev/null
+lrwxrwxrwx    1 root     root            9 Nov  8 08:52
+/mnt/cracked_box/tmp/.bash_history -> /dev/null
+lrwxrwxrwx    1 root     root            9 Nov  8 08:52
+/mnt/cracked_box/root/.bash_history -> /dev/null
+lrwxrwxrwx    1 root     root            9 Nov  8 08:52
+/mnt/cracked_box/.bash_history -> /dev/null
+
+The $ROOT/etc directory contains many files with Nov 8 timestamps
+(see the 'etc_Nov08' file). All of these except mtab are related to
+the activity near 08:52.   mtab was changed at 21:10, most likely
+by the HIRT activity to collect evidence. Indeed, the contents of
+the file show the cdrom is mounted, providing a known good set of
+system binaries.
+
+
+
+	# cat $ROOT/etc/mtab
+	/dev/hda8 / ext2 rw 0 0
+	none /proc proc rw 0 0
+	/dev/hda1 /boot ext2 rw 0 0
+	/dev/hda6 /home ext2 rw 0 0
+	/dev/hda5 /usr ext2 rw 0 0
+	/dev/hda7 /var ext2 rw 0 0
+	none /dev/pts devpts rw,gid=5,mode=620 0 0
+	/dev/hdc /mnt/cdrom iso9660 ro,nosuid,nodev 0 0
+
+
+The $ROOT/etc/sshd_config file is setup to allow empty passwords
+and root logins.  Both of these are serious vulnerabilities and should
+be viewed as suspect.
+
+While looking for any immutable files with:
+
+		# lsattr -aR $ROOT | grep -v ^'--------'
+
+it was discovered that  $ROOT/etc/rc.d/init.d/syslog was deleted (symlinks 
+from rc?.d are pointing to the non-existing file). syslog is part of the
+sysklogd package which $ROOT/tmp/install.log shows was installed.
+
+		# lsattr -aR $ROOT 2>&1 | grep -v ^'--------' | grep -i "no such file"
+
+The results from this command are in the 'missing_link' file.
+
+The files fd, stderr, stdin, and stdout appear in the output, but only
+because these are symlinks to files in /proc.  Another orphaned symlink 
+is $ROOT/usr/lib/libungif.so suggesting libungif.so.4.1.0 was removed.  
+However, this library is provided by the libungif package and 
+$ROOT/tmp/install.log shows only libungif-devlop was installed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Peeling back the onion [Q3]
+---------------------------
+
+Disk Inode Analysis and Recovery.
+
+The Linux debugfs command was used to analyze each of the ext2 filesystem
+images.  First  'lsdel' was used to obtain a list of deleted inodes.
+(see the hda?.lsdel.out files). 
+
+	# /sbin/debugfs honeypot.hda?.dd -R lsdel > hda?.lsdel.out
+
+Then the following command was used to produce a list of files within
+directories from the lsdel output (the size for a directory is 0, so "$4"
+in the awk picks only these).
+
+	# awk '$4 == 0 { print "ls -l <"$1">" | "/sbin/debugfs \
+     	  honeypot.hda?.dd" }' hda?.lsdel.out >> hda?.del_dirs.out
+
+
+
+
+Note- hda1 and hda6 do not have any deleted inodes and hda7.lsdel.out has only 
+two deleted entries (which appear to be normal activity), therefore only
+hda5.del_dirs.out and hda8.del_dirs.out have interesting data.
+
+
+Since not all inodes are identified by the above, the following is used to
+find those deleted inodes that are not in the hda?.del_dirs.out files.
+
+	# awk '{print $1}' hda?.lsdel.out | sort|uniq > hda?.lsdel.inodes
+	# awk '{print $1}' hda?.del_dirs.out | sort|uniq > hda?.del_dirs.inodes
+    # diff hda?.lsdel.inodes hda?.del_dirs.inodes | \
+          awk '$1 = "<" {$print $2}' >> hda?.orphan.inodes
+
+The results of the above (in hda?.orphan.inodes) are processed as follows
+to recover the data:
+
+	# awk '{print "dump <"$1"> /tmp/hda?.inode."$1 | "/sbin/debugfs \
+                honeypot.hda?.dd" }' hda?.orphan.inodes
+    # for f in $(ls /tmp/hda?.inode.*) ; \
+               do file $f >> hda?.orphan.inodes.info; done
+
+This information (see hda?.orphan.inodes.info) was then used to further
+determine the name and type of the recovered file.  For example, in hda5 inode
+109791 is a tar archive.  By simply issuing a 'tar -tf' against this
+we can determine the archive is 'ssh-1.2.27'.  Similarly we can see hda5 inode 
+109865 is the 'nfs-utils-0.1.9.1-1.rpm' file.
+
+
+
+
+
+
+
+
+
+hda8 ($ROOT filesystem)
+-----------------------
+
+hda8.lsdel.out and hda8.del_dirs.out show files owned by UID 500 (drosen)
+were deleted between 'Nov  8 08:52' and 'Nov  8 08:59'.   The deleted files
+have names consistent with an 'eggdrop' IRC bot.   
+
+Inode 8132 ($ROOT/dev/???) appears to be the top level directory and it
+contains inode 60501, a directory with space for the name (confirmed by
+traversing two inodes deeper in the chain and issuing 'pwd').
+
+		debugfs:  cd <60501>
+		debugfs:  pwd
+		[pwd]   INODE:  60501  PATH: /dev/???/ 
+		[root]  INODE:      2  PATH: /
+		debugfs:  cd <22197>
+		debugfs:  pwd
+		[pwd]   INODE:  22197  PATH: /dev/???/ /filesys/incoming
+		[root]  INODE:      2  PATH: /
+
+Within the <60501> directory, there is a 'run' script file (see
+hda5.inode.60518_run) which contains:
+
+		echo "Running tPACK 2.3 for the first time"
+
+A reference to 'tpack' was previously found in the 
+$ROOT/home/drosen/.bash_history file. And within the file
+hda8.inode.60519_tpack-install, the eggdrop tpack installation script 
+has been recovered.
+hda8.inode.60516_egg.log, contains a comment about the author:
+
+###  tPACK.tcl coded by T0R0 - toro00@yahoo.com - www.falcon-networks.com ###
+
+
+Inode 60501 was deleted at Nov  8 08:59:14, suggesting this was the last
+package installed before the intruder logged off.
+
+
+hda5 ($ROOT/usr filesystem)
+---------------------------
+
+hda5.lsdel.out and hda5.del_dirs.out show deletion activity at 'Nov  8 08:53'.
+These files were owned by a variety of UIDs, including 0 (root), 1002
+(unknown), 17275 (unknown).  The unknown UIDs suggests the files were
+restored as part of a tarball archive.  A quick perusal of the filenames
+indicates these are source for DNS utilities (dig, nslookup, named, etc.)
+and Secure Shell.
+
+Inode 63098 appears to be a top level directory named '/var/man/.Ci/???'.
+The directory holds the DNS utilities and an 'install' script (see
+hda5.inode.63126_install).  
+
+Inode 92757 is another instance of '/var/man/.Ci/???' and contains
+a ssh-1.2.27 distribution.  This inode was deleted 'Nov 8 08:56:08'
+whereas inode 63098 was deleted 'Nov 8 08:54:43'.  This indicates the
+DNS utilities were installed first, followed by Secure Shell.
+
+
+
+
+hda7 ($ROOT/var filesystem)
+---------------------------
+
+hda7.lsdel.out has only two deleted entries which appear to be normal activity,
+yet $ROOT/var/log/messages appears to have been tampered with.  The timestamp
+is 'Nov  8 08:56', but the last message is timestamped with 'Nov  8 04:02:00'.
+
+debugfs combined with the dd utility were used to recover the deleted inode
+and data blocks for the /var/log/messages file.
+
+debugfs shows the messages file is inode# 12104 and uses 8 blocks 
+49446 thru 49453 (see the hda7.var.log.messages file).  Inodes contain 12 data 
+blocks, so this gives us four blocks to recover (49454 thru 49457).
+
+	# dd if=honeypot.hda7.dd of=recovered.messages bs=1024 \
+          count=4 skip=49454
+
+Unfortunately, the resulting data appears to be remnants of an old lastlog 
+or wtmp file.  Perhaps the messages are in the next set of blocks.  The icheck 
+subcommand is used to walk the data blocks to find the next unallocated set.  
+These are blocks 49460 thru 49477.
+
+	# dd if=honeypot.hda7.dd of=recovered.messages bs=1024 \
+          count=18 skip=49460
+
+BINGO! This recovered the messages and clearly shows the rootshell payload. 
+
+$ROOT/var/log/lastlog contains an entry for "c871553-b.jffsn1.mo.home.com"...
+Jefferson, Missouri???  This resolves to another @HOME address:
+
+	$ nslookup c871553-b.jffsn1.mo.home.com
+	Server:  hank.mjudge.net
+	Address:  192.168.1.254
+
+	Non-authoritative answer:
+	Name:    c871553-b.jffsn1.mo.home.com
+	Address:  24.12.200.186
+
+
+root passwd of 'tw1Lightz0ne' and the hostname from lastlog.
+
+$ cat $ROOT/var/tmp/nap
++-[ User Login ]-------------------- --- --- - -
+| username: root password: tw1Lightz0ne hostname: c871553-b.jffsn1.mo.home.com
++----------------------------------- ----- --- -- -- -
+
+
+
+
+
+
+
+
+
+
+
+
+Timeline Summary
+----------------
+
+Reminder - because the IDS time is not synchronized to the subject computer 
+(see 'The Exploit' above), the timestamps below are from the compromised host.
+Where a file is shown to be accessed, created or deleted, the timestamp is 
+from the debugfs stat command.
+
+Nov  4 19:00     - system installed.
+Nov  5 09:33     - system rebooted.
+Nov  8 00:08:40  - scripted rpc exploit probe begins.
+Nov  8 00:09:00  - rpc.statd payload delivers rootshell bound to port 4545.
+Nov  8 ~08:45    - intruder returns to the system to install the rootkit and
+                   patch the known vulnerabilities against other intruders.
+
+Nov  8 08:51:37  - eggdrop.tar file accessed
+Nov  8 08:51:53  - ssh-install (from inode 109801) accessed
+Nov  8 08:51:54  - $ROOTKIT/ ... files created
+Nov  8 08:52:10  - $ROOTKIT/backup directory created
+Nov  8 08:52:13  - sniffer started with pid# 2485 ($ROOTKIT/sniff.pid)
+Nov  8 08:52:59  - ssh-1.2.27.tar file accessed
+Nov  8 08:53:13  - ssh-install (from inode 109802) accessed
+Nov  8 08:53:26  - $ROOT/usr/doc files created (see usr_doc_files)
+Nov  8 08:52:33  - hda8 inode# 58567 deleted. (telnet desktop icon)
+Nov  8 08:52:33  - sshd started with pid# 2871 ($ROOT/var/run/sshd.pid)
+Nov  8 08:53:33  - $ROOT/usr/man/man8/telnetd.8 created
+Nov  8 08:53:41  - wu-ftpd-2.6.0-14.6x.rpm accessed
+Nov  8 08:53:43  - wuftpd-rpm-install file accessed
+Nov  8 08:53:49  - nfs-utils-0.1.9.1-1.rpm accessed
+Nov  8 08:54:05  - statd-rpm-install file accessed
+Nov  8 08:54:25  - $ROOT/sbin/named created 
+Nov  8 08:54:25  - named started with pid# 2965 ($ROOT/var/run/named.pid)
+Nov  8 08:54:43  - named-install file accessed
+Nov  8 08:54:43  - DNS-install file accessed
+Nov  8 08:55:58  - $ROOT/etc/passwd and shadow modified
+Nov  8 08:56:08  - massive hda5 deletion begins.
+Nov  8 08:56:08  - wu-ftpd.rpm and nfs-utils.rpm deleted
+Nov  8 08:56:11  - $ROOTKIT/rmS script accessed (removes rpm's, etc.)
+Nov  8 08:58:41  - configure-install file accessed
+Nov  8 08:58:45  - hda8 inode# 8133 deleted.  (eggdrop tarball)
+Nov  8 08:58:56  - massive hda8 deletion begins.
+Nov  8 08:58:57  - tpack-install file accessed
+Nov  8 08:59:07  - user drosen exits a bash shell. (based on ~/.bash_history)
+Nov  8 08:59:14  - hda8 inode# 8132 deleted.  (/dev/??? directory)
+Nov  8 08:59:52  - hda5 inode# 93839 deleted.  (telnetd)
+Nov  8 08:59:52  - $ROOT/var/log/wtmp begins
+
+Nov  8 20:37     - HIRT logs in as root from tty1 to collect evidence.
+
+
+
+
+Rootkit Analysis
+----------------
+
+$ cd $ROOT/usr/man/.Ci
+$ ls -laR
+.:
+total 2176
+drwxr-xr-x    2 1010     users        4096 Jul  7  2000
+
+    ## note 'space' directory!!
+
+drwxr-xr-x    6 1010     users        4096 Nov  8 08:56 .
+drwxr-xr-x   14 root     root         4096 Nov  8 08:52 ..
+-rwxr-xr-x    1 1010     users         714 Jun  3  2000 a.sh
+
+    ## shell script to delete rpc, smb, yp, amd, & nfs
+    ## binaries, then kill the processes.
+
+-rwxr-xr-x    1 1010     users       12408 Jun  3  2000 addn
+
+    ## adds class b network addresses to $ROOT/usr/libexec/awk/addy.awk
+    ## to hide from netstat
+    ## $ more $ROOT/usr/libexec/awk/addy.awk
+    ## 1 65.1
+    ## 2 65.1
+    ## 1 134518464.134518444
+    ## 2 134518464.134518444
+    ## 1 216.149
+    ## 2 216.149
+
+-rwxr-xr-x    1 1010     users          83 Jun  4  2000 addps
+
+    ## adds process names to /dev/ptyp to be hidden from ps/top
+    ## $ more $ROOT/dev/ptyp
+    ## 2 slice2
+    ## 2 snif
+    ## 2 pscan
+    ## 2 imp
+    ## 3 qd
+    ## 2 bs.sh
+    ## 3 nn
+    ## 3 egg.lin
+    ## 2 slice2
+    ## 2 snif
+    ## 2 pscan
+    ## 2 imp
+    ## 3 qd
+    ## 2 bs.sh
+    ## 2 telnet
+    ## 2 x
+    ## 2 xscan
+    ## 2 xfil
+    ## 2 ssh
+    ## 2 p
+    ## 2 stream
+    ## 2 mstream
+    ## 2 amdx
+    ## 2 ben
+
+drwxr-xr-x    2 root     root         4096 Nov  8 08:52 backup
+
+    ## backup directory holds original system binaries (see below)
+
+-rwxr-xr-x    1 1010     users     1052024 Aug  9 07:19 bx
+
+    ## bitchX IRC client
+
+-rwxr-xr-x    1 1010     users         699 Aug 11 13:49 chmod-it
+
+    ## issues `chmod 700` for replaced binaries
+    ## doesn't appear to have been run. The $ROOTKIT/backup files
+    ## (see below) are not changed.
+
+-rwxr-xr-x    1 1010     users         698 Jun  3  2000 clean
+
+    ## runs snap (see below) feeding in "ip's and shit"
+
+-rwxr-xr-x    1 1010     users         328 Jun  3  2000 do
+
+    ## removes 'own' and 'adm1' from /etc/passwd & shadow
+
+-rwxr-xr-x    1 1010     users      185988 Jun  3  2000 find
+
+    ## unstripped gnu-find replacement
+
+-rwxr-xr-x    1 1010     users       18535 Jun  3  2000 fix
+
+    ## corrects bogus binary to match original
+    ## changes: checksum, owner:group, modify time, mode.
+    ## optionally backs up the original file
+
+-rwxr-xr-x    1 1010     users      147900 Jun  3  2000 inetd
+
+    ## striped inetd replacement
+
+-rwxr-xr-x    1 1010     users       12495 Jun  3  2000 killall
+
+    ## unstriped killall replacement
+
+-rwxr-xr-x    1 1010     users         156 Aug 21 22:38 needz
+
+    ## echos ftp URLs for pico.rpm and screen-3.9.5.tar.gz
+
+drwxr-xr-x    2 1010     users        4096 Aug  9 07:35 paki
+
+    ##  Packet Storm directory (see below)
+
+-rwxr-xr-x    1 1010     users       49800 Jun  3  2000 pstree
+
+    ## unstriped pstree replacement
+
+
+
+
+
+-rwxr-xr-x    1 1010     users      133344 Jun  3  2000 q
+
+    ## secure tcp connection client for Q by Mixter
+    ## call 'qs' to activate the shell before connecting
+    ##
+    ##  For background info [Q6] on Mixter see:
+    ##  http://www.abcnews.go.com/sections/tech/CNET/cnet_mixter_000214.html
+
+
+-rwxr-xr-x    1 1010     users      132785 Jun  3  2000 qs
+
+    ## remote server control for Q by Mixter
+
+-rwxr-xr-x    1 1010     users         188 Oct 11 18:43 rmS
+
+    ## removes ssh, install, wuftpd, nfs-utils payloads
+    ##  debugfs stat shows last accessed Nov  8 08:56:11
+
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 scan
+
+    ## Vulnerability scanners
+
+-rwxr-xr-x    1 1010     users        3098 Jun  3  2000 snap
+
+    ## removes hosts from log files
+    ## see clean script above
+
+-rwxr-xr-x    1 1010     users        7229 Jun  3  2000 snif
+
+    ## a packet sniffer [Q4]
+    ##     - logs to tcp.log
+    ##     - keeps pid number in sniff.pid
+
+-rw-r--r--    1 root     root            5 Nov  8 08:52 sniff.pid
+
+    ## pid of the running sniffer (this contains 2485)
+
+-rwxr-xr-x    1 1010     users        5324 Jun  3  2000 sp.pl
+
+    ## perl script to sort sniffer output
+
+-rwxr-xr-x    1 1010     users      350996 Jun  3  2000 syslogd
+
+    ## stripped syslogd replacement
+
+-rw-r--r--    1 root     root            0 Nov  8 08:52 tcp.log
+
+    ## snif log file (NOTE- it's empty, nothing captured yet)
+
+
+
+
+
+./ :
+total 12
+drwxr-xr-x    2 1010     users        4096 Jul  7  2000 .
+drwxr-xr-x    6 1010     users        4096 Nov  8 08:56 ..
+-rwxr-xr-x    1 1010     users         118 Jul  7  2000 Anap
+
+    ## Anti-nap?? removes/touches /usr/tmp/nap
+
+./backup:
+total 292
+drwxr-xr-x    2 root     root         4096 Nov  8 08:52 .
+drwxr-xr-x    6 1010     users        4096 Nov  8 08:56 ..
+-rwxr-xr-x    1 root     root        42736 Nov  8 08:52 ifconfig
+-rwxr-xr-x    1 root     root        43024 Nov  8 08:52 ls
+-rwxr-xr-x    1 root     root        66736 Nov  8 08:52 netstat
+-r-xr-xr-x    1 root     root        60080 Nov  8 08:52 ps
+-rwxr-xr-x    1 root     root        23568 Nov  8 08:52 tcpd
+-r-xr-xr-x    1 root     root        34896 Nov  8 08:52 top
+
+   ## original system binaries
+
+
+./paki:
+total 28
+drwxr-xr-x    2 1010     users        4096 Aug  9 07:35 .
+drwxr-xr-x    6 1010     users        4096 Nov  8 08:56 ..
+-rwxr-xr-x    1 1010     users        8524 Jun  3  2000 slice2
+
+   ## client for SYN floods (part of Blitznet kit) [Q6]
+   ##   http://www.self-evident.com/security/dos/
+   ## Usage: %s srcaddr dstaddr low high
+   ##     If srcaddr is 0, random addresses will be used
+
+
+-rw-r--r--    1 1010     users        6793 May 15  2000 stream.c
+
+   ## stream.c v1.0 - TCP Packet Storm
+   ##   A summary of this program is available [Q6] from:
+   ##   http://security-archive.merton.ox.ac.uk/bugtraq-200001/0291.html
+
+
+./scan:
+total 36
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 .
+drwxr-xr-x    6 1010     users        4096 Nov  8 08:56 ..
+drwxr-xr-x    2 1010     users        4096 Jun  2  2000 amd
+drwxr-xr-x    2 1010     users        4096 Jul 15  2000 bind
+drwxr-xr-x    2 1010     users        4096 Aug  9 07:58 daemon
+drwxr-xr-x    3 1010     users        4096 Jul 15  2000 port
+drwxr-xr-x    2 1010     users        4096 Aug 21 22:31 statd
+drwxr-xr-x    2 1010     users        4096 Jul  6  2000 wu
+drwxr-xr-x    2 1010     users        4096 Jun  3  2000 x
+
+   ## Vulnerability scanners
+
+
+./scan/amd:
+total 72
+drwxr-xr-x    2 1010     users        4096 Jun  2  2000 .
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 ..
+-rwxr-xr-x    1 1010     users         114 Jun  2  2000 a.sh
+
+   ## shell to run pscan on a range of addresses for RPC
+
+-rwxr-xr-x    1 1010     users       12716 Jun  2  2000 amdx
+
+   ## Automount exploit
+   ## sends shellcode for port 2222
+
+-rwxr-xr-x    1 1010     users       13023 Jun  2  2000 ben
+-rwxr-xr-x    1 1010     users        1455 Jun  2  2000 ben.c
+
+   ## checks given host for RPCID - ryan@junker.org
+
+-rwxr-xr-x    1 1010     users       15667 Jun  2  2000 pscan
+-rwxr-xr-x    1 1010     users        4442 Jun  2  2000 pscan.c
+
+   ## port scanner by -Volatile
+
+
+./scan/bind:
+total 16
+drwxr-xr-x    2 1010     users        4096 Jul 15  2000 .
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 ..
+-rwxr-xr-x    1 1010     users        1760 Jul 15  2000 ibind.sh
+
+   ## shell script to scan for bind (53) vulnerable hosts    ".Ci."
+
+-rw-r--r--    1 1010     users        3980 Jul  6  2000 pscan.c
+
+   ## slightly different port scanner than ../amd/pscan.c
+
+
+./scan/daemon:
+total 32
+drwxr-xr-x    2 1010     users        4096 Aug  9 07:58 .
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 ..
+-rw-------    1 1010     users        5907 Aug  9 07:56 lscan2.c
+
+   ## 'lamerz scan by Mixter'
+   ## looks for mountd, popper, imap, bind, and ftp
+
+-rwxr-xr-x    1 1010     users       12392 Aug  9 07:56 z0ne
+
+   ## z0ne %s - crazy-b    usage: %s [-clo] [domain...]
+   ##  [Q6] an mention of this appears in the mscan README
+   ##  an example of this is here:
+   ##
+http://faqchest.dynhost.com/linux/REDHAT/redhat-98/redhat-9812/redhat-981202/redhat98122402_10739.html
+
+
+
+./scan/port:
+total 12
+drwxr-xr-x    3 1010     users        4096 Jul 15  2000 .
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 ..
+drwxr-xr-x    2 1010     users        4096 Feb 27  1995 strobe
+
+./scan/port/strobe:
+total 84
+drwxr-xr-x    2 1010     users        4096 Feb 27  1995 .
+drwxr-xr-x    3 1010     users        4096 Jul 15  2000 ..
+-rw-------    1 1010     users         171 Feb 27  1995 INSTALL
+
+   ## instructions   -Julian Assange (proff@suburbia.apana.org.au)
+   ## [Q6] more about strobe here:
+   ##
+http://www.userfriendly.net/linux/RPM/contrib/libc5/i386/strobe-1.04-2.i386.html
+
+
+-rw-------    1 1010     users        1187 Feb 27  1995 Makefile
+
+   ## makefile
+   # Strobe v0.92 (c) 1994,1995 Julian Assange, All rights reserved.
+   # (proff@suburbia.apana.org.au || proff@four.net || proff@gnu.ai.mit.edu)
+   # Linux modifications: A. Schiffler, andreas@karlsberg.usask.ca
+
+-rw-------    1 1010     users          17 Feb 27  1995 VERSION
+
+   ## version V0.92
+
+-rw-------    1 1010     users        3296 Feb 27  1995 strobe.1
+
+   ## man page
+
+
+-rw-------    1 1010     users       17364 Feb 27  1995 strobe.c
+
+   ## Super optimized TCP port prober
+
+-rw-------    1 1010     users       39950 Feb 27  1995 strobe.services
+
+   ## services list
+
+./scan/statd:
+total 60
+drwxr-xr-x    2 1010     users        4096 Aug 21 22:31 .
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 ..
+-rw-r--r--    1 1010     users        4390 Aug 21 22:28 classb
+
+   ## unstripped program
+   ##   - Sintaxe : %s ClassC_IP Arquivo_Out
+
+
+-rw-r--r--    1 1010     users       19140 Aug 21 22:28 r
+
+   ## unstripped rpc scanner
+
+-rw-r--r--    1 1010     users       21800 Aug 21 22:28 statdx
+
+   ## unstripped statdx by ron1n <shellcode@hotmail.com>
+   ##  rpc.stat exploit.  ron1n post with the source [Q6]
+   ##  is archived here:
+   ## http://www.kulua.org/Archives/kulua-l/200008/msg00159.html
+
+
+./scan/wu:
+total 76
+drwxr-xr-x    2 1010     users        4096 Jul  6  2000 .
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 ..
+-rw-r--r--    1 1010     users       26676 Jul  6  2000 fs
+
+   ## fscan v3.02 remote sploit scanner by f0x
+
+-rw-r--r--    1 1010     users       37760 Jul  6  2000 wu
+
+   ## wuftp scanner/exploit
+   ##  [Q6] A BUGTRAQ post on this type of scanner:
+   ##  http://lists.insecure.org/bugtraq/1999/Mar/0170.html
+
+
+./scan/x:
+total 56
+drwxr-xr-x    2 1010     users        4096 Jun  3  2000 .
+drwxr-xr-x    9 1010     users        4096 Aug 21 22:31 ..
+-rwxr-xr-x    1 1010     users       15092 Jun  3  2000 pscan
+-rw-r--r--    1 1010     users        3980 May  2  2000 pscan.c
+
+   ## same scanner as in ../bind
+
+-rwxr-xr-x    1 1010     users       17969 May 30  2000 x
+
+   ## Xwindows keyboard logger
+
+-rwxr-xr-x    1 1010     users        1259 Jun  1  2000 xfil
+
+   ##  X Vulnerability Log Filter - by _neo -
+
+-rwxr-xr-x    1 1010     users         385 May 30  2000 xscan
+
+   ##  X Vulnerability Scanner - by _neo -
+
+
+
+
+
+
+
+
+
+
+
+
+
+Conclusions
+-----------
+
+The intruder attacked a known vulnerability in the rpc.stat program, gaining
+root access via a rootshell payload.  Eight hours after the exploit the 
+intruder returned to the compromised system, patching it to prevent other 
+access and installed a rootkit.   
+
+The rootkit consisted of replacement binaries for several O/S programs.  These
+replacements typically would hide the intruders activity on the system from 
+casual inspection.  Secure Shell was installed to provide an encrypted 
+tunnel for traffic to the attackers computer.  In addition, a log file 
+cleanser was configured to remove traces of the intruders activity 
+from the system.
+
+Also installed were various vulnerability scanners and a packet sniffer.  The
+scanners would be used to search for other systems to attack.  The packet
+sniffer would be used to gather passwords and other sensitive data from the
+network.
+
+An IRC server (eggdrop) and client (bitchX) were also part of the 
+rootkit. The purpose of these tools cannot be conclusively determined,  
+however, these would typically provide a channel for discussions with
+other intruders and attackers.  Because the service would be running
+on a compromised host, it becomes be difficult to trace the participants.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Appendix A - HIRT questions
+---------------------------
+
+  1.Identify the intrusion method, its date, and time. (Assume the clock on the
+IDS was synchronized with an NTP reference time source.) 
+
+    A1. rpc.statd vulnerability.  rootshell installed 'Nov 7 23:11:51'.
+        Refer to 'The Exploit' above.
+
+  2.Identify as much as possible about the intruder(s). 
+
+    A2. Refer to 'The Attacker' above.
+
+  3.List all the files that were added/modified by the intruder. Provide an
+analysis of these programs (including decompilation or disassembly where 
+necessary to determine their function and role in the incident.) 
+
+    A3. Refer to 'The Compromise' and 'Peeling back the onion' above.
+
+  4.Was there a sniffer or password harvesting program installed? If so, where
+and what files are associated with it? 
+
+    A4. The 'snif' program was installed and running (pid 2485), but 
+        according to the 'tcp.log' file, had not captured anything.
+        Refer to the 'Rootkit Analysis' above.
+
+  5.Was there a "rootkit" or other post-concealment trojan horse programs
+installed on the system? If so, what operating system programs were replaced 
+and how could you get around them?
+
+    A5. The rootkit was installed in $ROOT/usr/man/.Ci
+        Several O/S programs were copied to $ROOTKIT/backup
+        It would be possible to avoid the trojans by fully qualifying
+        the path to this backup directory.  A much better solution
+        would be to use known good binaries from a CD-ROM or other
+	    immutable media.
+
+
+  6.What is publicly known about the source of any programs found on the
+system? (e.g., their authors, where source code can be found, what exploits 
+or advisories exist about them, etc.) 
+
+    A6. Refer to the various items in "Rootkit Analysis" above.
+
+  7.Build a time line of events and provide a detailed analysis of activity on
+the system, noting sources of supporting or confirming evidence (elsewhere on 
+the system or compared with a known "clean" system of similar configuration.) 
+
+    A7.  Refer to 'Timeline Summary' above.
+
+  8.Provide a report suitable for management or news media (general aspects of
+the intrusion without specific identifying data). 
+
+    A8. Refer to 'summary.txt'.
+
+
+  9.Provide an advisory for use within the home organization (a fictitious
+university, "honeyp.edu", in this case, where I hold an honorary Doctorate, 
+by the way) to explain the key aspects of the vulnerability exploited, how
+to detect and defend against this vulnerability, and how to determine if
+other systems were similarly compromised. 
+
+    A9. Refer to 'advisory.txt'.
+
+  10.Produce a cost-estimate for this incident using the following guidelines
+and method: 
+
+    A10. Refer to 'costs.txt'.

@@ -1,0 +1,386 @@
+=========================================
+Attacker tools found on apollo.honeyp.edu
+=========================================
+
+All executables have been analyzed using 'strings - <filename>'.
+Procedure names and system calls have also been extracted from the
+unstripped binaries using 'nm -p' and 'nm -Du' respectively.
+Several of the trojaned files seem to be derived from the Linux
+Rootkit version 4.  When examining the strings output, several files
+contained file paths with 'lrk4' in them and also contained symbols
+'hack_list' and 'fp_hack'.  lrk4 is a very popular rootkit produced 
+by Lord Somers called Linux Rootkit version 4 and hack_list and 
+fp_hack are variables common to many of the programs within this
+rootkit.  A Linux Rootkit 4 source distribution can be found here:
+
+        http://packetstorm.securify.com/UNIX/penetration/rootkits/lrk4.src.tar.gz
+
+Any program or file determined to be part of this rootkit is
+labelled (LRK4) next to its name.
+
+Found under directory /usr/man/.Ci
+----------------------------------
+a.sh   
+        Shell script
+        Removes vulnerable services such as rpc, apmd, nfsd, and kills
+        associated processes.
+
+addn
+        Dynamically linked binary (unstripped)
+        Adds IP addresses or network classes to a hidden list used by
+        trojaned system binaries to hide attacker connections.
+
+        Excerpt from strings output
+        -------------------------------------------------
+	enter classb to hide in netstat:
+        %d.%d
+        doing it like they do it on the discovery channel
+        echo 1 %d.%d >> /usr/libexec/awk/addy.awk
+        echo 2 %d.%d >> /usr/libexec/awk/addy.awk
+        added %d.%d to the hidden list 
+        -------------------------------------------------
+
+addps
+        Shell script
+        Adds process name to a hidden list used by trojaned ps and top
+        to prevent reporting of attacker processes.
+
+bx
+        Dynamically linked binary (unstripped)
+        BitchX IRC client version 75p3
+	Program name occurs 38 times within the strings output.
+
+chmod-it
+        Shell script
+	Removes setuid permission from several common setuid programs
+
+clean
+	Shell script
+	Creates a set of temp files with names of users, processes,
+        hosts, and commands to remove from host logs using the 
+        snap script discussed later.  Then removes temp files.
+
+do
+        Shell script
+        Removes backdoor system accounts 'own' and 'adm1' from the
+        /etc/passwd and /etc/shadow files.
+
+find	        (LRK4)
+        Dynamically linked binary (unstripped)
+        Description from LRK4 README
+	Trojaned find hides specified files and dirs.
+        Default hidden list is /dev/ptyr.
+
+        Excerpt from strings output
+        -------------------------------------------------
+	/home/aarons2/. /.d/lrk4/findutils/find/
+        -------------------------------------------------
+
+        Excerpt from nm output
+        -------------------------------------------------
+        08055ae8 B hack_list
+        08055ba4 B fp_hack   
+        -------------------------------------------------
+
+fix             (LRK4)
+        Dynamically linked binary (unstripped)
+        Modifies file checksum and timestamp to match original system file.
+	
+inetd           (LRK4)
+        Dynamically linked binary (stripped)
+        Trojaned version of internet superdaemon.  Suspected backdoor
+        into system.  'strings' output contains '/bin/sh' suggesting
+        a hidden rootshell bound to some port (default: 31337)
+
+killall	       (LRK4)
+        Dynamically linked binary (unstripped)
+        Utility which allows killing processes by name.  Used in a.sh
+	Uses 'hack_list' to prevent killing of attacker processes in
+        a hidden list.
+
+needz
+        Shell script
+        "Shopping list" of two tools used by the hacker.  The text
+        editor PICO and the screen manager package. 
+
+pstree		(LRK4)
+        Dynamically linked binary (unstripped)
+        Description taken from LRK4 README (same as ps).
+        Default hidden list is /dev/ptyp.
+        An example data file is as follows:
+ 
+        0 0             Strips all processes running under root
+        1 p0            Strips tty p0
+        2 sniffer       Strips all programs with the name sniffer
+        3 hack          Strips all programs with 'hack' in them
+                        ie. proghack1, hack.scan, snhack etc.
+        Don't put in the comments, obviously. Note: if this doesn't
+        seem to work make sure there are no spaces after the names,
+        and don't use the full path name.
+
+q and qs	
+        Dynamically linked binary (unstripped)
+	Source:  http://packetstorm.securify.com/groups/mixter/Q-2.0.tgz
+        Written by: Mixter <mixter@void.nu>
+        Q v2.0 is a client / server backdoor which features remote 
+        shell access with strong encryption for root and normal users, 
+        and a encrypted on-demand tcp relay/bouncer that supports 
+        encrypted sessions with normal clients using the included 
+        tunneling daemon. Also has stealth features like activation 
+        via raw packets, syslog spoofing, and single on-demand sessions
+        with variable ports.
+
+	Excerpt from strings output for q
+        --------------------------------------------------------------------------
+                %s - secure tcp connection client for Q by Mixter
+        usage: %s [-astS] <-l port> <host>
+                -a <n>          custom auth token          [hardcoded]
+                -s <n>          bind to local source port
+                -t              act as transparent relay on local source port (-s)
+                -S              call 'qs' to activate the shell before connecting 
+        --------------------------------------------------------------------------
+
+rmS
+        Shell script
+        Removes ssh*, install script, wu-ftpd.rpm, and
+        nfs-utils-0.1.9.1-1.i386.rpm
+
+snap
+        Shell script written by DreamWalker
+        Removes all lines from logfiles that contain a given string.
+        Cleansed files include:
+                /var/log/secure
+                /var/log/messages
+                /var/log/xferlog
+                /usr/adm/secure
+                /usr/adm/messages
+                /usr/adm/xferlog
+
+snif           (LRK4)
+        Dynamically linked binary (unstripped) 
+        Source: http://packetstorm.securify.com/Exploit_Code_Archive/linsniffer.c
+	Written by:  Mike Edulla  <medulla@infosoc.com>
+        LinSniffer network sniffer associated with files sniff.pid 
+        and tcp.log according to strings output.  Local function names
+        found from 'nm -p' match linsniffer source code.  Script 'sp.pl' also 
+        indicates use of LinSniffer.
+        
+sp.pl
+        Perl script
+        LinSniffer output filter used to find sniffed passwords and
+        other information.
+
+syslogd		(LRK4)
+        Dynamically linked binary (stripped) 
+        Modified to remove specified strings from logging.
+        Default hidden event list is /dev/ptys.
+
+paki/
+        stream.c
+                Source code
+                Network DoS tool that floods a target with TCP ACK packets.
+
+        slice2
+                Dynamically linked binary (unstripped) 
+                Source:  http://www.self-evident.com/security/dos/SLICE2.C.gz
+                Written by:  Humble
+                SYN flooder attacks a target on a range of ports at the same
+                time by forking several flooding processes.  Spoofs source
+                address.
+
+scan/
+        amd/
+                a.sh
+                        Shell script
+                        Runs pscan portscanner on a given set of networks. 
+
+                amdx
+                        Dynamically linked binary (unstripped)
+                        Source:  http://www.securityfocus.com/data/vulnerabilities/exploits/amd-exploit.c
+                        Written by:  Taeho Oh < ohhara@postech.edu >
+                        Automounter remote buffer overflow exploit.  Produces
+                        shellcode used to gain root shell on remote system.
+                        See CERT CA-1999-12
+                            BugTraq ID 614
+
+                ben/ben.c
+                        Dynamically linked binary (unstripped) and source code
+                        Source:  /usr/man/.Ci/scan/amd/ben.c
+                        Written by:  ryan@junker.org
+                        RPC functions nslookup, rpcinfo, and checkrpc
+
+                pscan/pscan.c
+                        Dynamically linked binary (unstripped) and source code
+                        Source:  /usr/man/.Ci/scan/amd/pscan.c
+                        Written by:  Volatile
+                        Simple portscanner used to find open ports and ftp servers.
+             
+        bind/
+                ibind.sh
+                        Shell script
+                        Bind scanner uses pscan to detect hosts running BIND
+                        and report version and vulnerability information.
+
+                pscan.c
+                        Source code
+                        Previously listed in scan/amd/ directory
+
+        daemon/
+                lscan2.c
+                        Source code
+                        Written by: Mixter
+                        Looks for exploitable services on a host or network.
+                        Checks for imap, popper, mountd, and ftp.
+
+                z0ne
+                        Dynamically linked binary (unstripped)
+                        Source:  http://packetstorm.securify.com/exploits/ADM/z0ne.c
+                        Written by:  crazy-b
+                        This program makes a list of domains from the arguments 
+                        given, and does axfr transfer for these domains and their 
+                        subdomains. When it is done it prints out a sorted list of 
+                        IP addresses to stdout. 
+
+        port/
+                strobe/
+                        INSTALL
+                        Makefile
+                        VERSION
+                        strobe.1
+                        strobe.c
+                        strobe.services
+                        Super optimized TCP port prober package
+                        strobe locates and describes all listening tcp ports on a
+                        (remote) host or on many hosts in a bandwidth  utilization
+                        maximizing, and process resource minimizing manner.
+                        
+
+        statd/
+                classb
+                        Dynamically linked binary (unstripped)
+                        Seems to generate all IP address within a given class B
+                        network.
+
+                r
+                        Dynamically linked binary (unstripped)
+                        Source:  http://www.self-evident.com/security/scanners/rpcscan.c.gz
+                        Written by:  sk8 <sk8@lucid-solutions.com>
+                        For each host in the inputfile, scans for rpc services whose 
+                        program numbers are given at the command line.  z0ne's output
+                        can be used as input to this program.
+
+
+                statdx
+                        Dynamically linked binary (unstripped)
+                        Source:  http://packetstorm.securify.com/0008-exploits/statdx.c
+                        Written by:  ron1n <shellcode@hotmail.com>
+                        Performs rpc.statd remote root exploit by conducting a buffer
+                        overflow attack on the remote service and using the increased
+                        privileges to bind a root shell to a port on the victim.
+                        This script was most likely used to break into apollo.honeyp.edu.
+                        
+        wu/                
+                fs
+                        Dynamically linked binary (unstripped)
+                        Source:  http://packetstorm.securify.com/0008-exploits/statdx.c
+                        Written by:  f0x
+                        fscan v3.02 remote exploit scanner
+                        Checks for exploitable RPC services, Wingate Proxies, OS discovery.
+
+                wu
+                        Dynamically linked binary (unstripped)
+                        Source:  http://www.securityfocus.com/data/vulnerabilities/exploits/wuftpd2600.c
+                        Written by:  tf8
+                        wuftpd 2.6.0 Remote Root Exploit program 
+                        See http://www.cert.org/advisories/CA-2000-13.html (Site exec Vulnerability)
+
+        x/
+               pscan/pscan.c
+                        Dynamically linked binary (unstripped) and source code
+                        Source:  /usr/man/.Ci/scan/amd/pscan.c
+                        Written by:  Volatile
+                        Simple portscanner used to find open ports and ftp servers.
+
+               x
+                        Dynamically linked binary (unstripped) and source code
+                        X windows scanner and keystroke logger determines if a host
+                        is running a vulnerable X windows configuration.   Purpose
+                        inferred from usage in xscan.
+
+               xfil
+                        Shell script
+                        Written by:  _neo
+                        X Vulnerability Log Filter.  Sifts through xscan keyboard 
+                        logs to look for passwords or other information.
+
+               xscan
+                        Shell script
+                        Runs pscan on port 6000 looking for X windows hosts to run
+                        'x' vulnerability scanner and key logger. 
+
+Installed trojan programs
+-------------------------
+/bin/
+        ls              (LRK4)
+		Trojaned ls hides specified files and dirs.
+	        Description taked from LRK4 README.
+                Default hidden list is /dev/ptyr.
+                All files can be listed with 'ls -/' if SHOWFLAG is enabled.
+
+        netstat         (LRK4)
+	        Description taked from LRK4 README.
+		Modified to remove tcp/udp/sockets from or to specified
+                addresses, uids and ports.
+                default data file: /dev/ptyq
+                type 0: hide uid
+                type 1: hide local address
+                type 2: hide remote address
+                type 3: hide local port
+                type 4: hide remote port
+                type 5: hide UNIX socket path
+ 
+        ps	        (LRK4)
+                Modified to remove specified processes.
+	        Description taken from LRK4 README.
+                Default hidden list is /dev/ptyp.
+                An example data file is as follows:
+ 
+                0 0             Strips all processes running under root
+                1 p0            Strips tty p0
+                2 sniffer       Strips all programs with the name sniffer
+                3 hack          Strips all programs with 'hack' in them
+                                ie. proghack1, hack.scan, snhack etc.
+                Don't put in the comments, obviously. Note: if this doesn't
+                seem to work make sure there are no spaces after the names,
+                and don't use the full path name.
+
+/sbin/
+        ifconfig	(LRK4)
+		Trojaned version does not display PROMISC when interface is used
+                for network sniffing.
+
+/usr/bin/
+        top             (LRK4)
+		Trojaned top blocks listing of certain processes.  Uses same rules
+                and file as trojaned ps.
+
+/usr/local/sbin
+        sshd  
+                Trojaned secure shell daemon records login, password, and incoming host
+                to /usr/tmp/nap.  Determined by viewing the following in strings output.
+
+                /usr/tmp/nap
+                +-[ User Login ]-------------------- --- --- - -
+                | username: %s password: %s hostname: %s
+                +----------------------------------- ----- --- -- -- -                   
+
+/usr/sbin/
+        tcpd            (LRK4)
+		Description taken from LRK4 README
+                Modified to allow access from your host without any logging.
+                Any type 1 record in the ROOTKIT_ADDRESS_FILE is used for
+                tcpd. See netstat for more infoz on this file.
+                Example data file:
+                1 123.4.5.6
+                would set up the tcp wrappers to allow and hide connects from
+                123.4.5.6. 

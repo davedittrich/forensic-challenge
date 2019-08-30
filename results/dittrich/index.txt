@@ -1,0 +1,23 @@
+File		Contents
+=============== ==============================================================
+
+advisory.txt	Advisory for consumption by other system administrators and
+		incident handlers within the organization.
+
+costs.txt	Incident cost estimate.
+
+evidence.txt	Timeline of incident and analysis of evidence found
+		on victim system.
+
+files.tar	Files recovered from deleted file space.
+
+index.txt	This file.
+
+mactime.txt	Complete timestamp listing (including deleted files) from
+		November 6, 2000 to when system was imaged.
+
+summary.txt	Management and media (non-technical) summary.
+
+timestamp.txt	Timestamp of MD5 checksums of all files included here.
+
+fstab.sh	Shell script to mount image files onto mount point /t.

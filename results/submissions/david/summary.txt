@@ -1,0 +1,33 @@
+                                    Advisory 
+                         ===============================
+
+                         Date: Sunday, February 18, 2001
+
+Overview
+--------
+
+On Nov 8th 2000 a intruder was able to remotely gain administrator level access to one of our systems.
+
+
+Description
+-----------
+The intruder exploited a vulnerability in the program "rpc.statd" that allowed him to execute arbitrary code on the system with administrator level privileges.
+The intrusion was detected and eliminated the following day (Nov 9th). 
+
+
+Impact
+------
+The intruder replaced and modified several system files and installed some applications.
+All found evidence indicate that no other system was afected by the activities of the intruder.
+
+
+Solution
+--------
+The compromised system was taken offline and re-installed from original media. All known vulnerabilities including the one used bye the intruder were patched before bringing the system back to operation.
+
+
+Authors
+-------
+German Martin
+Jorge Ortiz
+David Perez

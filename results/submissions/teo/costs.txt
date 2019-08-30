@@ -1,0 +1,24 @@
+INCIDENT COST ESTIMATE
+
+
+Worker Cost (Based on annual salary of $70,000, 52 weeks, 40hrs per
+week, which is equivalent to $33.65 per hour)
+
+Job Title		Hours	Cost		-15%		+15%
+1) Chief investigator	8	$269.23		$228.85		$309.61
+2) Senior investigator	16	$538.46		$457.69		$619.23
+3) Investigator		40	$1346		$1144.10	$1547.90
+4) Investigator		40	$1346		$1144.10	$1547.90
+			--	--------	-------		--------
+Sub-total		104	$3499.69	$2974.74	$4024.64
+Benefit @ 28%			$979.91		$832.93		$1126.90
+Total				$4479.60	$3807.67	$5151.54
+
+
+Description of experiences:
+Chief investigator:	Seven years of experience in information security
+			research, currently a project manager
+Senior investigator: 	3 years of experience in information security research,
+			currently a senior researcher
+Investigator: 		< 6 months of experience in information security
+			research, currently a researcher

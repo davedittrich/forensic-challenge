@@ -1,0 +1,49 @@
+Brian Carrier                                                  technique.txt
+-----------------------------------------------------------------------------
+This will describe the steps that were taking to analyze this system using
+the provided IDS output and images.  Several tools were used in this 
+analysis and descriptions of which can be found in section 4 of evidence.txt.
+
+1.  Create a rough time line The first step was to mount the images in a
+loop back method on a Linux box.   'grave-robber -m' from TCT was then
+run on the compromised file system.  'mactimes' from TCT was then run
+using the data from grave-robber.  My program called 'dcat' was then
+run on all of the images with the '-m' flag for mactimes output.  These
+outputs were merged with the  mactimes output using my script called
+'mac_merge'.
+
+The resulting file gave the mac times for all files that were used between
+Nov 7, 2000 and Nov 9, 2000.  The 'dcat -m' utility merged the times for
+the files that were deleted, with the name and inode were still intact.
+This allowed me to see the rootkit installation files and eggdrop files.
+
+2.  I then made a backup copy of the time line and edited the other.  I
+used tags in it such as "BEGIN Installation of X" and "END Installation 
+of X" in order to break it into high level categories.   This can be
+found in time line.txt.
+
+3.  Each high level event identified in step 2 was further investigated by
+using my forensics browser, autopsy.  This allowed me to easily examine
+directories and files that were modified and perform basic decompilation.
+Non-binaries were examined to determine if they were trojan configuration
+files and binaries were run in strings for evidence of non-standard
+config files.  
+
+By using autopsy and dcat I was able to view many files that had been deleted
+during the trojan installation and easily view the old file.
+
+4.  The search utility on autopsy is used to search for time stamps on
+the root and usr image, i.e. "Nov  8" and "Nov  7".  This resulted in
+deleted log entries. 
+
+5.  I then filled in some of the holes by doing more searches.  I noticed
+that there was a deleted directory in /dev called tpack so I did a search
+on hda8 and found installation files and tar files for the tpack/eggdrop
+program.  Some of the Ci installation scripts were missing, such as addbd,
+and they were recovered from the original tar file on hda8 by searching
+for "addbd".  Running strings on the swap space revealed some clues as
+well.
+
+6.  The time line was analyzed again and more holes were filled in based on
+the random searches.  
+

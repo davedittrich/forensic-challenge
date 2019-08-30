@@ -1,0 +1,374 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Lance Spitzner">
+<style type="text/css">
+<!--
+a:active {  text-decoration: none}
+a:hover {  text-decoration: none; color: blue}
+a:link {  text-decoration: none}
+a:visited {  text-decoration: none}
+-->
+</style>
+</head>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+<title>Results of The Forensic Challenge</title>
+
+<center>
+<BR>
+<img src="../../images/forensic.gif" alt="Forensic Challenge"><BR>
+</center>
+
+<hr width="85%" size="2" align="center">
+<center><font size=+1>
+<b>Results of the Forensic Challenge</b>
+</center></font>
+</p>
+
+<center><font size=+1>
+<b>Index</b>
+</center></font></p>
+<ul>
+<li> <a href="#rankings">Links to the winners</a>,
+<li> <a href="dittrich/">The Honeynet Project's analysis</a>,
+<li> <a href="answers/">Data from the Honeynet (keystrokes, IDS/Firewall logs)</a>
+<li> <a href="submissions/">All entries submitted</a>.
+</ul>
+<p>
+
+<center><font size=+1>
+<b>Summary</b>
+</center></font></p>
+
+In all, we received 13 submissions from around the world to the
+Challenge. An "official" analysis by Dave Dittrich (with assistance
+from Wietse Venema) was done as well.  All analyses (including the
+official one) were done without any data from the IDS, nor with any
+tools or techniques from other analyses.  Many entrants (and some who
+contacted us who couldn't make the deadline) had <b><i>no idea</i></b>
+how much time this analysis would take, and it took <b><i>a
+lot</i></b> (as you will see.)  Most finished when they ran out of
+time, not when they felt they were done.  </p>
+
+Overall, the efforts put in by those submitting entries are very
+thorough and professional, a step above the incident reports you 
+often see on mailing lists that gives the most basic "at first glance" 
+facts and asks more questions than it answers.  I anticipate that this 
+will begin to change, as anyone in the security community can now take an art
+historian style view of 13 different paintings (14 if you count the Honeynet
+analysis) of the same landscape.
+</p>
+
+Each submission, even within the rules/guidelines for the Challenge,
+took a slightly different angle.  Nearly every entrant found at least
+one thing that the others did not (me included, both in finding things
+and missing them.)  We tried to comment as much as possible on each
+entry, but even the judges had time limitations and a deadline.  We
+want to thank everyone who participated for contributing to the
+project, and hope they gain from it as well. </p>
+
+The average time spent in investigation turned out to be about 34
+hours per person.  That's a standard week's worth of work to clean up
+and deal with the mess left by an intruder in about a half an hour.
+That's about a 60:1 ratio!  Using a standard upper-mid range annual
+salary figure of US$70,000 per investigator, that works out to be a
+cleanup cost of over US$2000 for a single incident.  It is very likely
+one of dozens, if not hundreds, of intrusions just like it.  As you
+will see when you read the analyses, this <b><i>wasn't</i></b> the first
+time this intruder did this.</p>
+
+"<i>But all it takes to re-install Red Hat is 30 minutes.  How do you
+come up with US$2000 damage?</i>"  Simple. For the same reasons cited
+in <a href="http://packetstorm.securify.com/docs/hack/i.only.replaced.index.html.txt">
+i.only.replaced.index.html.txt</a>
+(and then some, since this is more than just a web page defacement.)</p>
+
+When a system is compromised, and the data on it and its network are
+compromised, it is not simple to determine the extent of the damage
+without a lot of work.  We do not know if the blackhat stold peoples
+passwords, hacked other systems, has implemented sniffers, etc.  
+This argues for strong prevention, defense in
+depth (including monitoring in depth), and trained responders.  If all
+the administrator does is re-install the OS, they are doing a wholly
+inadequate job of responding to a security incident, as the extent of
+damage may be far greater then a single system.  </p>
+
+Crackers commonly deride system administrators for shoddy security, so why do
+they then feel justified in claiming they did "no damage" by
+suggesting the system administrator <b><i>should do</i></b> a 
+similarly shoddy job of incident response?  Make no mistake. 
+<b><i>Computer system intrusions have a cost</i></b>.</p>
+
+That is not to suggest that <b><i>every</i></b> intrusion warrants a
+complete forensic investigation, but in some circumstances it is
+entirely appropriate and needs to be done quickly (and correctly).
+</p>
+
+Consider if this were a military site, or a government contractor
+doing classified work (e.g., <a
+href="http://www.gertzfile.com/InsidetheRing.html">as occured recently
+with Sandia National Labs</a>). Those responding to such an intrusion
+do so under the assumption that the intruder is a foreign intelligence
+or military attacker, not just some teenage kid in their bedroom.  I
+wouldn't want them to respond any other way, in case it IS a military
+threat.  The 104 hours spent by Teo's team would not be entirely
+unreasonable in that case (although I believe the cost of criminal
+investigation should be separated from that of incident response and
+cleanup, and "intellectual property" and other losses should only be
+allowed if such losses can actually be proven, unlike for example the
+<a href="https://www.2600.com/secret/sj/sj-decision.html">Steve Jackson
+Games</a> case where a 911 document which could be purchased for some
+US$30 was valued at US$79,449 for purposes of estimating damages.) </p>
+
+<center><font size=+1>
+<b>Time/Cost Analysis</b>
+</center></font> </p>
+
+Here are the time/cost breakdowns for this incident (see the
+"costs.txt" files for more detailed data): </p>
+
+<table border=2 cellspacing=2>
+<tr>
+<th><b>Submitter</b></th>
+<th><b>Time spent</b></th>
+<th><b>Years security/sysadmin exp.</b></th>
+<th><b>Investigators</b></th>
+</tr>
+
+<tr>
+<td>teo</td><td>104 hours</td><td>7/3/1/1 years</td><td>4</td>
+</tr>
+<tr>
+<td>david</td><td>80 hours</td><td>8/5/4</td><td>3</td>
+</tr>
+<tr>
+<td>royans</td><td>80 hours</td><td>5 years</td><td>1</td>
+</tr>
+<tr>
+<td>brian-carrier</td><td>64 hours</td><td>6 years</td><td>1</td>
+</tr>
+<tr>
+<td>brian</td><td>48 hours</td><td>5 years</td><td>1</td>
+</tr>
+<tr>
+<td>peter</td><td>48 hours</td><td>3 years</td><td>1</td>
+</tr>
+<tr>
+<td>addam</td><td>40 hours</td><td>3 years</td><td>1</td>
+</tr>
+<tr>
+<td>marco</td><td>40 hours</td><td>8 years</td><td>1</td>
+</tr>
+<tr>
+<td>roessler</td><td>37 hours</td><td>8 years</td><td>1</td>
+</tr>
+<tr>
+<td>knut</td><td>15 hours</td><td>11 years</td><td>1</td>
+</tr>
+<tr>
+<td>andy</td><td>10 hours</td><td>Not stated</td><td>1</td>
+</tr>
+<tr>
+<td>tye</td><td>10 hours</td><td>Not stated</td><td>1</td>
+</tr>
+<tr>
+<td>john</td><td>Not stated.</td><td>Not stated</td><td>NA*</td>
+</tr>
+<tr>
+<td>TOTAL</td><td>576 hours</td><td></td><td>17</td>
+</tr>
+</table>
+</p>
+
+(* John is not included in the cost analysis because he did not state
+time spent or experience.) </p>
+
+Average time spent per investigation (/12): <b>48.0 hours</b></p>
+Average time spent per investigator (/17): <b>33.9 hours</b></p>
+
+Average cost per investigation @ US$33.65/hr: <b>US$2,067.46</b> +/-
+US$310.12</p>
+Minimum investigation cost: <b>US$430.72</b> +/-  US$64.61</p>
+Maximum investigation cost: <b>US$4,479.50</b> +/- US$671.92</p>
+
+Assuming the incident was investigated by an independant consulting
+firm, charging US$300.00 per billable hour (benefit costs included in this
+rate), and using the five most extensive investigations for estimating
+the average (75.4 hours), the "damage" escalates significantly.</p>
+
+Average cost per investigation @ US$300.00/hr: <b>US$22,620.00</b> +/-
+US$3,393.00</p>
+
+One thing is for certain.  It is <b><i>much</i></b> harder and takes
+more skill to figure out what was damaged than to do the damage.  Take
+a very close look at the top submissions and you'll see what I
+mean.</p>
+
+<a name="rankings">
+<center><font size=+1>
+<b>Rankings</b>
+</center></font>
+</a>
+</p>
+
+Entries were judged by a panel that include Wietse Venema, Tan, Lance
+Spitzner, and Dave Dittrich, with assistance by Dan Farmer, Kevin
+Mandia, and T Elam.  Judges operated under guidelines that used a point 
+system for ranking each entry.  The maximum score that an entry could 
+receive was 45 points.  The combined scores of all judge's were then
+averaged. </p>
+
+The Honeynet Project would like to thank all thirteen members who submitted
+a writeup.  For many of these people, this was there first such attempt 
+at a forensic analysis.  Even though some of the individuals knew they 
+would not place in the top three, they submitted their entries anyways
+to both improve themselves and the security community. </p>
+
+In gratitude for the hard work of all these individuals, every member
+will be awarded a 2nd Edition of "Hacking Exposed."  In addition,
+the Top Three submissions will also be receiving a prestigious
+Honeynet Project team shirt.  (You can see the submissions by
+following the link from the submitter's name.  You can see the
+comments of the judges by following the link from the points.)</p>
+
+<table border=2 cellspacing=2>
+<tr>
+<th><b>Submission</b></th>
+<th><b>Points</b></th>
+</tr>
+
+<tr><td><a href="submissions/roessler/">
+<b><i>Thomas Roessler</i></b> &lt;<span class="__cf_email__" data-cfemail="98eaf7fdebebf4fdead8fcf7fdebb5f6f7ecb5fde0f1ebecb6f7eaff">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="roessler.html">43.8</a></td></tr>
+<tr><td><a href="submissions/brian-carrier/">
+<b><i>Brian Carrier</i></b> &lt;<span class="__cf_email__" data-cfemail="bddedccfcfd4d8cffdded8cfd4dcce93cdc8cfd9c8d893d8d9c8">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="brian-carrier.html">42.5</a></td></tr>
+<tr><td><a href="submissions/peter/">
+<b><i>Peter Kosinar</i></b> &lt;<span class="__cf_email__" data-cfemail="9bfcf4f4f9fee9dbf0e8ebb5e8f0">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="peter.html">39.8</td></tr>
+<tr><td><a href="submissions/addam/">
+<i>Addam Schroll</i> &lt;<span class="__cf_email__" data-cfemail="6e0f0a0a0f032e1e1b1c0a1b0b400b0a1b">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="addam.html">37.5</td></tr>
+<tr><td><a href="submissions/marco/">
+<i>Marco Walther</i> &lt;<span class="__cf_email__" data-cfemail="8de0ecffeee2facde7e8e3eca3e8e3eaa3fef8e3a3eee2e0">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="marco.html">37.5</td></tr>
+<tr><td><a href="submissions/brian/">
+<i>Brian Coyle</i> &lt;<span class="__cf_email__" data-cfemail="4b2939222a25280b262a2c2228252e3f65252e3f">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="brian.html">36.8</a></td></tr>
+<tr><td><a href="submissions/teo/">
+Teo Hong Siang</i> &lt;<span class="__cf_email__" data-cfemail="1165797e7f766278705175627e3f7e63763f6276">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="teo.html">34.8</td></tr>
+<tr><td><a href="submissions/royans/">
+<i>Royans K Tharakan</i> &lt;<span class="__cf_email__" data-cfemail="c3b1a8b783b3aca1acbbeda0acae">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="royans.html">30.0</a></td></tr>
+<tr><td><a href="submissions/andy/">
+<i>Andy Polyakov</i> &lt;<span class="__cf_email__" data-cfemail="63021313110c23051a4d000b020f0e0611104d1006">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="andy.html">30.0</a></td></tr>
+<tr><td><a href="submissions/david/">
+<i>David</i> &lt;<span class="__cf_email__" data-cfemail="52367c2237203728123b3737377c3d2035">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="david.html">29.0</td></tr>
+<tr><td><a href="submissions/knut/">
+<i>Knut Eckstein</i> &lt;<span class="__cf_email__" data-cfemail="2a41445f5e6a4b49470445584d">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="knut.html">28.0</td></tr>
+<tr><td><a href="submissions/tye/">
+<i>Tye Stallard</i> &lt;<span class="__cf_email__" data-cfemail="f68582979a9a978492b697988c838483d895999b">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="tye.html">25.0</td></tr>
+<tr><td><a href="submissions/john/">
+<i>John Francis Nguyen</i> &lt;<span class="__cf_email__" data-cfemail="e78d818980929e8289a78a868e8bc9869584c989869486c9808891">[email&#160;protected]</span>&gt;</a></td>
+<td><a href="john.html">20.0</td></tr>
+</table>
+
+<p>
+<center><font size=+1>
+<b>The End?</b>
+</center></font>
+
+<p>
+The Forensic Challenge judging is now over, but this sub-project is
+going to live on in several ways. </p>
+
+<ul>
+
+<li> The results will be here for quite some time for people to learn
+from.  There are some new tools that came out of the Challenge, some
+interesting techniques, and some good examples of how to do a
+forensic analysis of a compromised system.  If you have the time
+(a couple hours per submission), you will benefit from reading
+all of the analyses and seeing how each differs from the others.
+You <b><i>will</i></b> learn something, guaranteed. </p>
+
+<li> The Honeynet Project members will be carrying on the learning
+with talks and courses based on the lessons learned in the Challenge.
+We will be assembling some "best practices" documents and guidelines
+to help move forward the state of the art in forensic analysis.  Look
+for more details about what was learned from the Forensic Challenge in
+a talk at <a href="http://www.dursec.com/">CanSecWest '01</a> March
+28-30 in Vancouver, BC, Canada, and talks/courses at upcoming BlackHat
+and SANS conferences. </p>
+
+<li> We are working with members of the United States Department of
+Justice and the King County Prosecutor's Office to make sure
+that the examples and best practices fit the needs of local, state and
+federal law enforcement agencies in understanding and assessing
+computer crime cases and pursuing suspects.  Detailed technical
+analyses are great for geeks, but hard for judges, prosecutors,
+and criminal investigators to digest and understand quickly.
+This is the first time a learning situation like this has existed,
+where members of law enforcement can speak openly about the analyses
+of a <i>real intrusion</i> without fear of compromising an actual --
+and quite costly -- criminal case.  Hopefully this will help
+bridge some gaps and smooth the road between computer security
+professionals and the law enforcement community. </p>
+
+(Note that <b><i>there will be no prosecutions of anyone involved in
+this intrusion</i></b>.  This is not about catching the person who did
+this intrusion, but rather about what can be learned from it.  Whoever
+did this is <i>veeerrrrry</i> lucky its working out this way.
+<i>This</i> time. ;) </p>
+
+</ul>
+
+If you have any suggestions, questions, or comments on the Challenge,
+feel free to contact us at &lt;<span class="__cf_email__" data-cfemail="27444f464b4b42494042674f4849425e49425309485540">[email&#160;protected]</span>&gt; <p>
+
+<h2>Shouts and greetz</h2>
+
+Thanks once again to everyone who has assisted or participated in the
+challenge, including all the submitters listed above, Lance Spitzner,
+Dan Farmer, Wietse Venema, Tan, Kevin Mandia, T Elam, Rik Farrow,
+Kevin Manson, Steve Schroeder, Floyd Short, Richard Murray, Ivan
+Orton, and Alisha Ritter (if I left anyone out, I apologize - blame it
+on lack of sleep.) </p>
+
+Dave Dittrich
+
+</p>
+<hr width="85%" size="2" align="center">
+<center>      
+<a href="http://project.honeynet.org">
+<img src="../../images/small.gif" alt="The Honeynet Project" border=0>
+</a>
+</center>
+<p>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+</html>

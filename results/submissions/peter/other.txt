@@ -1,0 +1,28 @@
+[=-=-=-=-=-=-=]             Miscelaneous information         [=-=-=-=-=-=-=]
+
+Other information gained during the analysis include:
+1) strings output from swap.  We can find some interesting information:
+
+8x	REMOTEHOST=c871553-b.jffsn1.mo.home.com
+4x	USER=adm1
+6x	su own
+	bash$ su own
+	_=/usr/sbin/named
+	_=/usr/local/sbin/sshd
+2x	_=/bin/su
+
+This clearly shows that the attacker logged in as adm1, but su-ed to own
+afterwards.  The login came from the supposed address.
+
+
+[=-=-=-=-=-=-=]                   Eggdrop                    [=-=-=-=-=-=-=]
+
+After the instalation of trojans, the attacker launched an IRC bot (eggdrop)
+with a pack of TCL scripts written by T0R0 (tPACK-2.3).  All the bot files
+were stored, unpacked and compiled in /dev (see misc/tpackparent and
+misc/eggdropdir).  After the installation, the whole directory was removed.
+
+He had not been very cautious this time, because he forgot to remove
+drosen's (the user under which he ran the bot) .bash_history.  One of
+the deleted files (restored using debugfs, saved in misc/eggdrop_timestamp)
+shows that the bot has been launched at Nov  8, 08:58:56.

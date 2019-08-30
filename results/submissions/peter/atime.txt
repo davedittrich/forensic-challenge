@@ -1,0 +1,634 @@
+[=-=-=-=-=-=-=-=]         Used/added/modified files          [=-=-=-=-=-=-=-=]
+
+
+===============================================================================
+====================== Recently accessed files ================================
+===============================================================================
+
+First, the files accessed around the time of incident (November 8th) are
+the most suspicious ones.  Just to be sure, we include all files modified
+after 2000/11/8-04:05:00 (this time was chosen intentionally, because
+locate database was update every day at 04:02).  Following filelist was
+created using a simple (though long) command and then filtered, reformatted
+and interleaved with my comments.  The timestamps are consistent with the
+records found using other approaches.  These records give us very important
+help in analysing attacker's activity.
+ 
+
+forgoo:/:# touch 110804052000.00 ~/november;\
+> ls -dualn --full-time `find -anewer ~/november` | sort +5
+
+
+] Time corresponding to attacker's first login into backdoor (shell on port
+] 4545).  His first command was uptime (see files/root_history.txt:Section 3),
+] so the timestamp tells us approximate time of the connect login.
+-r-xr-xr-x   1 0        0            2836 Wed Nov 08 08:25:53 2000 /usr/bin/uptime
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:26:51 2000 /etc/rc.d/init.d
+
+] First regular login (=using telnet) into adm1 account, in order to
+] download the rootkit.  Unluckily, I wasn't able to find any trace of
+] the address the attacker ftp'd the rootkit from.
+-rwxr-xr-x   1 0        0           63728 Wed Nov 08 08:29:27 2000 /usr/bin/ftp
+
+] Second (and also last) login - connection using telnet (tcpd uses
+] hosts.{allow,deny} and in.telnetd displays issue.net)
+-rw-r--r--   1 0        0             161 Wed Nov 08 08:45:18 2000 /etc/hosts.allow
+-rw-r--r--   1 0        0               0 Wed Nov 08 08:45:18 2000 /etc/hosts.deny
+-rw-r--r--   1 0        0              63 Wed Nov 08 08:45:19 2000 /etc/issue.net
+-rw-r--r--   1 0        0            1504 Wed Nov 08 08:45:24 2000 /etc/security/console.perms
+
+] Extracted rootkit files - we can see that the attacker has not used
+] (=executed) any of following files, because they were not accessed
+] once they have been extracted.
+-rwxr-xr-x   1 1010     100            83 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/addps
+-rwxr-xr-x   1 1010     100        185988 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/find
+-rwxr-xr-x   1 1010     100        147900 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/inetd
+-rwxr-xr-x   1 1010     100         12495 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/killall
+-rwxr-xr-x   1 1010     100           156 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/needz
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/paki
+-rwxr-xr-x   1 1010     100          8524 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/paki/slice2
+-rw-r--r--   1 1010     100          6793 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/paki/stream.c
+-rwxr-xr-x   1 1010     100         49800 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/pstree
+-rwxr-xr-x   1 1010     100        133344 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/q
+-rwxr-xr-x   1 1010     100        132785 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/qs
+drwxr-xr-x   9 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/amd
+-rwxr-xr-x   1 1010     100           114 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/amd/a.sh
+-rwxr-xr-x   1 1010     100         12716 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/amd/amdx
+-rwxr-xr-x   1 1010     100         13023 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/amd/ben
+-rwxr-xr-x   1 1010     100          1455 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/amd/ben.c
+-rwxr-xr-x   1 1010     100         15667 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/amd/pscan
+-rwxr-xr-x   1 1010     100          4442 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/amd/pscan.c
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/bind
+-rwxr-xr-x   1 1010     100          1760 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/bind/ibind.sh
+-rw-r--r--   1 1010     100          3980 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/bind/pscan.c
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/daemon
+-rw-------   1 1010     100          5907 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/daemon/lscan2.c
+-rwxr-xr-x   1 1010     100         12392 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/daemon/z0ne
+drwxr-xr-x   3 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port/strobe
+-rw-------   1 1010     100           171 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port/strobe/INSTALL
+-rw-------   1 1010     100          1187 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port/strobe/Makefile
+-rw-------   1 1010     100            17 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port/strobe/VERSION
+-rw-------   1 1010     100          3296 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port/strobe/strobe.1
+-rw-------   1 1010     100         17364 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port/strobe/strobe.c
+-rw-------   1 1010     100         39950 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/port/strobe/strobe.services
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/statd
+-rw-r--r--   1 1010     100          4390 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/statd/classb
+-rw-r--r--   1 1010     100         19140 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/statd/r
+-rw-r--r--   1 1010     100         21800 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/statd/statdx
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/wu
+-rw-r--r--   1 1010     100         26676 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/wu/fs
+-rw-r--r--   1 1010     100         37760 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/wu/wu
+drwxr-xr-x   2 1010     100          4096 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/x
+-rwxr-xr-x   1 1010     100         15092 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/x/pscan
+-rw-r--r--   1 1010     100          3980 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/x/pscan.c
+-rwxr-xr-x   1 1010     100         17969 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/x/x
+-rwxr-xr-x   1 1010     100          1259 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/x/xfil
+-rwxr-xr-x   1 1010     100           385 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/scan/x/xscan
+-rwxr-xr-x   1 1010     100          5324 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/sp.pl
+-rwxr-xr-x   1 1010     100        350996 Wed Nov 08 08:51:53 2000 /usr/man/.Ci/syslogd
+
+] Now the rootkit has been successfully extracted, so the attacker goes
+] ahead and installs it (see analysis/rkit.txt:install)
+lrwxrwxrwx   1 0        0               9 Wed Nov 08 08:52:10 2000 /usr/games/.bash_history -> /dev/null
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/backup
+-rwxr-xr-x   1 0        0           42736 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/backup/ifconfig
+-rwxr-xr-x   1 0        0           43024 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/backup/ls
+-rwxr-xr-x   1 0        0           66736 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/backup/netstat
+-r-xr-xr-x   1 0        0           60080 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/backup/ps
+-rwxr-xr-x   1 0        0           23568 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/backup/tcpd
+-r-xr-xr-x   1 0        0           34896 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/backup/top
+-rwxr-xr-x   1 1010     100         18535 Wed Nov 08 08:52:10 2000 /usr/man/.Ci/fix
+-r-xr-xr-x   1 0        0           60926 Wed Nov 08 08:52:10 2000 /usr/bin/top
+-rwxr-xr-x   1 0        0           19840 Wed Nov 08 08:52:10 2000 /sbin/ifconfig
+-rwxr-xr-x   1 0        0           31625 Wed Nov 08 08:52:10 2000 /usr/sbin/tcpd
+-rwxr-xr-x   1 0        0           26736 Wed Nov 08 08:52:10 2000 /usr/sbin/identd
+-rw-r--r--   1 0        0             102 Wed Nov 08 08:52:12 2000 /usr/man/.a
+-rw-r--r--   1 0        0              58 Wed Nov 08 08:52:12 2000 /usr/man/.p
+-rw-r--r--   1 0        0              58 Wed Nov 08 08:52:12 2000 /usr/man/p
+-rwxr-xr-x   1 1010     100          7229 Wed Nov 08 08:52:13 2000 /usr/man/.Ci/snif
+-rw-r--r--   1 0        0               5 Wed Nov 08 08:52:13 2000 /usr/man/.Ci/sniff.pid
+-rw-r--r--   1 0        0               0 Wed Nov 08 08:52:13 2000 /usr/man/.Ci/tcp.log
+-rwxr-xr-x   1 1010     100           698 Wed Nov 08 08:52:14 2000 /usr/man/.Ci/clean
+-rwxr-xr-x   1 1010     100           714 Wed Nov 08 08:52:15 2000 /usr/man/.Ci/a.sh
+
+] Rootkit installation in progress - actually installing new .rpm(s).
+] rpm calls ldconfig, which in turn searches all availible libraries.  The
+] list of libraries is unimportant, thus I've filtered it out.
+-rw-r--r--   1 0        0              59 Wed Nov 08 08:52:26 2000 /etc/ld.so.conf
+-rwxr-xr-x   1 0        0          233100 Wed Nov 08 08:52:26 2000 /sbin/ldconfig
+
+] Installation of am-utils-6.0.1s11
+-rwxr-xr-x   1 0        0             766 Wed Nov 08 08:52:31 2000 /etc/rc.d/init.d/amd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:31 2000 /etc/rc.d/rc0.d/K28amd -> ../init.d/amd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:31 2000 /etc/rc.d/rc1.d/K28amd -> ../init.d/amd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:31 2000 /etc/rc.d/rc2.d/K28amd -> ../init.d/amd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:31 2000 /etc/rc.d/rc3.d/K28amd -> ../init.d/amd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:31 2000 /etc/rc.d/rc4.d/K28amd -> ../init.d/amd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:31 2000 /etc/rc.d/rc5.d/K28amd -> ../init.d/amd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:31 2000 /etc/rc.d/rc6.d/K28amd -> ../init.d/amd
+
+] Installation of lpr-0.48
+-rwxr-xr-x   1 0        0            1176 Wed Nov 08 08:52:32 2000 /etc/rc.d/init.d/lpd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:32 2000 /etc/rc.d/rc0.d/K60lpd -> ../init.d/lpd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:32 2000 /etc/rc.d/rc1.d/K60lpd -> ../init.d/lpd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:32 2000 /etc/rc.d/rc2.d/S60lpd -> ../init.d/lpd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:32 2000 /etc/rc.d/rc3.d/S60lpd -> ../init.d/lpd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:32 2000 /etc/rc.d/rc5.d/S60lpd -> ../init.d/lpd
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:52:32 2000 /etc/rc.d/rc6.d/K60lpd -> ../init.d/lpd
+
+] Installation of make-3.77
+lrwxrwxrwx   1 0        0               4 Wed Nov 08 08:52:32 2000 /usr/bin/gmake -> make
+-rw-r--r--   1 0        0            2954 Wed Nov 08 08:52:32 2000 /usr/info/am-utils.info.gz
+-rw-r--r--   1 0        0            2111 Wed Nov 08 08:52:32 2000 /usr/info/make.info.gz
+
+] Installation of ypserv-1.3.9
+-rwxr-xr-x   1 0        0            1084 Wed Nov 08 08:52:33 2000 /etc/rc.d/init.d/yppasswdd
+-rwxr-xr-x   1 0        0            1137 Wed Nov 08 08:52:33 2000 /etc/rc.d/init.d/ypserv
+
+] Installation of telnet-0.10
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:52:33 2000 /etc/X11/wmconfig
+lrwxrwxrwx   1 0        0              12 Wed Nov 08 08:52:33 2000 /usr/man/man8/telnetd.8 -> in.telnetd.8
+
+] Installation of screen-3.9.4
+-rw-r--r--   1 0        0            1978 Wed Nov 08 08:52:33 2000 /usr/info/screen.info.gz
+-rw-r--r--   1 0        0           13281 Wed Nov 08 08:52:33 2000 /etc/info-dir
+-rwxr-xr-x   1 0        0           75144 Wed Nov 08 08:52:33 2000 /sbin/install-info
+lrwxrwxrwx   1 0        0              18 Wed Nov 08 08:52:33 2000 /usr/info/dir -> ../../etc/info-dir
+
+] wtmp removed and re-created
+-rw-r--r--   1 0        0             768 Wed Nov 08 08:52:33 2000 /var/log/wtmp
+
+] Installing BitchX client in /bin/bx
+-rwxr-xr-x   1 0        0         1052024 Wed Nov 08 08:52:33 2000 /bin/bx
+
+] Installing ssh (backdoored)
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:06 2000 /root/.ssh
+-rw-r--r--   1 0        0            3970 Wed Nov 08 08:53:06 2000 /usr/lib/libbsd-compat.a
+lrwxrwxrwx   1 0        0              15 Wed Nov 08 08:53:06 2000 /usr/lib/libbsd.a -> libbsd-compat.a
+lrwxrwxrwx   1 0        0              23 Wed Nov 08 08:53:06 2000 /usr/lib/libcrypt.so -> ../../lib/libcrypt.so.1
+lrwxrwxrwx   1 0        0              21 Wed Nov 08 08:53:06 2000 /usr/lib/libnsl.so -> ../../lib/libnsl.so.1
+lrwxrwxrwx   1 0        0              22 Wed Nov 08 08:53:06 2000 /usr/lib/libutil.so -> ../../lib/libutil.so.1
+drwxr-xr-x   6 0        0           34816 Wed Nov 08 08:53:08 2000 /dev
+-rw-------   1 0        0             512 Wed Nov 08 08:53:08 2000 /root/.ssh/random_seed
+-rw-r--r--   1 0        0             880 Wed Nov 08 08:53:10 2000 /etc/ssh_config
+-rw-r--r--   1 0        0             341 Wed Nov 08 08:53:10 2000 /etc/ssh_host_key.pub
+lrwxrwxrwx   1 0        0               3 Wed Nov 08 08:53:11 2000 /usr/local/bin/slogin -> ssh
+lrwxrwxrwx   1 0        0               4 Wed Nov 08 08:53:11 2000 /usr/local/bin/ssh -> ssh1
+lrwxrwxrwx   1 0        0              11 Wed Nov 08 08:53:11 2000 /usr/local/bin/ssh-keygen -> ssh-keygen1
+-rwxr-xr-x   1 0        0          327262 Wed Nov 08 08:53:11 2000 /usr/local/bin/ssh-keygen1
+-rws--x--x   1 0        0          604938 Wed Nov 08 08:53:11 2000 /usr/local/bin/ssh1
+lrwxrwxrwx   1 0        0              21 Wed Nov 08 08:53:12 2000 /usr/local/bin/make-ssh-known-hosts -> make-ssh-known-hosts1
+-rwxr-xr-x   1 0        0           21228 Wed Nov 08 08:53:12 2000 /usr/local/bin/make-ssh-known-hosts1
+lrwxrwxrwx   1 0        0               4 Wed Nov 08 08:53:12 2000 /usr/local/bin/scp -> scp1
+-rwxr-xr-x   1 0        0           90424 Wed Nov 08 08:53:12 2000 /usr/local/bin/scp1
+lrwxrwxrwx   1 0        0               8 Wed Nov 08 08:53:12 2000 /usr/local/bin/ssh-add -> ssh-add1
+-rwxr-xr-x   1 0        0          337617 Wed Nov 08 08:53:12 2000 /usr/local/bin/ssh-add1
+lrwxrwxrwx   1 0        0              10 Wed Nov 08 08:53:12 2000 /usr/local/bin/ssh-agent -> ssh-agent1
+-rwxr-xr-x   1 0        0          343586 Wed Nov 08 08:53:12 2000 /usr/local/bin/ssh-agent1
+lrwxrwxrwx   1 0        0               4 Wed Nov 08 08:53:13 2000 /bin/awk -> gawk
+-rwxr-xr-x   2 0        0          148848 Wed Nov 08 08:53:13 2000 /bin/gawk
+-rwxr-xr-x   2 0        0          148848 Wed Nov 08 08:53:13 2000 /bin/gawk-3.0.4
+-rwxr-xr-x   1 0        0           20240 Wed Nov 08 08:53:13 2000 /bin/ln
+lrwxrwxrwx   1 0        0              23 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/make-ssh-known-hosts.1 -> make-ssh-known-hosts1.1
+-rw-r--r--   1 0        0           12272 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/make-ssh-known-hosts1.1
+lrwxrwxrwx   1 0        0               6 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/scp.1 -> scp1.1
+-rw-r--r--   1 0        0            4892 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/scp1.1
+lrwxrwxrwx   1 0        0               5 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/slogin.1 -> ssh.1
+lrwxrwxrwx   1 0        0               6 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/slogin1.1 -> ssh1.1
+lrwxrwxrwx   1 0        0              10 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh-add.1 -> ssh-add1.1
+-rw-r--r--   1 0        0            4007 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh-add1.1
+lrwxrwxrwx   1 0        0              12 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh-agent.1 -> ssh-agent1.1
+-rw-r--r--   1 0        0            6265 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh-agent1.1
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh-keygen.1 -> ssh-keygen1.1
+-rw-r--r--   1 0        0            5824 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh-keygen1.1
+lrwxrwxrwx   1 0        0               6 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh.1 -> ssh1.1
+-rw-r--r--   1 0        0           38572 Wed Nov 08 08:53:13 2000 /usr/local/man/man1/ssh1.1
+lrwxrwxrwx   1 0        0               7 Wed Nov 08 08:53:13 2000 /usr/local/man/man8/sshd.8 -> sshd1.8
+-rw-r--r--   1 0        0           37023 Wed Nov 08 08:53:13 2000 /usr/local/man/man8/sshd1.8
+drwxr-xr-x   2 0        0            2048 Wed Nov 08 08:53:28 2000 /bin
+drwxr-xr-x  29 0        0            3072 Wed Nov 08 08:53:28 2000 /etc
+drwxr-xr-x   4 0        0            3072 Wed Nov 08 08:53:28 2000 /lib
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:28 2000 /opt
+drwxr-xr-x   3 0        0            3072 Wed Nov 08 08:53:28 2000 /sbin
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/X11R6/bin
+drwxr-xr-x   6 0        0           16384 Wed Nov 08 08:53:28 2000 /usr/bin
+lrwxrwxrwx   1 0        0              12 Wed Nov 08 08:53:28 2000 /usr/bin/X11 -> ../X11R6/bin
+-rwxr-xr-x   1 0        0            6864 Wed Nov 08 08:53:28 2000 /usr/bin/whereis
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/etc
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/games
+drwxr-xr-x  35 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/include
+drwxr-xr-x  34 0        0            8192 Wed Nov 08 08:53:28 2000 /usr/lib
+drwxr-xr-x   4 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/lib/emacs
+drwxr-xr-x   3 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/libexec
+drwxr-xr-x  11 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/local
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/local/bin
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/local/etc
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/local/games
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/local/lib
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/local/sbin
+drwxr-xr-x  14 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man
+drwxr-xr-x   2 0        0           16384 Wed Nov 08 08:53:28 2000 /usr/man/man1
+drwxr-xr-x   2 0        0            8192 Wed Nov 08 08:53:28 2000 /usr/man/man2
+drwxr-xr-x   2 0        0           24576 Wed Nov 08 08:53:28 2000 /usr/man/man3
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man/man4
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man/man5
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man/man6
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man/man7
+drwxr-xr-x   2 0        0           12288 Wed Nov 08 08:53:28 2000 /usr/man/man8
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man/man9
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man/manl
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/man/mann
+drwxr-xr-x   2 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/sbin
+drwxr-xr-x  23 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/share
+drwxr-xr-x   4 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/src
+lrwxrwxrwx   1 0        0              12 Wed Nov 08 08:53:28 2000 /usr/src/linux -> linux-2.2.14
+drwxr-xr-x   4 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/src/linux-2.2.14
+drwxr-xr-x   7 0        0            4096 Wed Nov 08 08:53:28 2000 /usr/src/redhat
+-rwxr-xr-x   1 0        0           32816 Wed Nov 08 08:53:33 2000 /bin/netstat
+-rw-r--r--   1 0        0          202709 Wed Nov 08 08:53:33 2000 /boot/System.map-2.2.14-5.0
+-rw-------   1 0        0             537 Wed Nov 08 08:53:33 2000 /etc/ssh_host_key
+-rw-------   1 0        0             512 Wed Nov 08 08:53:33 2000 /etc/ssh_random_seed
+-rw-r--r--   1 0        0             684 Wed Nov 08 08:53:33 2000 /etc/sshd_config
+-rwxr-xr-x   1 0        0           47008 Wed Nov 08 08:53:33 2000 /lib/libutil-2.1.3.so
+lrwxrwxrwx   1 0        0              16 Wed Nov 08 08:53:33 2000 /lib/libutil.so.1 -> libutil-2.1.3.so
+lrwxrwxrwx   1 0        0               5 Wed Nov 08 08:53:33 2000 /usr/local/sbin/sshd -> sshd1
+-rwxr-xr-x   1 0        0          643674 Wed Nov 08 08:53:33 2000 /usr/local/sbin/sshd1
+-rw-r--r--   1 0        0               5 Wed Nov 08 08:53:33 2000 /var/run/sshd.pid
+crw-r--r--   1 0        0          1,   8 Wed Nov 08 09:53:36 2000 /dev/random
+
+] Installing wu-ftpd
+-rwx------   1 0        0          767016 Wed Nov 08 08:53:41 2000 /bin/linuxconf
+lrwxrwxrwx   1 0        0              12 Wed Nov 08 08:53:41 2000 /usr/lib/libgd.so.1 -> libgd.so.1.2
+-rwxr-xr-x   1 0        0          156353 Wed Nov 08 08:53:41 2000 /usr/lib/libgd.so.1.2
+lrwxrwxrwx   1 1        1               7 Wed Nov 08 08:53:41 2000 /usr/sbin/in.wuftpd -> in.ftpd
+lrwxrwxrwx   1 1        1               7 Wed Nov 08 08:53:41 2000 /usr/sbin/wu.ftpd -> in.ftpd
+-rw-------   1 0        0             314 Wed Nov 08 08:53:43 2000 /etc/conf.linuxconf
+-rw-r--r--   1 0        0              33 Wed Nov 08 08:53:43 2000 /etc/redhat-release
+-rw-r--r--   1 0        0           44269 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/help.eng/linuxconf-msg-1.17r2.eng
+-rw-r--r--   1 0        0            1105 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/help.eng/redhat-msg-1.17r2.eng
+drwxr-xr-x   5 0        0            4096 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/redhat
+-rw-r--r--   1 0        0             313 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/redhat/linuxconf.paths
+-rw-r--r--   1 0        0              36 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/redhat/mailconf.paths
+-rw-r--r--   1 0        0              39 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/redhat/managerpm.paths
+-rwxr-xr-x   1 0        0          264822 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/redhat/redhat.so.1.17.2
+-rw-r--r--   1 0        0              45 Wed Nov 08 08:53:43 2000 /usr/lib/linuxconf/redhat/squid.paths
+
+] Installing nfs-utils-0.1.9.1
+-rwxr-xr-x   1 0        0          886424 Wed Nov 08 08:53:47 2000 /bin/rpm
+-rw-r--r--   1 0        0           17151 Wed Nov 08 08:53:47 2000 /usr/lib/rpm/macros
+-rw-r--r--   1 0        0            3683 Wed Nov 08 08:53:47 2000 /usr/lib/rpm/rpmpopt
+-rw-r--r--   1 0        0            7716 Wed Nov 08 08:53:47 2000 /usr/lib/rpm/rpmrc
+-rw-r--r--   1 0        0           16384 Wed Nov 08 08:53:47 2000 /var/lib/rpm/conflictsindex.rpm
+-rw-r--r--   1 0        0           16384 Wed Nov 08 08:53:47 2000 /var/lib/rpm/nameindex.rpm
+-rw-r--r--   1 0        0           49152 Wed Nov 08 08:53:47 2000 /var/lib/rpm/requiredby.rpm
+-rwxr-xr-x   1 0        0            2257 Wed Nov 08 08:53:49 2000 /etc/rc.d/init.d/nfs
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:49 2000 /etc/rc.d/rc0.d
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:49 2000 /etc/rc.d/rc1.d
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:49 2000 /etc/rc.d/rc2.d
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:49 2000 /etc/rc.d/rc4.d
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:49 2000 /etc/rc.d/rc5.d
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 08:53:49 2000 /etc/rc.d/rc6.d
+-rwxr-xr-x   1 0        0           32197 Wed Nov 08 08:53:49 2000 /usr/lib/gconv/ISO8859-1.so
+-rw-r--r--   1 0        0           33711 Wed Nov 08 08:53:49 2000 /usr/lib/gconv/gconv-modules
+lrwxrwxrwx   1 0        0              10 Wed Nov 08 08:53:49 2000 /usr/man/man8/rpc.lockd.8.gz -> lockd.8.gz
+lrwxrwxrwx   1 0        0              11 Wed Nov 08 08:53:49 2000 /usr/man/man8/rpc.mountd.8.gz -> mountd.8.gz
+lrwxrwxrwx   1 0        0               9 Wed Nov 08 08:53:49 2000 /usr/man/man8/rpc.nfsd.8.gz -> nfsd.8.gz
+lrwxrwxrwx   1 0        0              12 Wed Nov 08 08:53:49 2000 /usr/man/man8/rpc.rquotad.8.gz -> rquotad.8.gz
+lrwxrwxrwx   1 0        0              10 Wed Nov 08 08:53:49 2000 /usr/man/man8/rpc.statd.8.gz -> statd.8.gz
+-rw-r--r--   1 0        0           16384 Wed Nov 08 08:53:49 2000 /var/lib/rpm/groupindex.rpm
+-rw-r--r--   1 0        0           49152 Wed Nov 08 08:53:49 2000 /var/lib/rpm/providesindex.rpm
+-rw-r--r--   1 0        0           16384 Wed Nov 08 08:53:49 2000 /var/lib/rpm/triggerindex.rpm
+-rwxr-xr-x   1 0        0            7349 Wed Nov 08 08:53:50 2000 /etc/rc.d/init.d/functions
+-rw-r--r--   1 0        0             952 Wed Nov 08 08:53:50 2000 /etc/sysconfig/init
+-rw-r--r--   1 0        0              63 Wed Nov 08 08:53:50 2000 /etc/sysconfig/network
+-rwxr-xr-x   1 0        0            2684 Wed Nov 08 08:53:50 2000 /sbin/consoletype
+-rwxr-xr-x   1 0        0            2848 Wed Nov 08 08:53:50 2000 /sbin/rpc.lockd
+-rw-r--r--   1 0        0         1343488 Wed Nov 08 08:53:50 2000 /var/lib/rpm/fileindex.rpm
+-rw-r--r--   1 0        0         4173832 Wed Nov 08 08:53:50 2000 /var/lib/rpm/packages.rpm
+-rwxr-xr-x   1 0        0            5756 Wed Nov 08 08:54:05 2000 /bin/basename
+-rwxr-xr-x   1 0        0            7084 Wed Nov 08 08:54:05 2000 /bin/nice
+-rwxr-xr-x   1 0        0           23120 Wed Nov 08 08:54:05 2000 /bin/touch
+-rw-r--r--   1 0        0             562 Wed Nov 08 08:54:05 2000 /etc/initlog.conf
+-rwxr-xr-x   1 0        0            1722 Wed Nov 08 08:54:05 2000 /etc/rc.d/init.d/nfslock
+-rwxr-xr-x   1 0        0           25716 Wed Nov 08 08:54:05 2000 /sbin/initlog
+-rwxr-xr-x   1 0        0            8128 Wed Nov 08 08:54:05 2000 /sbin/killall5
+lrwxrwxrwx   1 0        0               8 Wed Nov 08 08:54:05 2000 /sbin/pidof -> killall5
+-rwxr-xr-x   1 0        0           19888 Wed Nov 08 08:54:05 2000 /sbin/rpc.statd
+drwx------   2 0        0            1024 Wed Nov 08 08:54:05 2000 /var/lib/nfs/sm
+drwx------   2 0        0            1024 Wed Nov 08 08:54:05 2000 /var/lib/nfs/sm.bak
+-rw-------   1 0        0               4 Wed Nov 08 08:54:05 2000 /var/lib/nfs/state
+-rw-r--r--   1 0        0               0 Wed Nov 08 08:54:05 2000 /var/lock/subsys/nfslock
+
+
+] Installing named (BIND)
+-rwxr-xr-x   1 0        0           43024 Wed Nov 08 08:54:10 2000 /usr/bin/dir
+-rwxr-xr-x   1 0        0            6416 Wed Nov 08 08:54:22 2000 /usr/local/bin/addr
+-rwxr-xr-x   1 0        0          241744 Wed Nov 08 08:54:23 2000 /usr/local/bin/dnsquery
+-rwxr-xr-x   1 0        0          260816 Wed Nov 08 08:54:23 2000 /usr/local/bin/host
+-rwxr-xr-x   1 0        0          263960 Wed Nov 08 08:54:23 2000 /usr/local/sbin/irpd
+-rwxr-xr-x   1 0        0            3296 Wed Nov 08 08:54:24 2000 /usr/local/bin/mkservdb
+-rwxr-xr-x   1 0        0          241792 Wed Nov 08 08:54:24 2000 /usr/local/bin/nsupdate
+-rwxr-xr-x   1 0        0            7166 Wed Nov 08 08:54:24 2000 /usr/local/sbin/named-bootconf
+-rwxr-xr-x   1 0        0           36960 Wed Nov 08 08:54:24 2000 /usr/local/sbin/ndc
+-rwxr-xr-x   1 0        0           38096 Wed Nov 08 08:54:24 2000 /usr/bin/install
+-rwxr-xr-x   1 0        0          176464 Wed Nov 08 08:54:24 2000 /usr/bin/strip
+-rwxr-xr-x   1 0        0           33392 Wed Nov 08 08:54:25 2000 /bin/cp
+-rw-r--r--   1 0        0             547 Wed Nov 08 08:54:25 2000 /etc/named.conf
+-rwxr-xr-x   1 0        0          525412 Wed Nov 08 08:54:25 2000 /usr/local/sbin/named
+-rwxr-xr-x   1 0        0          525412 Wed Nov 08 08:54:25 2000 /usr/sbin/named
+-rwxr-xr-x   1 0        0           35504 Wed Nov 08 08:54:25 2000 /usr/sbin/ndc
+-rw-r--r--   1 0        0            2769 Wed Nov 08 08:54:25 2000 /var/named/named.ca
+-rw-r--r--   1 0        0             422 Wed Nov 08 08:54:25 2000 /var/named/named.local
+-rw-r--r--   1 0        0               5 Wed Nov 08 08:54:25 2000 /var/run/named.pid
+srw-------   1 0        0               0 Wed Nov 08 08:54:25 2000 /var/run/ndc
+-rwxr-xr-x   1 0        0          271188 Wed Nov 08 08:54:28 2000 /usr/local/bin/dig
+
+] Configuring backdoors and cleanup
+-rw-r--r--   1 0        0              78 Wed Nov 08 08:55:30 2000 /usr/libexec/awk/addy.awk
+-rwxr-xr-x   1 1010     100         12408 Wed Nov 08 08:55:47 2000 /usr/man/.Ci/addn
+-rwxr-xr-x   1 1010     100           328 Wed Nov 08 08:55:58 2000 /usr/man/.Ci/do
+
+] Cleanup (logs+unnecessary files)
+-rw-r--r--   1 0        0            7974 Wed Nov 08 08:56:02 2000 /var/log/messages
+-rw-r--r--   1 0        0             268 Wed Nov 08 08:56:02 2000 /var/log/secure
+-rw-r--r--   1 0        0               0 Wed Nov 08 08:56:02 2000 /var/log/xferlog
+-rwxr-xr-x   1 1010     100          3098 Wed Nov 08 08:56:04 2000 /usr/man/.Ci/snap
+-rwxr-xr-x   1 1010     100           188 Wed Nov 08 08:56:11 2000 /usr/man/.Ci/rmS
+
+] Running BitchX client 
+-rwxr-xr-x   1 0        0          527442 Wed Nov 08 08:56:25 2000 /lib/libm-2.1.3.so
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 08:56:25 2000 /lib/libm.so.6 -> libm-2.1.3.so
+-rwxr-xr-x   1 1010     100       1052024 Wed Nov 08 08:56:25 2000 /usr/man/.Ci/bx
+
+] Running chmod-it
+-rwxr-xr-x   1 0        0            5760 Wed Nov 08 08:56:59 2000 /bin/sleep
+-rwxr-xr-x   1 1010     100           699 Wed Nov 08 08:57:00 2000 /usr/man/.Ci/chmod-it
+
+] Unpacking and compiling tpack (eggdrop) in /dev/ (see other.txt)
+lrwxrwxrwx   1 0        0               8 Wed Nov 08 08:56:26 2000 /usr/bin/uncompress -> compress
+lrwxrwxrwx   1 0        0               9 Wed Nov 08 08:56:42 2000 /.bash_history -> /dev/null
+drwxr-xr-x   6 1010     100          4096 Wed Nov 08 08:56:57 2000 /usr/man/.Ci
+drwxr-xr-x   6 1010     100          4096 Wed Nov 08 08:56:57 2000 /usr/man/.Ci/
+drwxr-xr-x   6 1010     100          4096 Wed Nov 08 08:56:57 2000 /usr/man/.Ci/
+-rwxr-xr-x   1 0        0           13696 Wed Nov 08 08:57:06 2000 /bin/mkdir
+drwxrwxrwt   3 0        0            1024 Wed Nov 08 08:57:08 2000 /tmp
+-rwxr-xr-x   1 0        0           11952 Wed Nov 08 08:58:19 2000 /bin/chown
+-rwsr-xr-x   1 0        0           14188 Wed Nov 08 08:58:26 2000 /bin/su
+-rw-r--r--   1 0        0             331 Wed Nov 08 08:58:26 2000 /etc/pam.d/su
+-rwxr-xr-x   1 0        0           17282 Wed Nov 08 08:58:26 2000 /lib/security/pam_xauth.so
+-rwxr-xr-x   3 0        0           46384 Wed Nov 08 08:58:28 2000 /bin/gunzip
+-rwxr-xr-x   3 0        0           46384 Wed Nov 08 08:58:28 2000 /bin/gzip
+-rwxr-xr-x   3 0        0           46384 Wed Nov 08 08:58:28 2000 /bin/zcat
+-rwxr-xr-x   1 0        0          144592 Wed Nov 08 08:58:41 2000 /bin/tar
+-rwxr-xr-x   1 0        0           75600 Wed Nov 08 08:58:54 2000 /bin/egrep
+-rwxr-xr-x   1 0        0            6196 Wed Nov 08 08:58:54 2000 /bin/uname
+-rwxr-xr-x   1 0        0           44880 Wed Nov 08 08:58:55 2000 /bin/sed
+-rwxr-xr-x   1 0        0           21264 Wed Nov 08 08:58:55 2000 /usr/bin/tr
+-rwxr-xr-x   1 0        0           25680 Wed Nov 08 08:58:56 2000 /bin/date
+-rwxr-xr-x   1 0        0          104316 Wed Nov 08 08:58:56 2000 /usr/bin/make
+-rw-r--r--   1 0        0             168 Wed Nov 08 08:58:56 2000 /usr/include/bits/endian.h
+-rw-r--r--   1 0        0            2783 Wed Nov 08 08:58:56 2000 /usr/include/bits/select.h
+-rw-r--r--   1 0        0            4673 Wed Nov 08 08:58:56 2000 /usr/include/bits/sigset.h
+-rw-r--r--   1 0        0            5049 Wed Nov 08 08:58:56 2000 /usr/include/bits/stdio.h
+-rw-r--r--   1 0        0            1798 Wed Nov 08 08:58:56 2000 /usr/include/endian.h
+-rw-r--r--   1 0        0           27633 Wed Nov 08 08:58:56 2000 /usr/include/stdlib.h
+-rw-r--r--   1 0        0            3359 Wed Nov 08 08:58:56 2000 /usr/include/sys/select.h
+-rw-r--r--   1 0        0            5374 Wed Nov 08 08:58:56 2000 /usr/include/sys/types.h
+-rwxr-xr-x   1 0        0           13436 Wed Nov 08 08:58:57 2000 /bin/chmod
+-rwxr-xr-x   1 0        0           41104 Wed Nov 08 08:58:57 2000 /bin/mv
+-rwxr-xr-x   1 0        0          207600 Wed Nov 08 08:58:57 2000 /usr/bin/as
+-rwxr-xr-x   3 0        0           63376 Wed Nov 08 08:58:57 2000 /usr/bin/egcs
+-rwxr-xr-x   3 0        0           63376 Wed Nov 08 08:58:57 2000 /usr/bin/gcc
+-rwxr-xr-x   3 0        0           63376 Wed Nov 08 08:58:57 2000 /usr/bin/i386-redhat-linux-gcc
+-rwxr-xr-x   1 0        0          205136 Wed Nov 08 08:58:57 2000 /usr/bin/ld
+-rw-r--r--   1 0        0            2315 Wed Nov 08 08:58:57 2000 /usr/include/_G_config.h
+-rw-r--r--   1 0        0            1313 Wed Nov 08 08:58:57 2000 /usr/include/alloca.h
+-rw-r--r--   1 0        0           13327 Wed Nov 08 08:58:57 2000 /usr/include/bits/confname.h
+-rw-r--r--   1 0        0            3406 Wed Nov 08 08:58:57 2000 /usr/include/bits/posix_opt.h
+-rw-r--r--   1 0        0            1297 Wed Nov 08 08:58:57 2000 /usr/include/bits/stdio_lim.h
+-rw-r--r--   1 0        0           21810 Wed Nov 08 08:58:57 2000 /usr/include/bits/string.h
+-rw-r--r--   1 0        0           41832 Wed Nov 08 08:58:57 2000 /usr/include/bits/string2.h
+-rw-r--r--   1 0        0            2015 Wed Nov 08 08:58:57 2000 /usr/include/bits/time.h
+-rw-r--r--   1 0        0            4680 Wed Nov 08 08:58:57 2000 /usr/include/bits/types.h
+-rw-r--r--   1 0        0            9512 Wed Nov 08 08:58:57 2000 /usr/include/features.h
+-rw-r--r--   1 0        0            5861 Wed Nov 08 08:58:57 2000 /usr/include/getopt.h
+-rw-r--r--   1 0        0            1021 Wed Nov 08 08:58:57 2000 /usr/include/gnu/stubs.h
+-rw-r--r--   1 0        0           11673 Wed Nov 08 08:58:57 2000 /usr/include/libio.h
+-rw-r--r--   1 0        0           20926 Wed Nov 08 08:58:57 2000 /usr/include/stdio.h
+-rw-r--r--   1 0        0           13456 Wed Nov 08 08:58:57 2000 /usr/include/string.h
+-rw-r--r--   1 0        0            4951 Wed Nov 08 08:58:57 2000 /usr/include/sys/cdefs.h
+-rw-r--r--   1 0        0            2058 Wed Nov 08 08:58:57 2000 /usr/include/sys/sysmacros.h
+-rw-r--r--   1 0        0            5337 Wed Nov 08 08:58:57 2000 /usr/include/sys/time.h
+-rw-r--r--   1 0        0            9314 Wed Nov 08 08:58:57 2000 /usr/include/time.h
+-rw-r--r--   1 0        0           36756 Wed Nov 08 08:58:57 2000 /usr/include/unistd.h
+-rw-r--r--   1 0        0            8512 Wed Nov 08 08:58:57 2000 /usr/lib/crt1.o
+-rw-r--r--   1 0        0            1124 Wed Nov 08 08:58:57 2000 /usr/lib/crti.o
+-rw-r--r--   1 0        0             874 Wed Nov 08 08:58:57 2000 /usr/lib/crtn.o
+-rwxr-xr-x   1 0        0         1440240 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/cc1
+-rwxr-xr-x   1 0        0           45488 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/collect2
+-rwxr-xr-x   1 0        0           87312 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/cpp
+-rw-r--r--   1 0        0            1892 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtbegin.o
+-rw-r--r--   1 0        0            1424 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtend.o
+-rw-r--r--   1 0        0            5794 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
+-rw-r--r--   1 0        0            9834 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
+-rw-r--r--   1 0        0          769892 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/libgcc.a
+-rw-r--r--   1 0        0            1926 Wed Nov 08 08:58:57 2000 /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/specs
+-rwxr-xr-x   1 0        0          314936 Wed Nov 08 08:58:57 2000 /usr/lib/libbfd-2.9.5.0.22.so
+-rw-r--r--   1 0        0             178 Wed Nov 08 08:58:57 2000 /usr/lib/libc.so
+-rw-r--r--   1 0        0           69994 Wed Nov 08 08:58:57 2000 /usr/lib/libc_nonshared.a
+-rwxr-xr-x   1 0        0           20240 Wed Nov 08 08:59:14 2000 /bin/rm
+lrwxrwxrwx   1 0        0               9 Wed Nov 08 08:59:52 2000 /tmp/.bash_history -> /dev/null
+
+
+] Second login (using backdoor in SSH)
+-rw-r--r--   1 0        0              26 Wed Nov 08 09:02:22 2000 /etc/host.conf
+-rwxr-xr-x   1 0        0           67580 Wed Nov 08 09:02:22 2000 /lib/libnss_dns-2.1.3.so
+lrwxrwxrwx   1 0        0              19 Wed Nov 08 09:02:22 2000 /lib/libnss_dns.so.2 -> libnss_dns-2.1.3.so
+-rwxr-xr-x   1 0        0          169720 Wed Nov 08 09:02:22 2000 /lib/libresolv-2.1.3.so
+lrwxrwxrwx   1 0        0              18 Wed Nov 08 09:02:22 2000 /lib/libresolv.so.2 -> libresolv-2.1.3.so
+-rw-r--r--   1 0        0              68 Wed Nov 08 09:02:23 2000 /etc/hosts
+-rw-r--r--   1 0        0            1567 Wed Nov 08 09:02:23 2000 /etc/protocols
+lrwxrwxrwx   1 0        0              10 Wed Nov 08 09:02:28 2000 /usr/tmp -> ../var/tmp
+-rw-r--r--   1 0        0             184 Wed Nov 08 09:02:28 2000 /var/tmp/nap
+
+] Is there someone in the house ?
+-rwxr-xr-x   1 0        0           44108 Wed Nov 08 09:02:30 2000 /lib/libproc.so.2.0.6
+-r-xr-xr-x   1 0        0            8860 Wed Nov 08 09:02:30 2000 /usr/bin/w
+-r-xr-xr-x   1 0        0           39423 Wed Nov 08 09:02:31 2000 /bin/ps
+-rw-r--r--   1 1010     100           171 Wed Nov 08 09:02:31 2000 /dev/ptyp
+-rw-rw-r--   1 0        0           12288 Wed Nov 08 09:02:32 2000 /etc/psdevtab
+
+] Removing the inetd backdoor (port 4545) and restaring inetd
+-rwxr-xr-x   1 0        0          166416 Wed Nov 08 09:02:42 2000 /usr/bin/pico
+-rw-r--r--   1 0        0            3027 Wed Nov 08 09:03:12 2000 /etc/inetd.conf
+-rwxr-xr-x   1 0        0           10160 Wed Nov 08 09:03:12 2000 /usr/bin/killall
+
+] Logout
+-rw-r--r--   1 0        0              24 Wed Nov 08 09:03:15 2000 /root/.bash_logout
+-rwxr-xr-x   1 0        0            3124 Wed Nov 08 09:03:15 2000 /usr/bin/clear
+-rw-r--r--   2 0        0            1143 Wed Nov 08 09:03:15 2000 /usr/share/terminfo/v/vt100
+-rw-r--r--   2 0        0            1143 Wed Nov 08 09:03:15 2000 /usr/share/terminfo/v/vt100-am
+
+
+
+
+] And the rest of the story is the intrusion analyst
+-rw-r--r--   1 0        0           20480 Wed Nov 08 20:33:45 2000 /etc/aliases.db
+-rw-r--r--   1 0        0           20480 Wed Nov 08 20:33:45 2000 /etc/mail/access.db
+-rw-r--r--   1 0        0            4096 Wed Nov 08 20:33:45 2000 /etc/mail/mailertable.db
+-rw-r--r--   1 0        0            4096 Wed Nov 08 20:33:45 2000 /etc/mail/virtusertable.db
+-rwxr-xr-x   1 0        0           20452 Wed Nov 08 20:37:30 2000 /bin/login
+-rw-r--r--   1 0        0            1262 Wed Nov 08 20:37:30 2000 /etc/localtime
+-rw-r--r--   1 0        0             437 Wed Nov 08 20:37:30 2000 /etc/pam.d/login
+-rw-r--r--   1 0        0             210 Wed Nov 08 20:37:30 2000 /etc/pam.d/other
+-rwxr-xr-x   1 0        0           64478 Wed Nov 08 20:37:30 2000 /lib/libcrypt-2.1.3.so
+lrwxrwxrwx   1 0        0              17 Wed Nov 08 20:37:30 2000 /lib/libcrypt.so.1 -> libcrypt-2.1.3.so
+-rwxr-xr-x   1 0        0           75131 Wed Nov 08 20:37:30 2000 /lib/libdl-2.1.3.so
+lrwxrwxrwx   1 0        0              14 Wed Nov 08 20:37:30 2000 /lib/libdl.so.2 -> libdl-2.1.3.so
+lrwxrwxrwx   1 0        0              14 Wed Nov 08 20:37:30 2000 /lib/libpam.so.0 -> libpam.so.0.72
+-rwxr-xr-x   1 0        0           33654 Wed Nov 08 20:37:30 2000 /lib/libpam.so.0.72
+lrwxrwxrwx   1 0        0              19 Wed Nov 08 20:37:30 2000 /lib/libpam_misc.so.0 -> libpam_misc.so.0.72
+-rwxr-xr-x   1 0        0           10303 Wed Nov 08 20:37:30 2000 /lib/libpam_misc.so.0.72
+lrwxrwxrwx   1 0        0              15 Wed Nov 08 20:37:30 2000 /lib/libpwdb.so.0 -> libpwdb.so.0.61
+-rwxr-xr-x   1 0        0          140186 Wed Nov 08 20:37:30 2000 /lib/libpwdb.so.0.61
+-rwxr-xr-x   1 0        0           35801 Wed Nov 08 20:37:30 2000 /lib/security/pam_console.so
+-rwxr-xr-x   1 0        0           14258 Wed Nov 08 20:37:30 2000 /lib/security/pam_cracklib.so
+-rwxr-xr-x   1 0        0            5359 Wed Nov 08 20:37:30 2000 /lib/security/pam_deny.so
+-rwxr-xr-x   1 0        0            6196 Wed Nov 08 20:37:30 2000 /lib/security/pam_nologin.so
+-rwxr-xr-x   1 0        0           35619 Wed Nov 08 20:37:30 2000 /lib/security/pam_pwdb.so
+-rwxr-xr-x   1 0        0            7773 Wed Nov 08 20:37:30 2000 /lib/security/pam_securetty.so
+lrwxrwxrwx   1 0        0              15 Wed Nov 08 20:37:30 2000 /usr/lib/libcrack.so.2 -> libcrack.so.2.7
+-rwxr-xr-x   1 0        0           57882 Wed Nov 08 20:37:30 2000 /usr/lib/libcrack.so.2.7
+lrwxrwxrwx   1 0        0              20 Wed Nov 08 20:37:30 2000 /usr/lib/libglib-1.2.so.0 -> libglib-1.2.so.0.0.6
+-rwxr-xr-x   1 0        0          164253 Wed Nov 08 20:37:30 2000 /usr/lib/libglib-1.2.so.0.0.6
+-rw-------   1 0        0              40 Wed Nov 08 20:37:35 2000 /etc/securetty
+crw-------   1 0        5          4,   1 Wed Nov 08 20:37:37 2000 /dev/tty1
+-rwxr-xr-x   1 0        0           75600 Wed Nov 08 20:37:37 2000 /bin/grep
+-rwxr-xr-x   1 0        0            8896 Wed Nov 08 20:37:37 2000 /bin/hostname
+-rwxr-xr-x   1 0        0           26668 Wed Nov 08 20:37:37 2000 /bin/stty
+-rw-r--r--   1 0        0            2434 Wed Nov 08 20:37:37 2000 /etc/DIR_COLORS
+-rw-r--r--   1 0        0             582 Wed Nov 08 20:37:37 2000 /etc/bashrc
+-rw-r--r--   1 0        0               0 Wed Nov 08 20:37:37 2000 /etc/motd
+-rw-r--r--   1 0        0             547 Wed Nov 08 20:37:37 2000 /etc/profile
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 20:37:37 2000 /etc/profile.d
+-rwxr-xr-x   1 0        0             234 Wed Nov 08 20:37:37 2000 /etc/profile.d/colorls.sh
+-rwxr-xr-x   1 0        0            1522 Wed Nov 08 20:37:37 2000 /etc/profile.d/lang.sh
+-rwxr-xr-x   1 0        0             120 Wed Nov 08 20:37:37 2000 /etc/profile.d/less.sh
+-rwxr-xr-x   1 0        0             125 Wed Nov 08 20:37:37 2000 /etc/profile.d/which-2.sh
+-rw-r--r--   1 0        0             134 Wed Nov 08 20:37:37 2000 /etc/pwdb.conf
+-rw-r--r--   1 0        0             601 Wed Nov 08 20:37:37 2000 /etc/shadow
+-rw-r--r--   1 0        0              13 Wed Nov 08 20:37:37 2000 /etc/sysconfig/i18n
+-rw-r--r--   1 0        0             238 Wed Nov 08 20:37:37 2000 /root/.bash_profile
+-rw-r--r--   1 0        0             176 Wed Nov 08 20:37:37 2000 /root/.bashrc
+-rwxr-xr-x   1 0        0           13776 Wed Nov 08 20:37:37 2000 /usr/bin/dircolors
+-rwxr-xr-x   1 0        0            9264 Wed Nov 08 20:37:37 2000 /usr/bin/id
+-rwxr-xr-x   1 0        0            7068 Wed Nov 08 20:37:37 2000 /usr/bin/tput
+lrwxrwxrwx   1 0        0              17 Wed Nov 08 20:37:37 2000 /usr/lib/libncurses.so.4 -> libncurses.so.4.0
+-rwxr-xr-x   1 0        0          262884 Wed Nov 08 20:37:37 2000 /usr/lib/libncurses.so.4.0
+-rw-r--r--   1 0        0            1576 Wed Nov 08 20:37:37 2000 /usr/share/terminfo/l/linux
+-rw-r--r--   1 0        0         1460292 Wed Nov 08 20:37:37 2000 /var/log/lastlog
+-rw-r--r--   1 0        0             413 Wed Nov 08 20:37:38 2000 /etc/inputrc
+-rw-r--r--   1 0        0          625272 Wed Nov 08 20:37:38 2000 /etc/termcap
+lrwxrwxrwx   1 0        0               9 Wed Nov 08 20:37:38 2000 /root/.bash_history -> /dev/null
+-rwxr-xr-x   1 0        0            3256 Wed Nov 08 20:37:38 2000 /usr/bin/mesg
+-rwxr-xr-x   1 0        0            9528 Wed Nov 08 20:37:42 2000 /bin/cat
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 21:01:00 2000 /etc/cron.hourly
+-rwxr-xr-x   1 0        0              65 Wed Nov 08 21:01:00 2000 /etc/cron.hourly/inn-cron-nntpsend
+drwxr-xr-x   2 0        0            1024 Wed Nov 08 21:01:00 2000 /etc/rc.d/rc3.d
+-rwxr-xr-x   1 0        0           22912 Wed Nov 08 21:01:00 2000 /sbin/chkconfig
+-rwxr-xr-x   1 0        0            2836 Wed Nov 08 21:01:00 2000 /sbin/runlevel
+-rwxr-xr-x   1 0        0             579 Wed Nov 08 21:01:00 2000 /usr/bin/run-parts
+-rwxr-xr-x   1 0        0          316848 Wed Nov 08 21:10:00 2000 /bin/bash
+lrwxrwxrwx   1 0        0               4 Wed Nov 08 21:10:00 2000 /bin/sh -> bash
+-rw-r--r--   1 0        0             460 Wed Nov 08 21:10:00 2000 /etc/group
+-rw-r--r--   1 0        0             657 Wed Nov 08 21:10:00 2000 /etc/passwd
+-rwxr-xr-x   1 0        0          370141 Wed Nov 08 21:10:00 2000 /lib/libnsl-2.1.3.so
+lrwxrwxrwx   1 0        0              15 Wed Nov 08 21:10:00 2000 /lib/libnsl.so.1 -> libnsl-2.1.3.so
+-rwxr-xr-x   1 0        0          255963 Wed Nov 08 21:10:00 2000 /lib/libnss_nis-2.1.3.so
+lrwxrwxrwx   1 0        0              19 Wed Nov 08 21:10:00 2000 /lib/libnss_nis.so.2 -> libnss_nis-2.1.3.so
+-rwxr-xr-x   1 0        0          252234 Wed Nov 08 21:10:00 2000 /lib/libnss_nisplus-2.1.3.so
+lrwxrwxrwx   1 0        0              23 Wed Nov 08 21:10:00 2000 /lib/libnss_nisplus.so.2 -> libnss_nisplus-2.1.3.so
+lrwxrwxrwx   1 0        0              19 Wed Nov 08 21:10:00 2000 /lib/libtermcap.so.2 -> libtermcap.so.2.0.8
+-rwxr-xr-x   1 0        0           12224 Wed Nov 08 21:10:00 2000 /lib/libtermcap.so.2.0.8
+lrwxrwxrwx   1 0        0               6 Wed Nov 08 21:10:00 2000 /sbin/rmmod -> insmod
+-rwsr-xr-x   1 0        0           56208 Wed Nov 08 21:10:10 2000 /bin/mount
+-rw-r--r--   1 0        0             760 Wed Nov 08 21:10:10 2000 /etc/fstab
+lrwxrwxrwx   1 0        0               3 Wed Nov 08 21:10:11 2000 /dev/cdrom -> hdc
+-rw-r--r--   1 0        0              51 Wed Nov 08 21:10:11 2000 /etc/conf.modules
+-rw-r--r--   1 0        0             248 Wed Nov 08 21:10:11 2000 /etc/mtab
+-rw-r--r--   1 0        0            3460 Wed Nov 08 21:10:11 2000 /lib/modules/2.2.14-5.0/fs/nls_iso8859-1.o
+-rw-r--r--   1 0        0           28633 Wed Nov 08 21:10:11 2000 /lib/modules/2.2.14-5.0/modules.dep
+-rwxr-xr-x   1 0        0           58608 Wed Nov 08 21:10:11 2000 /sbin/insmod
+lrwxrwxrwx   1 0        0               6 Wed Nov 08 21:10:11 2000 /sbin/modprobe -> insmod
+-rwxr-xr-x   1 0        0          137567 Wed Nov 08 21:10:27 2000 /bin/ls
+lrwxrwxrwx   1 0        0              17 Wed Nov 08 21:10:27 2000 /lib/ld-linux.so.1 -> ld-linux.so.1.9.5
+-rwxr-xr-x   1 0        0           25386 Wed Nov 08 21:10:27 2000 /lib/ld-linux.so.1.9.5
+lrwxrwxrwx   1 0        0              14 Wed Nov 08 21:10:27 2000 /usr/i486-linux-libc5/lib/libc.so.5 -> libc.so.5.3.12
+-rwxr-xr-x   1 0        0          699832 Wed Nov 08 21:10:27 2000 /usr/i486-linux-libc5/lib/libc.so.5.3.12
+-rw-r--r--   1 0        0              61 Wed Nov 08 21:10:27 2000 /usr/man/r
+-rw-r--r--   1 0        0           12333 Wed Nov 08 21:11:49 2000 /etc/ld.so.cache
+-rw-r--r--   1 0        0            1744 Wed Nov 08 21:11:49 2000 /etc/nsswitch.conf
+-rw-r--r--   1 0        0              43 Wed Nov 08 21:11:49 2000 /etc/resolv.conf
+-rw-r--r--   1 0        0           11349 Wed Nov 08 21:11:49 2000 /etc/services
+-rwxr-xr-x   1 0        0          340663 Wed Nov 08 21:11:49 2000 /lib/ld-2.1.3.so
+lrwxrwxrwx   1 0        0              11 Wed Nov 08 21:11:49 2000 /lib/ld-linux.so.2 -> ld-2.1.3.so
+-rwxr-xr-x   1 0        0         4101324 Wed Nov 08 21:11:49 2000 /lib/libc-2.1.3.so
+lrwxrwxrwx   1 0        0              13 Wed Nov 08 21:11:49 2000 /lib/libc.so.6 -> libc-2.1.3.so
+-rwxr-xr-x   1 0        0          246652 Wed Nov 08 21:11:49 2000 /lib/libnss_files-2.1.3.so
+lrwxrwxrwx   1 0        0              21 Wed Nov 08 21:11:49 2000 /lib/libnss_files.so.2 -> libnss_files-2.1.3.so
+-rw-r--r--   1 0        0           29970 Wed Nov 08 21:23:07 2000 /usr/share/locale/en_US/LC_COLLATE
+-rw-r--r--   1 0        0           87756 Wed Nov 08 21:23:07 2000 /usr/share/locale/en_US/LC_CTYPE
+-rw-r--r--   1 0        0              93 Wed Nov 08 21:23:07 2000 /usr/share/locale/en_US/LC_MONETARY
+-rw-r--r--   1 0        0              27 Wed Nov 08 21:23:07 2000 /usr/share/locale/en_US/LC_NUMERIC
+-rw-r--r--   1 0        0             508 Wed Nov 08 21:23:07 2000 /usr/share/locale/en_US/LC_TIME
+-rw-r--r--   1 0        0            2265 Wed Nov 08 21:23:07 2000 /usr/share/locale/locale.alias
+drwxr-xr-x   2 0        12           1024 Wed Nov 08 21:33:47 2000 /var/spool/mqueue
+-rw-r--r--   1 0        0              44 Wed Nov 08 21:50:45 2000 /usr/share/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES
+-rw-rw-r--   1 0        22           4992 Wed Nov 08 22:01:00 2000 /var/run/utmp
+
+===============================================================================
+========================== Modified files =====================================
+===============================================================================
+
+Another source of information is rpm -Va (verify all packages) or -qai (query
+all packages), which gives us list of modified/newly installed packages/files.
+I've filtered its output, so it is shorter and includes only important
+changes (ie, those caused by the attacker).
+
+] Replaced (trojaned) binaries
+S.5.....   /bin/ps
+S.5.....   /usr/bin/top
+S.5.....   /bin/ls
+S.5.....   /bin/netstat
+S.5.....   /sbin/ifconfig
+S.5.....   /usr/sbin/tcpd
+SM5.....   /usr/sbin/in.identd
+
+
+] `Security' un-suiding done by the attacker (see analysis/rkit.txt:install)
+.M......   /bin/ping
+.M......   /usr/sbin/traceroute
+.M......   /usr/libexec/pt_chown
+.M......   /sbin/dump
+.M......   /sbin/restore
+.M......   /usr/bin/gpasswd
+.M......   /usr/bin/chage
+.M......   /usr/bin/suidperl
+.M......   /usr/bin/newgrp
+.M......   /usr/sbin/usernetctl
+.M......   /usr/bin/at
+] Hardlink to suidperl
+.M......   /usr/bin/sperl5.00503
+
+] Wiped by the attacker.
+S.5....T c /etc/hosts.deny
+.M....G.   /var/log/wtmp
+
+] BIND installed by the attacker is different from the previous version
+S.5....T   /usr/sbin/named
+
+] This file was changed during the attack intentionally (ie, not
+] while installing a package with rpm)
+S.5....T c /etc/inetd.conf

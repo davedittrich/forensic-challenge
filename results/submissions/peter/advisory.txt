@@ -1,0 +1,25 @@
+[=-=-=-=-=-=-=]                   Advisory                  [=-=-=-=-=-=-=]
+
+
+The attacker used a vulnerability in a program called rpc.statd.  This
+program is a part NFS package, which comes with default Red Hat 6.2
+installation.  This program (and often whole package) is unnecessary
+on most of our systems - it should be installed only if you really
+need to use NFS (network file system).  Even in that case, it should
+be restricted to only allow connections from internal network (using
+/etc/hosts.deny or firewalling).
+
+Detection: This attack can be blocked (and at the same time detected)
+           at the border routers of our university, by blocking access
+	   to local services `portmap' and `statd' from outside (it might
+	   be a good idea to block access to all NFS services from outside)
+	   This way, the attack will be limited to attack from intra-net.
+
+Solution:  Upgrade NFS package to latest version (see shellcode.txt).
+
+Compromised system detection: If the system has unusual port (4545,
+	   5002,...) open (can be verified using telnet), it was, with
+	   a high probability, compromised.  If the attacker used the
+	   same means as in the described attack, you should be able
+	   to detect changes in the system using rpm -Va and checking
+	   /dev/ptyp and /usr/man/.Ci.

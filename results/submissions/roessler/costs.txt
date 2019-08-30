@@ -1,0 +1,59 @@
+
+
+
+
+
+
+
+
+
+
+
+
+                      The Apollo Incident: Costs.
+
+             Thomas Roessler <roessler@does-not-exist.org>
+
+
+1.  Cost calculation
+
+   The time spent investigating the system and writing the report
+   totalled 37 hours.  The hourly wage rate is assumed to be $33.65,
+   corresponding to an annual salary of $70,000.  We arrive at the
+   following calculation:
+
+      Wage             $   1,245.05
+      Benefits (28%)   $     348.61
+      ------------------------------
+      Total            $   1,593.66
+
+
+   This calculation does not contain the time necessary to re-install
+   and fully patch apollo.  However, the cost for this can be estimated
+   to be certainly below $100, and is thus within the 15% adjustment
+   margin.
+
+2.  Background information
+
+   I have been collecting programming experience since the late 1980s.
+   In 1997, I was involved with the development of PGPlib (the project
+   died when PGP5 was published). Since 1997, I've been involved with
+   the development of the mutt mail user agent. Since June 1998, I'm the
+   lead developer of the project.
+
+   My first encounter with Unix was in early 1993.  Since early 1995, I
+   have been administering various Linux and IRIX systems, most of them
+   at the University of Bonn, Germany.
+
+   My interest in computer security dates from approximately 1995/96. I
+   had several opportunities to investigate actual break-ins, and to
+   observe break-in attempts.  However, there were always constraints in
+   place which made a thorough investigation impossible.
+
+
+
+
+
+
+Thomas Roessler              27 January 2001                    [Page 1]
+

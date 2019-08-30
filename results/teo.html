@@ -1,0 +1,90 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Lance Spitzner">
+<style type="text/css">
+<!--
+a:active {  text-decoration: none}
+a:hover {  text-decoration: none; color: blue}
+a:link {  text-decoration: none}
+a:visited {  text-decoration: none}
+-->
+</style>
+</head>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+
+<h1>teo</h1>
+<ul>
+<li> Mactime uses local passwd/group file instead of corpse.</p>
+<li> All mactimes are in the wrong time units (local to analyst?)
+so that logfiles and mactimes do not correlate.</p>
+<li> No deleted mactime analysis.</p>
+<li> No file checksum analysis (rpm verify).</p>
+<li> No file disassembly.</p>
+<li> Lastlog analysis misses users not in the passwd file.</p>
+<li> Did unrm analysis.</p>
+<li> Recovered deleted messages file.</p>
+<li> Recovered root bash history messages file.</p>
+<li> Did swap analysis.</p>
+<li> Recovered environment from swap.</p>
+<li> Recovered logging from swap.</p>
+<li> Misdiagnosed "inetd[408]: pid 2387: exit status 1"
+	as inetd restart.</p>
+<li> Miscalculated clock skew between IDS and victim as 18
+minutes.</p>
+<li> Found sniffer and sshd password logger, and the ssh universal
+password. </p>
+<li> Gets around rootkit by mounting evidence on loopback.  File
+filesystem_changes.txt purpose of files and their config files>
+	They recovered the script that installs all the rootkit
+	replacement binaries and that links bash history files
+	to /dev/null.</p>
+<li> Claims the deleted bash_history file is from immediately
+after the statd exploit, however the commands in bash_history
+that run "uptime" and truncate /etc/hosts.deny correspond
+with mactime patterns 8 hours after exploit.
+	The reason for this mistake is that all mactimes are in
+	the wrong time units (relative to analyst?).</p>
+<li> Evidence presentation is good, well organized, but fatal errors
+made in the analysis.  Their mactimes are offset by many hours, thus
+no correlation of events with logfiles. They do a lastlog analysis but
+miss the users not in the passwd file.  There's no checksum analysis,
+little strings analysis of programs, no decompilation.  </p>
+
+<li> Summary gives no indication whether user files or other systems
+were affected. </p>
+
+<li> Focus of advisory is on statd vulnerability, but also mention
+of what intruder does.  detection is OK: linked .bash_history->/dev/null,
+sshd in rc.local, minor inaccuracy that /usr/tmp/nap contains
+magic password, misses the deleted shutdown account.</p>
+
+<li> Used available tools, good analysis of swap space.</p>
+
+<li> Excellent advisory, detailed but simple to read.</p>
+<li> Very good warning about TELNET/FTP to systems.</p>
+<li> evidence.txt file extremely well written.</p>
+
+</ul>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+</html>

@@ -1,0 +1,123 @@
+SECURITY ADVISORY
+
+
+Date:		Nov 9 15:00:00 GMT-0600
+From:		sysadmin1@honeynet.edu
+Advisory ID:	SA-2000-23
+Severity:	High
+Title:		Remote root compromise through rpc.statd exploit
+
+------------------------------------------------------------------------------
+
+1.	SUMMARY
+
+Systems running the rpc.statd service may be vulnerable to a remote buffer-
+overflow attack, that could lead to a malicious user gaining root privileges.
+The malicious user may install sniffers and backdoors, as well as trojanised
+system programs to hide these processes.
+
+
+2.	DESCRIPTION:
+
+The rpc.statd daemon in pre 0.1.9.1-1 versions of the nfs-utils package
+contains a buffer-overflow vulnerability that could lead to a remote root 
+break-in. The exploit leaves the following signature in syslog:
+
+-----------------------------------------------------------------------------
+Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname containing '/': ^D
+08049f10 bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f 20656d61 746e6f63 696e6961 2720676e 203a272f 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000bffff70400000000000000000000000000000000000000000000000bffff7050000bffff7060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000bffff707
+/bin/sh -c echo 4545 stream tcp nowait root /bin/sh sh -i >> /etc/inetd.conf;killall -HUP inetd
+-----------------------------------------------------------------------------
+
+If an IDS is active on your network, it should also capture the above
+signature.
+
+After the break-in, the attacker may perform one or all of the following:
+
+1) links .bash_history files to /dev/null.
+
+2) Installs and run a network sniffer.
+
+3) Installs and run a network backdoor in the form of a trojanised ssh1 
+daemon. Adds a line in /etc/rc.d/rc.local so that sshd1 will be started at
+every reboot.
+
+4) Installs trojanised versions of system programs, e.g. ls, ps, top, netstat
+etc, to hide these processes.
+
+5) Installs and run bx (BitchX), an IRC client.
+
+6) Compiles and run eggdrop, an IRC bot.
+
+7) Installs the following RPM packages: nfs-utils, wu-ftpd, ypserv, telnet,
+screen, make, lpr, and am-utils.
+
+8) Adds a "adm1" account and "own" account into /etc/passwd and /etc/shadow.
+
+
+3.	SYSTEMS AFFECTED:
+
+Systems installed with pre nfs-utils-0.1.9.1-1 package, and running the
+rpc.statd service.
+
+(NOTE: In Red Hat 6.0 and 6.1, the rpc.statd daemon was in the knfsd-clients
+package.)
+
+
+4.	HOW TO DETECT COMPROMISE:
+
+DO NOT TELNET, FTP OR RLOGIN INTO YOUR SERVER! The sniffer will capture your
+username and password. Log in locally if possible. Otherwise, ensure that your
+firewall is providing adequate protection against untrusted traffic.
+
+You cannot rely on system programs like ls, ps, top, netstat etc to check for
+a root compromise, since these have possibly been trojanised. But here are
+some tell-tale signs:
+
+1) .bash_history linked to /dev/null.
+
+2) a "/usr/local/sbin/ssh1d" line in /etc/rc.d/rc.local, or one of your
+startup files.
+
+3) a /usr/tmp/nap file, containing the ssh backdoor magic password.
+
+4) /usr/bin/bx, the IRC client.
+
+5) unknown accounts in /etc/passwd and /etc/shadow, e.g. "adm1", "own".
+
+You may also wish to refer to CERT's Intrusion Detection Checklist:
+
+	http://www.cert.org/tech_tips/intruder_detection_checklist.html
+
+One way to remotely determine if one of your servers have been compromised, is
+to scan for an open port 22 of the trojanised sshd1 backdoor. If you did not 
+install sshd, but the port scan result shows an open port 22, then it is highly 
+likely that your server has been compromised.
+
+
+5.	SOLUTION:
+
+If you have determined that your server has _not_ yet been compromised, then
+you can defend against this attack in one of the following ways:
+
+1) Stop using the rpc.statd service.
+
+2) Upgrade your nfs-utils package to version 0.1.9.1-1, or later. You can 
+download the updated RPM package from Red Hat's website:
+
+	http://www.redhat.com/swr/i386/nfs-utils-0.1.9.1-1.i386.html
+
+If, however, you have determined that your server _has_ been compromised, then
+the following document from CERT should help you to recover from a root
+compromise:
+
+	http://www.cert.org/techtips/root_compromise.html
+
+
+6.	FURTHER INFORMATION:
+
+CERT Advisory on rpc.statd vulnerability:
+http://www.cert.org/advisories/CA-2000-17.html
+
+Red Hat's Security Advisory:
+http://www.redhat.com/support/errata/RHSA-2000-043-03.html

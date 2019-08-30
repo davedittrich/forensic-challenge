@@ -1,0 +1,980 @@
+Brian Carrier                                                  evidence.txt
+-----------------------------------------------------------------------------
+
+This file describes in detail the events surrounding a compromise of a
+Honeypot University system.  All times are given in CST.
+
+The system was compromised using a vulnerability in rpc.statd [1].  The
+attacker then installed a rootkit into /usr/man.Ci, ran a sniffing
+program, and installed Internet Relay Chat (IRC) applications.  
+
+The first section gives a high level timeline, the second explains the
+installation scripts used, the third analyses some of the binaries used,
+and the fourth lists the tools used in the analysis.
+
+Several deleted files were recovered completely or partially and can
+be found in the files directory.
+
+=============================================================================
+
+1.  HIGH LEVEL TIMELINE
+The following section will give a high level time from the details of the
+snort IDS system and from the compromised host, apollo.  Since the times
+between these two system are not synchronized, we will present them 
+separately and then determine the time difference.
+
+------------------------------------------------------------------------------
+
+1.1 IDS System
+The following was determined from the Challenge Rule List based on output
+from snort:
+
+Nov 7 2000
+23:11:31	
+	Telnet connection is made from 216.216.74.2 to 172.16.1.101
+	- from Snort IDS logs
+	  Nov 7 23:11:31 lisa snort[1260]: IDS08 - TELNET - daemon-active: 
+	    172.16.1.101:23 -> 216.216.74.2:1209
+23:11:34
+	Telnet connection is made from 216.216.74.2 to 172.16.1.101
+	- from Snort IDS logs
+	  Nov 7 23:11:34 lisa snort[1260]: IDS08 - TELNET - daemon-active: 
+	    172.16.1.101:23 -> 216.216.74.2:1210
+
+23:11:50 -> 23:11:51
+	rpc.statd request sent from 216.216.74.2 to 172.16.1.101 with 
+	typical 'overflow' characters.
+	- from Snort IDS logs
+	  Nov 7 23:11:50 Packet sniffer recorded overflow packet 
+    	  Nov 7 23:11:51 lisa snort[1260]: IDS15 - RPC - 
+	    portmap-request-status: 216.216.74.2:709 -> 172.16.1.107:111
+	  Nov 7 23:11:51 lisa snort[1260]: IDS362 - MISC - Shellcode X86 
+	    NOPS-UDP: 216.216.74.2:710 -> 172.16.1.107:871
+
+
+------------------------------------------------------------------------------
+
+1.2  Compromised System
+The following was determined from the images from the compromised system,
+apollo.honeyp.edu, using the tools described at the end of this report:
+
+Nov 8 2000
+00:08:40 -> 00:08:41
+	Telnet session is opened from host at 216.216.74.2
+	- from /var/log/secure 
+	  Nov  8 00:08:40 apollo in.telnetd[2077]: connect from 216.216.74.2
+	  Nov  8 00:08:40 apollo in.telnetd[2078]: connect from 216.216.74.2
+	- from /var/log/messages
+	  Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+	  Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+
+00:09:00
+	format string vulerability rpc.statd request
+	- recovered from block 49468 - 49469 on hda7
+	  Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname 
+	    containing [.. snipped .. see files/logs/]
+	- This was obviously a format string vulnerability because the
+	  string was printed to the log file.  If it were a buffer overflow
+	  it would not be printed.
+	- Log entry is same as gathered by packet sniffer, therefore we can
+	  determine that the time difference between the IDS and the
+	  system is 57 min and 10 sec.  Since the IDS is synchronized via 
+	  NTP, either it is set to the wrong time zone or the system is set
+	  incorrectly.
+
+08:26:15
+	/etc/hosts.deny is modified (it is now empty)
+	- It could not be determined if the attacker had logged on to the
+	machine yet at this point or if this modification is not related
+	to the attack
+
+08:28:41
+	Attacker logs in
+	- from recovered log entry from hda9 swap partition at byte 7677896
+	  (or page 1874)
+	  Nov  8 08:28:41 login: LOGIN ON 0 BY adm1 FROM 
+	    c871553-b.jffsn1.mo.home.com
+	- Note: IP address of c871553-b.jffsn1.mo.home.com is 24.12.200.186
+
+08:29:27
+	rootkit and eggdrop are FTP-ed on hda8 partition
+	- assumption based on mactimes of /bin/ftp and future installations
+	- unallocated blocks were found on hda8 with tar files for the
+	  installed rootkit and eggdrop program
+
+08:45:18
+	login attempt via a service using tcpd 
+	- /etc/hosts.allow and /etc/hosts.deny are accessed.
+
+08:45:24
+	login from c871553-b.jffsn1.mo.home.com again
+	- Entry recovered from /var/log/lastlog
+	
+08:51:53 -> 08:51:56
+	rootkit is untarred into /usr/man/.Ci/  
+	- based on mactimes output
+
+08:52:09 -> 08:52:34
+	/usr/man/.Ci/install is executed (see 2.1)
+
+08:52:59 -> 08:53:33
+	/usr/man/.Ci/install-sshd is executed (see 2.5)
+
+08:53:40 -> 08:53:43
+	/usr/man/.Ci/install-wu is executed (see 2.6)
+
+08:53:47 -> 08:54:05
+	/usr/man/.Ci/install-statd is executed (see 2.7)
+
+08:54:22 -> 08:54:43
+	/usr/man/.Ci/install-named is executed (see 2.8)
+
+08:55:30 -> 08:55:51
+	/usr/man/.Ci/addn is executed (see 2.9)
+
+08:55:58 -> 08:55:58
+	/usr/man/.Ci/do is executed (see 2.10)
+
+08:56:02 -> 08:56:04			
+	/usr/man/.Ci/snap is executed (see 2.11)
+
+08:56:08 -> 08:56:11
+	/usr/man/.Ci/rmS is executed (see 2.12)
+
+08:56:25
+	bitchX IRC client is run from /usr/man/.Ci/bx 
+
+08:56:57 -> 08:57:00
+	/usr/man/.Ci/chmod-it is executed (see 2.13)
+
+08:57:06  -> 08:59:14
+	tPACK/Eggdrop is installed (see 2.14)
+
+08:59:52
+	Network connection closes for pid 2387 
+	- recovered log entry from hda9 swap partition at roughly byte
+	  offset 5209960:
+	    Nov  8 08:59:52 inetd[408]: pid 2387: exit status 1
+	- recovered from /var/log/wtmp:
+	  entry for a "DEAD_PROCESS" on pts/0 with pid 2387
+
+09:02:28 
+	/var/tmp/nap is created (from trojan sshd daemon)
+	- Attacker loged in as root via ssh
+
+09:02:42 -> 09:03:05
+	/usr/bin/pico is used to modify /etc/inetd.conf
+	- This could have been so that the original backdoor could be
+	removed (/bin/sh on port 4545
+
+09:03:12
+	killall executed which causes inetd to access /etc/inetd.conf
+
+09:03:15
+	root logs out and /root/.bash_logout is accessed
+
+20:37:30
+	System Found
+
+20:37:37
+	root login
+	- recovered log entry from hda9 swap partition at roughly byte
+	  offset 3790472:
+	    Nov  8 20:37:37 login: ROOT LOGIN ON tty1
+	- recovered from/var/log/wtmp:
+	  entry for root USER PROCESS on tty1 with pid 683
+
+=============================================================================
+
+2.  INSTALLATION FILE ANALYSIS / LOWLEVEL TIMELINE
+This section will analyze files that were executed while installing the
+rootkit and eggdrop IRC bot.  Times are given in order to fill in the
+details of the highlevel timeline give above.
+
+Files are analysed in order of execution.
+
+------------------------------------------------------------------------------
+
+2.1  /usr/man/.Ci/install 
+- This script is deleted by itself, but it was recovered from the original
+  tar file on hda8 in blocks 96117-96118 using autopsy and bcat (see /files/
+  Ci/install.blk96117 and install.blk96118) 
+- This script was executed from 08:52:09 to 08:52:34 and executed manually
+  by the attacker
+- This script installs trojaned binaries and performs other tasks to setup
+  the environment to prevent the attacker from being detected.
+- The binaries installed are versions of Linux Rootkit trojans
+- The following information is from using mactimes and the deleted
+  script
+
+08:52:09
+- Deletes .bash_history files and redirects them to /dev/null in the
+  following directories: 
+    /, /root, ~games, /tmp, /usr/games
+
+08:52:10
+- Copies the following files to /usr/man/.Ci/backup:
+    /bin/{ps, ls, netstat}
+    /sbin/ifconfig
+    /usr/bin/top
+    /usr/sbin/{syslogd, tcpd}  
+  NOTE: /usr/sbin/syslogd does not exist on this system
+
+- Execute /usr/man/.Ci/fix on the following files:
+    /bin/ps  (see 3.5)
+    /bin/ls  (see 3.3)
+    /bin/netstat  (see 3.4)
+    /sbin/ifconfig  (see 3.1)
+    /usr/bin/top  (see 3.8)
+    /usr/sbin/syslogd (see 3.6) 
+    /usr/sbin/tcpd  (see 3.7)
+    /usr/sbin/in.identd  (see 3.2)
+
+  NOTE: in.identd was "fix"ed but not backed up
+  - See SECTION WHERE for an analysis on the fix binary
+
+- Restart syslog daemon to run trojan binary via 'killall -HUP syslogd'
+
+08:52:12
+- Execute /usr/man/.Ci/addbd script (see 2.2)
+
+08:52:13
+- Execute /usr/man/.Ci/snif executable  
+  This is a network sniffer that creates the files tcp.log and snif.pid
+
+08:52:14
+- Execute /usr/man/.Ci/clean script (see 2.3)
+
+08:52:15
+- Execute /usr/man/.Ci/a.sh script (see 2.4)
+- Moves /usr/man/.Ci/ptyp to /dev/ptyp
+  - this is used by the trojaned /usr/bin/top and ps binaries
+
+08:52:25 -> 08:52:33
+- Installs/Force Updates rpms from /usr/man/.Ci/rpms.tgz
+  - rpms.tgz file was deleted and could not be recovered
+
+  08:52:25 -> 08:52:31
+  - installs am-utils-6.0.1.s11 rpm
+    - This rpm fixes a buffer overflow vulnerability
+    - Creates the following files:
+      /.automount
+      /etc/amd.conf
+      /etc/amd.net
+      /etc/rc.d/init.d/amd
+      /etc/sysconfig/amd
+      /usr/bin/pawd
+      /usr/doc/am-utils-6.0.1.s11/{AUTHORS, BUGS, ChangeLog, NEWS, README,
+        README.autofs, README.y2k, am-utils.ps, amd.conf-sample}
+      /usr/doc/am-utils-6.0.1s11/{hlfsd.ps, lostaltmail.conf.sample}
+      - NOTE TYPO IN SPELLING
+      /usr/lib/{libamu.so.2.1.1, libamu.so, libamu.so}
+      /usr/info/{am-utils.info.gz, am-utils.info-{1,2,3,4,5,6,7}.gz}
+      /usr/man/man1/pawd.1
+      /usr/man/man5/amd.conf.5
+      /usr/man/man8/{amd.8, amq.8, automount2amd.8, fixmount.8, fsinfo.8
+        hlfsd.8, mk-amd-map.8, wire-test.8}
+      /usr/sbin/{am-eject, amd, amd2ldif, amd2sun, amq, automount2amd,
+       ctl-hlfsd, fix-amd-map, fixmount, fixrmtab, fsinfo, hlfsd, lostaltmail
+	mk-amd-map, wait4amd, wait4amd2die, wire-test}
+      /etc/rc.d/rc{0,1,2,3,4,5,6}.d/K28amd  -> /etc/init.d/amd
+
+  08:52:31 -> 08:52:32
+  - installs lpd  of unknown version
+    - The lpr and lpd of RH 6.2 had several vulnerabilities in it [2][3][4]
+    - Creates the following files:
+      /etc/rc.d/init.d/lpd
+      /etc/rc{0,1,2,3,4,5,6}.d/K60lpd -> /etc/init.d/lpd
+      /usr/bin/{lpq, lpr, lprm, lptest, make}
+      /usr/man/man1/{lp1.1, lpr.1, lprm.1, lptest.1, make1}
+      /usr/man/man5/printcap.5
+      /usr/man/man8/{lpc.8, lpd.8, pac.8}
+      /usr/sbin/{lpc, lpd, lpf, pac}
+      /var/spool/lpd
+
+  08:52:32 -> 08:52:32
+  - installs make-3.77 rpm 
+    - This version of make has a race condition vulnerability in SuSe[5]
+    - Creates the following files:
+      /usr/bin/make
+      /usr/doc/make-3.77/{NEWS, README}
+      /usr/info/make.info-{1,2,3,4,5,6,7,8,9,10}.gz
+      /usr/info/make.info.gz
+      /usr/info/am-utils.info.gz
+
+  08:52:33 -> 08:52:33
+  - installs screen 3.9.4 rpm 
+    - Creates the following files:
+      /etc/screenrc
+      /etc/skel/.screenrc
+      /usr/bin/screen
+      /usr/doc/screen-3.9.4/{FAQ, NEWS, README, README.DOTSCREEN}
+      /usr/info/screen.info-{1,2,3,4}.gz and screen.info.gz
+      /usr/man/man1/screen.1
+
+  08:52:33 -> 08:52:33
+  - installs telnet rpm 
+    - Creates the following files:
+      /etc/X11/wmconfig/telnet
+      /usr/bin/telnet
+      /usr/man/man1/telnet.1
+      /usr/man/man8/{in.telnetd.8, telnetd.8}
+      /usr/sbin/in.telnetd
+
+  08:52:33 -> 08:52:33
+  - installs ypserv 1.3.9 rpm 
+      /etc/rc.d/init.d/{yppasswdd, ypserv}
+      /usr/doc/ypserv-1.3.9/{BUGS, ChangeLog, INSTALL, NEWS, README
+        README.etc, README.secure, TODO, securenets, ypserv.conf}
+      /usr/include/rpcsvc/ypxfrd.x
+      /usr/lib/yp/{create_printcap, makedbm, match_printcap, mknetid,
+        pwupdate, revnetgroup, yphelper, ypinit, ypxfr, ypxfr_1perday
+	ypxf_1perhour, ypxfr_2perday}
+      /usr/man/man5/{ypserv.conf.5, netgroup.5{
+      /usr/man/man8/{rpc.yppasswdd.8, rpc.ypxfrd.8, ypinit.8, yppasswdd.8
+        yppush.8, ypserv.8, ypxfr.8, ypxpfrd.8, makedbm.8, mknetid.8,
+	pwupdate.8, revnetgroup.8}
+      /usr/sbin/{rpc.yppasswdd, rpc.ypxfrd, yppush, ypserv}
+
+08:52:33
+- lpd daemon restarted 
+- deletes and touch /var/log/wtmp
+- deletes /usr/man/.Ci/{install, addbd} (recovered on hda8)
+- inetd daemon restarted
+
+08:52:34
+- moves /usr/man/.Ci/bx to /bin/bx  (bitchX IRC client)
+
+- The script then does a whereis sshd to determine which installation  of
+  ssh is installed.  Based on this result either /usr/man/.Ci/install-sshd 
+  or /usr/man/.Ci/install-sshd1 is run.  In this case, install-sshd was run.
+
+------------------------------------------------------------------------------
+
+2.2 /usr/man/.Ci/addbd 
+- This script was deleted by /usr/man/.Ci/install, but was recovered on hda8 
+  in blocks 99797-99798 using autopsy and bcat (see files/Ci/addbd.blk99797
+  and addbd.blk99798)
+- This script was executed at 08:52:12 by /usr/man/.Ci/install
+- This script creates files that indicate things to hide using Linux Rootkit
+  executables.
+
+- creates /usr/man/p and /usr/man/.p for hiding processes using the 
+  trojaned executable /bin/ps  (although /bin/ps really reads /dev/ptyp)
+  (see 3.5)
+  - The following processes will be hidden from /bin/ps: 
+    slice2, snif, pscan, imp, bs.sh 
+  - Processes with the following strings in their name will be hidden:
+    qd, nn, egg.lin
+
+- creates /usr/man/r for hiding files from trojaned /bin/ls (see 3.3)
+  - The following files will be hidden from /bin/ls:
+    tcp.log:              file created by /usr/man/.Ci/sniff
+    slice2:               binary that scans IP address in /usr/man/.Ci/paki
+    .p, p, .a, addy.awk:  files that contain things to hide using trojans
+    .fakeid:              file used by trojaned ident daemon
+    scan:                 hides /usr/man/.Ci/scan directory
+    .l:                   hides file for trojan syslog (not installed though)
+    .tp, a, qd, imp:      unknown files
+  NOTE: the /usr/man/r file is not even hidden by this!!
+
+- creates /usr/man/.a for trojaned /usr/sbin/tcpd (see 3.7)
+  - The following IP addresses will not be blocked or logged:
+    63.203, 209.250, 216.33, 63.206
+  - The following ports will not be blocked or logged:
+    113, 35350
+
+------------------------------------------------------------------------------
+
+2.3 /usr/man/.Ci/clean 
+- This script was executed at 08:52:14 from /usr/man/.Ci/install
+- The following was determined from mactimes output and the script
+  contents
+- This script deletes log entries with keywords.
+- creates /usr/man/.Ci/.temp{1-12} with the following words in them:
+    sshd, log, games, 209.86, own, owned, Pro, ,snif, ident, splitrock,
+    209.255
+- executes /usr/man/.Ci/snap on them (see 2.11) to remove log entries
+  with the above words
+- deletes .temp{1-12} files
+
+------------------------------------------------------------------------------
+
+2.4 /usr/man/.Ci/a.sh 
+- This script was executed at 08:52:15 from /usr/man/.Ci/install
+- The following was determined from mactimes output and the script
+  contents
+- This script deletes files and kills some processes.
+- Deletes the following files:
+  /usr/sbin/{rpc.*, smbd, portmap, nmbd, ypserv, snmpd,
+    atd, rpc.rquotad, lockd, nfsd, rpciod, nmbd, apmd, amd, amq}
+  /sbin/{rpc.statd lockd}
+  /usr/bin/{nfsd rpciod smbd nmbd apmd amd amq}
+- NOTE: some files are deleted several times
+
+- Kills the following processes: 
+  rpc.statd, rpc.rquoatd atd nfsd lockd rpciod smbd nmbd amd apmd amq
+  rpc.mountd rpc.portmap rpc.nfsd smbd portmap nmbd snmpd ypasswd 
+  rpc.rusersd ypserv
+- NOTE: typo in rquoatd
+
+------------------------------------------------------------------------------
+
+2.1  /usr/man/.Ci/fix
+- This binary is executed by /usr/man/.Ci/install.
+- /usr/man/.Ci/fix is a binary of fix.c which is found in lrk4
+- changes a binary so that it has the same crc as another binary so that
+  the new binary can replace the old one and avoid some simple integrity
+  checkers
+- Running strings on this binary gives constant strings found in lrk4
+  source code such as:
+    fix: Last 17 bytes not zero
+    fix: Can't read time of day
+    fix: Can't set time of day
+    fix: Can't change modify time
+
+------------------------------------------------------------------------------
+
+2.5 /usr/man/.Ci/install-sshd  
+- This script was deleted, but was recovered on hda5 in block 23907 
+  and inode 109802 using autopsy and bcat (see files/Ci/install-sshd)
+- This script was manually executed manually by the attacker from
+  08:52:59 to 08:53:33.
+- The following was determined from mactimes output, script
+  contents, and inode details from autopsy and dcat
+- The script installs a trojaned copy of sshd.  
+- The /usr/local/sbin/sshd executable saves login and password information
+  to /var/tmp/nap.  This was determined by using strings on the binary
+  and by analyzing a copy of this file that was in /var/tmp.
+
+08:52:59
+- unzips /usr/man/.Ci/ssh-1.2.27.tar.gz to inode 109791
+08:53:06
+- untars /usr/man/.Ci/ssh-1.2.27.tar to inode 92757
+08:53:08 -> 08:53:13
+- executes 'make install' in /usr/man/.Ci/ssh-1.2.27/
+  - Creates the following files:
+    /etc/{ssh_host_key, ssh_host_key.pub}
+    /root/.ssh/random_key
+    /etc/ssh_config
+    /usr/local/bin/{slogin, ssh, ssh-keygen, ssh-keygen1, ssh1, 
+      make-ssh-known-hosts, make-ssh-known-hosts1, scp, scp1, scp-add
+      scp-add1, ssh-agent, ssh-agent1}
+    /usr/local/sbin/{sshd, sshd1}
+    /usr/local/man/man1/{make-ssh-known-hosts.1, make-ssh-known-hosts1.1,
+      scp.1, scp1.1, slogin.1, slogin1.1, ssh-add.1, ssh-add1.1, ssh-agent.1,
+      ssh-agen1.1, ssh-keygen.1, ssh-keygen1.1, ssh.1, ssh1.1}
+    /usr/local/man/man8/{sshd.8, sshd1.8}
+
+08:53:13
+- creates a new /etc/sshd_config file
+  - permits root login
+  - does not ignore rhosts file
+  - permits empty passwords
+- adds /usr/local/sbin/sshd1 to /etc/rc.d/rc.local
+- creates /usr/man/.Ci/ssh-1.2.27/restart-sshd file to restart sshd daemon
+- executes restart-sshd file, but fails since sshd was not running before
+
+08:53:33
+At this point the script has ended, but then the attacker runs /bin/netstat
+and realizes that sshd is not running.  They then execute /usr/sbin/sshd
+manually from the command line.
+
+------------------------------------------------------------------------------
+
+2.6  /usr/man/.Ci/install-wu 
+- This script was deleted, but was recovered on hda5 in block 241422 and
+  inode 109867 using bcat and autopsy  (see files/Ci/install-wu)
+- This script was executed manually by attacker from 08:53:40 to 08:54:41.
+- The following was determined from mactimes output and the script
+  contents
+- This script installs wu-ftp version 2.6.0.  It is unknown if this is
+  a trojaned copy of if it was installed due to the numerous vulnerabilities
+  that exist in it.
+
+08:53:40 -> 08:53:41
+- installs/upgrades wuftp.rpm (version 2.6.0)
+  - Creates the following files:
+    /etc/{ftpaccess, ftpconversions, ftpgroups, ftphosts}
+    /etc/logrotage.d/ftpd
+    /etc/pam.d/ftp
+    /usr/bin/{ftpcount, ftpwho}
+    /usr/doc/wu-ftpd-2.6.0/{CHANGES, CONTRIBUTORS, ERRATA, README, TODO}
+    /usr/doc/wu-ftpd-2.6.0/HOWTO/{FIRTUAL.FTP.SUPPORT, 
+      upload.configuration.HOWTO}
+    /usr/doc/wu-ftpd-2.6.0/exampes/{ftpaccess, ftpaccess.heavy,
+      ftpconversions, ftpconversions.solaris, ftpgroups, ftphosts, 
+      ftpservers, ftpusers}
+    /usr/man/man1/{ftpcount.1.gz, ftpwho.1.gz}
+    /usr/man/man5/{ftpaccess.5.gz, ftpconversion.5.gz, ftphosts.5.gz,
+      ftpservers.5.gz, xferlog.5.gz}
+    /usr/man/man8/ftpd.8.gz, ftprestart.8.gz, ftpshut.8.gz, privatepw.8.gz}
+    /usr/sbin/{ckconfig, ftprestart, ftpshut, in.ftpd, privatepw,
+      in.wuftpd, wu.ftpd, xferstats}
+
+------------------------------------------------------------------------------
+
+2.7 /usr/man/.Ci/install-statd 
+- This script was deleted, but was recovered on hda5 in block 241326 and 
+  inode 109864 using autopsy and bcat (see files/Ci/install-statd)
+- This script was executed manually from 08:53:47 to 08:54:05
+- The following was determined from mactimes output and the script
+  contents
+- This script installs nfs-utils 0.1.9.1.1.  The rpm file was recovered
+  from hda5 in inode 109865 using icat.  The md5 of this recovered rpm
+  file was taken and it confirms to the md5 value given in the RedHat
+  advisory [NFS]: c8fb4d05baca53e48e94c7759304726f.  Therefore this is
+  not a trojaned installation.  This file can be found in 
+  files/Ci/nfs-utils.rpm
+- This was probably installed to patch the rpc.statd hole that the attacker 
+  used to gain access
+
+08:53:47 - 08:53:49
+- upgrades nfs-utils-0.1.9.1-1.i386.rpm
+  - Creates the following files:
+    /etc/rc.d/init.d/{nfs, nfslock}
+    /sbin/{rpc.lockd, rpc.statd, rpcdebug}
+    /usr/doc/nfs-utils-0.1.9.1/{ChangeLog, INSTALL, KNOWNBUGS, NEW, README
+      THANKS, TODO, index.html, nfs.html, nfs.ps, node[1-27].html}
+    /usr/man/man5/exports.5.gz
+    /usr/man/man8/{exportfs.8.gz, lockd.8.gz, mountd.8.gz, nfsd.8.gz,
+      nfsstat.8.gz, nhfsgraph.8.gz, nhfsnums.8.gz, nhfsstone.8.gz, 
+      rpc.lockd.8.gz, rpc.mountd.8.gz, rpc.nfsd.8.gz, rpc.rquota.8.gz,
+      rpc.statd.8.gz, rquotad.8.gz, showmount.8.gz, statd.8.gz}
+    /usr/sbin/{exportfs, nfsstat, nhfsstone, rpc.mountd, rpc.nfsd, rpc.rquotad
+      showmout}
+    /var/lib/nfs/{etab, rmtab, xtab}
+  - /var/lib/rpm/{groupindex.rpm, providesindex.rpm, triggerindex.rpm, 
+    conflictsindex.rpm, fileindex.rpm, nameindex.rpm, packages.rpm
+    providesindex.rpm, requiredby.rpm}
+
+08:54:05
+- executes /etc/rc.d/init.d/nfslock restart
+
+------------------------------------------------------------------------------
+
+2.8 /usr/man/.Ci/install-named (08:54:22 -> 08:54:25)
+- This script was deleted, but was recovered on hda5 in block 239708 and
+  inode 109803 using autopsy and bcat (see files/Ci/install-named)
+- The following was determined from mactimes output and the script
+  contents
+- This script installs an trojaned version of named.  A strings analysis
+  shows the directory /dev/.oz/src/bin/named.  This was seen in other
+  trojan binaries. 
+- It is unknown exactly what it does though.
+- The full tarball was recovered using:
+  % icat honeypot.hda5.dd 109861 > named.tar
+  It's md5 value is: 89c5224c48ed346d8073a09b0a560fe7.  Since this file
+  is over 10MB in size, it was not included, but can be recovered as
+  described.
+
+08:54:22 - 08:54:24
+- unzips /usr/man/.Ci/named.tgz (inode 109807) to named.tar (inode 109861)
+- untars /usr/man/.Ci/named.tar to /usr/man/.Ci/bin (inode 63098)
+- executes /usr/man/.Ci/bin/install
+  Creates the following files:
+  /usr/local/bin/{addr, dig, dnsquery, host, mkservdb, nsupdate}
+  /usr/local/sbin/{irpd, named, named-boot, conf, ndc}
+  - /var/run/named.pid at 9:54:25
+  - /var/run/ndc
+ 
+08:54:25
+- /usr/sbin/named executed
+- The following log entries were restored from the hda9 swap partition
+  using grep
+  - Nov  8 08:54:25 named[2964]: Zone "0.0.127.in-addr.arpa" 
+      (file named.local): No default TTL set using SOA minimum instead
+  - Nov  8 08:54:25 named[2964]: Forwarding source address is [0.0.0.0].1037
+  - Nov  8 08:54:25 named[2964]: listening on [172.16.1.107].53 (eth0)
+  - Nov  8 08:54:25 named[2964]: master zone "0.0.127.in-addr.arpa" (IN) 
+      loaded (serial 1997022700)
+  - Nov  8 20:54:25 named[2965]: XSTATS 973738465 973695265 RR=3 RNXD=0 
+      RFwdR=1 RDupR=0 RFail=0 RFErr=0 RErr=0 RAXFR=0 RLame=1 ROpts=0 S
+      SysQ=1 SAns=37 SFwdQ=2 SDupQ=8 SErr=0 RQ=39 RIQ=0 RFwdQ=0 RDupQ=0 
+      RTCP=0 SFwdR=1 SFail=0 SFErr=0 SNaAns=36 SNXD=0
+
+08:54:43
+- /usr/man/.Ci/named.tar and /usr/man/.Ci/bin deleted
+
+------------------------------------------------------------------------------
+
+2.9 /usr/man/.Ci/addn 
+- This script was executed from 08:55:30 to 08:55:51 
+- Adds lines to /usr/libexec/awk/addy.awk, which is read by a modified
+  /bin/netstat (see 3.4) and hides connections on certain addresses.
+- Running strings on this binary gives lines such as:
+    enter classb to hide in netstat: 
+    echo 1 %d.%d >> /usr/libexec/awk/addy.awk
+    echo 2 %d.%d >> /usr/libexec/awk/addy.awk
+    added %d.%d to the hidden list
+- Output of running strings in autopsy can be found in files/Ci/addn_strings
+- Examining /usr/libexec/awk/addy.awk reveals:
+    1 65.1
+    2 65.1
+    1 134518464.134518444
+    2 134518464.134518444
+    1 216.149
+    2 216.149
+- This is a similar format to what lrk4 uses to hide connections.
+
+------------------------------------------------------------------------------
+
+2.10 /usr/man/.Ci/do
+- This script was executed at 08:55:58
+- This script removes entries from /etc/password and /etc/shadow with "own" 
+  or "adm1" in them 
+- This script removed the 'shutdown' user from /etc/passwd and /etc/shadow
+  and created and deleted passwd.good and shadow.good
+
+------------------------------------------------------------------------------
+
+2.11 /usr/man/.Ci/snap 
+- This script was executed from08:56:02 to 08:56:04
+- The following was determined from mactimes output and the script
+  contents
+- The script removes entries from log files.
+
+08:56:02
+- removes supplied name from the following files:
+  /var/log/secure
+  /var/log/messages
+  /var/log/xferlog
+  /usr/adm/secure
+  /usr/adm/messages
+  /usr/adm/xferlog
+- creates the following temp files:
+  /var/log/tempsec
+  /var/log/tempmess
+  /var/log/tempxfer
+  /usr/adm/tempmess
+  /usr/adm/tempxfer
+- NOTE: no /usr/adm directory exists on the machine
+- NOTE: no /usr/adm directory exists on the machine
+- verified by deleted /var/log/tempxfer file using autopsy and dcat
+
+------------------------------------------------------------------------------
+
+2.12 /usr/man/.Ci/rmS 
+- This script was executed from 08:56:08 to 08:56:11
+- The following was determined from mactimes output and the script
+  contents
+- This script deletes files that were previously used to install
+  files
+
+08:56:08
+- Deletes the following files and directories:
+  /usr/man/.Ci/ssh-1.2.27
+  /usr/man/.Ci/{install-named, install-sshd, install-sshd1, install-statd,
+    install-wu}
+  /usr/man/.Ci/wuftpd.rpm
+  /usr/man/.Ci/nfs-utils-0.1.9.1-1.i386.rpm
+- sleeps for 3 seconds
+
+------------------------------------------------------------------------------
+
+2.13 /usr/man/.Ci/chmod-it 
+- This script was executed from 08:56:57 to 08:57:00
+- The following was determined from mactimes output and the script
+  contents
+- It makes many files have rwx permissions by owner and no permissions
+  for group other other.
+
+08:56:57
+- sleep 1 second
+08:56:59
+- performs a 'chmod 0700' on the following files:
+  /usr/sbin/userhelper (does not exist on this system)
+  /usr/X11R6/bin/Xwrapper (does not exist on this system)
+  /bin/ping
+  /sbin/{dump, restore}
+  /usr/bin/{at, change, gpasswd, suidperl, newgrp}
+  /usr/sbin/{traceroute, usernetctl}
+  /usr/libexec/pt_chown
+
+------------------------------------------------------------------------------
+
+2.14 tPACK 2.3 (Eggdrop) (08:57:06 -> 08:59:14)
+- The following was determined from analyzing unallocated blocks and
+  inodes on the hda8 image.  This work was done using autopsy, dcat,
+  istat, bcat, mactimes, grep, and strings.
+- The installation file, tpack.tar, was deleted but was recovered using icat.
+  The inode, 8133, was left intact and was recovered using:
+    % icat honeypot.hda8.dd 8133 > tpack.tar
+  The details of inode 8133 can be found in files/tpack/tarfile.inode8133,
+  but the  tpack.tar file was not included due to its large size.  It can
+  easily be recovered using the above method.  Its md5 value is:
+    4e771250050d5cc26fda8e1c5d97f0b1
+
+08:57:06
+- /bin/mkdir accessed  (it is assumed this was to make /dev/tpack/ in
+  inode 8132 on hda8)
+  - The details of inode 8132 can be found in files/tpack/directory.inode8132
+
+08:57:08
+- /tmp accessed (it is assumed that this was to move the tpack tarball
+  from /tmp to /dev/tpack)
+
+08:58:19
+- /bin/chown accessed (it is assumed that this was to change ownership
+  of the /dev/tpack directory from root to the final ownership of drosen)
+
+08:58:26
+- /bin/su is executed 
+- /home/drosen/.bashrc is accessed (it is assumed that the attacker su'ed
+  to the user 'drosen' while in the /dev/tpack directory.
+
+Using /home/drosen/.bash_history, the following was determined:
+08:58:28
+- /bin/gunzip is executed on compressed /dev/tpack/tpack.tgz to create
+  /dev/tpack/tpack.tar in inode 8133 on hda8
+
+08:58:41
+- /bin/tar is executed on /dev/tpack/tpack.tar
+- change directory to " "
+
+08:58:54 -> 08:58:57
+- "/dev/tpack/ /install" is executed 
+  - This file can be found in (files/tpack/install)
+  - sets the environment to not save history and modifies ~/.bash_history
+    to nonwrittable by everyone (it is currently has owner write permissions).
+  - compiles the eggdrop binary to the name 'p' and removes source and other
+    compilation files.  
+  - does 'chmod 0700' on the script file 'run'.  
+    - The 'run' script file encrypts the egg.log file, removes the 
+      encrypt binary
+    - executes the 'p' binary
+    - deletes itself.
+  - The 'run' script can be found in files/tpack/run
+
+- deleted object files in /tmp confirm compilation times
+- The Makefile creates a file called EGGDROP.stamp with the time of
+  compilation.  This file is located using inode 60531 and block 24671
+  with the following contents:
+    Wed Nov  8 08:58:56 CST 2000
+- The access time on /bin/chmod is 09:58:57 to confirm the above time.
+- the eggdrop binary can be recovered from inode 60532 on hda8 using
+  % icat honeypot.hda8.dd 60532 > eggdrop
+- Due to its size, this binary was not included but can easily be
+  recovered.  Its md5 value is: a32b48f5b2ba206fe16bece1fe995ed6
+
+08:59:07
+- /home/drosen/.bash_history is modified (attacker exits as seen in 
+  the history file)
+
+08:59:14
+- attacker deletes /dev/tpack directory
+  - /bin/rm is accessed
+  - /dev/ is modified and created
+  - /dev/tpack/ (inode 8132) has same deleted time
+
+------------------------------------------------------------------------------
+
+=============================================================================
+3.  ANALYSIS OF INSTALLED FILES
+
+This section will give an analysis of some files that were installed on
+the compromised system.  There were many more files installed than actually
+used, but we will only focus on those that were installed.
+
+The rootkit that was installed in /usr/man/.Ci is a variation of the 
+Linux RootKit 4 (lrk4).  The rootkit had several automated installation
+scripts and precompiled binaries.  The individual binaries that were
+installed will be analyzed, but there also existed several network
+sniffers and scanners in the scan/ directory.  There is also a hidden
+directory named with a space (" ") that contained a single file to remove
+a file in /var/tmp called anap that holds passwords from the trojaned
+sshd daemon.
+
+The following analysis was done using strings and knowledge of how lrk4
+works.
+
+------------------------------------------------------------------------------
+3.1 /sbin/ifconfig
+- same version as lrk4: net-tools-1.32-alpha
+- the lrk4 version does not show the promiscuous flag while sniffing
+
+------------------------------------------------------------------------------
+3.2 /usr/sbin/in.identd
+- This does not exist in the usual lrk4.  A strings analysis shows that it
+  allows faked identification responses
+- It uses /.noident and /.fakeid files
+
+------------------------------------------------------------------------------
+3.3 /bin/ls
+- hides files based on contents of /usr/man/r.  This is a modification to
+  the original lrk4, which usually uses /dev/ptyr
+- this is the same version as lrk4: fileutils-3.13
+
+------------------------------------------------------------------------------
+3.4 /bin/netstat
+- This hides network connections based on contents of 
+  /usr/libexec/awk/addy.awk file.  This is different then the lrk4 version 
+  that uses /dev/ptyq.
+- same version as lrk4: net-tools 1.32-alpha
+
+------------------------------------------------------------------------------
+3.5 /bin/ps
+- hides processes based on contents of /dev/ptyp (same file as top)
+- same version as the lrk4: procps-1.01
+- according to the Ci installation files, p and .p should be used for
+  hiding processes from ps.
+
+------------------------------------------------------------------------------
+3.6 /usr/man/.Ci/syslogd
+-  This was never installed because it didn't originally exist in 
+  /usr/sbin/syslogd like the install script wanted.
+- Does not process logs based on contents of /usr/man/.l.  The lrk4
+  version uses /dev/ptys.  
+- The .l file was never installed, but is being hidden by /usr/man/r
+- same version as lrk: syslogd 1.3
+
+------------------------------------------------------------------------------
+3.6 /usr/sbin/tcpd
+- Allows connections and prevents logging based on contents of file
+  /usr/man/.a.  The usual lrk4 version reads /dev/ptyq
+- same version as lrk: tcpd_7.4
+
+------------------------------------------------------------------------------
+3.7  /usr/bin/top:
+- hides processes based on contents of /dev/ptyp (same file as ps uses)
+- same version as lrk4: procps version 1.01
+
+
+=============================================================================
+4. TOOLS
+This section will describe each tool used in this analysis.
+
+------------------------------------------------------------------------------
+
+4.1  The Coroners Toolkit (TCT)
+TCT was used for much of this analysis.  The specific tool that was 
+utilized the most was mactimes, and of course grave-robber.  This
+was used to get a timeline of file changes.  The TCT source code was 
+also used as part of my personal TCT utilities, as described in the
+next section.
+
+------------------------------------------------------------------------------
+
+4.2  TCTUTILs
+The TCTUTILs package will be released in the public after the challenge 
+deadline.  This challenge was used to test these applications and it found 
+some interesting bugs and forced some new features.  It will be cleaned up
+and released soon at:
+  www.cerias.purdue.edu/homes/carrier/forensics.html
+
+The package includes the following utilities:
+  bcat: a tool to display the contents of a specified block in different
+    output formats.
+    usage: bcat [opts] device block size
+
+  dcat: a tool that analyzes directory inodes and can travel recursively
+    down them.  It biggest feature is to display deleted file names and
+    even print them out in mactimes format so they can be imported into
+    the timeline from mactimes.  This was very useful to find all the 
+    deleted file names in /usr/man/.Ci and /dev/tpack
+    usage: dcat [opts] device inode
+
+  find_block: Given a block number and device, find the inode that is
+    allocated to the block
+    usage: find_block device block
+
+  find_inode: Given an inode and device, find the file name that corresponds
+    to it (even if the file has been deleted)
+    usage: find_inode device inode
+
+  istat: a tool to display nicely formated inode contents (a nicer version
+    of 'ils -a' in TCT).
+    usage: istat device inode
+
+------------------------------------------------------------------------------
+
+4.3  Autopsy Forensics Browser
+The Autopsy Forensics Browser is CGI script that I wrote to interface
+TCT and TCTUTILs.  It will also be released with TCTUTILs at:
+  www.cerias.purdue.edu/homes/carrier/forensics.html
+
+It has the following features:
+- File Browsing: Allows image files to be browsed in a "file manager" type
+  interface.  It also allows file contents to be displayed in many different
+  formats such as hexdump, strings, or ascii.  
+ - This uses dcat and can therefore display deleted filenames and files
+
+- Inode Browsing: Allows image files to be browsed by inode.  Enter any
+  inode and it uses istat to give the details of it and allows you to then
+  view each block that the inode uses (using bcat).  It also uses find_inode
+  to determine which file is currently using the inode.
+
+- Block Browsing: Browse an image by block.  Similar to the Inode browsing,
+  the contents of each block can be displayed in a number of formats, 
+  including with strings.  This will try to determine which inode has allocated
+  the block and then which file is using that inode.
+
+- Search: Use grep on an image and determine which block of the device has
+  the keyword.  Then use bcat to display that block and find out which file
+  or inode is using it.
+
+The browser will also generate reports for introduction as evidence and 
+handles things like timezone differences between analysis site and 
+compromise site (called autopsy reports).
+
+This runs on any system that TCTUTILs runs on and requires an HTML server
+with CGI support.
+
+------------------------------------------------------------------------------
+
+4.4  UNIX utilities
+The following standard UNIX utilities were also utilized:
+  strings
+  grep
+
+------------------------------------------------------------------------------
+
+REFERENCES
+[1] rpc.statd advisory
+  http://www.linuxsecurity.com/advisories/redhat_advisory-562.html
+[2] lpr advisory
+  http://www.linuxsecurity.com/advisories/redhat_advisory-159.html
+[3] lpr advisory
+  http://www.linuxsecurity.com/advisories/redhat_advisory-368.html
+[4] lpr advisory
+  http://www.linuxsecurity.com/advisories/redhat_advisory-754.html
+[5] make advisorty
+  http://securityportal.com/list-archive/bugtraq/2000/Feb/0169.html
+[6] wu-ftp buffer overflow
+  http://www.linuxsecurity.com/advisories/redhat_advisory-500.html
+
+
+------------------------------------------------------------------------------
+APPENDIX A   Specific Answers to Challenge Questions
+
+1.  The intrusion occured on November 7, 2000 at 23:11:50 using a string
+format vulnerability in rpc.statd [1].  
+
+2.  The initial attack came from 216.216.74.2.  When the attacker came back
+many hours later to install applications, they came from 24.12.200.186.  It
+is unknown if any of these were home addressess or if there was a long chain
+of other compromised hosts in an island hoping scenario.
+
+3.  See modfiles.txt
+
+4.  A sniffer was run at 08:52:13 from /usr/man/.Ci/snif.  It logs data
+to /usr/man/.Ci/tcp.log and adds is pid to /usr/man/.Ci/snif.pid.  A trojaned
+sshd binary was installed that saves passwords in /var/tmp/nap.
+
+5.  A rootkit was installed from /usr/man/.Ci.  It is based off of the
+Linux Rootkit 4.  It installs many trojan binaries as described above.
+
+6.  The linux rootkit is a commonly known program and has been analyzed
+by many people and is written by Lord Sommer.  The /usr/man/.Ci
+directory also contained executables for q and qs which are believed to
+be backdoor programs written by mixter.  The advisories that were used
+in this attack can be found in the references section.
+
+7.  See above.
+
+8.  See summary.txt
+
+9.  See advisory.txt
+
+10.  See costs.txt
+

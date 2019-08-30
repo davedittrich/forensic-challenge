@@ -1,0 +1,105 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Lance Spitzner">
+<style type="text/css">
+<!--
+a:active {  text-decoration: none}
+a:hover {  text-decoration: none; color: blue}
+a:link {  text-decoration: none}
+a:visited {  text-decoration: none}
+-->
+</style>
+</head>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+
+<h1>roessler</h1>
+<ul>
+<li> This investigation shows a lot of good generic technique.
+	Searches the file system in a very systematic manner,
+	looking for passwd-like data, name=value environment
+	information, dumping lastlog file, directory-only listing,
+	logging.</p>
+<li> Decompiled backdoored identd.</p>
+<li> Fakelib, for running binaries in controlled environment.</p>
+<li> MD5 checks of installed files.</p>
+<li> Difference of ssh source against original, autoconfiged and
+all.</p>
+<li> Good analysis.  
+<li> Recoginized different rootkits mixed.</p>
+<li> Excellent timeline.
+<li> Excellent management report.
+<li> Advisory includes good summary of events, excellent signature of how
+to detect compromise, hints and tips, and references. Even includes
+missing shutdown command.</p>
+<li> Analysis is excellent. Does not have dcat, but figures it all out,
+and even gets process environment and lost logging from swap.</p>
+<li> Excellent demo of how to recover lost information
+	with strings/grep from swap and raw disk. Fine demo
+	of how to run a DDOS tool in a shared lib sandbox.</p>
+<li> Outstanding readability, giving 2 bonus points!
+Very easy to read, excellent format to learn from.</p>
+
+<li> Notes that the rootkit elements actually come from different
+Linux Rootkit distributions (4 and 5).</p>
+
+<li> Identifies the version of "named" to be one relased immediately
+after a CERT advisory about a BIND vulnerability, and postulates that
+the binary was created by <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5a2835352e1a203b3d342f2e743d3535383f74343f2e">[email&#160;protected]</a> as a result of a
+compromise of that system.  (Could this person have actually created
+this version as a result of intrusions himself?  Thomas did not know
+about the OZ rootkit, as identified by <a href="addam.html">Addam
+Schroll</a> and <a href="andy.html">Andy Polyakov</a>, which may support
+the latter conclusion.)</p>
+
+<li> Found some very interesting things in swap space by searching for
+environment strings.  This includes instances of processes run from
+the account "adm1", including "/bin/su", "/usr/local/sbin/sshd", and
+"/usr/sbin/named".  He also found a copy of Lance's shell running
+"nc" to copy the images off-system while the system was running! (Good
+catch.)</p>
+
+<li> Used a clever shell "for" loop to recover all non-zero deleted
+i-nodes, and examined them.  He found the source distribution for the
+sshd installed by the intruder, and through difference analysis
+found the same backdoor and logging features I had found.  He even
+confirmed the backdoor password that was found in /usr/tmp/nap.
+Strings compiled into the sshd ("/dev/.oz/.nap/rkit/terror") show it,
+too, is part of the OZ rootkit.</p>
+
+<li> Did the best job of showing adjusted times in his timeline
+to match what was stated to be the reference time in CST.  (This would
+aid tremendously when comparing this incident with other related
+incidents.)</p>
+
+<li> Did a very thorough job of providing second sources of
+evidence to support theories, e.g., the use of "su" to become
+the "drosen" user.</p>
+
+<li> Very impressive use of fake system calls in a shared
+object library (fake.so) to analyze the output of a DoS attack tool.
+This has some very interesting possibilities that I hadn't thought of
+before for analyzing DoS and DDoS programs! (Mua-ha-ha-ha!! ;)</p>
+
+</ul>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+</html>

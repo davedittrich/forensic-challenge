@@ -1,0 +1,342 @@
+I. COLLECTING THE EVIDENCE.
+
+The good thing about RedHat Linux is that it maintains a database of
+all the files installed through package manager along with their MD5
+checksum and original access permissions. Fortunately crackers are
+apparently too lazy or not skillful enough to write programs that would
+manipulate the RPM database and therefore it's perfectly possible to
+use it as a reference. It should be noted that even if intruder(s)
+would implement such a program and properly register their hostile
+programs (rootkit and backdoors) in the RPM database (thus making it
+impossible to discover with the RPM verification procedure), it would
+still be possible to use the pre-built RPM database provided on the
+distribution CD (rpmdb-redhat package) or even build database off the
+distribution (--justdb option). Fortunately (as it will become clear
+later) our intruder doesn't possess/use such program(s) and the
+following (simplified) procedure is applicable.
+
+1.  Boot from RedHat distribution CD either in 'rescue' mode or dropping
+    to the  interactive shell and then recursively mount the system
+    partitions under, say, /tmp/a.
+
+3.  Now 'rpm --root /tmp/a -V -a' is hired to identify the files that
+    have possibly been modified by the intruder (complete output is
+    provided in files/rpm-V.out). In the first round we look for files
+    of potential interest for the intruder, namely network daemons which
+    can be crafted with backdoor and system information collection
+    programs like netstat, ps, ls:
+
+	S.5.....   /bin/ls
+	S.5....T c /etc/httpd/conf/httpd.conf
+	S.5....T   /usr/sbin/named
+	S.5....T c /etc/inetd.conf
+	S.5....T c /etc/rc.d/rc.local
+	S.5.....   /bin/netstat
+	S.5.....   /sbin/ifconfig
+	S.5....T c /etc/pam.d/passwd
+	SM5.....   /usr/sbin/in.identd
+	S.5.....   /bin/ps
+	S.5.....   /usr/bin/top
+	S.5....T c /etc/pam.d/rlogin
+	S.5.....   /usr/sbin/tcpd
+	S.5....T   /usr/sbin/in.telnetd
+	S.5....T c /etc/pam.d/login
+
+4.  I start with /tmp/a/etc/pam.d/* and conclude that they were
+    modified during installation to meet the user choice of MD5
+    passwords that should be kept in /etc/shadow.
+
+5.  Apparently /tmp/a/etc/httpd/conf/httpd.conf was modified during
+    installation as well (some module postinstall script must have
+    modified the original version).
+
+6.  Very special attention is paid to /tmp/a/etc/inetd.conf. It doesn't
+    contain any backdoors (i.e. by itself) and it appears as it was
+    modified during the installation.
+
+7.  Next is /tmp/a/etc/rc.d/rc.local where we find
+    /usr/local/sbin/sshd1 appended to the end of file.
+
+8.  ps, top, ls, netstat and ifconfig(?) are obviously comprise the
+    rootkit which is supposed to hide intruder's processes, files and
+    connections. But to be on the safe side I copy
+    /tmp/a/usr/bin/strings to /tmp(*) and initially examine these
+    programs for backdoors by running '/tmp/strings -a file | grep -e
+    socket -e connect -e send' and look for references to (socket and
+    (connect or send or sendto)) system calls(**) and conclude there're
+    no such program among ps, top, ls, netstat and ifconfig.
+
+    (*)  /tmp/a/usr/bin is mounted as non executable. However, the fact
+	 the program in question doesn't appear in the output from
+	 rpm -V (see files/rpm-V.out) suggests that the binary was not
+	 tampered with and the risk of getting into trouble by running
+	 a copy from /tmp/a tree is minimal.
+
+    (**) I actually first double-check that they're dynamically linked
+	 and only then run strings. Well, normally I would use objdump
+	 -R for this very purpose, but it's not available at this
+	 point. Intruder can fool me here by statically linking couple
+	 of object module, but I have never observed such behavior so
+	 far and take the risk.
+
+9.  At this point we have /tmp/a/usr/sbin/named, /tmp/a/usr/sbin/tcpd,
+    /tmp/a/usr/sbin/in.telnetd, /tmp/a/usr/sbin/in.identd and
+    /tmp/a/usr/local/sbin/sshd1 left to be examined, but I save it for
+    later analysis (presented in separate analysis.txt file).
+
+10. In the next step I attempt to establish time frame for the attack.
+    I copy /tmp/a/usr/bin/last to /tmp (see (*) above) and examine
+    output from '/tmp/last -f /tmp/a/var/log/wtmp'. It suggests that
+    the system was taken down on November 9 (there is no reason to
+    distrust this timestamp) and the wtmp was apparently wiped on
+    November 8. Next thing I do is calculate how many days passed since
+    the 9th of November (say X) and run 'find /tmp/a -ctime -X |
+    /tmp/wc' ((*) applies to /tmp/wc) and repeat the command with X+1,
+    X+2, etc. till I find the "offset" when the most of files were
+    modified. It turns to be Y days back and I examine the
+    corresponding output (complete output is presented in
+    files/find-ctime.out). First glance suggests following:
+
+	- intruder has updated/installed wu-ftpd, lpr, nfs-utils,
+	  ypserv, telnet, am-utils, screen and make(?) packages;
+
+	- comparison between find-ctime.out and rpm-V.out suggests that
+	  access bits for a vast majority of set-root-uid programs were
+	  changed (see .M...... lines in rpm-V.out);
+
+	- intruder has installed ssh1 and bind in /tmp/a/usr/local,
+	  /tmp/a/bin/bx, left behind (most notable ones)
+	  /tmp/a/dev/ptyp, /tmp/a/etc/psdevtab, /tmp/a/var/tmp/nap,
+	  /tmp/a/usr/libexec/awk/addy.awk, a whole bunch of files in
+	  /tmp/a/usr/man/.Ci, few directly in /tmp/a/usr/man and in
+	  /tmp/a/home/drosen;
+
+    It should be noted that none of the files comprising the rootkit
+    nor potential backdoors (those listed in the paragraph #9 with
+    exception for /tmp/a/usr/sbin/in.telnetd) appear in the
+    find-ctime.out! This suggests that the intruder had at some point
+    reset the system clock back to the OS installation time (well, close
+    to) when he planted the files in question.
+
+12. Glance through the files in /tmp/a/var/log suggests that the files
+    were very likely tampered with as apparently there is nothing
+    interesting except following four matching entries in
+    /tmp/a/var/log/messages and /tmp/a/var/log/secure correspondingly:
+
+	Nov  5 10:54:52 apollo inetd[408]: pid 680: exit status 1
+	Nov  6 03:00:41 apollo ftpd[973]: FTP session closed
+	Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+	Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+
+	Nov  5 10:54:49 apollo in.telnetd[680]: connect from 207.239.115.11
+	Nov  6 02:59:23 apollo in.ftpd[973]: connect from 128.121.247.126
+	Nov  8 00:08:40 apollo in.telnetd[2077]: connect from 216.216.74.2
+	Nov  8 00:08:40 apollo in.telnetd[2078]: connect from 216.216.74.2
+
+    and reference to c871553-b.jffsn1.mo.home.com which you can note if
+    you run '/tmp/strings /tmp/a/var/log'.
+
+13. Having established that the intruder played with the system clock I
+    look for hostile kernel modules, startup scripts and cronjobs that
+    might have slipped through find -ctime and rpm -V pair by appearing
+    "old" enough and not being listed in RPM database:
+
+    - I examine files in /tmp/a/etc/rc.d looking for hostile scripts.
+      E.g. 'find /tmp/a/etc/rc.d \! -type l' would tell me that
+      there're only symbolic links in /tmp/a/etc/rc.d/rc*.d as well as
+      that scripts in /tmp/a/etc/rc.d/init.d look all familiar (in case
+      of a least doubt I perform 'rpm --root /tmp/a -q -f
+      /etc/rc.d/init.d/suspicious.script' to establish its
+      "affiliation"). On the other hand 'find /tmp/a/etc/rc.d -type l
+      -ls | grep -v "> ../init.d"' tells me that all links appear to be
+      legitimate.
+
+    - 'find /tmp/a/lib/modules | grep -v modules.dep | /tmp/wc' and
+      'rpm --root /tmp/a -q -l kernel | grep ^/lib/modules | /tmp/wc'
+      both print same number of 441 modules indicating that if intruder
+      would hide a module from find -ctime, the rpm -V would expose it
+      or report missing.
+
+    - I visually examine /tmp/a/etc/conf.modules, /tmp/a/etc/inittab,
+      /tmp/a/etc/crontab, files in /tmp/a/etc/cron.*/, ...
+
+    I fail to find any extra backdoors and therefore it's time for...
+
+II. SECURING THE EVIDENCE AND BRINGING THE SYSTEM UP.
+
+1.  At this point I need a writable filesystem:
+
+	umount /tmp/a/home; mount /dev/hda6 /tmp/a/home
+
+    In addition having identified the rootkit and backdoors I also
+    choose to remount /usr without noexec option:
+
+	umount /tmp/a/usr; mount -o ro /dev/hda5 /tmp/a/usr
+
+2.  First of all I save output from rpm -V and find -ctime and compose
+    a list suitable for processing by cpio:
+
+	rpm -V -a --root /tmp/a > /tmp/a/home/rpm-V.out
+	find /tmp/a -ctime -Y > /tmp/a/home/find-ctime.out
+	cp /tmp/a/home/find-ctime.out /tmp/a/home/cpio.in
+	/tmp/a/usr/bin/awk '{print"/tmp/a"$NF}' /tmp/a/home/rpm-V.out >> /tmp/a/home/cpio.in
+
+3.  Secondly I collect output from stat (resulting output found in
+    files/stat.out):
+
+	/tmp/a/usr/bin/stat `cat /tmp/a/home/cpio.in` > /tmp/a/home/stat.out
+	Can't stat /Anap
+	Can't stat /tmp/a/usr/sbin/apmd
+	Can't stat /tmp/a/usr/sbin/atd
+	Can't stat /tmp/a/var/log/mars_nwe.log
+	Can't stat /tmp/a/var/run/mars_nwe.routes
+	Can't stat /tmp/a/usr/sbin/rpc.rstatd
+	Can't stat /tmp/a/usr/sbin/rpc.rusersd
+	Can't stat /tmp/a/usr/sbin/rpc.rwalld
+	Can't stat /tmp/a/usr/sbin/nmbd
+	Can't stat /tmp/a/usr/sbin/smbd
+	Can't stat /tmp/a/etc/rc.d/init.d/syslog
+	Can't stat /tmp/a/usr/sbin/snmpd
+	grep Anap /tmp/a/home/cpio.in
+	/tmp/a/usr/man/.Ci/ /Anap
+	/tmp/a/usr/bin/stat '/tmp/a/usr/man/.Ci/ /Anap' >> /tmp/a/home/stat.out
+
+4.  And finally copy all the files presumably modified during intrusion:
+
+	cpio -pdum /tmp/a/home/intrusion < /tmp/a/home/cpio.in
+
+5.  Well, 'rpm --root /tmp/a -q -a' > /tmp/a/home/rpm-q-a.out' (also
+    available as files/rpm-q-a.out) sounds like a good idea as well.
+
+Now we have to estimate risks of bringing the system up. Even though
+it's unlikely that packages listed in paragraph #10 above carry
+malicious code (I've observed several times how intruder patches the
+holes he exploited to penetrate the system as well as other vulnerable
+services, presumably to protect himself from scans mounted by other
+crackers or himself) I have to assume that all programs and packages
+installed by intruder are tainted. On the other hand reinstalling
+packages from the distribution CD would mean opening holes exploited in
+first place and therefore exposing the computer for another break-in
+attempt. As there're no user accounts (drosen in /etc/passwd is more
+than likely belongs to the intruder), http is very likely the only
+service that is expected to be provided by this particular computer. So
+that instead of getting rid of wu-ftpd, nfs-utils and other packages as
+well as inhibiting potential backdoors mechanisms (see paragraph #9
+above) I choose to make sure that http server is the only service
+started upon reboot:
+
+- at this point I unmount all the file systems and remount root file
+  system read-write;
+
+- then I use 'chroot /tmp/a /sbin/chkconfig --list' (see
+  files/chkconfig--list.out) to list the services started upon
+  (re)boot;
+
+- I take out named, inet, netfs, lpd, nfs, nfslock, identd, portmap,
+  rstatd, rusersd, rwalld, rwhod, smb, sendmail, amd, snmpd, ypbind,
+  yppasswd and ypserv (some of them were already off) by repeatedly
+  running 'chroot /tmp/a /sbin/chkconfig name off';
+
+- next step is to edit /tmp/a/etc/rc.d/rc.local and comment out sshd
+  line we have discovered earlier;
+
+- finally I delete drosen account from /tmp/a/etc/passwd and
+  /tmp/a/etc/shadow;
+
+The system is ready for reboot. When the system comes up it won't be
+possible to login over the network.
+
+Pre-reboot comments.
+
+- Note that I didn't get rid of backdoors at this point, but made sure
+  that they aren't in effect by severily limiting services provided by
+  the computer in question.
+
+- Note that I didn't get rid of rootkit either, because it doesn't seem
+  to contain backdoors (like connecting to a rouge server on Internet)
+  as we figured out in step #8 above and we're perfectly capable of
+  dealing with it after reboot (well, it's somewhat strange to find
+  that /tmp/a/sbin/ifconfig was replaced, but I'm ready to take the
+  risk, in worst case network interface won't be operational, but I
+  still have the distribution CD).
+
+- I chose not to make dd images of partitions as it consumes quite
+  a lot of diskspace and time.
+
+- Yes, it's kind of "dairy" to bring up the system like this, but I
+  consider it as acceptable risk for the cost of minimizing down-time
+  which has been at most 1.5 hours so far.
+
+The system is brought up. The first thing I do is following (output is
+provided in files/rpm-V-postreboot.out(*)):
+
+	mount /mnt/cdrom
+	rpm -i --force /mnt/cdrom/RedHat/RPMS/rpmdb-redhat-*
+	rpm -U --force \
+		--dbpath /usr/lib/rpmdb/i386-redhat-linux/redhat --justdb \
+		/mnt/cdrom/RedHat/RPMS/kernel-`uname -r`.`uname -m`.rpm
+	rpm -V --dbpath /usr/lib/rpmdb/i386-redhat-linux/redhat \
+		`rpm -q -a | sed 's/\-[^\-]*\-[^\-]*$//'`
+
+Examining output(*) confirms the conclusions made so far (i.e. which
+files comprise rootkit, which are possible backdoors, packages
+installed by intruder, etc.) and give me confidence that other programs
+residing on the hard disk (most notably already running apache server)
+were not tampered with.
+
+(*) To make it easier to analyze the file should be filtered and for
+    example "missing /usr/lib/linuxconf/help.*" as well as "missing
+    /usr/man" lines are discarded. Special comment about second
+    rpm command. The catch is that RedHat installation program peaks
+    kernel best suited for your computer and it might be different from
+    the one "listed" in rmpdb-redhat package. The second command
+    compensates for the latter.
+
+Evidence is collected and secured. Analysis is provided in analysis.txt
+file.
+
+At this point I overwrite rootkit and backdoors, get rid of presumably
+hostile as well as redundant packages, download security updates from
+RedHat and install them, i.e. something similar to following (depending
+on what the actual role of this computer is):
+
+	cd /mnt/cdrom/RedHat/RPMS
+	rpm -q -f /bin/ls;	rpm -U --force fileutils-*
+	rpm -q -f /bin/netstat;	rpm -U --force net-tools-*
+	rpm -q -f /sbin/ifconfig;	:
+	rpm -q -f /bin/ps;	rpm -U --force procps-*
+	rpm -q -f /usr/bin/top;	:
+	rpm -U --force at-*
+	rpm -U --force bind-*
+	rpm -U --force make-*
+	rpm -U --force pidentd-*
+	rpm -U --force tcp_wrappers-*
+	rpm -U --force telnet-*
+	rpm -e apmd		# missing file
+	rpm -e samba
+	rpm -e am-utils		# presumably hostile and redundant
+	rpm -e ypserv
+	rpm -e screen
+	rm -rf /usr/local	# little bit arrogant, but does the job in this particular case
+	rm /bin/bx
+	cd /redhat/patches	# (#)
+	rpm -U --force *
+	/etc/rc.d/init.d/syslog start
+
+(#) In the 9th of November we should have at least iputils, tmpwatch,
+    traceroute, lpr, syslog, wu-ftpd andb nfs-utils packages.
+
+Finally I enable and start "secondary" services the computer in
+question is expected to provide and that were disabled at "chkconfig"
+point earlier, e.g. 'chkconfig inet on; /etc/rc.d/init.d/inet start',
+etc. I might have to reinstall extra packages, e.g. rusers-server-*, to
+restore missing files (see files/rpm-V.out) and probably (re-)adjusting
+access policy defined through /etc/hosts.{allow|deny}.
+
+III. SUMMARY.
+
+Evidence is collected and secured for further analysis (see
+analysis.txt). The system is back up and running. I'm confident that
+there're no backdoors granting remote access to non legitimate users
+and the system is very likely no longer vulnerable to the kind of
+attack it was exposed to.

@@ -1,0 +1,66 @@
+======================================
+Compromised System Timeline
+ 
+  OS:  Linux Kernel 2.2.14-5
+       Redhat 6.2 Server Installation
+Host:  apollo.honeyp.edu
+  IP:  172.16.1.107
+Time:  GMT-0600 (Chicago CST)
+======================================
+ 
+SOURCE  TIME OF EVENT                   EVENT DESCRIPTION
+------  -------------                   -----------------
+MAC     Nov 5 09:33:20 - 10:52:33       System Startup
+MAC     Nov 5 10:52:35 - Nov 6 03:00:41 Change made to eth0 configuration
+MAC     Nov 6 04:02:00 - 04:02:06       Daily cronjob runs
+IDS     Nov 7 23:11:31                  IDS detects RPC info query from attacker to victim
+IDS     Nov 7 23:11:31                  IDS portscan detects two connections from attacker to 1 host
+IDS     Nov 7 23:11:31                  IDS registers two telnet connections from attacker to 172.16.1.101
+IDS     Nov 7 23:11:47                  IDS portscan detects two connections from attacker to 2 hosts
+IDS     Nov 7 23:11:51                  IDS detects RPC status request from attacker to victim
+IDS     Nov 7 23:11:51                  IDS detects Shellcode sent from attacker to port 871 on victim
+secure  Nov 8 00:08:40                  2 Telnet connections from 216.121.247.2 (registered in secure log)
+msgs    Nov 8 00:08:41                  Internet Daemon killed twice... fits rpc.statd vulnerability profile
+d msgs  Nov 8 00:09:00                  rpc.statd shellcode exploit attempted
+MAC     Nov 8 08:25:53 - 08:33:42       ftp program executed
+MAC     Nov 8 08:45:18 - 08:51:56       Login followed by installation of intruder toolkit
+MAC     Nov 8 08:51:54 - 08:51:56       Intruder installs toolkit files  and modifies hosts.deny
+MAC     Nov 8 08:52:09 - 08:52:10       Intruder deletes command history logging
+MAC     Nov 8 08:52:09                  Modifies history files by linking to /dev/null
+MAC     Nov 8 08:52:10 - 08:52:12       Creates backup of original system binaries (indicates installation of rootkit trojans)
+MAC     Nov 8 08:52:12 - 08:52:15       Installs scripts and hidden process/network lists.
+MAC     Nov 8 08:52:13                  Starts sniffer program
+MAC     Nov 8 08:52:14 - 08:52:15       Runs 'clean' to erase log file entries
+MAC     Nov 8 08:52:25 - 08:52:31       Installs am-utils-6.0 RPM package
+MAC/RPM Nov 8 08:52:25 - 08:52:31       Installs automounter (am-utils-6.0.1s11-1.6.0) utilities and edits configuration
+MAC/RPM Nov 8 08:52:32                  BitchX IRC client started and installation of NIS server (ypserv-1.3.9-1)
+MAC/RPM Nov 8 08:52:32                  Installs make package (make-3.77-6)
+MAC/RPM Nov 8 08:52:32                  Installs line printer utilities package (lpr-0.48-1)
+RPM     Nov 8 08:52:33                  Installs screen package (screen-3.9.4-3)
+RPM     Nov 8 08:52:33                  Installs telnet package (telnet-0.10-29)
+MAC     Nov 8 08:52:34 - 08:53:06       Installs BitchX IRC client
+MAC     Nov 8 08:52:34 - 08:53:28       Moves BitchX client to bin
+MAC     Nov 8 08:53:08 - 08:53:33       Installs new ssh client/server
+MAC     Nov 8 08:53:33                  New sshd server started
+MAC     Nov 8 08:53:40 - 08:53:41       Installs wu-ftpd-2.6.0 package (wu-ftpd-2.6.0-14.6x) and starts ftp server
+MAC     Nov 8 08:53:40 - 08:53:43       Installation of wuftp program (from rpm?)
+MAC/RPM Nov 8 08:53:47 - 08:53:50       Installs updated nfs-utils-0.1.9.1 RPM to patch exploited hole
+MAC     Nov 8 08:54:10 - 08:54:28       Installation of bind utils and named
+MAC     Nov 8 08:54:22 - 08:54:25       Installs BIND
+MAC     Nov 8 08:55:30 - 08:55:51       Create list of IP address not shown by netstat
+MAC     Nov 8 08:55:30 - 08:56:08       Creates hidden net address file, new passwd files, erases log entries
+MAC     Nov 8 08:55:58                  'do' removes  backdoor accounts from passwd and shadow
+MAC     Nov 8 08:56:02 - 08:56:08       'snap' removes IP,host,user entries from log files
+MAC     Nov 8 08:56:11 - 08:56:57       'rmS' removes ssh, wuftp, nfs-utils packages and install script
+MAC     Nov 8 08:56:59 - 08:57:19       'chmod-it' removes setuid from system binaries
+MAC     Nov 8 08:56:59 - 08:57:00       Removes setuid bit from binaries
+MAC     Nov 8 08:58:26 - 09:02:23       'su' to drosen account followed by decompression and compilation of ???
+MAC     Nov 8 08:59:07 - 09:03:05       Clears user's history, creates nap file, changes inetd.conf back
+MAC     Nov 8 09:02:28                  Creation of txt file nap containing a root login and plaintext password
+MAC     Nov 8 09:02:30 - 09:02:32       Use of trojaned ps and w
+MAC     Nov 8 09:02:42 - 09:03:12       Hand editing of inetd.conf then restart inetd
+MAC     Nov 8 09:03:15                  Intruder logs out of root account
+MAC     Nov 8 20:37:30 - 20:37:42       Begin login at console since no ssh/telnet active ( as root ?)
+MAC     Nov 8 20:37:37 - 22:10:01       Big Brother was watching... makes copy of disk soon after
+MAC     Nov 8 21:01:00 - 21:10:11       Running of hourly cron job followed by rmmod every 10 minutes
+MAC     Nov 8 21:10:27 - 22:10:01       Use of trojaned ls reading /usr/man/r for hidden files

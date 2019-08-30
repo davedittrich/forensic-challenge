@@ -1,0 +1,50 @@
+Incident
+========
+* We had a root compromise on apollo.honeyp.edu! The system is now
+  offline and is now being examined.
+* The time of exposure was between 2000-11-08 14:48:15+00 and
+  2000-11-09 *:*:00+00 (The challenge did not provide a time when this
+  box was taken offline!)
+* There were a lot of sniffing and monitoring tools installed on the
+  system. But so far we have only evidence that a network sniffer and
+  a trojaned sshd were activated.
+* The used tools do not look as this was a very high profile
+  intruder.
+!! All user/passwords in this LAN segment may be compromised!!
+!! All user/passwords from users who used ssh/scp to appolo.homeyp.edu
+   during that time ARE compromised!!
+
+Next Steps (reasonable paranoid):
+===========
+* Do NOT change passwords yet! (There may be other compromised boxes!)
+1. Check all the Linux boxes if they are compromised. (Use the
+   evidence.txt as example on what to look for) Use private copies of
+   the system commands (ls, find, ps, top etc)
+1.1. If another compromised box is found
+1.1.1. -> REPORT to <sec-office@honeyp.edu>
+1.1.2. Take it offline whenever possible.
+1.1.3. Wait for <sec-office@honeyp.edu> with the next steps.
+1.2. If this box was lucky. (Do the following from the (text!) console
+     or a trusted remote system. Do NOT consider X11 as save unless
+     you're on a trusted system with tight security settings!)
+1.2.1. Patch it to the current patch level & install a trusted sshd
+       and tcp wrapper(if not yet used).
+1.2.2. Disable all unneeded services (ftp, telnet, rlogin, rsh as
+       well, replaced by sshd) and install tight tcpd permissions
+       for everything else.
+1.2.3. Leave the box and slogin from a trusted system. Change or lock
+       all the passwords on the system.
+
+2. Check all the other boxes for signs of a compromise. This attacker
+   had Linux systems as primary targets but this does not mean that
+   other systems may not be compromised.
+2.*. Follow the needed steps as outlined in 1.[12].
+
+3. Change or lock all the remaining passwords.
+
+4. Create and/or enforce a prober security policy.
+
+5. Name designated security observers for all used OS's.
+
+6. Report to <sec-office@honeyp.edu>. <sec-office@honeyp.edu> will
+   write a final report after that incident.

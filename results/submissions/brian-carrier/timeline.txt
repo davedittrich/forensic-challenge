@@ -1,0 +1,1422 @@
+Brian Carrier                                                  timeline.txt
+------------------------------------------------------------------------------
+
+All Times in EST (1 hour ahead of compromised system)
+
+**************** Attacker gets a shell ***************************************
+Nov 08 00 09:25:53     2836 .a. -r-xr-xr-x root     root     t/usr/bin/uptime
+Nov 08 00 09:26:15        0 m.c -rw-r--r-- root     root     t/etc/hosts.deny
+Nov 08 00 09:26:51     1024 .a. drwxr-xr-x root     root     t/etc/rc.d/init.d
+Nov 08 00 09:29:27    63728 .a. -rwxr-xr-x root     root     t/usr/bin/ftp
+Nov 08 00 09:33:42     1024 .a. drwx------ bin      bin      t/var/spool/at
+Nov 08 00 09:45:18      161 .a. -rw-r--r-- root     root     t/etc/hosts.allow
+                          0 .a. -rw-r--r-- root     root     t/etc/hosts.deny
+Nov 08 00 09:45:19       63 .a. -rw-r--r-- root     root     t/etc/issue.net
+Nov 08 00 09:45:24     1504 .a. -rw-r--r-- root     root     t/etc/security/console.perms
+
+*************** BEGIN UNTAR OF ROOTKIT IN /usr/man/.Ci/ ************************
+Nov 08 00 09:51:53     4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/ 
+                        118 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/ /Anap
+                         83 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/addps
+                     185988 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/find
+                     147900 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/inetd
+                      12495 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/killall
+                        156 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/needz
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/paki
+                       8524 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/paki/slice2
+                       6793 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/paki/stream.c
+                      49800 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/pstree
+                     133344 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/q
+                     132785 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/qs
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd
+                        114 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/a.sh
+                      12716 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/amdx
+                      13023 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/ben
+                       1455 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/ben.c
+                      15667 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/pscan
+                       4442 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/pscan.c
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/bind
+                       1760 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/bind/ibind.sh
+                       3980 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/bind/pscan.c
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/daemon
+                       5907 .a. -rw------- 1010     users    t/usr/man/.Ci/scan/daemon/lscan2.c
+                      12392 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/daemon/z0ne
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/port
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/port/strobe
+                        171 .a. -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/INSTALL
+                       1187 .a. -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/Makefile
+                         17 .a. -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/VERSION
+                       3296 .a. -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/strobe.1
+                      17364 .a. -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/strobe.c
+                      39950 .a. -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/strobe.services
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/statd
+                       4390 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/statd/classb
+                      19140 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/statd/r
+                      21800 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/statd/statdx
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/wu
+                      26676 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/wu/fs
+                      37760 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/wu/wu
+                       4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x
+                      15092 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/pscan
+                       3980 .a. -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/x/pscan.c
+                      17969 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/x
+                       1259 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/xfil
+                        385 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/xscan
+                       5324 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/sp.pl
+                     350996 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/syslogd
+                       1153 .a. -rwxr-xr-x 1010     100      /usr/man/.Ci/install-sshd1  (deleted)
+Nov 08 00 09:51:54      714 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/a.sh
+                       7229 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/snif
+Nov 08 00 09:51:55      698 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/clean
+                     147900 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/inetd
+                      12495 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/killall
+                      49800 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/pstree
+                     133344 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/q
+                     132785 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/qs
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd
+                        114 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/a.sh
+                      12716 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/amdx
+                      13023 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/ben
+                       1455 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/ben.c
+                      15667 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/pscan
+                       4442 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/amd/pscan.c
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/bind
+                       1760 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/bind/ibind.sh
+                       3980 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/bind/pscan.c
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/daemon
+                       5907 ..c -rw------- 1010     users    t/usr/man/.Ci/scan/daemon/lscan2.c
+                      12392 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/daemon/z0ne
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/port
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/port/strobe
+                        171 ..c -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/INSTALL
+                       1187 ..c -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/Makefile
+                         17 ..c -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/VERSION
+                       3296 ..c -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/strobe.1
+                      17364 ..c -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/strobe.c
+                      39950 ..c -rw------- 1010     users    t/usr/man/.Ci/scan/port/strobe/strobe.services
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/statd
+                       4390 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/statd/classb
+                      19140 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/statd/r
+                      21800 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/statd/statdx
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/wu
+                      26676 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/wu/fs
+                      37760 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/wu/wu
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x
+                      15092 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/pscan
+                       3980 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/scan/x/pscan.c
+                      17969 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/x
+                       1259 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/xfil
+                        385 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/scan/x/xscan
+                       3098 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/snap
+                       5324 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/sp.pl
+                     350996 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/syslogd
+Nov 08 00 09:51:56     4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/ 
+                        118 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/ /Anap
+                      12408 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/addn
+                         83 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/addps
+                    1052024 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/bx
+                        699 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/chmod-it
+                        328 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/do
+                     185988 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/find
+                      18535 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/fix
+                        156 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/needz
+                       4096 ..c drwxr-xr-x 1010     users    t/usr/man/.Ci/paki
+                       8524 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/paki/slice2
+                       6793 ..c -rw-r--r-- 1010     users    t/usr/man/.Ci/paki/stream.c
+                        188 ..c -rwxr-xr-x 1010     users    t/usr/man/.Ci/rmS
+*************** END UNTAR OF ROOTKIT IN /usr/man/.Ci/ ************************
+
+*************** BEGIN EXECUTE /usr/man/.Ci/install ************************
+Nov 08 00 09:52:09        9 m.c lrwxrwxrwx root     root     t/.bash_history -> /dev/null
+                          9 m.c lrwxrwxrwx root     root     t/root/.bash_history -> /dev/null
+Nov 08 00 09:52:10    19840 .a. -rwxr-xr-x root     root     t/sbin/ifconfig
+                          9 m.c lrwxrwxrwx root     root     t/tmp/.bash_history -> /dev/null
+                      60926 .a. -r-xr-xr-x root     root     t/usr/bin/top
+                       4096 m.c drwxr-xr-x root     root     t/usr/games
+                          9 mac lrwxrwxrwx root     root     t/usr/games/.bash_history -> /dev/null
+                       4096 mac drwxr-xr-x root     root     t/usr/man/.Ci/backup
+                      42736 mac -rwxr-xr-x root     root     t/usr/man/.Ci/backup/ifconfig
+                      43024 mac -rwxr-xr-x root     root     t/usr/man/.Ci/backup/ls
+                      66736 mac -rwxr-xr-x root     root     t/usr/man/.Ci/backup/netstat
+                      60080 mac -r-xr-xr-x root     root     t/usr/man/.Ci/backup/ps
+                      23568 mac -rwxr-xr-x root     root     t/usr/man/.Ci/backup/tcpd
+                      34896 mac -r-xr-xr-x root     root     t/usr/man/.Ci/backup/top
+                      18535 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/fix
+                      26736 .a. -rwxr-xr-x root     root     t/usr/sbin/identd
+                      31625 .a. -rwxr-xr-x root     root     t/usr/sbin/tcpd
+Nov 08 00 09:52:12     4096 m.c drwxr-xr-x root     root     t/usr/man
+                        102 mac -rw-r--r-- root     root     t/usr/man/.a
+                         58 mac -rw-r--r-- root     root     t/usr/man/.p
+                         58 mac -rw-r--r-- root     root     t/usr/man/p
+                         61 m.c -rw-r--r-- root     root     t/usr/man/r
+Nov 08 00 09:52:13     7229 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/snif
+                          5 mac -rw-r--r-- root     root     t/usr/man/.Ci/sniff.pid
+                          0 mac -rw-r--r-- root     root     t/usr/man/.Ci/tcp.log
+Nov 08 00 09:52:14      698 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/clean
+Nov 08 00 09:52:15      171 ..c -rw-r--r-- 1010     users    t/dev/ptyp
+                        714 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/a.sh
+Nov 08 00 09:52:23      153 .a. -rw-r--r-- 0        0        /etc/X11/applnk/Internet/telnet.desktop  (deleted)
+Nov 08 00 09:52:25     1024 ..c drwxr-xr-x root     root     t/.automount
+                        670 ..c -rw------- root     root     t/etc/amd.conf
+                        105 ..c -rw-r----- root     root     t/etc/amd.net
+                        766 ..c -rwxr-xr-x root     root     t/etc/rc.d/init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/sysconfig
+                         56 ..c -rwxr-xr-x root     root     t/etc/sysconfig/amd
+                       8024 ..c -rwxr-xr-x root     root     t/usr/bin/pawd
+                       9084 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/AUTHORS
+                       3933 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/BUGS
+                     147946 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/ChangeLog
+                      23786 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/NEWS
+                       3817 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/README
+                       4113 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/README.autofs
+                       1225 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/README.y2k
+                     621985 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/am-utils.ps
+                       3201 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/amd.conf-sample
+                     147946 ..c -rw-r--r-- 0        0        /usr/sbin/smbd  (deleted)
+                       3933 ..c -rw-r--r-- 0        0        /usr/sbin/nmbd  (deleted)
+Nov 08 00 09:52:26       59 .a. -rw-r--r-- root     root     t/etc/ld.so.conf
+                     233100 .a. -rwxr-xr-x root     root     t/sbin/ldconfig
+                       4096 .a. drwxr-xr-x root     root     t/usr/X11R6/lib
+                         13 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libICE.so.6 -> libICE.so.6.3
+                      95790 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libICE.so.6.3
+                         14 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libPEX5.so.6 -> libPEX5.so.6.0
+                     259072 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libPEX5.so.6.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libSM.so.6 -> libSM.so.6.0
+                      40684 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libSM.so.6.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libX11.so.6 -> libX11.so.6.1
+                     799870 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libX11.so.6.1
+                         13 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXIE.so.6 -> libXIE.so.6.0
+                      54537 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXIE.so.6.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXaw.so.6 -> libXaw.so.6.1
+                     272797 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXaw.so.6.1
+                         14 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXext.so.6 -> libXext.so.6.3
+                      54591 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXext.so.6.3
+                         12 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXi.so.6 -> libXi.so.6.0
+                      36567 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXi.so.6.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXmu.so.6 -> libXmu.so.6.0
+                      91196 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXmu.so.6.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXp.so.6 -> libXp.so.6.2
+                      34337 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXp.so.6.2
+                         12 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXt.so.6 -> libXt.so.6.0
+                     345760 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXt.so.6.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/X11R6/lib/libXtst.so.6 -> libXtst.so.6.1
+                      22020 .a. -rwxr-xr-x root     root     t/usr/X11R6/lib/libXtst.so.6.1
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/am-utils-6.0.1s11
+                     189318 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/hlfsd.ps
+                       3006 ..c -rw-r--r-- root     root     t/usr/doc/am-utils-6.0.1s11/lostaltmail.conf-sample
+                      15625 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info-1.gz
+                      15324 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info-2.gz
+                      14152 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info-3.gz
+                      13984 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info-4.gz
+                      15354 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info-5.gz
+                       5011 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info-6.gz
+                       7086 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info-7.gz
+                       2954 ..c -rw-r--r-- root     root     t/usr/info/am-utils.info.gz
+                         17 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libcom_err.so -> libcom_err.so.3.0
+                       6015 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libcom_err.so.3.0
+                         16 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libdes425.so -> libdes425.so.3.0
+                      21028 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libdes425.so.3.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libdyn.so -> libdyn.so.1.0
+                      10154 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libdyn.so.1.0
+                         21 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libgssapi_krb5.so -> libgssapi_krb5.so.2.1
+                     108060 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libgssapi_krb5.so.2.1
+                         16 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libgssrpc.so -> libgssrpc.so.3.0
+                     100458 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libgssrpc.so.3.0
+                         18 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libk5crypto.so -> libk5crypto.so.2.1
+                     113850 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libk5crypto.so.2.1
+                         19 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkadm5clnt.so -> libkadm5clnt.so.3.0
+                      77809 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libkadm5clnt.so.3.0
+                         18 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkadm5srv.so -> libkadm5srv.so.3.0
+                       8192 m.c drwxr-xr-x root     root     t/usr/lib
+                         15 m.c lrwxrwxrwx root     root     t/usr/lib/libamu.so -> libamu.so.2.1.1
+                         15 m.c lrwxrwxrwx root     root     t/usr/lib/libamu.so.2 -> libamu.so.2.1.1
+                      40370 ..c -rwxr-xr-x root     root     t/usr/lib/libamu.so.2.1.1
+                       3026 ..c -rw-r--r-- root     root     t/usr/man/man1/pawd.1
+                      19031 ..c -rw-r--r-- root     root     t/usr/man/man5/amd.conf.5
+                      10003 ..c -rw-r--r-- root     root     t/usr/man/man8/amd.8
+                       6318 ..c -rw-r--r-- root     root     t/usr/man/man8/amq.8
+                       3784 ..c -rw-r--r-- root     root     t/usr/man/man8/automount2amd.8
+                       5453 ..c -rw-r--r-- root     root     t/usr/man/man8/fixmount.8
+                       2818 ..c -rw-r--r-- root     root     t/usr/man/man8/fsinfo.8
+                       9641 ..c -rw-r--r-- root     root     t/usr/man/man8/hlfsd.8
+                       2571 ..c -rw-r--r-- root     root     t/usr/man/man8/mk-amd-map.8
+                       2806 ..c -rw-r--r-- root     root     t/usr/man/man8/wire-test.8
+                       1043 ..c -rwxr-xr-x root     root     t/usr/sbin/am-eject
+                     106640 ..c -rwxr-xr-x root     root     t/usr/sbin/amd
+                       1392 ..c -rwxr-xr-x root     root     t/usr/sbin/amd2ldif
+                       1003 ..c -rwxr-xr-x root     root     t/usr/sbin/amd2sun
+                      13892 ..c -rwxr-xr-x root     root     t/usr/sbin/amq
+                       2257 ..c -rwxr-xr-x root     root     t/usr/sbin/automount2amd
+                       2170 ..c -rwxr-xr-x root     root     t/usr/sbin/ctl-hlfsd
+                       1521 ..c -rwxr-xr-x root     root     t/usr/sbin/fix-amd-map
+                      10808 ..c -rwxr-xr-x root     root     t/usr/sbin/fixmount
+                        404 ..c -rwxr-xr-x root     root     t/usr/sbin/fixrmtab
+                      34784 ..c -rwxr-xr-x root     root     t/usr/sbin/fsinfo
+                      29656 ..c -rwxr-xr-x root     root     t/usr/sbin/hlfsd
+                      18412 ..c -rwxr-xr-x root     root     t/usr/sbin/lostaltmail
+                       7588 ..c -rwxr-xr-x root     root     t/usr/sbin/mk-amd-map
+                        804 ..c -rwxr-xr-x root     root     t/usr/sbin/wait4amd
+                        965 ..c -rwxr-xr-x root     root     t/usr/sbin/wait4amd2die
+                       5140 ..c -rwxr-xr-x root     root     t/usr/sbin/wire-test
+Nov 08 00 09:52:27     4096 .a. drwxr-xr-x root     root     t/usr/i486-linux-libc5/lib
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libICE.so.6 -> libICE.so.6.3
+                      80389 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libICE.so.6.3
+                         14 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libPEX5.so.6 -> libPEX5.so.6.0
+                     234505 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libPEX5.so.6.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libSM.so.6 -> libSM.so.6.0
+                      33402 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libSM.so.6.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libX11.so.6 -> libX11.so.6.1
+                     703257 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libX11.so.6.1
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXIE.so.6 -> libXIE.so.6.0
+                      47888 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXIE.so.6.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXaw.so.6 -> libXaw.so.6.1
+                     250282 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXaw.so.6.1
+                         15 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXaw3d.so.6 -> libXaw3d.so.6.1
+                     303337 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXaw3d.so.6.1
+                         14 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXext.so.6 -> libXext.so.6.3
+                      40681 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXext.so.6.1
+                      45362 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXext.so.6.3
+                         12 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXi.so.6 -> libXi.so.6.0
+                      29821 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXi.so.6.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXmu.so.6 -> libXmu.so.6.0
+                      82070 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXmu.so.6.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXp.so.6 -> libXp.so.6.2
+                      27095 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXp.so.6.2
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXpm.so.4 -> libXpm.so.4.9
+                      62832 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXpm.so.4.9
+                         12 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXt.so.6 -> libXt.so.6.0
+                     291857 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXt.so.6.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libXtst.so.6 -> libXtst.so.6.1
+                      17888 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libXtst.so.6.1
+                         14 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libdb.so.2 -> libdb.so.2.0.0
+                      58504 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libdb.so.2.0.0
+                      48145 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libform.so.1.9.9e
+                         17 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libform.so.3.0 -> libform.so.1.9.9e
+                         16 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libg++.so.27 -> libg++.so.27.1.4
+                     953531 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libg++.so.27.1.4
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libm.so.5 -> libm.so.5.0.6
+                      36285 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libm.so.5.0.6
+                      23437 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libmenu.so.1.9.9e
+                         17 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libmenu.so.3.0 -> libmenu.so.1.9.9e
+                     244725 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libncurses.so.1.9.9e
+                         20 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libncurses.so.3.0 -> libncurses.so.1.9.9e
+                       7782 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libpanel.so.1.9.9e
+                         18 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libpanel.so.3.0 -> libpanel.so.1.9.9e
+                         19 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libstdc++.so.27 -> libstdc++.so.27.1.4
+                     841780 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libstdc++.so.27.1.4
+                         19 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libtermcap.so.2 -> libtermcap.so.2.0.8
+                      11889 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libtermcap.so.2.0.8
+                         16 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libvga.so.1 -> libvga.so.1.2.13
+                     216096 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libvga.so.1.2.13
+                         18 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libvgagl.so.1 -> libvgagl.so.1.2.13
+                      50312 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libvgagl.so.1.2.13
+                         13 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libz.so.1 -> libz.so.1.0.4
+                      50772 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libz.so.1.0.4
+                       4096 .a. drwxr-xr-x root     root     t/usr/kerberos/lib
+                         17 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libcom_err.so.3 -> libcom_err.so.3.0
+                         16 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libdes425.so.3 -> libdes425.so.3.0
+                         13 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libdyn.so.1 -> libdyn.so.1.0
+                         21 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libgssapi_krb5.so.2 -> libgssapi_krb5.so.2.1
+                         16 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libgssrpc.so.3 -> libgssrpc.so.3.0
+                         18 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libk5crypto.so.2 -> libk5crypto.so.2.1
+                         19 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkadm5clnt.so.3 -> libkadm5clnt.so.3.0
+                         18 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkadm5srv.so.3 -> libkadm5srv.so.3.0
+                     112367 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libkadm5srv.so.3.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkdb5.so -> libkdb5.so.3.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkdb5.so.3 -> libkdb5.so.3.0
+                      95674 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libkdb5.so.3.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkrb4.so -> libkrb4.so.2.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkrb4.so.2 -> libkrb4.so.2.0
+                      83616 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libkrb4.so.2.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkrb5.so -> libkrb5.so.2.2
+                         14 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libkrb5.so.2 -> libkrb5.so.2.2
+                     465804 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libkrb5.so.2.2
+                         13 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libpty.so -> libpty.so.1.1
+                         13 .a. lrwxrwxrwx root     root     t/usr/kerberos/lib/libpty.so.1 -> libpty.so.1.1
+                      13011 .a. -rwxr-xr-x root     root     t/usr/kerberos/lib/libpty.so.1.1
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/libbfd.so -> libbfd-2.9.5.0.22.so
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libbz2.so -> libbz2.so.0.0.0
+                      56695 .a. -rwxr-xr-x root     root     t/usr/lib/libbz2.so.0.0.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libcfont.so -> libcfont.so.0.0.0
+                      16008 .a. -rwxr-xr-x root     root     t/usr/lib/libcfont.so.0.0.0
+                         19 .a. lrwxrwxrwx root     root     t/usr/lib/libconsole.so -> libconsole.so.0.0.0
+                      12984 .a. -rwxr-xr-x root     root     t/usr/lib/libconsole.so.0.0.0
+                         21 .a. lrwxrwxrwx root     root     t/usr/lib/libctgeneric.so -> libctgeneric.so.0.0.0
+                      15072 .a. -rwxr-xr-x root     root     t/usr/lib/libctgeneric.so.0.0.0
+                         19 .a. lrwxrwxrwx root     root     t/usr/lib/libctutils.so -> libctutils.so.0.0.0
+                      89665 .a. -rwxr-xr-x root     root     t/usr/lib/libopcodes-2.9.5.0.22.so
+                         24 .a. lrwxrwxrwx root     root     t/usr/lib/libopcodes.so -> libopcodes-2.9.5.0.22.so
+Nov 08 00 09:52:28       30 .a. lrwxrwxrwx root     root     t/usr/lib/libBrokenLocale.so -> ../../lib/libBrokenLocale.so.1
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libcrack.so -> libcrack.so.2.7
+                      57260 .a. -rwxr-xr-x root     root     t/usr/lib/libctutils.so.0.0.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/lib/libgd.so -> libgd.so.1.2
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libgdbm.so -> libgdbm.so.2.0.0
+                      29265 .a. -rwxr-xr-x root     root     t/usr/lib/libgdbm.so.2.0.0
+                      12211 .a. -rw-r--r-- root     root     t/usr/lib/libgmodule-1.2.so.0.0.6
+                      11451 .a. -rwxr-xr-x root     root     t/usr/lib/libgthread-1.2.so.0.0.6
+                    1144716 .a. -r-xr-xr-x root     root     t/usr/lib/libstdc++-2-libc6.1-1-2.9.0.so
+                     184187 .a. -rwxr-xr-x root     root     t/usr/lib/libttf.so.2.2.0
+Nov 08 00 09:52:29       20 .a. lrwxrwxrwx root     root     t/usr/lib/libdb.so -> ../../lib/libdb.so.3
+                         21 .a. lrwxrwxrwx root     root     t/usr/lib/libdb1.so -> ../../lib/libdb1.so.2
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/libdl.so -> ../../lib/libdl.so.2
+                         19 .a. lrwxrwxrwx root     root     t/usr/lib/libm.so -> ../../lib/libm.so.6
+                          8 .a. lrwxrwxrwx root     root     t/usr/lib/libndbm.so -> libdb.so
+                         29 .a. lrwxrwxrwx root     root     t/usr/lib/libnss1_compat.so -> ../../lib/libnss1_compat.so.1
+                         25 .a. lrwxrwxrwx root     root     t/usr/lib/libnss1_db.so -> ../../lib/libnss1_db.so.1
+                         26 .a. lrwxrwxrwx root     root     t/usr/lib/libnss1_dns.so -> ../../lib/libnss1_dns.so.1
+                         28 .a. lrwxrwxrwx root     root     t/usr/lib/libnss1_files.so -> ../../lib/libnss1_files.so.1
+                         26 .a. lrwxrwxrwx root     root     t/usr/lib/libnss1_nis.so -> ../../lib/libnss1_nis.so.1
+                         28 .a. lrwxrwxrwx root     root     t/usr/lib/libnss_compat.so -> ../../lib/libnss_compat.so.2
+                         24 .a. lrwxrwxrwx root     root     t/usr/lib/libnss_db.so -> ../../lib/libnss_db.so.2
+                         25 .a. lrwxrwxrwx root     root     t/usr/lib/libnss_dns.so -> ../../lib/libnss_dns.so.2
+                         27 .a. lrwxrwxrwx root     root     t/usr/lib/libnss_files.so -> ../../lib/libnss_files.so.2
+                         28 .a. lrwxrwxrwx root     root     t/usr/lib/libnss_hesiod.so -> ../../lib/libnss_hesiod.so.2
+                         25 .a. lrwxrwxrwx root     root     t/usr/lib/libnss_nis.so -> ../../lib/libnss_nis.so.2
+                         29 .a. lrwxrwxrwx root     root     t/usr/lib/libnss_nisplus.so -> ../../lib/libnss_nisplus.so.2
+                         25 .a. lrwxrwxrwx root     root     t/usr/lib/libpthread.so -> ../../lib/libpthread.so.0
+                         24 .a. lrwxrwxrwx root     root     t/usr/lib/libresolv.so -> ../../lib/libresolv.so.2
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/librt.so -> ../../lib/librt.so.1
+                         27 .a. lrwxrwxrwx root     root     t/usr/lib/libthread_db.so -> ../../lib/libthread_db.so.1
+Nov 08 00 09:52:30       13 .a. lrwxrwxrwx root     root     t/usr/lib/libcurses.so -> libncurses.so
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libecpg.so -> libecpg.so.3.0.0
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libecpg.so.3 -> libecpg.so.3.0.0
+                      19258 .a. -rwxr-xr-x root     root     t/usr/lib/libecpg.so.3.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libfbm.so -> libfbm.so.1.0.0
+                      78842 .a. -rwxr-xr-x root     root     t/usr/lib/libfbm.so.1.0.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/lib/libform.so -> libform.so.4
+                      46108 .a. -rwxr-xr-x root     root     t/usr/lib/libform.so.4.0
+                     917793 .a. -rwxr-xr-x root     root     t/usr/lib/libg++.so.2.7.2.8
+                         11 .a. lrwxrwxrwx root     root     t/usr/lib/libgif.so -> libgif.so.4
+                     120220 .a. -rwxr-xr-x root     root     t/usr/lib/libgmp.so.2.0.2
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libgpm.so -> libgpm.so.1.17.3
+                      18616 .a. -rw-r--r-- root     root     t/usr/lib/libgpm.so.1.17.3
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libgrove.so -> libgrove.so.1.0.3
+                      67836 .a. -rwxr-xr-x root     root     t/usr/lib/libgrove.so.1.0.3
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libhistory.so -> libhistory.so.3.0
+                      27490 .a. -rw-r--r-- root     root     t/usr/lib/libhistory.so.3.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libjpeg.so -> libjpeg.so.62.0.0
+                     143624 .a. -rwxr-xr-x root     root     t/usr/lib/libjpeg.so.62.0.0
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libltdl.so -> libltdl.so.0.1.2
+                      44555 .a. -rwxr-xr-x root     root     t/usr/lib/libltdl.so.0.1.2
+                         12 .a. lrwxrwxrwx root     root     t/usr/lib/libmenu.so -> libmenu.so.4
+                      25112 .a. -rwxr-xr-x root     root     t/usr/lib/libmenu.so.4.0
+                     113664 .a. -rwxr-xr-x root     root     t/usr/lib/libncp.so.2.3.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libncurses.so -> libncurses.so.4
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libnewt.so -> libnewt.so.0.50.8
+                      55072 .a. -rwxr-xr-x root     root     t/usr/lib/libnewt.so.0.50.8
+                         13 .a. lrwxrwxrwx root     root     t/usr/lib/libpanel.so -> libpanel.so.4
+                      13784 .a. -rwxr-xr-x root     root     t/usr/lib/libpanel.so.4.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libpbm.so -> libpbm.so.1.0.0
+                      46228 .a. -rwxr-xr-x root     root     t/usr/lib/libpbm.so.1.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libpgm.so -> libpgm.so.1.0.0
+                       9871 .a. -rwxr-xr-x root     root     t/usr/lib/libpgm.so.1.0.0
+                         11 .a. lrwxrwxrwx root     root     t/usr/lib/libpng.so -> libpng.so.2
+                     168080 .a. -rwxr-xr-x root     root     t/usr/lib/libpng.so.2.1.0.5
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libpnm.so -> libpnm.so.1.0.0
+                      19449 .a. -rwxr-xr-x root     root     t/usr/lib/libpnm.so.1.0.0
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libpopt.so -> libpopt.so.0.0.0
+                      25654 .a. -rwxr-xr-x root     root     t/usr/lib/libpopt.so.0.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libppm.so -> libppm.so.1.0.0
+                      31515 .a. -rwxr-xr-x root     root     t/usr/lib/libppm.so.1.0.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libpq++.so -> libpq++.so.3.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libpq++.so.3 -> libpq++.so.3.0
+                      39905 .a. -rwxr-xr-x root     root     t/usr/lib/libpq++.so.3.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/lib/libpq.so -> libpq.so.2.0
+                         12 .a. lrwxrwxrwx root     root     t/usr/lib/libpq.so.2 -> libpq.so.2.0
+                      65265 .a. -rwxr-xr-x root     root     t/usr/lib/libpq.so.2.0
+                         18 .a. lrwxrwxrwx root     root     t/usr/lib/libreadline.so -> libreadline.so.3.0
+                     171346 .a. -rw-r--r-- root     root     t/usr/lib/libreadline.so.3.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/librle.so -> librle.so.1.0.0
+                      58809 .a. -rwxr-xr-x root     root     t/usr/lib/librle.so.1.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/librpm.so -> librpm.so.0.0.0
+                     384417 .a. -rwxr-xr-x root     root     t/usr/lib/librpm.so.0.0.0
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/librpmbuild.so -> librpmbuild.so.0.0.0
+                     124589 .a. -rwxr-xr-x root     root     t/usr/lib/librpmbuild.so.0.0.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libsp.so -> libsp.so.1.0.3
+                    1955700 .a. -rwxr-xr-x root     root     t/usr/lib/libsp.so.1.0.3
+                         19 .a. lrwxrwxrwx root     root     t/usr/lib/libspgrove.so -> libspgrove.so.1.0.3
+                     250416 .a. -rwxr-xr-x root     root     t/usr/lib/libspgrove.so.1.0.3
+                    1025339 .a. -rwxr-xr-x root     root     t/usr/lib/libstdc++.so.2.7.2.8
+                     375773 .a. -rwxr-xr-x root     root     t/usr/lib/libstdc++.so.2.8.0
+                       5428 .a. -rwxr-xr-x root     root     t/usr/lib/libstdc++.so.2.9.dummy
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libstyle.so -> libstyle.so.1.0.3
+                    1820832 .a. -rwxr-xr-x root     root     t/usr/lib/libstyle.so.1.0.3
+                         24 .a. lrwxrwxrwx root     root     t/usr/lib/libtermcap.so -> /lib/libtermcap.so.2.0.8
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libtiff.so -> libtiff.so.3.5
+                     291673 .a. -rwxr-xr-x root     root     t/usr/lib/libtiff.so.3.5
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libungif.so -> libungif.so.4.1.0
+Nov 08 00 09:52:31    12333 m.c -rw-r--r-- root     root     t/etc/ld.so.cache
+                        766 .a. -rwxr-xr-x root     root     t/etc/rc.d/init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/rc.d/rc0.d
+                         13 mac lrwxrwxrwx root     root     t/etc/rc.d/rc0.d/K28amd -> ../init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/rc.d/rc1.d
+                         13 mac lrwxrwxrwx root     root     t/etc/rc.d/rc1.d/K28amd -> ../init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/rc.d/rc2.d
+                         13 mac lrwxrwxrwx root     root     t/etc/rc.d/rc2.d/K28amd -> ../init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/rc.d/rc3.d
+                         13 mac lrwxrwxrwx root     root     t/etc/rc.d/rc3.d/K28amd -> ../init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/rc.d/rc4.d
+                         13 mac lrwxrwxrwx root     root     t/etc/rc.d/rc4.d/K28amd -> ../init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/rc.d/rc5.d
+                         13 mac lrwxrwxrwx root     root     t/etc/rc.d/rc5.d/K28amd -> ../init.d/amd
+                       1024 m.c drwxr-xr-x root     root     t/etc/rc.d/rc6.d
+                         13 mac lrwxrwxrwx root     root     t/etc/rc.d/rc6.d/K28amd -> ../init.d/amd
+                      22731 .a. -rwxr-xr-x root     root     t/lib/libBrokenLocale-2.1.3.so
+                         24 .a. lrwxrwxrwx root     root     t/lib/libBrokenLocale.so.1 -> libBrokenLocale-2.1.3.so
+                      17002 .a. -rwxr-xr-x root     root     t/lib/libNoVersion-2.1.3.so
+                         21 .a. lrwxrwxrwx root     root     t/lib/libNoVersion.so.1 -> libNoVersion-2.1.3.so
+                      66047 .a. -rwxr-xr-x root     root     t/lib/libSegFault.so
+                         17 .a. lrwxrwxrwx root     root     t/lib/libcom_err.so.2 -> libcom_err.so.2.0
+                       8465 .a. -rwxr-xr-x root     root     t/lib/libcom_err.so.2.0
+                     788401 .a. -rwxr-xr-x root     root     t/lib/libdb-2.1.3.so
+                         15 .a. lrwxrwxrwx root     root     t/lib/libdb.so.2 -> libdb1-2.1.3.so
+                         14 .a. lrwxrwxrwx root     root     t/lib/libdb.so.3 -> libdb-2.1.3.so
+                     221411 .a. -rwxr-xr-x root     root     t/lib/libdb1-2.1.3.so
+                         15 .a. lrwxrwxrwx root     root     t/lib/libdb1.so.2 -> libdb1-2.1.3.so
+                         14 .a. lrwxrwxrwx root     root     t/lib/libdl.so.1 -> libdl.so.1.9.5
+                       5660 .a. -rwxr-xr-x root     root     t/lib/libdl.so.1.9.5
+                         13 .a. lrwxrwxrwx root     root     t/lib/libe2p.so.2 -> libe2p.so.2.3
+                      17713 .a. -rwxr-xr-x root     root     t/lib/libe2p.so.2.3
+                         16 .a. lrwxrwxrwx root     root     t/lib/libext2fs.so.2 -> libext2fs.so.2.4
+                      85856 .a. -rwxr-xr-x root     root     t/lib/libext2fs.so.2.4
+                     146014 .a. -rwxr-xr-x root     root     t/lib/libnss1_compat-2.1.3.so
+                         23 .a. lrwxrwxrwx root     root     t/lib/libnss1_compat.so.1 -> libnss1_compat-2.1.3.so
+                     151935 .a. -rwxr-xr-x root     root     t/lib/libnss1_db-2.1.3.so
+                         19 .a. lrwxrwxrwx root     root     t/lib/libnss1_db.so.1 -> libnss1_db-2.1.3.so
+                      65367 .a. -rwxr-xr-x root     root     t/lib/libnss1_dns-2.1.3.so
+                         20 .a. lrwxrwxrwx root     root     t/lib/libnss1_dns.so.1 -> libnss1_dns-2.1.3.so
+                     208083 .a. -rwxr-xr-x root     root     t/lib/libnss1_files-2.1.3.so
+                         22 .a. lrwxrwxrwx root     root     t/lib/libnss1_files.so.1 -> libnss1_files-2.1.3.so
+                     209416 .a. -rwxr-xr-x root     root     t/lib/libnss1_nis-2.1.3.so
+                         20 .a. lrwxrwxrwx root     root     t/lib/libnss1_nis.so.1 -> libnss1_nis-2.1.3.so
+                     219843 .a. -rwxr-xr-x root     root     t/lib/libnss_compat-2.1.3.so
+                         23 .a. lrwxrwxrwx root     root     t/lib/libnss_compat.so.1 -> libnss1_compat-2.1.3.so
+                         22 .a. lrwxrwxrwx root     root     t/lib/libnss_compat.so.2 -> libnss_compat-2.1.3.so
+                     196534 .a. -rwxr-xr-x root     root     t/lib/libnss_db-2.1.3.so
+                         19 .a. lrwxrwxrwx root     root     t/lib/libnss_db.so.1 -> libnss1_db-2.1.3.so
+                         18 .a. lrwxrwxrwx root     root     t/lib/libnss_db.so.2 -> libnss_db-2.1.3.so
+                         20 .a. lrwxrwxrwx root     root     t/lib/libnss_dns.so.1 -> libnss1_dns-2.1.3.so
+                         22 .a. lrwxrwxrwx root     root     t/lib/libnss_files.so.1 -> libnss1_files-2.1.3.so
+                      70195 .a. -rwxr-xr-x root     root     t/lib/libnss_hesiod-2.1.3.so
+                         22 .a. lrwxrwxrwx root     root     t/lib/libnss_hesiod.so.2 -> libnss_hesiod-2.1.3.so
+                         20 .a. lrwxrwxrwx root     root     t/lib/libnss_nis.so.1 -> libnss1_nis-2.1.3.so
+                         11 .a. lrwxrwxrwx root     root     t/lib/libpam.so -> libpam.so.0
+                         16 .a. lrwxrwxrwx root     root     t/lib/libpam_misc.so -> libpam_misc.so.0
+                     289906 .a. -rwxr-xr-x root     root     t/lib/libpthread-0.8.so
+                         17 .a. lrwxrwxrwx root     root     t/lib/libpthread.so.0 -> libpthread-0.8.so
+                         15 .a. lrwxrwxrwx root     root     t/lib/libpwdb.so -> libpwdb.so.0.61
+                      77243 .a. -rwxr-xr-x root     root     t/lib/librt-2.1.3.so
+                         14 .a. lrwxrwxrwx root     root     t/lib/librt.so.1 -> librt-2.1.3.so
+                         12 .a. lrwxrwxrwx root     root     t/lib/libss.so.2 -> libss.so.2.0
+                      22382 .a. -rwxr-xr-x root     root     t/lib/libss.so.2.0
+                     138431 .a. -rwxr-xr-x root     root     t/lib/libthread_db-1.0.so
+                         19 .a. lrwxrwxrwx root     root     t/lib/libthread_db.so.1 -> libthread_db-1.0.so
+                         14 .a. lrwxrwxrwx root     root     t/lib/libuuid.so.1 -> libuuid.so.1.2
+                      12251 .a. -rwxr-xr-x root     root     t/lib/libuuid.so.1.2
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libamu.so -> libamu.so.2.1.1
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libamu.so.2 -> libamu.so.2.1.1
+                      40370 .a. -rwxr-xr-x root     root     t/usr/lib/libamu.so.2.1.1
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libbz2.so.0 -> libbz2.so.0.0.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libcfont.so.0 -> libcfont.so.0.0.0
+                         19 .a. lrwxrwxrwx root     root     t/usr/lib/libconsole.so.0 -> libconsole.so.0.0.0
+                         21 .a. lrwxrwxrwx root     root     t/usr/lib/libctgeneric.so.0 -> libctgeneric.so.0.0.0
+                         19 .a. lrwxrwxrwx root     root     t/usr/lib/libctutils.so.0 -> libctutils.so.0.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libfbm.so.1 -> libfbm.so.1.0.0
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libform.so.4 -> libform.so.4.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libg++.so.2.7.2 -> libg++.so.2.7.2.8
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libgdbm.so.2 -> libgdbm.so.2.0.0
+                         23 .a. lrwxrwxrwx root     root     t/usr/lib/libgmodule-1.2.so.0 -> libgmodule-1.2.so.0.0.6
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libgmp.so.2 -> libgmp.so.2.0.2
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libgpm.so.1 -> libgpm.so.1.17.3
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libgrove.so.1 -> libgrove.so.1.0.3
+                         23 .a. lrwxrwxrwx root     root     t/usr/lib/libgthread-1.2.so.0 -> libgthread-1.2.so.0.0.6
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libhistory.so.3 -> libhistory.so.3.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libjpeg.so.62 -> libjpeg.so.62.0.0
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libltdl.so.0 -> libltdl.so.0.1.2
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libmenu.so.4 -> libmenu.so.4.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libncp.so.2.3 -> libncp.so.2.3.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libnewt.so.0.50 -> libnewt.so.0.50.8
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libpanel.so.4 -> libpanel.so.4.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libpbm.so.1 -> libpbm.so.1.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libpgm.so.1 -> libpgm.so.1.0.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libpng.so.2 -> libpng.so.2.1.0.5
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libpnm.so.1 -> libpnm.so.1.0.0
+                         16 .a. lrwxrwxrwx root     root     t/usr/lib/libpopt.so.0 -> libpopt.so.0.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libppm.so.1 -> libppm.so.1.0.0
+                         18 .a. lrwxrwxrwx root     root     t/usr/lib/libreadline.so.3 -> libreadline.so.3.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/librle.so.1 -> librle.so.1.0.0
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/librpm.so.0 -> librpm.so.0.0.0
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/librpmbuild.so.0 -> librpmbuild.so.0.0.0
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libslang.so -> libslang.so.1.2.2
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libslang.so.1 -> libslang.so.1.2.2
+                     258054 .a. -rw-r--r-- root     root     t/usr/lib/libslang.so.1.2.2
+                         18 .a. lrwxrwxrwx root     root     t/usr/lib/libsnmp.so.0 -> libsnmp.so.0.4.1.1
+                     248931 .a. -rwxr-xr-x root     root     t/usr/lib/libsnmp.so.0.4.1.1
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libsp.so.1 -> libsp.so.1.0.3
+                         19 .a. lrwxrwxrwx root     root     t/usr/lib/libspgrove.so.1 -> libspgrove.so.1.0.3
+                         30 .a. lrwxrwxrwx root     root     t/usr/lib/libstdc++-libc6.1-1.so.2 -> libstdc++-2-libc6.1-1-2.9.0.so
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/libstdc++.so.2.7.2 -> libstdc++.so.2.7.2.8
+                         18 .a. lrwxrwxrwx root     root     t/usr/lib/libstdc++.so.2.8 -> libstdc++.so.2.8.0
+                         22 .a. lrwxrwxrwx root     root     t/usr/lib/libstdc++.so.2.9 -> libstdc++.so.2.9.dummy
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libstyle.so.1 -> libstyle.so.1.0.3
+                         14 .a. lrwxrwxrwx root     root     t/usr/lib/libtiff.so.3 -> libtiff.so.3.5
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libttf.so.2 -> libttf.so.2.2.0
+                         22 .a. lrwxrwxrwx root     root     t/usr/lib/libucdagent.so.0 -> libucdagent.so.0.4.1.1
+                      33504 .a. -rwxr-xr-x root     root     t/usr/lib/libucdagent.so.0.4.1.1
+                         21 .a. lrwxrwxrwx root     root     t/usr/lib/libucdmibs.so.0 -> libucdmibs.so.0.4.1.1
+                     178676 .a. -rwxr-xr-x root     root     t/usr/lib/libucdmibs.so.0.4.1.1
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/libutempter.so -> libutempter.so.0.5.2
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/libutempter.so.0 -> libutempter.so.0.5.2
+                       7289 .a. -rw-r--r-- root     root     t/usr/lib/libutempter.so.0.5.2
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libvga.so -> libvga.so.1.4.1
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libvga.so.1 -> libvga.so.1.4.1
+                     288008 .a. -rwxr-xr-x root     root     t/usr/lib/libvga.so.1.4.1
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libvgagl.so -> libvgagl.so.1.4.1
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libvgagl.so.1 -> libvgagl.so.1.4.1
+                      54048 .a. -rwxr-xr-x root     root     t/usr/lib/libvgagl.so.1.4.1
+                         13 .a. lrwxrwxrwx root     root     t/usr/lib/libz.so -> libz.so.1.1.3
+                         13 .a. lrwxrwxrwx root     root     t/usr/lib/libz.so.1 -> libz.so.1.1.3
+                      63492 .a. -rwxr-xr-x root     root     t/usr/lib/libz.so.1.1.3
+                         13 mac lrwxrwxrwx 0        0        /etc/sysconfig/.network.swpx  (deleted)
+Nov 08 00 09:52:32     1176 .ac -rwxr-xr-x root     root     t/etc/rc.d/init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     t/etc/rc.d/rc0.d/K60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     t/etc/rc.d/rc1.d/K60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     t/etc/rc.d/rc2.d/S60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     t/etc/rc.d/rc3.d/S60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     t/etc/rc.d/rc5.d/S60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     t/etc/rc.d/rc6.d/K60lpd -> ../init.d/lpd
+                       3564 ..c -r--r--r-- root     root     t/etc/screenrc
+                       1024 m.c drwxr-xr-x root     root     t/etc/skel
+                       3394 ..c -rw-r--r-- root     root     t/etc/skel/.screenrc
+                          4 .ac lrwxrwxrwx root     root     t/usr/bin/gmake -> make
+                      15816 ..c -r-xr-xr-x root     lp       t/usr/bin/lpq
+                      15608 ..c -r-xr-xr-x root     lp       t/usr/bin/lpr
+                      16248 ..c -r-xr-xr-x root     lp       t/usr/bin/lprm
+                       3656 ..c -rwxr-xr-x root     root     t/usr/bin/lptest
+                     104316 ..c -rwxr-xr-x root     root     t/usr/bin/make
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/make-3.77
+                      26571 ..c -rw-r--r-- root     root     t/usr/doc/make-3.77/NEWS
+                       2141 ..c -r--r--r-- root     root     t/usr/doc/make-3.77/README
+                       2954 .a. -rw-r--r-- root     root     t/usr/info/am-utils.info.gz
+                      14727 ..c -rw-r--r-- root     root     t/usr/info/make.info-1.gz
+                       1928 ..c -rw-r--r-- root     root     t/usr/info/make.info-10.gz
+                      15693 ..c -rw-r--r-- root     root     t/usr/info/make.info-2.gz
+                      15515 ..c -rw-r--r-- root     root     t/usr/info/make.info-3.gz
+                      15275 ..c -rw-r--r-- root     root     t/usr/info/make.info-4.gz
+                      15324 ..c -rw-r--r-- root     root     t/usr/info/make.info-5.gz
+                      15459 ..c -rw-r--r-- root     root     t/usr/info/make.info-6.gz
+                      14989 ..c -rw-r--r-- root     root     t/usr/info/make.info-7.gz
+                       5385 ..c -rw-r--r-- root     root     t/usr/info/make.info-8.gz
+                       7253 ..c -rw-r--r-- root     root     t/usr/info/make.info-9.gz
+                       2111 .ac -rw-r--r-- root     root     t/usr/info/make.info.gz
+                       4650 ..c -rwxr-xr-x root     root     t/usr/man/man1/lpq.1
+                       7458 ..c -rw-r--r-- root     root     t/usr/man/man1/lpr.1
+                       4633 ..c -rw-r--r-- root     root     t/usr/man/man1/lprm.1
+                       2861 ..c -rw-r--r-- root     root     t/usr/man/man1/lptest.1
+                       7598 ..c -rw-r--r-- root     root     t/usr/man/man1/make.1
+                       7845 ..c -rw-r--r-- root     root     t/usr/man/man5/printcap.5
+                       5907 ..c -rw-r--r-- root     root     t/usr/man/man8/lpc.8
+                       7422 ..c -rw-r--r-- root     root     t/usr/man/man8/lpd.8
+                       3857 ..c -rw-r--r-- root     root     t/usr/man/man8/pac.8
+                      24104 ..c -rwxr-Sr-x root     lp       t/usr/sbin/lpc
+                      51740 ..c -rwxr--r-- root     root     t/usr/sbin/lpd
+                       5140 ..c -rwxr-xr-x root     root     t/usr/sbin/lpf
+                       9412 ..c -rwxr--r-- root     root     t/usr/sbin/pac
+                       1024 ..c drwxrwxr-x root     bin      t/var/spool/lpd
+                       3394 ..c -rw-r--r-- 0        0        /etc/skel/.screenrc-RPMDELETE  (deleted)
+Nov 08 00 09:52:33     2048 m.c drwxr-xr-x root     root     t/bin
+                    1052024 .a. -rwxr-xr-x root     root     t/bin/bx
+                       1024 m.c drwxr-xr-x root     root     t/etc/X11
+                       1024 m.c drwxr-xr-x root     root     t/etc/X11/applnk/Internet
+                       1024 mac drwxr-xr-x root     root     t/etc/X11/wmconfig
+                        114 ..c -rw-r--r-- root     root     t/etc/X11/wmconfig/telnet
+                      13281 mac -rw-r--r-- root     root     t/etc/info-dir
+                       1084 .ac -rwxr-xr-x root     root     t/etc/rc.d/init.d/yppasswdd
+                       1137 .ac -rwxr-xr-x root     root     t/etc/rc.d/init.d/ypserv
+                       1398 ..c -rw-r--r-- root     root     t/etc/ypserv.conf
+                      75144 .a. -rwxr-xr-x root     root     t/sbin/install-info
+                     236468 ..c -rwxr-xr-x root     root     t/usr/bin/screen
+                      64608 ..c -rwxr-xr-x root     root     t/usr/bin/telnet
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/screen-3.9.4
+                      14081 ..c -rw-r--r-- root     root     t/usr/doc/screen-3.9.4/FAQ
+                       3619 ..c -rw-r--r-- root     root     t/usr/doc/screen-3.9.4/NEWS
+                       3437 ..c -rw-r--r-- root     root     t/usr/doc/screen-3.9.4/README
+                       6447 ..c -rw-r--r-- root     root     t/usr/doc/screen-3.9.4/README.DOTSCREEN
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/ypserv-1.3.9
+                        191 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/BUGS
+                      34068 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/ChangeLog
+                       6037 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/INSTALL
+                       2471 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/NEWS
+                       3595 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/README
+                        259 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/README.etc
+                       2849 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/README.secure
+                        286 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/TODO
+                        471 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/securenets
+                       1398 ..c -rw-r--r-- root     root     t/usr/doc/ypserv-1.3.9/ypserv.conf
+                       4096 m.c drwxr-xr-x root     root     t/usr/include/rpcsvc
+                       7242 ..c -rw-r--r-- root     root     t/usr/include/rpcsvc/ypxfrd.x
+                       8192 m.c drwxr-xr-x root     root     t/usr/info
+                         18 .a. lrwxrwxrwx root     root     t/usr/info/dir -> ../../etc/info-dir
+                      16094 ..c -rw-r--r-- root     root     t/usr/info/screen.info-1.gz
+                      15113 ..c -rw-r--r-- root     root     t/usr/info/screen.info-2.gz
+                      16847 ..c -rw-r--r-- root     root     t/usr/info/screen.info-3.gz
+                      12505 ..c -rw-r--r-- root     root     t/usr/info/screen.info-4.gz
+                       1978 .ac -rw-r--r-- root     root     t/usr/info/screen.info.gz
+                       4096 m.c drwxr-xr-x root     root     t/usr/lib/yp
+                       1361 ..c -rwxr-xr-x root     root     t/usr/lib/yp/create_printcap
+                      12384 ..c -rwxr-xr-x root     root     t/usr/lib/yp/makedbm
+                         95 ..c -rwxr-xr-x root     root     t/usr/lib/yp/match_printcap
+                      10244 ..c -rwxr-xr-x root     root     t/usr/lib/yp/mknetid
+                       2295 ..c -rwxr-xr-x root     root     t/usr/lib/yp/pwupdate
+                      10004 ..c -rwxr-xr-x root     root     t/usr/lib/yp/revnetgroup
+                      10884 ..c -rwxr-xr-x root     root     t/usr/lib/yp/yphelper
+                       4110 ..c -rwxr-xr-x root     root     t/usr/lib/yp/ypinit
+                      19272 ..c -rwxr-xr-x root     root     t/usr/lib/yp/ypxfr
+                        329 ..c -rwxr-xr-x root     root     t/usr/lib/yp/ypxfr_1perday
+                        246 ..c -rwxr-xr-x root     root     t/usr/lib/yp/ypxfr_1perhour
+                        260 ..c -rwxr-xr-x root     root     t/usr/lib/yp/ypxfr_2perday
+                     129824 ..c -rw-r--r-- root     root     t/usr/man/man1/screen.1
+                      32150 ..c -rw-r--r-- root     root     t/usr/man/man1/telnet.1
+                       1002 ..c -rw-r--r-- root     root     t/usr/man/man5/issue.net.5
+                       1914 ..c -rw-r--r-- root     root     t/usr/man/man5/netgroup.5
+                       2739 ..c -rw-r--r-- root     root     t/usr/man/man5/ypserv.conf.5
+                      12823 ..c -rw-r--r-- root     root     t/usr/man/man8/in.telnetd.8
+                       2112 ..c -rw-r--r-- root     root     t/usr/man/man8/makedbm.8
+                       2492 ..c -rw-r--r-- root     root     t/usr/man/man8/mknetid.8
+                        678 ..c -rw-r--r-- root     root     t/usr/man/man8/pwupdate.8
+                        592 ..c -rw-r--r-- root     root     t/usr/man/man8/revnetgroup.8
+                       6962 ..c -rw-r--r-- root     root     t/usr/man/man8/rpc.yppasswdd.8
+                       4004 ..c -rw-r--r-- root     root     t/usr/man/man8/rpc.ypxfrd.8
+                         12 mac lrwxrwxrwx root     root     t/usr/man/man8/telnetd.8 -> in.telnetd.8
+                       1593 ..c -rw-r--r-- root     root     t/usr/man/man8/ypinit.8
+                         25 ..c -rw-r--r-- root     root     t/usr/man/man8/yppasswdd.8
+                       2830 ..c -rw-r--r-- root     root     t/usr/man/man8/yppush.8
+                       4886 ..c -rw-r--r-- root     root     t/usr/man/man8/ypserv.8
+                       4320 ..c -rw-r--r-- root     root     t/usr/man/man8/ypxfr.8
+                         22 ..c -rw-r--r-- root     root     t/usr/man/man8/ypxfrd.8
+                      35628 ..c -rwxr-xr-x root     root     t/usr/sbin/in.telnetd
+                      18448 ..c -rwxr-xr-x root     root     t/usr/sbin/rpc.yppasswdd
+                      25212 ..c -rwxr-xr-x root     root     t/usr/sbin/rpc.ypxfrd
+                      14520 ..c -rwxr-xr-x root     root     t/usr/sbin/yppush
+                      40476 ..c -rwxr-xr-x root     root     t/usr/sbin/ypserv
+                        768 .a. -rw-r--r-- root     root     t/var/log/wtmp
+                       1024 m.c drwxr-xr-x root     root     t/var/yp
+                      13843 ..c -rw-r--r-- root     root     t/var/yp/Makefile
+                        471 ..c -rw-r--r-- root     root     t/var/yp/securenets
+                       1398 ..c -rw-r--r-- 0        0        /usr/doc/ypserv-1.3.9/ypserv.conf-RPMDELETE  (deleted)
+                       1978 .ac -rw-r--r-- 0        0        /usr/info/screen.info.gz-RPMDELETE  (deleted)
+                         95 ..c -rwxr-xr-x 0        0        /usr/include/rpcsvc/ypxfrd.x-RPMDELETE  (deleted)
+                        471 ..c -rw-r--r-- 0        0        /var/yp/securenets-RPMDELETE  (deleted)
+                        153 ..c -rw-r--r-- 0        0        /etc/X11/applnk/Internet/telnet.desktop  (deleted)
+Nov 08 00 09:52:34  1052024 m.c -rwxr-xr-x root     root     t/bin/bx
+*************** END EXECUTE /usr/man/.Ci/install ************************
+
+Nov 08 00 09:52:53     2360 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp8  (deleted)
+                       2645 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp9  (deleted)
+                       1076 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp10  (deleted)
+                       2633 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp11  (deleted)
+                       2789 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp12  (deleted)
+                      25275 .a. -rw-r--r-- 17275    20       /usr/man/man1/screen.1.gz  (deleted)
+                      99300 .a. -rw-r--r-- 17275    20       /usr/man/man1/telnet.1.gz  (deleted)
+                       2141 .a. -rw-r--r-- 17275    20       /usr/man/man8/yppush.8.gz  (deleted)
+                       3838 .a. -rw-r--r-- 17275    20       /usr/man/man8/ypserv.8.gz  (deleted)
+                       2024 .a. -rw-r--r-- 17275    20       /usr/man/man8/ypxfr.8.gz  (deleted)
+                       7616 .a. -rw-r--r-- 17275    20       /usr/man/man8/ypxfrd.8.gz  (deleted)
+                       2286 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp2  (deleted)
+                       2414 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp3  (deleted)
+                       3063 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp4  (deleted)
+                       2843 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp5  (deleted)
+                       2213 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/ptyp  (deleted)
+                       1864 .a. -rw-r--r-- 17275    20       /usr/man/.Ci/.temp7  (deleted)
+
+*************** BEGIN EXECUTE /usr/man/.Ci/install-sshd ************************
+Nov 08 00 09:52:59 18698240 .a. -rw-r--r-- 1010     100      /usr/man/.Ci/ssh-1.2.27.tar  (deleted)
+Nov 08 00 09:53:06     1024 m.c drwxr-x--- root     root     t/root
+                       1024 .a. drwxr-xr-x root     root     t/root/.ssh
+                       3970 .a. -rw-r--r-- root     root     t/usr/lib/libbsd-compat.a
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libbsd.a -> libbsd-compat.a
+                         23 .a. lrwxrwxrwx root     root     t/usr/lib/libcrypt.so -> ../../lib/libcrypt.so.1
+                         21 .a. lrwxrwxrwx root     root     t/usr/lib/libnsl.so -> ../../lib/libnsl.so.1
+                         22 .a. lrwxrwxrwx root     root     t/usr/lib/libutil.so -> ../../lib/libutil.so.1
+Nov 08 00 09:53:08    34816 .a. drwxr-xr-x root     root     t/dev
+                      12288 m.c -rw-rw-r-- root     root     t/etc/psdevtab
+                       1024 m.c drwxr-xr-x root     root     t/root/.ssh
+                        512 .a. -rw------- root     root     t/root/.ssh/random_seed
+Nov 08 00 09:53:10      880 .a. -rw-r--r-- root     root     t/etc/ssh_config
+                        537 m.c -rw------- root     root     t/etc/ssh_host_key
+                        341 mac -rw-r--r-- root     root     t/etc/ssh_host_key.pub
+                        512 m.c -rw------- root     root     t/root/.ssh/random_seed
+Nov 08 00 09:53:11      880 m.c -rw-r--r-- root     root     t/etc/ssh_config
+                          3 mac lrwxrwxrwx root     root     t/usr/local/bin/slogin -> ssh
+                          4 mac lrwxrwxrwx root     root     t/usr/local/bin/ssh -> ssh1
+                         11 mac lrwxrwxrwx root     root     t/usr/local/bin/ssh-keygen -> ssh-keygen1
+                     327262 mac -rwxr-xr-x root     root     t/usr/local/bin/ssh-keygen1
+                     604938 mac -rws--x--x root     root     t/usr/local/bin/ssh1
+Nov 08 00 09:53:12       21 mac lrwxrwxrwx root     root     t/usr/local/bin/make-ssh-known-hosts -> make-ssh-known-hosts1
+                      21228 mac -rwxr-xr-x root     root     t/usr/local/bin/make-ssh-known-hosts1
+                          4 mac lrwxrwxrwx root     root     t/usr/local/bin/scp -> scp1
+                      90424 mac -rwxr-xr-x root     root     t/usr/local/bin/scp1
+                          8 mac lrwxrwxrwx root     root     t/usr/local/bin/ssh-add -> ssh-add1
+                     337617 mac -rwxr-xr-x root     root     t/usr/local/bin/ssh-add1
+                         10 mac lrwxrwxrwx root     root     t/usr/local/bin/ssh-agent -> ssh-agent1
+                     343586 mac -rwxr-xr-x root     root     t/usr/local/bin/ssh-agent1
+                          5 m.c lrwxrwxrwx root     root     t/usr/local/sbin/sshd -> sshd1
+                     643674 m.c -rwxr-xr-x root     root     t/usr/local/sbin/sshd1
+Nov 08 00 09:53:13        4 .a. lrwxrwxrwx root     root     t/bin/awk -> gawk
+                     148848 .a. -rwxr-xr-x root     root     t/bin/gawk
+                     148848 .a. -rwxr-xr-x root     root     t/bin/gawk-3.0.4
+                      20240 .a. -rwxr-xr-x root     root     t/bin/ln
+                        955 m.c -rwxr-xr-x root     root     t/etc/rc.d/rc.local
+                        684 m.c -rw-r--r-- root     root     t/etc/sshd_config
+                       4096 m.c drwxr-xr-x root     root     t/usr/local/man/man1
+                         23 mac lrwxrwxrwx root     root     t/usr/local/man/man1/make-ssh-known-hosts.1 -> make-ssh-known-hosts1.1
+                      12272 mac -rw-r--r-- root     root     t/usr/local/man/man1/make-ssh-known-hosts1.1
+                          6 mac lrwxrwxrwx root     root     t/usr/local/man/man1/scp.1 -> scp1.1
+                       4892 mac -rw-r--r-- root     root     t/usr/local/man/man1/scp1.1
+                          5 mac lrwxrwxrwx root     root     t/usr/local/man/man1/slogin.1 -> ssh.1
+                          6 mac lrwxrwxrwx root     root     t/usr/local/man/man1/slogin1.1 -> ssh1.1
+                         10 mac lrwxrwxrwx root     root     t/usr/local/man/man1/ssh-add.1 -> ssh-add1.1
+                       4007 mac -rw-r--r-- root     root     t/usr/local/man/man1/ssh-add1.1
+                         12 mac lrwxrwxrwx root     root     t/usr/local/man/man1/ssh-agent.1 -> ssh-agent1.1
+                       6265 mac -rw-r--r-- root     root     t/usr/local/man/man1/ssh-agent1.1
+                         13 mac lrwxrwxrwx root     root     t/usr/local/man/man1/ssh-keygen.1 -> ssh-keygen1.1
+                       5824 mac -rw-r--r-- root     root     t/usr/local/man/man1/ssh-keygen1.1
+                          6 mac lrwxrwxrwx root     root     t/usr/local/man/man1/ssh.1 -> ssh1.1
+                      38572 mac -rw-r--r-- root     root     t/usr/local/man/man1/ssh1.1
+                       4096 m.c drwxr-xr-x root     root     t/usr/local/man/man8
+                          7 mac lrwxrwxrwx root     root     t/usr/local/man/man8/sshd.8 -> sshd1.8
+                      37023 mac -rw-r--r-- root     root     t/usr/local/man/man8/sshd1.8
+                       1076 .a. -rwxr-xr-x 1010     100      /usr/man/.Ci/install-sshd  (deleted)
+Nov 08 00 09:53:28     2048 .a. drwxr-xr-x root     root     t/bin
+                       3072 .a. drwxr-xr-x root     root     t/etc
+                       3072 .a. drwxr-xr-x root     root     t/lib
+                       1024 .a. drwxr-xr-x root     root     t/opt
+                       3072 .a. drwxr-xr-x root     root     t/sbin
+                       4096 .a. drwxr-xr-x root     root     t/usr/X11R6/bin
+                      16384 .a. drwxr-xr-x root     root     t/usr/bin
+                         12 .a. lrwxrwxrwx root     root     t/usr/bin/X11 -> ../X11R6/bin
+                       6864 .a. -rwxr-xr-x root     root     t/usr/bin/whereis
+                       4096 .a. drwxr-xr-x root     root     t/usr/etc
+                       4096 .a. drwxr-xr-x root     root     t/usr/games
+                       4096 .a. drwxr-xr-x root     root     t/usr/include
+                       8192 .a. drwxr-xr-x root     root     t/usr/lib
+                       4096 .a. drwxr-xr-x root     root     t/usr/lib/emacs
+                       4096 .a. drwxr-xr-x root     root     t/usr/libexec
+                       4096 .a. drwxr-xr-x root     root     t/usr/local
+                       4096 .a. drwxr-xr-x root     root     t/usr/local/bin
+                       4096 .a. drwxr-xr-x root     root     t/usr/local/etc
+                       4096 .a. drwxr-xr-x root     root     t/usr/local/games
+                       4096 .a. drwxr-xr-x root     root     t/usr/local/lib
+                       4096 .a. drwxr-xr-x root     root     t/usr/local/sbin
+                       4096 .a. drwxr-xr-x root     root     t/usr/man
+                      16384 .a. drwxr-xr-x root     root     t/usr/man/man1
+                       8192 .a. drwxr-xr-x root     root     t/usr/man/man2
+                      24576 .a. drwxr-xr-x root     root     t/usr/man/man3
+                       4096 .a. drwxr-xr-x root     root     t/usr/man/man4
+                       4096 .a. drwxr-xr-x root     root     t/usr/man/man5
+                       4096 .a. drwxr-xr-x root     root     t/usr/man/man6
+                       4096 .a. drwxr-xr-x root     root     t/usr/man/man7
+                      12288 .a. drwxr-xr-x root     root     t/usr/man/man8
+                       4096 .a. drwxr-xr-x root     root     t/usr/man/man9
+                       4096 .a. drwxr-xr-x root     root     t/usr/man/manl
+                       4096 .a. drwxr-xr-x root     root     t/usr/man/mann
+                       4096 .a. drwxr-xr-x root     root     t/usr/sbin
+                       4096 .a. drwxr-xr-x root     root     t/usr/share
+                       4096 .a. drwxr-xr-x root     root     t/usr/src
+                         12 .a. lrwxrwxrwx root     root     t/usr/src/linux -> linux-2.2.14
+                       4096 .a. drwxr-xr-x root     root     t/usr/src/linux-2.2.14
+                       4096 .a. drwxr-xr-x root     root     t/usr/src/redhat
+Nov 08 00 09:53:33    32816 .a. -rwxr-xr-x root     root     t/bin/netstat
+                     202709 .a. -rw-r--r-- root     root     t/boot/System.map-2.2.14-5.0
+                        537 .a. -rw------- root     root     t/etc/ssh_host_key
+                        512 .a. -rw------- root     root     t/etc/ssh_random_seed
+                        684 .a. -rw-r--r-- root     root     t/etc/sshd_config
+                      47008 .a. -rwxr-xr-x root     root     t/lib/libutil-2.1.3.so
+                         16 .a. lrwxrwxrwx root     root     t/lib/libutil.so.1 -> libutil-2.1.3.so
+                          5 .a. lrwxrwxrwx root     root     t/usr/local/sbin/sshd -> sshd1
+                     643674 .a. -rwxr-xr-x root     root     t/usr/local/sbin/sshd1
+                          5 mac -rw-r--r-- root     root     t/var/run/sshd.pid
+*************** END EXECUTE /usr/man/.Ci/install-sshd ************************
+
+*************** BEGIN EXECUTE /usr/man/.Ci/install-wu ************************
+Nov 08 00 09:53:40      484 ..c -rw------- root     root     t/etc/ftpaccess
+                        456 ..c -rw------- root     root     t/etc/ftpconversions
+                         39 ..c -rw------- root     root     t/etc/ftpgroups
+                        104 ..c -rw------- root     root     t/etc/ftphosts
+                         79 ..c -rw------- root     root     t/etc/ftpusers
+                       1024 m.c drwxr-xr-x root     root     t/etc/logrotate.d
+                         78 ..c -rw-r--r-- root     root     t/etc/logrotate.d/ftpd
+                       1024 m.c drwxr-xr-x root     root     t/etc/pam.d
+                        314 ..c -rw-r--r-- root     root     t/etc/pam.d/ftp
+                      16384 m.c drwxr-xr-x root     root     t/usr/bin
+                       8928 ..c -rwxr-xr-x daemon   daemon   t/usr/bin/ftpcount
+                       8928 ..c -rwxr-xr-x daemon   daemon   t/usr/bin/ftpwho
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/wu-ftpd-2.6.0
+                     112149 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/CHANGES
+                      11382 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/CONTRIBUTORS
+                       2580 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/ERRATA
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/wu-ftpd-2.6.0/HOWTO
+                      28539 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/HOWTO/VIRTUAL.FTP.SUPPORT
+                      18641 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/HOWTO/upload.configuration.HOWTO
+                       3185 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/README
+                       4396 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/TODO
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/wu-ftpd-2.6.0/examples
+                        404 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftpaccess
+                       1866 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftpaccess.heavy
+                        538 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftpconversions
+                        137 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftpconversions.solaris
+                         37 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftpgroups
+                        190 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftphosts
+                        882 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftpservers
+                         83 ..c -rw-r--r-- root     root     t/usr/doc/wu-ftpd-2.6.0/examples/ftpusers
+                      16384 m.c drwxr-xr-x root     root     t/usr/man/man1
+                        701 ..c -rw-r--r-- root     root     t/usr/man/man1/ftpcount.1.gz
+                        702 ..c -rw-r--r-- root     root     t/usr/man/man1/ftpwho.1.gz
+                      14006 ..c -rw-r--r-- root     root     t/usr/man/man5/ftpaccess.5.gz
+                        857 ..c -rw-r--r-- root     root     t/usr/man/man5/ftpconversions.5.gz
+                        815 ..c -rw-r--r-- root     root     t/usr/man/man5/ftphosts.5.gz
+                       1635 ..c -rw-r--r-- root     root     t/usr/man/man5/ftpservers.5.gz
+                       1490 ..c -rw-r--r-- root     root     t/usr/man/man5/xferlog.5.gz
+                        701 ..c -rw-r--r-- 0        0        /usr/man/man1/ftpcount.1.gz  (deleted)
+                      18641 ..c -rw-r--r-- 0        0        /usr/doc/wu-ftpd-2.6.0/HOWTO/upload.configuration.HOWTO-RPMDELETE  (deleted)
+                         83 ..c -rw-r--r-- 0        0        /usr/doc/wu-ftpd-2.6.0/examples/ftpusers-RPMDELETE  (deleted)
+                        702 ..c -rw-r--r-- 0        0        /usr/man/man1/ftpwho.1.gz  (deleted)
+                       4396 ..c -rw-r--r-- 0        0        /usr/doc/wu-ftpd-2.6.0/TODO-RPMDELETE  (deleted)
+                        702 ..c -rw-r--r-- 0        0        /usr/man/man1/ftpwho.1.gz-RPMDELETE  (deleted)
+                       8928 ..c -rwxr-xr-x 1        1        /usr/bin/ftpwho-RPMDELETE  (deleted)
+                        314 ..c -rw-r--r-- 0        0        /etc/pam.d/ftp-RPMDELETE  (deleted)
+                         78 ..c -rw-r--r-- 0        0        /etc/logrotate.d/ftpd-RPMDELETE  (deleted)
+Nov 08 00 09:53:41   767016 .a. -rwx------ root     root     t/bin/linuxconf
+                         12 .a. lrwxrwxrwx root     root     t/usr/lib/libgd.so.1 -> libgd.so.1.2
+                     156353 .a. -rwxr-xr-x root     root     t/usr/lib/libgd.so.1.2
+                       5272 ..c -rw-r--r-- root     root     t/usr/man/man8/ftpd.8.gz
+                        846 ..c -rw-r--r-- root     root     t/usr/man/man8/ftprestart.8.gz
+                       1583 ..c -rw-r--r-- root     root     t/usr/man/man8/ftpshut.8.gz
+                       1350 ..c -rw-r--r-- root     root     t/usr/man/man8/privatepw.8.gz
+                       7792 ..c -rwxr-xr-x daemon   daemon   t/usr/sbin/ckconfig
+                       8112 ..c -rwxr-xr-x daemon   daemon   t/usr/sbin/ftprestart
+                      10800 ..c -rwxr-xr-x daemon   daemon   t/usr/sbin/ftpshut
+                     162608 ..c -rwxr-xr-x daemon   daemon   t/usr/sbin/in.ftpd
+                          7 .ac lrwxrwxrwx daemon   daemon   t/usr/sbin/in.wuftpd -> in.ftpd
+                      10448 ..c -rwxr-xr-x daemon   daemon   t/usr/sbin/privatepw
+                          7 .ac lrwxrwxrwx daemon   daemon   t/usr/sbin/wu.ftpd -> in.ftpd
+                      10438 ..c -rwxr-xr-x daemon   daemon   t/usr/sbin/xferstats
+                     195637 .a. -rw-r--r-- 1010     100      /usr/man/.Ci/wuftpd.rpm  (deleted)
+Nov 08 00 09:53:43      314 .a. -rw------- root     root     t/etc/conf.linuxconf
+                         33 .a. -rw-r--r-- root     root     t/etc/redhat-release
+                      44269 .a. -rw-r--r-- root     root     t/usr/lib/linuxconf/help.eng/linuxconf-msg-1.17r2.eng
+                       1105 .a. -rw-r--r-- root     root     t/usr/lib/linuxconf/help.eng/redhat-msg-1.17r2.eng
+                       4096 .a. drwxr-xr-x root     root     t/usr/lib/linuxconf/redhat
+                        313 .a. -rw-r--r-- root     root     t/usr/lib/linuxconf/redhat/linuxconf.paths
+                         36 .a. -rw-r--r-- root     root     t/usr/lib/linuxconf/redhat/mailconf.paths
+                         39 .a. -rw-r--r-- root     root     t/usr/lib/linuxconf/redhat/managerpm.paths
+                     264822 .a. -rwxr-xr-x root     root     t/usr/lib/linuxconf/redhat/redhat.so.1.17.2
+                         45 .a. -rw-r--r-- root     root     t/usr/lib/linuxconf/redhat/squid.paths
+                         71 .a. -rwxr-xr-x 1010     100      /usr/man/.Ci/install-wu  (deleted)
+*************** END EXECUTE /usr/man/.Ci/install-wu ************************
+
+*************** BEGIN EXECUTE /usr/man/.Ci/install-statd ************************
+Nov 08 00 09:53:47   886424 .a. -rwxr-xr-x root     root     t/bin/rpm
+                      17151 .a. -rw-r--r-- root     root     t/usr/lib/rpm/macros
+                       3683 .a. -rw-r--r-- root     root     t/usr/lib/rpm/rpmpopt
+                       7716 .a. -rw-r--r-- root     root     t/usr/lib/rpm/rpmrc
+                      16384 .a. -rw-r--r-- root     root     t/var/lib/rpm/conflictsindex.rpm
+                      16384 .a. -rw-r--r-- root     root     t/var/lib/rpm/nameindex.rpm
+                      49152 .a. -rw-r--r-- root     root     t/var/lib/rpm/requiredby.rpm
+Nov 08 00 09:53:49     1024 m.c drwxr-xr-x root     root     t/etc/rc.d/init.d
+                       2257 .ac -rwxr-xr-x root     root     t/etc/rc.d/init.d/nfs
+                       1722 ..c -rwxr-xr-x root     root     t/etc/rc.d/init.d/nfslock
+                       1024 .a. drwxr-xr-x root     root     t/etc/rc.d/rc0.d
+                       1024 .a. drwxr-xr-x root     root     t/etc/rc.d/rc1.d
+                       1024 .a. drwxr-xr-x root     root     t/etc/rc.d/rc2.d
+                       1024 .a. drwxr-xr-x root     root     t/etc/rc.d/rc4.d
+                       1024 .a. drwxr-xr-x root     root     t/etc/rc.d/rc5.d
+                       1024 .a. drwxr-xr-x root     root     t/etc/rc.d/rc6.d
+                       3072 m.c drwxr-xr-x root     root     t/sbin
+                       2848 ..c -rwxr-xr-x root     root     t/sbin/rpc.lockd
+                      19888 ..c -rwxr-xr-x root     root     t/sbin/rpc.statd
+                       6960 ..c -rwxr-xr-x root     root     t/sbin/rpcdebug
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc
+                       4096 m.c drwxr-xr-x root     root     t/usr/doc/nfs-utils-0.1.9.1
+                       2397 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/ChangeLog
+                        563 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/INSTALL
+                       1058 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/KNOWNBUGS
+                      10337 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/NEW
+                       2305 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/README
+                        291 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/THANKS
+                       4517 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/TODO
+                       3882 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/index.html
+                       3882 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/nfs.html
+                     186037 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/nfs.ps
+                       2626 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node1.html
+                       3254 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node10.html
+                       4615 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node11.html
+                       3479 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node12.html
+                       2432 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node13.html
+                       6807 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node14.html
+                       7418 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node15.html
+                       8743 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node16.html
+                       2064 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node17.html
+                       2786 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node18.html
+                       2165 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node19.html
+                       2399 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node2.html
+                       1989 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node20.html
+                       2291 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node21.html
+                      13506 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node22.html
+                      13490 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node23.html
+                      15226 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node24.html
+                       2377 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node25.html
+                      15230 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node26.html
+                       2377 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node27.html
+                       2903 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node3.html
+                       3966 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node4.html
+                       2623 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node5.html
+                       4444 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node6.html
+                       4157 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node7.html
+                       3989 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node8.html
+                       2756 ..c -rw-r--r-- root     root     t/usr/doc/nfs-utils-0.1.9.1/node9.html
+                      32197 .a. -rwxr-xr-x root     root     t/usr/lib/gconv/ISO8859-1.so
+                      33711 .a. -rw-r--r-- root     root     t/usr/lib/gconv/gconv-modules
+                       4096 m.c drwxr-xr-x root     root     t/usr/man/man5
+                       6244 ..c -rw-r--r-- root     root     t/usr/man/man5/exports.5.gz
+                      12288 m.c drwxr-xr-x root     root     t/usr/man/man8
+                       2224 ..c -rw-r--r-- root     root     t/usr/man/man8/exportfs.8.gz
+                        376 ..c -rw-r--r-- root     root     t/usr/man/man8/lockd.8.gz
+                       1246 ..c -rw-r--r-- root     root     t/usr/man/man8/mountd.8.gz
+                        702 ..c -rw-r--r-- root     root     t/usr/man/man8/nfsd.8.gz
+                        788 ..c -rw-r--r-- root     root     t/usr/man/man8/nfsstat.8.gz
+                        341 ..c -rw-r--r-- root     root     t/usr/man/man8/nhfsgraph.8.gz
+                        332 ..c -rw-r--r-- root     root     t/usr/man/man8/nhfsnums.8.gz
+                        235 ..c -rw-r--r-- root     root     t/usr/man/man8/nhfsrun.8.gz
+                       4030 ..c -rw-r--r-- root     root     t/usr/man/man8/nhfsstone.8.gz
+                         10 mac lrwxrwxrwx root     root     t/usr/man/man8/rpc.lockd.8.gz -> lockd.8.gz
+                         11 .ac lrwxrwxrwx root     root     t/usr/man/man8/rpc.mountd.8.gz -> mountd.8.gz
+                          9 .ac lrwxrwxrwx root     root     t/usr/man/man8/rpc.nfsd.8.gz -> nfsd.8.gz
+                         12 .ac lrwxrwxrwx root     root     t/usr/man/man8/rpc.rquotad.8.gz -> rquotad.8.gz
+                         10 .ac lrwxrwxrwx root     root     t/usr/man/man8/rpc.statd.8.gz -> statd.8.gz
+                        476 ..c -rw-r--r-- root     root     t/usr/man/man8/rquotad.8.gz
+                        805 ..c -rw-r--r-- root     root     t/usr/man/man8/showmount.8.gz
+                        718 ..c -rw-r--r-- root     root     t/usr/man/man8/statd.8.gz
+                      25232 ..c -rwxr-xr-x root     root     t/usr/sbin/exportfs
+                       6352 ..c -rwxr-xr-x root     root     t/usr/sbin/nfsstat
+                      18640 ..c -rwxr-xr-x root     root     t/usr/sbin/nhfsstone
+                      36784 ..c -rwxr-xr-x root     root     t/usr/sbin/rpc.mountd
+                       3368 ..c -rwxr-xr-x root     root     t/usr/sbin/rpc.nfsd
+                       9872 ..c -rwxr-xr-x root     root     t/usr/sbin/rpc.rquotad
+                       9104 ..c -rwxr-xr-x root     root     t/usr/sbin/showmount
+                       1024 m.c drwxr-xr-x root     root     t/var/lib/nfs
+                          0 ..c -rw-r--r-- root     root     t/var/lib/nfs/etab
+                          0 ..c -rw-r--r-- root     root     t/var/lib/nfs/rmtab
+                          0 ..c -rw-r--r-- root     root     t/var/lib/nfs/xtab
+                      16384 .a. -rw-r--r-- root     root     t/var/lib/rpm/groupindex.rpm
+                      49152 .a. -rw-r--r-- root     root     t/var/lib/rpm/providesindex.rpm
+                      16384 .a. -rw-r--r-- root     root     t/var/lib/rpm/triggerindex.rpm
+                       9104 ..c -rwxr-xr-x 0        0        /usr/sbin/showmount-RPMDELETE  (deleted)
+                       6244 ..c -rw-r--r-- 0        0        /usr/man/man5/exports.5.gz-RPMDELETE  (deleted)
+                     180703 .a. -rw-r--r-- 1010     100      /usr/man/.Ci/nfs-utils-0.1.9.1-1.i386.rpm  (deleted)
+                        718 ..c -rw-r--r-- 0        0        /usr/man/man8/statd.8.gz-RPMDELETE  (deleted)
+                          0 ..c -rw-r--r-- 0        0        /var/lib/nfs/xtab-RPMDELETE  (deleted)
+                       1722 ..c -rwxr-xr-x 0        0        /etc/rc.d/init.d/nfslock-RPMDELETE  (deleted)
+                       6960 ..c -rwxr-xr-x 0        0        /sbin/rpcdebug-RPMDELETE  (deleted)
+Nov 08 00 09:53:50     7349 .a. -rwxr-xr-x root     root     t/etc/rc.d/init.d/functions
+                        952 .a. -rw-r--r-- root     root     t/etc/sysconfig/init
+                         63 .a. -rw-r--r-- root     root     t/etc/sysconfig/network
+                       2684 .a. -rwxr-xr-x root     root     t/sbin/consoletype
+                       2848 .a. -rwxr-xr-x root     root     t/sbin/rpc.lockd
+                      16384 m.c -rw-r--r-- root     root     t/var/lib/rpm/conflictsindex.rpm
+                    1343488 mac -rw-r--r-- root     root     t/var/lib/rpm/fileindex.rpm
+                      16384 m.c -rw-r--r-- root     root     t/var/lib/rpm/groupindex.rpm
+                      16384 m.c -rw-r--r-- root     root     t/var/lib/rpm/nameindex.rpm
+                    4173832 mac -rw-r--r-- root     root     t/var/lib/rpm/packages.rpm
+                      49152 m.c -rw-r--r-- root     root     t/var/lib/rpm/providesindex.rpm
+                      49152 m.c -rw-r--r-- root     root     t/var/lib/rpm/requiredby.rpm
+                      16384 m.c -rw-r--r-- root     root     t/var/lib/rpm/triggerindex.rpm
+Nov 08 00 09:54:05     5756 .a. -rwxr-xr-x root     root     t/bin/basename
+                       7084 .a. -rwxr-xr-x root     root     t/bin/nice
+                      23120 .a. -rwxr-xr-x root     root     t/bin/touch
+                        562 .a. -rw-r--r-- root     root     t/etc/initlog.conf
+                       1722 .a. -rwxr-xr-x root     root     t/etc/rc.d/init.d/nfslock
+                      25716 .a. -rwxr-xr-x root     root     t/sbin/initlog
+                       8128 .a. -rwxr-xr-x root     root     t/sbin/killall5
+                          8 .a. lrwxrwxrwx root     root     t/sbin/pidof -> killall5
+                      19888 .a. -rwxr-xr-x root     root     t/sbin/rpc.statd
+                       1024 .a. drwx------ root     root     t/var/lib/nfs/sm
+                       1024 .a. drwx------ root     root     t/var/lib/nfs/sm.bak
+                          4 mac -rw------- root     root     t/var/lib/nfs/state
+                          0 mac -rw-r--r-- root     root     t/var/lock/subsys/nfslock
+                        106 .a. -rwxr-xr-x 1010     100      /usr/man/.Ci/install-statd  (deleted)
+                       1722 .a. -rwxr-xr-x 0        0        /etc/rc.d/init.d/nfslock-RPMDELETE  (deleted)
+*************** END EXECUTE /usr/man/.Ci/install-statd ************************
+
+Nov 08 00 09:54:10    43024 .a. -rwxr-xr-x root     root     t/usr/bin/dir
+
+*************** BEGIN EXECUTE /usr/man/.Ci/install-named ************************
+Nov 08 00 09:54:21 10260480 .a. -rwxr-xr-x 1010     100      /usr/man/.Ci/in.ftpd  (deleted)
+                   10260480 .a. -rwxr-xr-x 1010     100      /usr/man/.Ci/named.tar  (deleted)
+Nov 08 00 09:54:22     6416 mac -rwxr-xr-x root     root     t/usr/local/bin/addr
+                     271188 m.. -rwxr-xr-x root     root     t/usr/local/bin/dig
+Nov 08 00 09:54:23   271188 ..c -rwxr-xr-x root     root     t/usr/local/bin/dig
+                     241744 mac -rwxr-xr-x root     root     t/usr/local/bin/dnsquery
+                     260816 mac -rwxr-xr-x root     root     t/usr/local/bin/host
+                     263960 .a. -rwxr-xr-x root     root     t/usr/local/sbin/irpd
+Nov 08 00 09:54:24    38096 .a. -rwxr-xr-x root     root     t/usr/bin/install
+                     176464 .a. -rwxr-xr-x root     root     t/usr/bin/strip
+                       4096 m.c drwxr-xr-x root     root     t/usr/local/bin
+                       3296 mac -rwxr-xr-x root     root     t/usr/local/bin/mkservdb
+                     241792 mac -rwxr-xr-x root     root     t/usr/local/bin/nsupdate
+                       4096 m.c drwxr-xr-x root     root     t/usr/local/sbin
+                     263960 m.c -rwxr-xr-x root     root     t/usr/local/sbin/irpd
+                     525412 m.c -rwxr-xr-x root     root     t/usr/local/sbin/named
+                       7166 mac -rwxr-xr-x root     root     t/usr/local/sbin/named-bootconf
+                      36960 mac -rwxr-xr-x root     root     t/usr/local/sbin/ndc
+                    1029928 mac -rw------- 0        0        /usr/man/.Ci/named.tgz  (deleted)
+                     241792 mac -rwxr-xr-x 0        0        /usr/local/bin/stPHW5rg  (deleted)
+                      36960 mac -rwxr-xr-x 0        0        /usr/local/sbin/stEt9ai0  (deleted)
+Nov 08 00 09:54:25    33392 .a. -rwxr-xr-x root     root     t/bin/cp
+                        547 .a. -rw-r--r-- root     root     t/etc/named.conf
+                     525412 .a. -rwxr-xr-x root     root     t/usr/local/sbin/named
+                       4096 m.c drwxr-xr-x root     root     t/usr/sbin
+                     525412 mac -rwxr-xr-x root     root     t/usr/sbin/named
+                      35504 .a. -rwxr-xr-x root     root     t/usr/sbin/ndc
+                       2769 .a. -rw-r--r-- root     root     t/var/named/named.ca
+                        422 .a. -rw-r--r-- root     root     t/var/named/named.local
+                       1024 m.c drwxr-xr-x root     root     t/var/run
+                          5 mac -rw-r--r-- root     root     t/var/run/named.pid
+                          0 mac -rw------- root     root     t/var/run/ndc
+Nov 08 00 09:54:28   271188 .a. -rwxr-xr-x root     root     t/usr/local/bin/dig
+Nov 08 00 09:54:43 10260480 ..c -rwxr-xr-x 1010     100      /usr/man/.Ci/named.tar  (deleted)
+                          0 mac drwxr-xr-x 1002     100      /usr/doc/nfs-utils-0.1.6  (deleted)
+                         80 .a. -rwxr-xr-x 1010     100      /usr/man/.Ci/install-named  (deleted)
+                   10260480 ..c -rwxr-xr-x 1010     100      /usr/man/.Ci/in.ftpd  (deleted)
+                          0 mac drwxr-xr-x 1002     100      /usr/man/.Ci/bin  (deleted)
+*************** END EXECUTE /usr/man/.Ci/install-named ************************
+
+*************** BEGIN EXECUTE /usr/man/.Ci/addn ************************
+Nov 08 00 09:55:30     4096 m.c drwxr-xr-x root     root     t/usr/libexec/awk
+                         78 .a. -rw-r--r-- root     root     t/usr/libexec/awk/addy.awk
+
+Nov 08 00 09:55:47    12408 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/addn
+
+Nov 08 00 09:55:51       78 m.c -rw-r--r-- root     root     t/usr/libexec/awk/addy.awk
+*************** END EXECUTE /usr/man/.Ci/addn ************************
+
+*************** BEGIN EXECUTE /usr/man/.Ci/do ************************
+Nov 08 00 09:55:58      657 m.c -rw-r--r-- root     root     t/etc/passwd
+                        601 m.c -rw-r--r-- root     root     t/etc/shadow
+                        328 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/do
+*************** END EXECUTE /usr/man/.Ci/do ************************
+
+*************** BEGIN EXECUTE /usr/man/.Ci/snap ************************
+Nov 08 00 09:56:02     1024 m.c drwxr-xr-x root     root     t/var/log
+                       7974 mac -rw-r--r-- root     root     t/var/log/messages
+                        268 mac -rw-r--r-- root     root     t/var/log/secure
+                          0 mac -rw-r--r-- root     root     t/var/log/xferlog
+                          0 mac -rw-r--r-- 0        0        /var/log/tempxfer  (deleted)
+Nov 08 00 09:56:04     3098 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/snap
+*************** END EXECUTE /usr/man/.Ci/snap ************************
+
+Nov 08 00 09:56:05     1864 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp7  (deleted)
+                       3063 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp4  (deleted)
+                       2360 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp8  (deleted)
+                       2645 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp9  (deleted)
+                       2414 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp3  (deleted)
+                       1076 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp10  (deleted)
+                       2843 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp5  (deleted)
+                       2633 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp11  (deleted)
+                       2789 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp12  (deleted)
+                       2213 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/ptyp  (deleted)
+                          0 mac drwxr-xr-x 17275    20       /usr/man/.Ci/.temp6  (deleted)
+                      25275 ..c -rw-r--r-- 17275    20       /usr/man/man1/screen.1.gz  (deleted)
+                          0 mac drwxr-xr-x 17275    20       /usr/lib/yp/ypxfr_2perday-RPMDELETE  (deleted)
+                       2286 ..c -rw-r--r-- 17275    20       /usr/man/.Ci/.temp2  (deleted)
+Nov 08 00 09:56:06     2141 ..c -rw-r--r-- 17275    20       /usr/man/man8/yppush.8.gz  (deleted)
+                       3838 ..c -rw-r--r-- 17275    20       /usr/man/man8/ypserv.8.gz  (deleted)
+                       7616 ..c -rw-r--r-- 17275    20       /usr/man/man8/ypxfrd.8.gz  (deleted)
+                      99300 ..c -rw-r--r-- 17275    20       /usr/man/man1/telnet.1.gz  (deleted)
+                       2024 ..c -rw-r--r-- 17275    20       /usr/man/man8/ypxfr.8.gz  (deleted)
+Nov 08 00 09:56:07        0 mac drwxr-xr-x 17275    20       /usr/doc/screen-3.9.5  (deleted)
+
+
+*************** BEGIN EXECUTE /usr/man/.Ci/rmS ************************
+Nov 08 00 09:56:08     4096 m.c drwxr-xr-x 1010     users    t/usr/man/.Ci
+                        106 ..c -rwxr-xr-x 1010     100      /usr/man/.Ci/install-statd  (deleted)
+                   18698240 ..c -rw-r--r-- 1010     100      /usr/man/.Ci/ssh-1.2.27.tar  (deleted)
+                         80 ..c -rwxr-xr-x 1010     100      /usr/man/.Ci/install-named  (deleted)
+                       1153 ..c -rwxr-xr-x 1010     100      /usr/man/.Ci/install-sshd1  (deleted)
+                          0 mac drwxr-xr-x 17275    20       /usr/man/.Ci/ssh-1.2.27  (deleted)
+                       1076 ..c -rwxr-xr-x 1010     100      /usr/man/.Ci/install-sshd  (deleted)
+                         71 ..c -rwxr-xr-x 1010     100      /usr/man/.Ci/install-wu  (deleted)
+                     180703 ..c -rw-r--r-- 1010     100      /usr/man/.Ci/nfs-utils-0.1.9.1-1.i386.rpm  (deleted)
+                     195637 ..c -rw-r--r-- 1010     100      /usr/man/.Ci/wuftpd.rpm  (deleted)
+Nov 08 00 09:56:11      188 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/rmS
+*************** END EXECUTE /usr/man/.Ci/rmS ************************
+
+Nov 08 00 09:56:25   527442 .a. -rwxr-xr-x root     root     t/lib/libm-2.1.3.so
+                         13 .a. lrwxrwxrwx root     root     t/lib/libm.so.6 -> libm-2.1.3.so
+                    1052024 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/bx
+Nov 08 00 09:56:26        8 .a. lrwxrwxrwx root     root     t/usr/bin/uncompress -> compress
+Nov 08 00 09:56:42        9 .a. lrwxrwxrwx root     root     t/.bash_history -> /dev/null
+
+*************** BEGIN EXECUTE /usr/man/.Ci/chmod-it ************************
+Nov 08 00 09:56:57     4096 .a. drwxr-xr-x 1010     users    t/usr/man/.Ci
+Nov 08 00 09:56:59    17968 ..c -rwx------ root     root     t/bin/ping
+                       5760 .a. -rwxr-xr-x root     root     t/bin/sleep
+                      45388 ..c -rwx------ root     tty      t/sbin/dump
+                      67788 ..c -rwx------ root     tty      t/sbin/restore
+                      33288 ..c -rwx------ root     root     t/usr/bin/at
+                      35168 ..c -rwx------ root     root     t/usr/bin/chage
+                      36756 ..c -rwx------ root     root     t/usr/bin/gpasswd
+                       5640 ..c -rwx------ root     root     t/usr/bin/newgrp
+                     531516 ..c -rwx------ root     root     t/usr/bin/sperl5.00503
+                     531516 ..c -rwx------ root     root     t/usr/bin/suidperl
+                      34751 ..c -rwx------ root     root     t/usr/libexec/pt_chown
+                      16488 ..c -rwx------ root     daemon   t/usr/sbin/traceroute
+                       5896 ..c -rwx------ root     root     t/usr/sbin/usernetctl
+Nov 08 00 09:57:00      699 .a. -rwxr-xr-x 1010     users    t/usr/man/.Ci/chmod-it
+*************** END EXECUTE /usr/man/.Ci/chmod-it ************************
+
+*************** BEGIN install of tPACK/Eggdrop ************************
+Nov 08 00 09:57:06    13696 .a. -rwxr-xr-x root     root     t/bin/mkdir
+Nov 08 00 09:57:08     1024 .a. drwxrwxrwx root     root     t/tmp
+Nov 08 00 09:58:19    11952 .a. -rwxr-xr-x root     root     t/bin/chown
+Nov 08 00 09:58:26    14188 .a. -rwsr-xr-x root     root     t/bin/su
+                        331 .a. -rw-r--r-- root     root     t/etc/pam.d/su
+                        124 .a. -rw-r--r-- 500      500      t/home/drosen/.bashrc
+                      17282 .a. -rwxr-xr-x root     root     t/lib/security/pam_xauth.so
+Nov 08 00 09:58:28    46384 .a. -rwxr-xr-x root     root     t/bin/gunzip
+                      46384 .a. -rwxr-xr-x root     root     t/bin/gzip
+                      46384 .a. -rwxr-xr-x root     root     t/bin/zcat
+Nov 08 00 09:58:41   144592 .a. -rwxr-xr-x root     root     t/bin/tar
+                        400 .a. -rw------- 500      500      /etc/sysconfig/network-scripts/ifcfg-eth0~  (deleted)
+Nov 08 00 09:58:54    75600 .a. -rwxr-xr-x root     root     t/bin/egrep
+                       6196 .a. -rwxr-xr-x root     root     t/bin/uname
+Nov 08 00 09:58:55    44880 .a. -rwxr-xr-x root     root     t/bin/sed
+                      21264 .a. -rwxr-xr-x root     root     t/usr/bin/tr
+Nov 08 00 09:58:56    25680 .a. -rwxr-xr-x root     root     t/bin/date
+                     104316 .a. -rwxr-xr-x root     root     t/usr/bin/make
+                        168 .a. -rw-r--r-- root     root     t/usr/include/bits/endian.h
+                       2783 .a. -rw-r--r-- root     root     t/usr/include/bits/select.h
+                       4673 .a. -rw-r--r-- root     root     t/usr/include/bits/sigset.h
+                       5049 .a. -rw-r--r-- root     root     t/usr/include/bits/stdio.h
+                       1798 .a. -rw-r--r-- root     root     t/usr/include/endian.h
+                      27633 .a. -rw-r--r-- root     root     t/usr/include/stdlib.h
+                       3359 .a. -rw-r--r-- root     root     t/usr/include/sys/select.h
+                       5374 .a. -rw-r--r-- root     root     t/usr/include/sys/types.h
+Nov 08 00 09:58:57    13436 .a. -rwxr-xr-x root     root     t/bin/chmod
+                      41104 .a. -rwxr-xr-x root     root     t/bin/mv
+                       1024 m.c drwxrwxrwx root     root     t/tmp
+                     207600 .a. -rwxr-xr-x root     root     t/usr/bin/as
+                      63376 .a. -rwxr-xr-x root     root     t/usr/bin/egcs
+                      63376 .a. -rwxr-xr-x root     root     t/usr/bin/gcc
+                      63376 .a. -rwxr-xr-x root     root     t/usr/bin/i386-redhat-linux-gcc
+                     205136 .a. -rwxr-xr-x root     root     t/usr/bin/ld
+                       2315 .a. -rw-r--r-- root     root     t/usr/include/_G_config.h
+                       1313 .a. -rw-r--r-- root     root     t/usr/include/alloca.h
+                      13327 .a. -rw-r--r-- root     root     t/usr/include/bits/confname.h
+                       3406 .a. -rw-r--r-- root     root     t/usr/include/bits/posix_opt.h
+                       1297 .a. -rw-r--r-- root     root     t/usr/include/bits/stdio_lim.h
+                      21810 .a. -rw-r--r-- root     root     t/usr/include/bits/string.h
+                      41832 .a. -rw-r--r-- root     root     t/usr/include/bits/string2.h
+                       2015 .a. -rw-r--r-- root     root     t/usr/include/bits/time.h
+                       4680 .a. -rw-r--r-- root     root     t/usr/include/bits/types.h
+                       9512 .a. -rw-r--r-- root     root     t/usr/include/features.h
+                       5861 .a. -rw-r--r-- root     root     t/usr/include/getopt.h
+                       1021 .a. -rw-r--r-- root     root     t/usr/include/gnu/stubs.h
+                      11673 .a. -rw-r--r-- root     root     t/usr/include/libio.h
+                      20926 .a. -rw-r--r-- root     root     t/usr/include/stdio.h
+                      13456 .a. -rw-r--r-- root     root     t/usr/include/string.h
+                       4951 .a. -rw-r--r-- root     root     t/usr/include/sys/cdefs.h
+                       2058 .a. -rw-r--r-- root     root     t/usr/include/sys/sysmacros.h
+                       5337 .a. -rw-r--r-- root     root     t/usr/include/sys/time.h
+                       9314 .a. -rw-r--r-- root     root     t/usr/include/time.h
+                      36756 .a. -rw-r--r-- root     root     t/usr/include/unistd.h
+                       8512 .a. -rw-r--r-- root     root     t/usr/lib/crt1.o
+                       1124 .a. -rw-r--r-- root     root     t/usr/lib/crti.o
+                        874 .a. -rw-r--r-- root     root     t/usr/lib/crtn.o
+                    1440240 .a. -rwxr-xr-x root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/cc1
+                      45488 .a. -rwxr-xr-x root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/collect2
+                      87312 .a. -rwxr-xr-x root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/cpp
+                       1892 .a. -rw-r--r-- root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtbegin.o
+                       1424 .a. -rw-r--r-- root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtend.o
+                       5794 .a. -rw-r--r-- root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
+                       9834 .a. -rw-r--r-- root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
+                     769892 .a. -rw-r--r-- root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/libgcc.a
+                       1926 .a. -rw-r--r-- root     root     t/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/specs
+                     314936 .a. -rwxr-xr-x root     root     t/usr/lib/libbfd-2.9.5.0.22.so
+                        178 .a. -rw-r--r-- root     root     t/usr/lib/libc.so
+                      69994 .a. -rw-r--r-- root     root     t/usr/lib/libc_nonshared.a
+                          0 mac -rw-r--r-- 500      500      /tmp/ccHAtPAZ.ld  (deleted)
+                        400 ..c -rw------- 500      500      /etc/sysconfig/network-scripts/ifcfg-eth0~  (deleted)
+                          0 mac -rw------- 500      500      /tmp/ccyhpcMn.o  (deleted)
+                          0 mac -rw------- 500      500      /tmp/ccTJvUXL.c  (deleted)
+                       3940 mac -rw-r--r-- 500      500      /tmp/ccTglLym.o  (deleted)
+                      10723 mac -rw------- 500      500      /tmp/ccE8mHGN.s  (deleted)
+                      23007 mac -rw------- 500      500      /tmp/ccbvMzZr.i  (deleted)
+                          0 mac drwx------ 500      500      /etc/sysconfig/network-scripts/.ifcfg-eth0.swp  (deleted)
+Nov 08 00 09:59:07     4096 m.c drwx------ 500      500      t/home/drosen
+                         52 mac -rw------- 500      500      t/home/drosen/.bash_history
+Nov 08 00 09:59:14    20240 .a. -rwxr-xr-x root     root     t/bin/rm
+                      34816 m.c drwxr-xr-x root     root     t/dev
+                          0 mac drwxr-xr-x 500      100      /dev/tpack  (deleted)
+*************** END install of tPACK/Eggdrop ************************
+
+Nov 08 00 09:59:52        9 .a. lrwxrwxrwx root     root     t/tmp/.bash_history -> /dev/null
+
+
+Nov 08 00 10:02:22       26 .a. -rw-r--r-- root     root     t/etc/host.conf
+                      67580 .a. -rwxr-xr-x root     root     t/lib/libnss_dns-2.1.3.so
+                         19 .a. lrwxrwxrwx root     root     t/lib/libnss_dns.so.2 -> libnss_dns-2.1.3.so
+                     169720 .a. -rwxr-xr-x root     root     t/lib/libresolv-2.1.3.so
+                         18 .a. lrwxrwxrwx root     root     t/lib/libresolv.so.2 -> libresolv-2.1.3.so
+Nov 08 00 10:02:23       68 .a. -rw-r--r-- root     root     t/etc/hosts
+                       1567 .a. -rw-r--r-- root     root     t/etc/protocols
+
+*************** BEGIN ROOT LOGIN ****************************
+Nov 08 00 10:02:28       10 .a. lrwxrwxrwx root     root     t/usr/tmp -> ../var/tmp
+                       1024 m.c drwxrwxrwx root     root     t/var/tmp
+                        184 mac -rw-r--r-- root     root     t/var/tmp/nap
+Nov 08 00 10:02:30    44108 .a. -rwxr-xr-x root     root     t/lib/libproc.so.2.0.6
+                       8860 .a. -r-xr-xr-x root     root     t/usr/bin/w
+Nov 08 00 10:02:31    39423 .a. -r-xr-xr-x root     root     t/bin/ps
+                        171 .a. -rw-r--r-- 1010     users    t/dev/ptyp
+Nov 08 00 10:02:32    12288 .a. -rw-rw-r-- root     root     t/etc/psdevtab
+Nov 08 00 10:02:42   166416 .a. -rwxr-xr-x root     root     t/usr/bin/pico
+Nov 08 00 10:03:05     3027 m.c -rw-r--r-- root     root     t/etc/inetd.conf
+
+Nov 08 00 10:03:12     3027 .a. -rw-r--r-- root     root     t/etc/inetd.conf
+                      10160 .a. -rwxr-xr-x root     root     t/usr/bin/killall
+
+Nov 08 00 10:03:15       24 .a. -rw-r--r-- root     root     t/root/.bash_logout
+                       3124 .a. -rwxr-xr-x root     root     t/usr/bin/clear
+                       1143 .a. -rw-r--r-- root     root     t/usr/share/terminfo/v/vt100
+                       1143 .a. -rw-r--r-- root     root     t/usr/share/terminfo/v/vt100-am
+***************** END ROOT LOGIN ****************************
+
+Nov 08 00 10:53:36        0 .a. crw-r--r-- root     root     t/dev/random
+                        512 m.c -rw------- root     root     t/etc/ssh_random_seed
+
+
+*************** SYSTEM FOUND BY ADMINS ************************
+Nov 08 00 21:33:45    20480 .a. -rw-r--r-- root     root     t/etc/aliases.db
+                      20480 .a. -rw-r--r-- root     root     t/etc/mail/access.db
+                       4096 .a. -rw-r--r-- root     root     t/etc/mail/mailertable.db
+                       4096 .a. -rw-r--r-- root     root     t/etc/mail/virtusertable.db
+Nov 08 00 21:37:30    20452 .a. -rwxr-xr-x root     root     t/bin/login
+                       1262 .a. -rw-r--r-- root     root     t/etc/localtime
+                        437 .a. -rw-r--r-- root     root     t/etc/pam.d/login
+                        210 .a. -rw-r--r-- root     root     t/etc/pam.d/other
+                      64478 .a. -rwxr-xr-x root     root     t/lib/libcrypt-2.1.3.so
+                         17 .a. lrwxrwxrwx root     root     t/lib/libcrypt.so.1 -> libcrypt-2.1.3.so
+                      75131 .a. -rwxr-xr-x root     root     t/lib/libdl-2.1.3.so
+                         14 .a. lrwxrwxrwx root     root     t/lib/libdl.so.2 -> libdl-2.1.3.so
+                         14 .a. lrwxrwxrwx root     root     t/lib/libpam.so.0 -> libpam.so.0.72
+                      33654 .a. -rwxr-xr-x root     root     t/lib/libpam.so.0.72
+                         19 .a. lrwxrwxrwx root     root     t/lib/libpam_misc.so.0 -> libpam_misc.so.0.72
+                      10303 .a. -rwxr-xr-x root     root     t/lib/libpam_misc.so.0.72
+                         15 .a. lrwxrwxrwx root     root     t/lib/libpwdb.so.0 -> libpwdb.so.0.61
+                     140186 .a. -rwxr-xr-x root     root     t/lib/libpwdb.so.0.61
+                      35801 .a. -rwxr-xr-x root     root     t/lib/security/pam_console.so
+                      14258 .a. -rwxr-xr-x root     root     t/lib/security/pam_cracklib.so
+                       5359 .a. -rwxr-xr-x root     root     t/lib/security/pam_deny.so
+                       6196 .a. -rwxr-xr-x root     root     t/lib/security/pam_nologin.so
+                      35619 .a. -rwxr-xr-x root     root     t/lib/security/pam_pwdb.so
+                       7773 .a. -rwxr-xr-x root     root     t/lib/security/pam_securetty.so
+                         15 .a. lrwxrwxrwx root     root     t/usr/lib/libcrack.so.2 -> libcrack.so.2.7
+                      57882 .a. -rwxr-xr-x root     root     t/usr/lib/libcrack.so.2.7
+                         20 .a. lrwxrwxrwx root     root     t/usr/lib/libglib-1.2.so.0 -> libglib-1.2.so.0.0.6
+                     164253 .a. -rwxr-xr-x root     root     t/usr/lib/libglib-1.2.so.0.0.6
+Nov 08 00 21:37:35       40 .a. -rw------- root     root     t/etc/securetty
+Nov 08 00 21:37:37    75600 .a. -rwxr-xr-x root     root     t/bin/grep
+                       8896 .a. -rwxr-xr-x root     root     t/bin/hostname
+                      26668 .a. -rwxr-xr-x root     root     t/bin/stty
+                          0 .a. crw------- root     tty      t/dev/tty1
+                          0 ..c crw--w---- root     tty      t/dev/vcs1
+                          0 ..c crw--w---- root     tty      t/dev/vcsa1
+                       2434 .a. -rw-r--r-- root     root     t/etc/DIR_COLORS
+                        582 .a. -rw-r--r-- root     root     t/etc/bashrc
+                          0 .a. -rw-r--r-- root     root     t/etc/motd
+                        547 .a. -rw-r--r-- root     root     t/etc/profile
+                       1024 .a. drwxr-xr-x root     root     t/etc/profile.d
+                        234 .a. -rwxr-xr-x root     root     t/etc/profile.d/colorls.sh
+                       1522 .a. -rwxr-xr-x root     root     t/etc/profile.d/lang.sh
+                        120 .a. -rwxr-xr-x root     root     t/etc/profile.d/less.sh
+                        125 .a. -rwxr-xr-x root     root     t/etc/profile.d/which-2.sh
+                        134 .a. -rw-r--r-- root     root     t/etc/pwdb.conf
+                        601 .a. -rw-r--r-- root     root     t/etc/shadow
+                         13 .a. -rw-r--r-- root     root     t/etc/sysconfig/i18n
+                        238 .a. -rw-r--r-- root     root     t/root/.bash_profile
+                        176 .a. -rw-r--r-- root     root     t/root/.bashrc
+                      13776 .a. -rwxr-xr-x root     root     t/usr/bin/dircolors
+                       9264 .a. -rwxr-xr-x root     root     t/usr/bin/id
+                       7068 .a. -rwxr-xr-x root     root     t/usr/bin/tput
+                         17 .a. lrwxrwxrwx root     root     t/usr/lib/libncurses.so.4 -> libncurses.so.4.0
+                     262884 .a. -rwxr-xr-x root     root     t/usr/lib/libncurses.so.4.0
+                       1576 .a. -rw-r--r-- root     root     t/usr/share/terminfo/l/linux
+                    1460292 mac -rw-r--r-- root     root     t/var/log/lastlog
+                        768 m.c -rw-r--r-- root     root     t/var/log/wtmp
+                       4992 m.c -rw-rw-r-- root     voice    t/var/run/utmp
+Nov 08 00 21:37:38        0 m.c crw------- root     tty      t/dev/tty1
+                        413 .a. -rw-r--r-- root     root     t/etc/inputrc
+                     625272 .a. -rw-r--r-- root     root     t/etc/termcap
+                          9 .a. lrwxrwxrwx root     root     t/root/.bash_history -> /dev/null
+                       3256 .a. -rwxr-xr-x root     root     t/usr/bin/mesg
+Nov 08 00 21:37:42     9528 .a. -rwxr-xr-x root     root     t/bin/cat
+Nov 08 00 22:01:00     1024 .a. drwxr-xr-x root     root     t/etc/cron.hourly
+                         65 .a. -rwxr-xr-x root     root     t/etc/cron.hourly/inn-cron-nntpsend
+                       1024 .a. drwxr-xr-x root     root     t/etc/rc.d/rc3.d
+                      22912 .a. -rwxr-xr-x root     root     t/sbin/chkconfig
+                       2836 .a. -rwxr-xr-x root     root     t/sbin/runlevel
+                        579 .a. -rwxr-xr-x root     root     t/usr/bin/run-parts
+Nov 08 00 22:10:00   316848 .a. -rwxr-xr-x root     root     t/bin/bash
+                          4 .a. lrwxrwxrwx root     root     t/bin/sh -> bash
+                        460 .a. -rw-r--r-- root     root     t/etc/group
+                        657 .a. -rw-r--r-- root     root     t/etc/passwd
+                     370141 .a. -rwxr-xr-x root     root     t/lib/libnsl-2.1.3.so
+                         15 .a. lrwxrwxrwx root     root     t/lib/libnsl.so.1 -> libnsl-2.1.3.so
+                     255963 .a. -rwxr-xr-x root     root     t/lib/libnss_nis-2.1.3.so
+                         19 .a. lrwxrwxrwx root     root     t/lib/libnss_nis.so.2 -> libnss_nis-2.1.3.so
+                     252234 .a. -rwxr-xr-x root     root     t/lib/libnss_nisplus-2.1.3.so
+                         23 .a. lrwxrwxrwx root     root     t/lib/libnss_nisplus.so.2 -> libnss_nisplus-2.1.3.so
+                         19 .a. lrwxrwxrwx root     root     t/lib/libtermcap.so.2 -> libtermcap.so.2.0.8
+                      12224 .a. -rwxr-xr-x root     root     t/lib/libtermcap.so.2.0.8
+                          6 .a. lrwxrwxrwx root     root     t/sbin/rmmod -> insmod
+Nov 08 00 22:10:10    56208 .a. -rwsr-xr-x root     root     t/bin/mount
+                        760 .a. -rw-r--r-- root     root     t/etc/fstab
+Nov 08 00 22:10:11        3 .a. lrwxrwxrwx root     root     t/dev/cdrom -> hdc
+                       3072 m.c drwxr-xr-x root     root     t/etc
+                         51 .a. -rw-r--r-- root     root     t/etc/conf.modules
+                        248 mac -rw-r--r-- root     root     t/etc/mtab
+                       3460 .a. -rw-r--r-- root     root     t/lib/modules/2.2.14-5.0/fs/nls_iso8859-1.o
+                      28633 .a. -rw-r--r-- root     root     t/lib/modules/2.2.14-5.0/modules.dep
+                      58608 .a. -rwxr-xr-x root     root     t/sbin/insmod
+                          6 .a. lrwxrwxrwx root     root     t/sbin/modprobe -> insmod
+                          0 mac ---------- 0        0        /etc/mtab~  (deleted)
+                          0 mac ---------- 0        0        /etc/mtab~3560  (deleted)
+Nov 08 00 22:10:27   137567 .a. -rwxr-xr-x root     root     t/bin/ls
+                         17 .a. lrwxrwxrwx root     root     t/lib/ld-linux.so.1 -> ld-linux.so.1.9.5
+                      25386 .a. -rwxr-xr-x root     root     t/lib/ld-linux.so.1.9.5
+                         14 .a. lrwxrwxrwx root     root     t/usr/i486-linux-libc5/lib/libc.so.5 -> libc.so.5.3.12
+                     699832 .a. -rwxr-xr-x root     root     t/usr/i486-linux-libc5/lib/libc.so.5.3.12
+                         61 .a. -rw-r--r-- root     root     t/usr/man/r
+Nov 08 00 22:11:49    12333 .a. -rw-r--r-- root     root     t/etc/ld.so.cache
+                       1744 .a. -rw-r--r-- root     root     t/etc/nsswitch.conf
+                         43 .a. -rw-r--r-- root     root     t/etc/resolv.conf
+                      11349 .a. -rw-r--r-- root     root     t/etc/services
+                     340663 .a. -rwxr-xr-x root     root     t/lib/ld-2.1.3.so
+                         11 .a. lrwxrwxrwx root     root     t/lib/ld-linux.so.2 -> ld-2.1.3.so
+                    4101324 .a. -rwxr-xr-x root     root     t/lib/libc-2.1.3.so
+                         13 .a. lrwxrwxrwx root     root     t/lib/libc.so.6 -> libc-2.1.3.so
+                     246652 .a. -rwxr-xr-x root     root     t/lib/libnss_files-2.1.3.so
+                         21 .a. lrwxrwxrwx root     root     t/lib/libnss_files.so.2 -> libnss_files-2.1.3.so
+Nov 08 00 22:23:07    29970 .a. -rw-r--r-- root     root     t/usr/share/locale/en_US/LC_COLLATE
+                      87756 .a. -rw-r--r-- root     root     t/usr/share/locale/en_US/LC_CTYPE
+                         93 .a. -rw-r--r-- root     root     t/usr/share/locale/en_US/LC_MONETARY
+                         27 .a. -rw-r--r-- root     root     t/usr/share/locale/en_US/LC_NUMERIC
+                        508 .a. -rw-r--r-- root     root     t/usr/share/locale/en_US/LC_TIME
+                       2265 .a. -rw-r--r-- root     root     t/usr/share/locale/locale.alias
+Nov 08 00 22:33:47     1024 .a. drwxr-xr-x root     12       t/var/spool/mqueue
+Nov 08 00 22:50:45       44 .a. -rw-r--r-- root     root     t/usr/share/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES
+Nov 08 00 23:01:00     4992 .a. -rw-rw-r-- root     voice    t/var/run/utmp
+Nov 08 00 23:10:01    31607 m.c -rw------- root     root     t/var/log/cron

@@ -1,0 +1,82 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        THE HONEYNET FORENSIC CHALLENGE
+
+        January/February 2001
+
+
+        Prepared for the HoneyP.edu Incident Response Team (HIRT)
+
+        by  Brian Coyle <brianc@magicnet.net>
+
+
+
+
+
+-----------------------------------------------------------------------
+
+
+costs.txt              Incident cost-estimate
+
+To simplify and to normalize the results, assume that your annual salary is
+$70,000 and that there are no user-related costs. 
+
+Please also include a brief description of each investigator's number of 
+years of experience in the fields of system administration, programming, and 
+security, just to help us compare the number of hours spent with other 
+entrants. 
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+About the investigator
+---------------------
+
+Brian Coyle is an 'Internet Infrastructure Senior Specialist' for an
+entertainment and media giant in Central Florida.  He has over twenty years 
+of progressive Information Services experience, the last five concentrating 
+on Internet and Security specialities.  A current resume is available at:
+http://www.magicnet.net/~brianc/resume.html
+
+
+
+
+
+Incident Cost Analysis
+----------------------
+
+Worker's Costs
+--------------
+
+
+Title                   Hours    Cost/Hr.   Total      -15%       +15%
+---------------------   -----    --------  ---------  ---------  ---------
+
+Incident Investigator    48.0    $33.65    $1,615.20  $1,372.92  $1,857.48
+
+

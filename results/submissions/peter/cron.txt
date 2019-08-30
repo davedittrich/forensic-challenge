@@ -1,0 +1,54 @@
+[=-=-=-=-=-=-=]              Cron logs analysis              [=-=-=-=-=-=-=]
+
+/var/log/cron is often a source of very reliable and precise source of
+time-event information.  This file is rarely cleaned by the attacker,
+so, when properly analyzed, it can provide evidence/proofs for the
+hypoteses made during the intrusion analysis.
+
+Every record in the logfile consists of three major parts: timestamp,
+PID and the executed process name.  If we draw a graph of PID/time
+dependency, we can immediately see that (during the time of inactivity =
+Nov 6,7)):
+1) Every time maching ??:?0:00 is followed by PID increase by 2, except
+   for the case ??:30:00, when it increases by 3.
+2) ??:01:00 = /etc/cron.hourly -> PID is increased by 5
+3) ??:04:02 = /etc/cron.daily -> PID is increased by a large number (about
+    143+-2).
+
+These facts were sufficient for writing a program (programs/cronparse.c),
+which shows the irregularities in the pattern:
+
+- This is OK, it was caused during the startup and configuration
+[  3]:   root (11/05-09:40:00-618) CMD (   /sbin/rmmod -as)
+[ 42]:   root (11/05-10:50:00-641) CMD (   /sbin/rmmod -as)
+[  1]:   root (11/05-12:50:00-719) CMD (   /sbin/rmmod -as)
+
+- This was the FTP connection
+[  1]:   root (11/06-02:50:00-972) CMD (   /sbin/rmmod -as)
+
+- A difference of -4 is allowed :-)
+[ -4]:   root (11/06-04:02:00-1000) CMD (run-parts /etc/cron.daily)
+
+- Attack !  As we can see, only 6 processes were executed at the time
+- of the attack, among them rpc.statd (it was exploited), /bin/sh,
+- killall (executed by the shellcode).
+[  6]:   root (11/08-00:01:00-2073) CMD (run-parts /etc/cron.hourly)
+
+- We can see that everything was calm since then, up till 08:20:00,
+- when we can see the first burst of processes.
+[ 41]:   root (11/08-08:20:00-2375) CMD (   /sbin/rmmod -as)
+
+- Everything was silent for about 10 minutes (08:30:00 - 08:40:00),
+- which supports the idea that the attacker has logged out during this
+- time.
+
+[ 18]:   root (11/08-08:40:00-2421) CMD (   /sbin/rmmod -as)
+[842]:   root (11/08-08:50:00-2441) CMD (   /sbin/rmmod -as)
+[ 29]:   root (11/08-09:01:01-3287) CMD (run-parts /etc/cron.hourly)
+- Finally, the attacker has logged out (for ever?).
+
+- This was the intrusion analyst
+[ 22]:   root (11/08-20:30:00-3523) CMD (   /sbin/rmmod -as)
+[  5]:   root (11/08-21:10:00-3559) CMD (   /sbin/rmmod -as)
+[  4]:   root (11/08-21:20:00-3566) CMD (   /sbin/rmmod -as)
+[  2]:   root (11/08-21:50:01-3577) CMD (   /sbin/rmmod -as)

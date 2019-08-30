@@ -1,0 +1,90 @@
+Stamper is a service provided free of charge to Internet users.
+
+You are very welcome to use Stamper, but you may only do so if 
+you have first read our Terms of use, which exclude liability on 
+our part and which provide for you to indemnify us against any 
+potential liability arising from your use of Stamper.  By using 
+Stamper you warrant that you have read and accept the Terms.
+
+The Terms of use are available by sending email to 
+info@stamper.itconsult.co.uk or from the web page 
+http://www.itconsult.co.uk/stamper.htm.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+
+########################################################
+#
+# The text of this message was stamped by
+# stamper.itconsult.co.uk with reference 0046249
+# at 20:35 (GMT) on Saturday 27 January 2001
+#
+# For information about the Stamper service see
+#        http://www.itconsult.co.uk/stamper.htm
+#
+########################################################
+
+- -----BEGIN PGP SIGNED MESSAGE-----
+
+306328bb302e64c2ac18c4b47ded9565  advisory.ps
+9ce5677648d8c2a68678ec4e75e00642  advisory.txt
+037ac2b18d842f06d013fabf060124c1  costs.ps
+3b950b0f9442e3096cf1fcf217485957  costs.txt
+676cb36bb0d0a4cba1651133da524df1  evidence.ps
+55565e35bcafd486cdda19e230ec769b  evidence.txt
+dbed0805406f9f388e2347b47da7533a  index.txt
+fa22e59693806bfa2324242feeac3272  summary.ps
+d3ce5259ee8356a470e2c7c5b2bd851e  summary.txt
+035b0e2d1ce25b147a030d927c28aa0a  addbd.sh
+ab257ba8ce6b79f7ce4a3f690b060331  bash-histories
+69563b3a709395efeec54e55b4548299  bash_history.root
+8fa3b68c6aafcf2c8521680d61aa02de  bigbody
+80a8678b1824f5bd7b021cffdfef3817  dirlist
+72c6e061db037a697223a11590be48a6  dot-fileMeYV0p
+ee944c6056f1415489b13b74667e0163  headers
+7ebc7fdc4b171dc50e51ab7411df2640  headers.apollo
+249dc7b7f25c946534b2043b1708f301  in.identd.S
+37e14620302dc4c0ae1209a7d19a6a99  in.identd.s
+b20afbcfe19e2f26a0e817769c3ff5b6  lastlog.c
+3646656026c4082c824dbbb6fb14459d  libfake.tar
+9d0f24144e3f8e38bfbff7922730567a  linsniffer.c
+12ede2913a2b85a4a09634d16acfeabf  logsnippets
+ba3bc9de5782a82c97798f0263e562a9  logsnippets.swap
+db3ffae57ed6eb5a22930590e96aa5f7  md5sum.mismatches
+3112b2b4f76f2ad3ed7df28e8d751fc0  passwd.snippets
+89f693a6aca962f2919d13659adf9a0f  passwd.suspects
+26051e77ffc73b1ef8759b229182e3d3  sendto.log
+dd97801a5dcf40dee54af679e1906126  sendto.log.apollo
+c438cdf146e0953920406ebe6880447b  snif.s
+5493c7a4479300201cbe6e9f3a82f28b  ssh.diff
+8168c40181fbbc4b1330de78209dfd14  swap-environments
+8b916b62a38d0a9e114fad0db8bf668d  timeline.txt
+968d3feab35f8e9791fc95aacde78313  trojan.sh
+
+- -----BEGIN PGP SIGNATURE-----
+Version: 2.6.3in
+Charset: latin1
+
+iQEVAwUBOnMwitImKUTOasbBAQEUnwf/SvaLikkWI3ZO/bTZXyYxoPLK340WzzPb
+YTkxmj1UpjhQ0k7ggphkFfnh3Wsri+3l0FBDDPTAwgA0DGVQ2sK16BHS72c4EIYC
+Mka/Dgsu1Q4Y05ylWAhEblACqDPG+EV2vVCgfUFsTIWc6/nukVsXO3lY3NNRkrRF
+bn7AenlvyiaqBsxYvxIJgHLFvrPLRc0hdMultvdCSfIND3bHFmt81HMGoPo3qsSJ
+O5emS5ZrWDcBS3ecqZJY3AOYKiE9JLkxJwWlEadXO7t5pPF8bPnOK1Kg/S/i5x+U
+pgY7+xxz+L51U79EJ7VRl4nut44i6LffvMhDLeC6irBYTWNPw9AeIQ==
+=j0CI
+- -----END PGP SIGNATURE-----
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3i
+Charset: noconv
+Comment: Stamper Reference Id: 0046249
+
+iQEVAgUBOnMw/YGVnbVwth+BAQE32Qf8DMTnudwqgBu/7dkw7UFaxg2SpVPCxquc
+qbKksfrvA1c5aSxAuppgGi90WKG4XFLBS19w+0AMRvALQjKNjVaQ7Jv+ex3gdeRW
+bu5A8Z282BQHX3yvtlosjvSv7YLWmiYwAEUQkkqm/+ZUSMxKrHnetB64X/e+pwnr
+9rCDTOq/yyCRtsDHvZ7ni3uCGHrUDTarQ4OC/t0wjUpl48AO7/A+XZaTFhTwKi4x
+OOxUC3IH1E5udwoZmKOiglEmTAWom/o6dy5lpm0VGJcPNHJECBl6Y5P+MdY/r3Lf
+Rt6e3DDQvXbYOBPZykBg4TvJ0YWgOBQYuJD8TRmDrBLLixm+w3Wu2A==
+=+uxk
+-----END PGP SIGNATURE-----
+
+

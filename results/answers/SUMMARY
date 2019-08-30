@@ -1,0 +1,42 @@
+SUMMARY
+-------
+Here you will find all of the answers, based on the activity 
+we captured within the Honeynet.  The answers are based in
+the format of firewal and IDS logs and the actual keystrokes
+of the blackhat.
+
+Many of you noticed that the clock on the honeypot and the 
+IDS/Firewall system were off.  In fact, the honeypot was 
+57 minutes, 9 seconds ahead of the IDS/Firewall system.  
+This replicates the fact that often in forensic analysis 
+you will have to use sources that have different time values.  
+
+
+The answers are broken down into four parts.
+
+1-probe.txt:
+This file contains the information on how the system
+was probed on 7 Nov, 23:11
+
+2-attack.txt:
+This file contains the informaiton on how the system
+was compromised 7 Nov, 23:11
+
+3-owned.txt
+This file contains the keystrokes of how the blackhat
+got in, and what he did once he was in 8 Nov. 
+
+4-after.txt
+Our blackhat returned twice after we pulled the images 
+from the honeypot.  He returned on 10 Nov and again on
+22 Nov.  This file contains the keystrokes.
+
+FILES
+-----
+1-probe.txt  -    How system was probed
+2-attack.txt -    How system was exploited
+3-owned.txt  -    What happened after exploit
+4-after.txt  -    What happened after challenge
+
+decrypt      -    Eggdrop decryption utilities
+decrypt.c

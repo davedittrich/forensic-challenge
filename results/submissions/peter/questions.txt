@@ -1,0 +1,190 @@
+[=-=-=-=-=-=-=-=]            Question/Answer             [=-=-=-=-=-=-=-=]
+
+Q1: Identify the intrusion method, its date, and time. (Assume the
+    clock on the IDS was synchronized with an NTP reference time
+    source.)
+A1: According to IDS logs, the attack took place at Nov  7, 23:11:[06-51].
+    As IDS is authoritative source of timestamp(s), this suggests that the
+    compromised system's time was cca. one hour ahead of real time.
+    
+    The attacker used rpc.statd vulnerability (for further analysis, see
+    shellcode.txt).  This was logged by both IDS and found in the
+    (reconstructed) /var/log/messages.
+
+
+
+Q2: Identify as much as possible about the intruder(s).
+A2: There is no evidence that there was more than one attacker, so
+    we can suppose that the system was attacked by one (most probably
+    human = non-necessarily-automatic) attacker (I'll use masculine
+    when referring to the attacker).
+
+    According to the gained information, he came from (probably compromised)
+    hosts in @Home network.  The attack itself (actual exploitation of the
+    vulnerability) was originated from 216.216.74.2.  This has been logged
+    by both IDS and the attacked host (/var/log/messages, /var/log/secure).
+    Once the honeypot has been compromised, the attacker connected after
+    more than 8 hours from .home.com address (24.12.200.186).  This can
+    be found in the recovered /var/log/{messages,lastlog} and /proc/net/tcp.
+
+    IDS logs also suggest that attacker is 22 hops away from us, because
+    default Linux TTL equals to 64, while the TTL of received packet
+    was only 42.
+
+    A quick look using nslookup and whois yields these results:
+
+	216.216.74.2  = ATHM-216-216-xxx-2.home.net
+	24.12.200.186 = c871553-b.jffsn1.mo.home.com
+
+	Advanced Commerce Systems (NETBLK-ATWORK-WI33381)
+	   5910 N. Central Expressway, Suite 1040
+	   Dallas, TX 75206
+	   US
+	
+	   Netname: ATWORK-WI33381
+	   Netblock: 216.216.74.0 - 216.216.74.15
+	
+	   Coordinator:
+	      Anderson, Michael J.  (MJA-ARIN)  mianders@ADVANCEDCOMMERCE.COM
+	      214-891-6306
+	
+	   Record last updated on 26-Jul-1999.
+	   Database last updated on 5-Feb-2001 06:24:46 EDT.
+
+	@Home Network (NETBLK-CLMBA1-MO-1)
+	   425 Broadway
+	   Redwood City, CA 94063
+	   US
+
+	   Netname: CLMBA1-MO-1
+	   Netblock: 24.12.192.0 - 24.12.207.255
+
+	   Coordinator:
+	      Operations, Network  (HOME-NOC-ARIN)  noc-abuse@noc.home.net
+	      (650) 556-5599
+
+	   Record last updated on 15-Nov-1999.
+	   Database last updated on 5-Feb-2001 06:24:46 EDT.
+
+
+    From the used attack methodology and below-average steps taken to
+    cover his tracks, conclusions can be made about attacker's profile.
+    Please keep in mind that following description is a COMPLETE GUESS.
+    He is so-called script kiddie - a person, who downloads exploits/
+    rootkits/other tools (and is unable to write anything of his own),
+    combines them (often ineffinciently) and then attacks every machine
+    he finds.  Usually, he installs eggdrop or similar IRC-(ro)bot on
+    the compromised machine.
+
+
+
+Q3: List all the files that were added/modified by the intruder.
+    Provide an analysis of these programs (including decompilation or
+    disassembly where necessary to determine their function and role
+    in the incident.)
+A3: Most of these files are analysed in rkit.txt.  
+
+
+
+Q4: Was there a sniffer or password harvesting program installed? If
+    so, where and what files are associated with it?
+
+A4: Yes, there was a password harvester in SSH daemon.  SSH daemon
+    (/usr/local/sbin/sshd) was replaced with a trojaned version, which
+    logged every name and password into /usr/tmp/nap file (which is,
+    according to its name, usually associated with Napster).  Thanks
+    to this `feature', we know the universal SSH password (from /usr/
+    var/nap).  This password is `tw1Lightz0ne' and it can be found
+    hashed in the sshd executable. Besides that, there was also an ethernet
+    sniffer installed as a running process, but unlike sshd, the sniffer
+    would not survive reboot of the machine.  This sniffer writes its
+    output into /usr/man/.Ci/tcp.log
+
+
+
+Q5: Was there a "rootkit" or other post-concealment trojan horse
+    programs installed on the system? If so, what operating system
+    programs were replaced and how could you get around them? Hint: If
+    you don't know what a "rootkit" is, read this:
+
+A5: Yes, there was a rootkit installed and its analysis is available
+    in a separate file (rkit.txt).  Getting around the trojaned
+    system binaries could be accomplished in at least three different
+    ways:
+    1) Mounting a cdrom with clean set of statically compiled binaries
+       and using them instead of the trojaned ones.
+    2) Using the binaries from /usr/man/.Ci/backup - originals of the
+       trojaned ones.
+    3) Most of the configuration files for the binaries have not been
+       carefully configured, so simple   ls -la /usr/man would show
+       .Ci directories and as soon as the directory of trojan is found
+       it wouldn't be that difficult to get rid of it.
+
+
+
+Q6: What is publicly known about the source of any programs found on
+    the system? (e.g., their authors, where source code can be found,
+    what exploits or advisories exist about them, etc.)
+
+A6: The system was a standard RedHat 6.2 installation, which contained
+    the rpc.statd vulnerability.  The attacker has fixed this (and also
+    other possible) vulnerability by installing upgraded version of
+    the packages.
+
+
+
+Q7: Build a time line of events and provide a detailed analysis of
+    activity on the system, noting sources of supporting or confirming
+    evidence (elsewhere on the system or compared with a known "clean"
+    system of similar configuration.)
+
+A7: The timeline is available in timeline.txt.
+
+-----------------------------------------------------------------------------
+Q8: Provide a report suitable for management or news media (general
+    aspects of the intrusion without specific identifying data).
+
+A8: I'm more technically-oriented = I'm not able to write something
+    general about the intrusion without referring to actual data
+    gained during the analysis.  But if I really had to write something
+    suitable for media, I'd tell some facts about the attacker -
+    - that did not damage any data (=no information leak... but I even
+      don't know what so important could be stored on this computer,
+      because it was not meant to be a server, just a workstation).
+    - that after the attack, he had closed some of the vulnerabilities
+      of the system, in order to prevent other from attacking it again.
+
+
+
+Q9: Provide an advisory for use within the home organization (a
+    fictitious university, "honeyp.edu", in this case, where I hold an
+    honorary Doctorate, by the way) to explain the key aspects of the
+    vulnerability exploited, how to detect and defend against this
+    vulnerability, and how to determine if other systems were
+    similarly compromised.
+
+A9: Available in advisory.txt.
+
+
+
+Q10: Produce a cost-estimate for this incident using the following
+     guidelines and method:
+     To simplify and to normalize the results, assume that your annual
+     salary is $70,000 and that there are no user-related costs. (If
+     you work as a team, break out hours by person, but all members
+     should use the same annual salary. Please also include a brief
+     description of each investigator's number of years of experience
+     in the fields of system administration, programming, and security,
+     just to help us compare the number of hours spent with other
+     entrants).
+
+A10: I'm not able to answer this question, because the annual salary
+     of $70,000 is far (by a factor of more than 10) more than the wages
+     around here.  Thus every estime I'd have produced would be a complete
+     guess and thus good-for-nothing.
+     
+     The time I spent with this analysis is around two days (48+-1 hour).
+     For three years (as a student) I helped (=volunteered) with the
+     highschool's network.  Thus, I spent about three years in the field
+     of security and system administration.  As for the programming, it
+     about thrice as much (=>9 years).

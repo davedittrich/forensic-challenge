@@ -1,0 +1,236 @@
+!!!! A collection of files from the rootkit
+!!!! Some are still in the /usr/man/.Ci
+!!!! Some are found in the partial tar files
+!!!! I think this package brought more rpm's but I could not find
+!!!! them. I'm still missing the way how the following rpm's got
+!!!! installed on the system (they are older than RH 6.2 ISO):
+!!!!	am-utils-6.0.1s11-1.6.0.*.rpm
+!!!!	lpr-0.48-1.*.rpm
+!!!!	make-3.77-6.*.rpm
+!!!!	screen-3.9.4-3.*.rpm
+!!!!	telnet-0.10-29.*.rpm
+!!!!	ypserv-1.3.9-1.*.rpm
+===========================================================================
+/usr/man/.Ci/snif				- binary
+	* Linsnif 0.3 which uses eth0 (hard coded). It writes
+	sniff.pid & tcp.log.
+	* Source [log/linsnif.c] found at
+	http://www.gis.net/~zero/Toybox.html
+	* Was not updated for a long time. The binary still uses libc.so.5
+/usr/man/.Ci/sniff.pid				- ASCII
+	* pid of the running snif
+	* The sniffer was startet but did not collect anything.
+/usr/man/.Ci/tcp.log				- empty??
+
+/usr/man/.Ci/sp.pl				- perl script
+	Sorts the output from LinSniffer 0.03 [BETA] by Mike Edulla
+	<medulla@infosoc.com>
+
+/usr/man/.Ci/a.sh				- shell script
+	removes and kills a lot of daemons. But more than what's
+	included in this kit!!
+
+/usr/man/.Ci/q					- Binary
+	secure tcp connection client for Q by Mixter
+/usr/man/.Ci/qs				- Binary
+	remote server control for Q by Mixter
+	* These are part of Q-2.0 by Mixter. The source can be found
+	at http://packetstorm.security.com/groups/mixter
+
+/usr/man/.Ci/syslogd				- Binary
+	* Trojaned binary looking at /usr/man/.l
+	* It looks like a modified (ROOTKIT_LOG_FILE) lrk-3+ part.
+/usr/man/.Ci/inetd				- Binary
+	* Trojaned with a hidden remote /bin/sh.
+	* objdump -d inetd gives the passwd (near the beginning of
+	main) "bl4w!_" The port is 5002. This works but I'm not a
+	experienced hacker;-)
+	$ telnet foo 5002
+	Trying *.*.*.*...
+	Connected to foo.
+	Escape character is '^]'.
+	bl4w!_
+	: command not found
+	?
+	: command not found
+	ls
+	: command not found
+	/bin/ls
+	: No such file or directory
+	pwd
+	: command not found
+	echo foo
+	foo
+
+	--> The new process was created!
+	* This looks more and more like a lrk.
+/usr/man/.Ci/clean				- shell script
+	Some kind of install script referencing snap
+/usr/man/.Ci/snap				- Bourne shell script
+	These two scripts together can clean up all the messages etc
+	files. 
+/usr/man/.Ci/scan/amd/amdx			- Binary
+	* Old, still refers to libc.so.5
+	* Tries to exploit amd (am-utils)
+	/bin/sh(-c)/bin/echo '2222        stream  tcp     nowait  \
+	root    /bin/sh sh -i'>> /tmp/h;/usr/sbin/inetd /tmp/h &
+/usr/man/.Ci/scan/amd/ben.c
+	checks given host for RPCID
+	nice rpc functions useable for other various kiddie scanners!!
+/usr/man/.Ci/scan/amd/ben			- Binary
+	* Of ben.c
+	* I don't know if this still works?
+/usr/man/.Ci/scan/amd/pscan.c
+	* Network block scanner calls ben at `open' hosts
+/usr/man/.Ci/scan/amd/pscan			- Binary
+	* Of pscan.c
+/usr/man/.Ci/scan/amd/a.sh			- Bourne shell script
+	* The shell driver for this scanner
+/usr/man/.Ci/scan/bind/ibind.sh			- Bourne shell script
+	* The shell driver for a network block bind scan.
+/usr/man/.Ci/scan/bind/pscan.c
+	* Network block scanner
+/usr/man/.Ci/scan/x/pscan.c
+	* Network block scanner
+/usr/man/.Ci/scan/x/pscan			- Binary
+/usr/man/.Ci/scan/x/x				- Binary
+	* This will try to log X11 key strokes
+/usr/man/.Ci/scan/x/xscan			- Bourne shell script
+	* The driver for a X11 block scan
+/usr/man/.Ci/scan/x/xfil			- Bourne shell script
+	* Filter for the X11 key log files
+/usr/man/.Ci/scan/wu/wu				- Binary
+	* wu-ftpd exploit program
+/usr/man/.Ci/scan/wu/fs				- Binary
+	* Old it still uses libc.so.5
+	* fscan v3.02 remote sploit scanner by f0x
+	* for more kool stuff, check out www.r0xcrew.org and #coding(efnet)
+/usr/man/.Ci/scan/port/strobe/INSTALL
+/usr/man/.Ci/scan/port/strobe/Makefile
+/usr/man/.Ci/scan/port/strobe/VERSION
+/usr/man/.Ci/scan/port/strobe/strobe.1
+/usr/man/.Ci/scan/port/strobe/strobe.c
+/usr/man/.Ci/scan/port/strobe/strobe.services
+	* A complete strobe
+	* Strobe v0.92 (c) 1994 *Proff* (proff@suburbia.apana.org.au)
+/usr/man/.Ci/scan/daemon/z0ne			- Binary
+	* Old it still uses libc.so.5
+	* ?
+/usr/man/.Ci/scan/daemon/lscan2.c
+	* lamerz scan 1.0 by Mixter
+/usr/man/.Ci/scan/statd/r			- Binary
+	* rpcscan <iplistfile> <outfile> -p <ids separated by commas> \
+	-v -t <timeout val> 
+/usr/man/.Ci/scan/statd/statdx			- Binary
+	* rps.statd exploit program
+/usr/man/.Ci/scan/statd/classb			- Binary
+	* Old it still uses libc.so.5
+	* ? This does not look as it's doing much ?
+/usr/man/.Ci/pstree				- Binary
+	* Trojaned looking at /usr/man/.p  .
+/usr/man/.Ci/killall				- Binary
+	* Trojaned looking at /dev/.oz/p .
+	* ! This file does not exist!
+/usr/man/.Ci/find				- Binary
+	* Old it still uses libc.so.5
+	* Trojaned looking at /dev/.oz/r
+	* ! This file does not exist!
+/usr/man/.Ci/ls					- Binary
+	* Old it still uses libc.so.5
+	* Trojaned looking at /usr/man/r
+/usr/man/.Ci/netstat				- Binary
+	* Old it still uses libc.so.5
+	* Trojaned looking at /usr/libexec/awk/addy.awk
+/usr/man/.Ci/ps					- Binary
+	* Old it still uses libc.so.5
+	* Trojaned looking at /dev/ptyp
+/usr/man/.Ci/tcpd				- Binary
+	* Trojaned looking at /usr/man/.a
+/usr/man/.Ci/top				- Binary
+	* Old it still uses libc.so.5
+	* Trojaned looking at /dev/ptyp
+/usr/man/.Ci/in.ftpd				- Binary
+	* Trojaned wu-ftpd.
+	* I think it uses the magic user N0LIM1TZ2K
+	* packetstorm.security.com has a similar package.
+/usr/man/.Ci/in.identd				- Binary
+	* ? A hard coded tmpname? /tmp/.fileMeYV0p
+	* /.fakeid ??
+	* I don't know jet what's in this binary
+/usr/man/.Ci/install				- Bourne shell script
+	* The main install script puts the most things into place
+/usr/man/.Ci/install-named			- Bourne shell script
+	* This script installs a modified named package.
+/usr/man/.Ci/install-sshd			- Bourne shell script
+/usr/man/.Ci/install-sshd1			- Bourne shell script
+	* This script (only one of them is needed) installes the
+	trojaned sshd. 
+/usr/man/.Ci/install-statd			- Bourne shell script
+	* This script installs the RedHat patched
+	nfs-utils-0.1.9.1-1.i386.rpm
+/usr/man/.Ci/install-wu				- Bourne shell script
+	* This script installs the RedHat patched wuftpd.rpm
+/usr/man/.Ci/ifconfig				- Binary
+	* Old it still uses libc.so.5
+	* Probably changed to hide the network sniffer
+/usr/man/.Ci/fix				- Binary
+	* Trys to `fix' the trojaned binaries with owner/mode/time and
+	even for the check sum?
+/usr/man/.Ci/addbd				- Bourne shell script
+	* adding ps, tcpd, and ls hide files
+/usr/man/.Ci/addn				- Binary
+	* enter classb to hide in netstat:
+	echo 1 %d.%d >> /usr/libexec/awk/addy.awk
+	echo 2 %d.%d >> /usr/libexec/awk/addy.awk
+/usr/man/.Ci/addps				- Bourne shell script
+	* Adds new names to the hide list (/dev/ptyp) for ps/top
+/usr/man/.Ci/do					- shell script
+	* This removes the adm1 & own account from /etc/passwd &
+	/etc/shadow
+/usr/man/.Ci/paki/slice2			- Binary
+	* Old it still uses libc.so.5
+	* ?
+/usr/man/.Ci/paki/stream.c
+	* stream.c v1.0 - TCP Packet Storm
+/usr/man/.Ci/ /Anap				- shell script
+	* removes the /usr/tmp/nap file (the user/passwd log from the
+	trojaned sshd)
+/usr/man/.Ci/rmS				- Bourne shell script
+	* cleanup script
+/usr/man/.Ci/bx					- Binary
+	* BitchX ?? 
+/usr/man/.Ci/chmod-it				- shell script
+	* changes to mode of some binaries (ping, traceroute, etc) to
+	700??
+/usr/man/.Ci/needz				- Bourne shell script
+	* This script does not make much sense?? It gets a pico.rpm
+	from SuSE and screen sources??
+/usr/man/.Ci/backup/ps				- The original binary
+/usr/man/.Ci/backup/top				- The original binary
+/usr/man/.Ci/backup/ls				- The original binary
+/usr/man/.Ci/backup/netstat			- The original binary
+/usr/man/.Ci/backup/ifconfig			- The original binary
+/usr/man/.Ci/backup/tcpd			- The original binary
+/usr/man/.Ci/named.tgz
+	* A modified named package??
+/usr/man/.Ci/ssh-1.2.27.tgz
+	* The trojaned sshd package.
+	* It was configured to have a magic password "tw1Lightz0ne"
+	* It collects user/passwd pairs in clear in /usr/tmp/nap
+/usr/man/.Ci/nfs-utils-0.1.9.1-1.i386.rpm
+	* The original RedHat patched version. md5sum checked.
+/usr/man/.Ci/wuftpd.rpm
+	* The original RedHat patched version
+	(wu-ftpd-2.6.0-14.6x.i386).  md5sum checked.
+/usr/man/.Ci/ptyp				- ASCII
+	* Hide list
+/usr/man/.a					- ASCII
+	* Hide list
+/usr/man/.p					- ASCII
+	* Hide list for pstree
+/usr/man/p					- ASCII
+	* Hide list
+/usr/man/r					- ASCII
+	* Hide list
+/usr/libexec/awk/addy.awk			- ASCII
+	* Hide list

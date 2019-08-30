@@ -1,0 +1,4 @@
+We had a security breach on one of our servers. A publicly known
+vulnerability of the system was exploited.
+The nessessary steps are initiated to avoid such incidents in the
+future. No damage to our infrastructure was caused by this incident.

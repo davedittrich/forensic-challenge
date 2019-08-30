@@ -1,0 +1,135 @@
+
+
+
+
+
+
+
+
+        THE HONEYNET FORENSIC CHALLENGE
+
+        January/February 2001
+
+
+        Prepared for the HoneyP.edu Incident Response Team (HIRT)
+
+        by  Brian Coyle <brianc@magicnet.net>
+
+
+
+
+
+-----------------------------------------------------------------------
+
+index.txt              Index of files/directories submitted
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.:
+total 23936
+drwxr-xr-x    3 root     root         4096 Feb 14 22:21 .
+drwxr-xr-x    5 root     root         4096 Feb 12 23:57 ..
+-rw-r--r--    1 root     root         2085 Feb 14 21:12 advisory.txt
+drwxr-xr-x    2 root     root         4096 Feb 14 22:10 brian.coyle
+-rw-r--r--    1 root     root         1472 Feb 14 21:12 costs.txt
+-rw-r--r--    1 root     root        37455 Feb 14 22:05 evidence.txt
+-rw-r--r--    1 root     root     24381440 Feb 14 22:15 files.tar
+-rw-r--r--    1 root     root          433 Feb 14 22:21 index.txt
+-rw-r--r--    1 root     root         1710 Feb 14 21:04 summary.txt
+-rw-r--r--    1 root     root         5335 Feb 14 22:17 timestamp.txt
+
+./brian.coyle:
+total 23996
+drwxr-xr-x    2 root     root         4096 Feb 14 22:10 .
+drwxr-xr-x    3 root     root         4096 Feb 14 22:21 ..
+-rw-r--r--    1 root     root         1385 Feb  5 15:18 etc_Nov08
+-rw-r--r--    1 root     root           98 Feb  4 02:12 hda1.lsdel.out
+-rw-r--r--    1 root     root       144569 Feb  7 00:24 hda5.del_dirs.out
+-rw-r--r--    1 root     root     18698240 Feb 11 16:03 hda5.inode.109791_ssh-1.2.27.tar
+-rw-r--r--    1 root     root         1153 Feb 11 16:35 hda5.inode.109801_ssh-install
+-rw-r--r--    1 root     root         1076 Feb 11 16:35 hda5.inode.109802_ssh-install
+-rw-r--r--    1 root     root           80 Feb 11 16:03 hda5.inode.109803_named-install
+-rw-r--r--    1 root     root          106 Feb 11 16:03 hda5.inode.109864_statd-rpm-install
+-rw-r--r--    1 root     root       180703 Feb 11 16:03 hda5.inode.109865_nfs-utils-0.1.9.1-1.rpm
+-rw-r--r--    1 root     root       195637 Feb 11 16:03 hda5.inode.109866_wu-ftpd-2.6.0-14.6x.rpm
+-rw-r--r--    1 root     root           71 Feb 11 16:03 hda5.inode.109867_wuftp-rpm-install
+-rw-r--r--    1 root     root          166 Feb  7 21:17 hda5.inode.60518_run
+-rw-r--r--    1 root     root         1197 Feb  7 21:56 hda5.inode.63126_DNS-install
+-rw-r--r--    1 root     root        31376 Feb  7 03:38 hda5.inode.93839_telnetd
+-rw-r--r--    1 root     root       604938 Feb  7 19:17 hda5.inode.94398_ssh
+-rw-r--r--    1 root     root       643674 Feb  7 19:17 hda5.inode.94409_sshd
+-rw-r--r--    1 root     root       327262 Feb  7 19:17 hda5.inode.94411_ssh-keygen
+-rw-r--r--    1 root     root       343586 Feb  7 19:17 hda5.inode.94413_ssh-agent
+-rw-r--r--    1 root     root       337617 Feb  7 19:17 hda5.inode.94415_ssh-add
+-rw-r--r--    1 root     root        90424 Feb  7 19:17 hda5.inode.94417_scp
+-rw-r--r--    1 root     root        21228 Feb  7 19:17 hda5.inode.94418_make-ssh-known-hosts
+-rw-r--r--    1 root     root       106837 Feb  5 15:40 hda5.lsdel.out
+-rw-r--r--    1 root     root          161 Feb 11 15:47 hda5.orphan.inodes
+-rw-r--r--    1 root     root          235 Feb 11 15:51 hda5.orphan.inodes.info
+-rw-r--r--    1 root     root           98 Feb  4 02:10 hda6.lsdel.out
+-rw-r--r--    1 root     root          225 Feb  5 15:38 hda7.lsdel.out
+-rw-r--r--    1 root     root         2096 Feb  7 01:10 hda7.var.log.messages
+-rw-r--r--    1 root     root          477 Feb 11 18:15 hda8.del_dirs.inodes
+-rw-r--r--    1 root     root         6496 Feb  7 00:26 hda8.del_dirs.out
+-rw-r--r--    1 root     root        28587 Feb  7 21:29 hda8.inode.25_transfer.c
+-rw-r--r--    1 root     root          340 Feb  7 21:30 hda8.inode.26_Makefile
+-rw-r--r--    1 root     root        14749 Feb  7 02:58 hda8.inode.60502_encrypt
+-rw-r--r--    1 root     root        11588 Feb 11 18:58 hda8.inode.60505_configure-install
+-rw-r--r--    1 root     root         4939 Feb 11 18:58 hda8.inode.60506_Makefile.EGGDROP
+-rw-r--r--    1 root     root           84 Feb 11 18:58 hda8.inode.60507_tcl.h
+-rw-r--r--    1 root     root         3137 Feb 11 18:58 hda8.inode.60508_config.h
+-rw-r--r--    1 root     root           80 Feb 11 18:58 hda8.inode.60509_tcl.h
+-rw-r--r--    1 root     root         4886 Feb 11 18:58 hda8.inode.60510_Makefile.EGGDROP
+-rw-r--r--    1 root     root        10685 Feb 11 18:58 hda8.inode.60511_eggdrop_configure
+-rw-r--r--    1 root     root        76891 Feb 11 18:58 hda8.inode.60512_autoconf
+-rw-r--r--    1 root     root         2922 Feb 11 18:58 hda8.inode.60513_config.h.in
+-rw-r--r--    1 root     root         3069 Feb 11 18:58 hda8.inode.60514_encrypt.c
+-rw-r--r--    1 root     root        18864 Feb  7 02:41 hda8.inode.60515_eggdrop.conf
+-rw-r--r--    1 root     root       221558 Feb  7 02:41 hda8.inode.60516_egg.log
+-rw-r--r--    1 root     root          270 Feb 11 18:58 hda8.inode.60519_tpack-install
+-rw-r--r--    1 root     root         2164 Feb 11 18:58 hda8.inode.60520_python1.5-lib
+-rw-r--r--    1 root     root         2995 Feb 11 18:58 hda8.inode.60521_config.cache
+-rw-r--r--    1 root     root          405 Feb  7 02:42 hda8.inode.60522_log.yesterday
+-rw-r--r--    1 root     root          592 Feb 11 18:58 hda8.inode.60525_eggdrop_info
+-rw-r--r--    1 root     root         1356 Feb 11 18:58 hda8.inode.60526_salt.h
+-rw-r--r--    1 root     root           29 Feb  7 02:42 hda8.inode.60531_EGGDROP.stamp
+-rw-r--r--    1 root     root          484 Feb 11 18:58 hda8.inode.60533_python-lib-2
+-rw-r--r--    1 root     root      2129920 Feb 11 18:58 hda8.inode.8133_eggdrop.tar
+-rw-r--r--    1 root     root         1564 Feb  7 00:14 hda8.ls.60501.out
+-rw-r--r--    1 root     root          627 Feb 11 18:15 hda8.lsdel.inodes
+-rw-r--r--    1 root     root         7095 Feb  5 15:38 hda8.lsdel.out
+-rw-r--r--    1 root     root          175 Feb 11 18:17 hda8.orphan.inodes
+-rw-r--r--    1 root     root          996 Feb 11 19:00 hda8.orphan.inodes.info
+-rw-r--r--    1 root     root          639 Feb  5 15:14 man_Nov08
+-rw-r--r--    1 root     root          841 Feb  6 22:38 missing_link
+-rwxr-xr-x    1 root     root         2098 Feb 14 22:10 mount_cracked
+-rw-r--r--    1 root     root        18432 Feb  7 01:46 recovered.messages
+-rw-r--r--    1 root     root         3212 Feb  4 23:40 unowned_files
+-rw-r--r--    1 root     root         2636 Feb 11 11:28 usr_doc_files

@@ -1,0 +1,46 @@
+
+INTRUSION METHOD
+
+Evidence of initial entry point shows a buffer overflow was exploited in rstatd 
+This confirms Snort's NOOP alarm (of Nov 7 23:11:51) - (see attach01.txt)
+
+
+ATTACKER IDENTITY
+"c871553-b.jffsn1.mo.home.com" appears in /var/log/lastlog 
+/var/log/secure has entries for the user from home.com (216.216.x.x)
+
+/var/tmp/nap has this suspicious data (most likely the password for the trojaned inetd)
+
+From undeleted on root partition:
+"adduser $z *!*toro@will.fuck.for.an.o-line.st"
+This is most likely an IRC identity
+
+
+ADDED/MODIFIED/CREATED FILES
+See attach02.txt
+
+SNIFFER 
+LinSniffer was installed
+An IRC server whose source code was in "tpack2.3.tar.gz" was compiled and installed as well
+
+ROOTKIT/CONCEALMENT
+Upon initial entry, rootkit was installed, 
+/usr/man/.Ci has various scripts and binaries that the hacker installed 
+
+The list of networks the hacker most likely has other accounts is in /usr/man/.a
+
+/usr/man/.p,p,r is the list of commands that the hacker was able to hide from legitimate sysadmins
+(implying the kinds of activity that was performed)
+
+Other suspicious evidence that was deleleted and recovered from the root partition is included
+See attach03.txt
+
+
+
+
+
+
+
+
+
+

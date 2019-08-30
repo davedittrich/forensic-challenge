@@ -1,0 +1,72 @@
+S.5....T c /etc/hosts.deny
+S.5....T c /etc/services
+.M......   /proc
+S.5....T c /etc/localtime
+.......T c /etc/nsswitch.conf
+.M......   /usr/libexec/pt_chown
+.M......   /usr/bin/chage
+.M......   /usr/bin/gpasswd
+S.5....T c /etc/info-dir
+.....UG.   /etc/X11/fs
+S.5..UGT c /etc/X11/fs/config
+......G.   /home/ftp/pub
+S.5.....   /bin/ls
+..5....T c /etc/mime.types
+S.5....T c /etc/httpd/conf/httpd.conf
+.....UG.   /var/cache/httpd
+missing    /usr/sbin/apmd
+.M......   /usr/bin/at
+missing    /usr/sbin/atd
+.M......   /var/spool/at/.SEQ
+S.5....T   /usr/sbin/named
+.M......   /dev/log
+.M......   /sbin/dump
+.M......   /sbin/restore
+S.5....T   /boot/kernel.h
+S.5....T c /etc/inetd.conf
+.......T c /etc/inittab
+S.5....T c /etc/rc.d/rc.local
+.M......   /usr/sbin/usernetctl
+.M....G.   /var/log/wtmp
+......G.   /var/run/utmp
+.......T c /var/lib/news/history.dir
+.......T c /var/lib/news/history.pag
+.M......   /bin/ping
+S.5....T c /etc/sysconfig/pcmcia
+.M......   /usr/bin/sperl5.00503
+.M......   /usr/bin/suidperl
+.M...... c /etc/conf.linuxconf
+.M......   /var/log/htmlaccess.log
+.M......   /var/log/netconf.log
+missing    /var/log/mars_nwe.log
+missing    /var/run/mars_nwe.routes
+S.5.....   /bin/netstat
+S.5.....   /sbin/ifconfig
+S.5....T c /etc/pam.d/passwd
+SM5.....   /usr/sbin/in.identd
+......G.   /usr/lib/pgsql/backup
+......G.   /var/lib/pgsql
+S.5.....   /bin/ps
+S.5.....   /usr/bin/top
+S.5....T c /etc/pam.d/rlogin
+missing    /usr/sbin/rpc.rstatd
+missing    /usr/sbin/rpc.rusersd
+missing    /usr/sbin/rpc.rwalld
+missing    /usr/sbin/nmbd
+missing    /usr/sbin/smbd
+......G.   /etc/aliases.db
+......G.   /usr/bin/locate
+......G.   /usr/bin/slocate
+......G.   /usr/bin/updatedb
+......G.   /var/lib/slocate
+missing    /etc/rc.d/init.d/syslog
+S.5....T c /etc/syslog.conf
+S.5.....   /usr/sbin/tcpd
+S.5....T   /usr/sbin/in.telnetd
+.M......   /usr/sbin/traceroute
+missing    /usr/sbin/snmpd
+.......T c /usr/share/fonts/default/Type1/fonts.dir
+......G.   /usr/sbin/utempter
+S.5....T c /etc/pam.d/login
+.M......   /usr/bin/newgrp
+.......T c /etc/yp.conf

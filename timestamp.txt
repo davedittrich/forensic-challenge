@@ -1,0 +1,107 @@
+From mailer@stamper.itconsult.co.uk Wed Jan 10 21:36:12 2001
+Date: Thu, 11 Jan 2001 05:30:17 +0000
+Subject: Proof of Posting Certificate 0045114:Timestamp of file
+    'challenge-images'
+From: Stamper <mailer@stamper.itconsult.co.uk>
+To: challenge@honeynet.org
+
+Stamper is a service provided free of charge to Internet users.
+
+You are very welcome to use Stamper, but you may only do so if 
+you have first read our Terms of use, which exclude liability on 
+our part and which provide for you to indemnify us against any 
+potential liability arising from your use of Stamper.  By using 
+Stamper you warrant that you have read and accept the Terms.
+
+The Terms of use are available by sending email to 
+info@stamper.itconsult.co.uk or from the web page 
+http://www.itconsult.co.uk/stamper.htm.
+
+
+To: challenge@honeynet.org
+Received: from mxout1.cac.washington.edu (mxout1.cac.washington.edu [140.142.32.5]) by m05.stamper.itconsult.co.uk (NTMail 6.02.0007/NT8923.00.86181c8b) with ESMTP id gwljuaaa for post@stamper.itconsult.co.uk; Thu, 11 Jan 2001 05:30:10 +0000
+Received: from shiva1.cac.washington.edu (shiva1.cac.washington.edu [140.142.100.201])
+	by mxout1.cac.washington.edu (8.9.3+UW00.02/8.9.3+UW00.01) with ESMTP id VAA06223
+	for <post@stamper.itconsult.co.uk>; Wed, 10 Jan 2001 21:30:07 -0800
+Received: (from dittrich@localhost)
+	by shiva1.cac.washington.edu (8.9.3+UW00.02/8.9.3+UW99.09) id VAA18500;
+	Wed, 10 Jan 2001 21:30:07 -0800
+Date: Wed, 10 Jan 2001 21:30:07 -0800
+Message-Id: <200101110530.VAA18500@shiva1.cac.washington.edu>
+From: challenge@honeynet.org
+Subject: Timestamp of file 'challenge-images'
+
+-----BEGIN PGP SIGNED MESSAGE-----
+
+########################################################
+#
+# This is a proof of posting certificate from
+# stamper.itconsult.co.uk certifying that a user
+# claiming to be:-
+#     challenge@honeynet.org
+# requested that this message be sent to:-
+#     challenge@honeynet.org
+#
+# This certificate was issued at 05:30 (GMT)
+# on Thursday 11 January 2001 with reference 0045114
+#
+# CAUTION: while the message may well be from the sender
+#          indicated in the "From:" header, the sender
+#          has NOT been authenticated by this service
+#
+# For information about the Stamper service see
+#        http://www.itconsult.co.uk/stamper.htm
+#
+########################################################
+
+
+MD5 checksum of file 'challenge-images'
+57f9c518f9558d0995f9f91897d6a5c6  challenge-images
+
+Contents of file 'challenge-images'
+ -------- Start of file ---------
+MD5 checksum of image file:
+
+603978c7a4f4252654df13010a6f5090  images.tar
+
+Original partitioning layout:
+
+/dev/hda8       /
+/dev/hda1       /boot
+/dev/hda6       /home
+/dev/hda5       /usr
+/dev/hda7       /var
+/dev/hda9       swap
+
+MD5 Checksums:
+
+a1dd64dea2ed889e61f19bab154673ab  honeypot.hda1.dd
+c1e1b0dc502173ff5609244e3ce8646b  honeypot.hda5.dd
+4a20a173a82eb76546a7806ebf8a78a6  honeypot.hda6.dd
+1b672df23d3af577975809ad4f08c49d  honeypot.hda7.dd
+8f244a87b8d38d06603396810a91c43b  honeypot.hda8.dd
+b763a14d2c724e23ebb5354a27624f5f  honeypot.hda9.dd
+
+
+f8e5cdb6f1109035807af1e141edd76d  honeypot.hda1.dd.gz
+6ef29886be0d9140ff325fe463fce301  honeypot.hda5.dd.gz
+8eb98a676dbffad563896a9b1e99a95f  honeypot.hda6.dd.gz
+be215f3e8c2602695229d4c7810b9798  honeypot.hda7.dd.gz
+b4ff10d5fd1b889a6237fa9c2979ce77  honeypot.hda8.dd.gz
+9eed26448c881b53325a597eed8685ea  honeypot.hda9.dd.gz
+ --------  End of file  ---------
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3i
+Charset: noconv
+Comment: Stamper Reference Id: 0045114
+
+iQEVAgUBOl1E6YGVnbVwth+BAQHIgAf9ELPppkXbMy8Tzbr14W5ZG96Lfe1Ws1D/
+bjsj/FLttW8ds7jTXlCgGGPUbl8ADOB3VMJLjgGYVLRM3thMtFseuiJsvFLs8dt7
+0HgR1BzcspUV/ZeEpRFvrkMLfIzqNZ0tKrxFSbO32sEOFZsqNojQbULSi27FVKIz
+lPX71zlfgQw1PmKhbECQCUNHdwOn9Wtf2wpvTpsVczj+FUGWIiMEqjWYNIychZTF
+J0NlUydD5dSLTiVTZ4r/Du19ZAyg6hKVhxVh3Y1GwV7AGnYezuspjXO1DBIVvANU
+AqOuMjdfxTOBK0JfWtzQdqP2LdjoDzDrGpxghWueKQCqliDtY9r0dg==
+=XTqC
+-----END PGP SIGNATURE-----
+

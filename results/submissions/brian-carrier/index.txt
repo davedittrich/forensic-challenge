@@ -1,0 +1,85 @@
+Brian Carrier                                                     index.txt
+-----------------------------------------------------------------------------
+
+advisory.txt
+  Technical advisory and summary of compromise
+
+costs.txt
+  Cost assessment of analysis
+
+evidence.txt
+  Detailed time line and analysis of compromised system and installed media
+
+index.txt
+  This file
+
+modfiles.txt
+  List of files that were modified during compromise
+
+summary.txt
+  High level summary of what happened for media and management
+
+technique.txt
+  Summary of technique used to analyze system
+
+timeline.txt
+  Output of mactimes and dcat with comments on high-level events
+
+timestamp.txt
+  output from Stamper of MD5 hashes
+
+files/
+  autopsy reports for deleted files that were recovered during analysis
+  (autopsy is a tool that I wrote and will be releasing, see evidence.txt)
+
+-----------------------------------------------------------------------------
+
+files/Ci/addbd.blk99797
+files/Ci/addbd.blk99798	
+  autopsy report of blocks 99797 and 99798 of hda8 that show the contents
+  of the addbd script for the Ci rootkit
+
+files/Ci/addn_strings
+  autopsy report of the strings output of the addn binary.  It shows
+  that trojan files are used
+
+files/Ci/install-named
+  autopsy report of the recovered install-named install script
+
+files/Ci/install-sshd
+  autopsy report of the recovered install-sshd install script
+
+files/Ci/install-statd
+  autopsy report of the recovered install-statd install script
+
+files/Ci/install-wu
+  autopsy report of the recovered install-wu install script
+
+files/Ci/install.blk96117
+files/Ci/install.blk96118
+  autopsy report of blocks 96117 and 96118 of hda8 that show the contents
+  of the install script for the Ci rootkit
+
+-----------------------------------------------------------------------------
+
+files/logs/log.rpc.entry.blk49468	
+files/logs/log.rpc.entry.blk49469
+  autopsy report of blocks 49468 and 49469 of hda7 that show the contents
+  of deleted log entries.  This includes the format string buffer too.
+
+-----------------------------------------------------------------------------
+
+files/tpack/directory.inode8132
+  autopsy report of inode 8132 on hda8 that was the inode for the 
+  /dev/tpack directory
+
+files/tpack/install	
+  autopsy report of the tpack install file recovered from hda8
+
+files/tpack/run
+  autopsy report of the tpack run file recovered from hda8
+
+files/tpack/tarfile.inode8133
+  autopsy report of inode 8133 on hda8 that was the install file for the 
+  tpack/eggdrop system
+

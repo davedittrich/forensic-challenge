@@ -1,0 +1,41 @@
+======================
+Incident cost-estimate
+======================
+
+Indirect Costs
+
+    Software
+	All software used for system analysis consisted of freely available tools
+	- Coroner's Toolkit		  free
+	- Mandrake Linux		  free
+	- Redhat Package Manager	  free
+	- Tripwire 1.2 for Linux	  free
+
+Worker Costs Table
+
+Title			Hours		Cost/Hr.	    Total	     -15%	      15%
+-----                   -----           --------        ---------       ---------       ---------
+Incident Investigator      37		  $33.65	$1,245.05	$1,058.29	$1,431.81
+System Administrator(*)	    3		  $33.65	  $100.95	   $85.81	  $116.09
+
+Benefits @ 28%						  $348.61	  $296.32	  $400.91 
+
+Subtotal (Salary and Benefits)				$1,694.61	$1,440.42	$1,948.81
+
+Indirect Costs						    $0.00	    $0.00	    $0.00
+
+Total Labor Cost					$1,694.61	$1,440.42	$1,948.81
+
+Median Cost +/- 15%							$1,694.61      +/-$254.20
+
+(*)  Expected time for system reinstallation
+
+Investigator Experience
+-----------------------
+This investigator is currently a Computer Science graduate student with a focus in information
+security.  As such, much of my experience has been gained in an academic environment or during
+various security related internships.
+	Programming		6 years
+	Security		3 years
+	System Adminstration	3 years
+

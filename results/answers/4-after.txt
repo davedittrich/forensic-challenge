@@ -1,0 +1,68 @@
+                ##### THE DAY AFTER #####
+Images were taken from the honeypot on the night 08 Nov, 2000.
+However, the honeypot was left online.  The blackhat returned
+later on 10 and 22 Nov.  Below are the captured keystrokes.
+On both occassions the blackhat used the backdoor ssh to
+access the honeypot.  ssh is encrypted, thus the keystrokes
+cannot be captured off the wire using snort.  In this case, a
+trojaned version of /bin/bash was placed on the honeypot, which
+forwarded all commands to a syslog server (recorded below).
+
+
+##### 10 Nov 2000 #####
+Nov 10 16:55:49 apollo -bash: HISTORY: UID=0 PID=3760 w
+Nov 10 16:55:49 apollo -bash: HISTORY: UID=0 PID=3760 ps aux
+Nov 10 16:55:53 apollo -bash: HISTORY: UID=0 PID=3760 cat /etc/passwd
+Nov 10 16:56:04 apollo bash: HISTORY: UID=500 PID=3785 bx irc.stanford.edu
+Nov 10 16:56:40 apollo bash: HISTORY: UID=500 PID=3785 exit
+Nov 10 16:56:42 apollo -bash: HISTORY: UID=0 PID=3760 ps aux
+Nov 10 16:56:42 apollo last message repeated 1 time
+Nov 10 16:57:00 apollo -bash: HISTORY: UID=0 PID=3760 cd /usr/man/.Ci
+Nov 10 16:57:01 apollo -bash: HISTORY: UID=0 PID=3760 ls -la
+Nov 10 16:57:05 apollo -bash: HISTORY: UID=0 PID=3760 ./sp.pl tcp.log
+Nov 10 16:57:11 apollo -bash: HISTORY: UID=0 PID=3760 exit
+
+
+##### 22 Nov 2000 #####
+Nov 22 01:58:26 apollo -bash: HISTORY: UID=0 PID=4177 w
+Nov 22 01:58:30 apollo -bash: HISTORY: UID=0 PID=4177 ps aux
+Nov 22 01:58:30 apollo last message repeated 1 time
+Nov 22 01:58:45 apollo -bash: HISTORY: UID=0 PID=4177 cd /usr/man/.Ci
+Nov 22 01:58:45 apollo -bash: HISTORY: UID=0 PID=4177 ls
+Nov 22 01:58:53 apollo -bash: HISTORY: UID=0 PID=4177 ./sp.pl tcp.log
+Nov 22 01:59:05 apollo -bash: HISTORY: UID=0 PID=4177 cd /
+Nov 22 01:59:06 apollo -bash: HISTORY: UID=0 PID=4177 cd var/tmp
+Nov 22 01:59:06 apollo -bash: HISTORY: UID=0 PID=4177 ls
+Nov 22 01:59:10 apollo -bash: HISTORY: UID=0 PID=4177 cat nap
+Nov 22 01:59:20 apollo -bash: HISTORY: UID=0 PID=4177 cat /etc/passwd
+Nov 22 01:59:34 apollo -bash: HISTORY: UID=0 PID=4177 whereis gcc
+Nov 22 01:59:43 apollo -bash: HISTORY: UID=0 PID=4177 cd /home/drosen
+Nov 22 01:59:43 apollo -bash: HISTORY: UID=0 PID=4177 ls
+Nov 22 01:59:49 apollo -bash: HISTORY: UID=0 PID=4177 cat classes.txt 
+Nov 22 01:59:58 apollo -bash: HISTORY: UID=0 PID=4177 su drosen
+Nov 22 02:00:05 apollo bash: HISTORY: UID=500 PID=4217 bx irc.stanford.edu
+Nov 22 02:00:34 apollo bash: HISTORY: UID=500 PID=4217 ls
+Nov 22 02:00:43 apollo bash: HISTORY: UID=500 PID=4217 ftp
+Nov 22 02:04:08 apollo bash: HISTORY: UID=500 PID=4217 whereis ipchains
+Nov 22 02:04:23 apollo bash: HISTORY: UID=500 PID=4217 /sbin/ipchains -F
+Nov 22 02:04:36 apollo bash: HISTORY: UID=500 PID=4217 exit
+Nov 22 02:04:44 apollo -bash: HISTORY: UID=0 PID=4177 /sbin/ipchains -F
+Nov 22 02:04:48 apollo -bash: HISTORY: UID=0 PID=4177 su drosen
+Nov 22 02:04:52 apollo bash: HISTORY: UID=500 PID=4235 ls
+Nov 22 02:04:57 apollo bash: HISTORY: UID=500 PID=4235 gunzip tpack*
+Nov 22 02:05:07 apollo bash: HISTORY: UID=500 PID=4235 tar -xvf tpack*
+Nov 22 02:05:35 apollo bash: HISTORY: UID=500 PID=4235 rm tpack*
+Nov 22 02:05:40 apollo bash: HISTORY: UID=500 PID=4235 cd " "
+Nov 22 02:05:45 apollo bash: HISTORY: UID=500 PID=4235 ./install
+Nov 22 02:11:03 apollo bash: HISTORY: UID=500 PID=4235 ./setutp
+Nov 22 02:11:06 apollo bash: HISTORY: UID=500 PID=4235 ./setup
+Nov 22 02:13:21 apollo bash: HISTORY: UID=500 PID=4235 netstat
+Nov 22 02:13:38 apollo bash: HISTORY: UID=500 PID=4235 exit
+Nov 22 02:13:39 apollo -bash: HISTORY: UID=0 PID=4177 ls
+Nov 22 02:13:43 apollo -bash: HISTORY: UID=0 PID=4177 rm -rf " "
+Nov 22 02:13:46 apollo -bash: HISTORY: UID=0 PID=4177 killall -9 t
+Nov 22 02:13:47 apollo -bash: HISTORY: UID=0 PID=4177 ps aux
+Nov 22 02:13:52 apollo -bash: HISTORY: UID=0 PID=4177 ls -la
+Nov 22 02:13:56 apollo -bash: HISTORY: UID=0 PID=4177 cat .bash_history
+Nov 22 02:14:01 apollo -bash: HISTORY: UID=0 PID=4177 rm -rf .bash_history
+Nov 22 02:14:11 apollo -bash: HISTORY: UID=0 PID=4177 exit

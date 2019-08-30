@@ -1,0 +1,61 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+
+########################################################
+#
+# The text of this message was stamped by
+# stamper.itconsult.co.uk with reference 0047616
+# at 02:27 (GMT) on Saturday 17 February 2001
+#
+# For information about the Stamper service see
+#        http://www.itconsult.co.uk/stamper.htm
+#
+########################################################
+
+4558906321550f3486ffea049c2531f5  advisory.txt
+e3215f329ad28d4ff6600f06e3df89f7  ChangeLog
+38fdb2920ce5a530382b0c9209996f48  Ci_log
+ba85a4c498849a76c8b71118f73dd1ab  costs.txt
+e573f6ff1ff4c69c05bca3e47f048917  evidence.txt
+6c7cb8ef7859cc73cb8e2a51cc3f8672  files.tar.gz
+790b2b27de5507ef4a61d6f66cc76ee0  index.txt
+b5b0f143dfbdfd95c286a4746ad4a6a8  mactime-interesting.txt
+2e64b8bbe986ae637e97c87b017acbcc  newfiles.log
+7c3aef2affbf192dd93996701f5d2467  rpm-verify-orig.log.interesting
+7c65fd92785e5c210243537fdaa7b2e2  summary.txt
+40b90715459d0a2d56bf16f5ef59c501  files/blowfish.c
+f75c43784846791311d0d5ba23733617  files/hda1.lsdel.out
+2055a013e5cf1232d295898a18546fd5  files/hda5.lsdel.out
+f75c43784846791311d0d5ba23733617  files/hda6.lsdel.out
+d15958568f648d0f0f5c6ed845a4d42e  files/hda7.lsdel.out
+8291871f8fd57d1f71cdc4a09deab67c  files/hda8.lsdel.out
+7bca92edf4493ccc4094d99a5106d372  files/lastlog.patch
+ed1705e0329ae4cd303eda6b9ad3d2df  files/lastlog.readme
+f253703259e36b741a6b89cac1ae7167  files/linsnif.c
+22a4c0430c165f9a53de0d6ef94bde3a  files/mactime.txt
+e43fcbc04acaf9674edd9d189b75d959  files/rpm-3.0.4.patch
+acd6605a5107902c9911509664c6f3d5  files/rpm-3.0.4.readme
+651f11be0579bdb9eb1ea671fa84ea74  files/rpm.list
+d59b83bda40addc92f2b2dd169b1be8e  files/rpm.list1
+480eb3be12e08a1641839c05acfd4438  files/rpm-verify1.log
+b0f83cad885fb5b6612b4eb205adbd1f  files/rpm-verify2.log
+368a88524aff7759e13582a2ede909d1  files/rpm-verify-orig.log
+4c28769eb03aba56032c9db2cfe68ffa  files/statd.c
+f7fab4bbda7e89ba1747737ce3b6f95c  files/tct-1.05.patch
+d2da0686fe0a34abc878161ec9c390e4  files/tct-1.05.readme
+
+- -- 
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3i
+Charset: noconv
+Comment: Stamper Reference Id: 0047616
+
+iQEVAgUBOo3hkoGVnbVwth+BAQHDIwf9FDZXvJa+wFu3phJEUa0A2XDNeOpYLeBn
+J6x1fY72IxWH6D1/NmbO7VNvqq8bTksPQ1Zwkw2wXXMzX/sHAoyopFT/hm3qxW5p
+m27fj/EaDT9GYrY4uMRNRRYkts4s3cbgcxV8ieXd2ir1+VhUfTQcKuUCu0ShAmr+
+1FyTK0kxUw04XZtmbGLf3zzc/m+roU/N++QQEgyphSeODVBEB1K+/1Kb/MRsmXss
+hzToaYlcPW/44dnKupkFF2Sjl06QUS5L4hzKNOL//0YJnVBBECc5V/IicbwXLVYD
+ZFbOZzc8QscFMs33wl5qbqf9U4xOetfKrNbXO5AKaDpzAEaU2P3Ycw==
+=vKO7
+-----END PGP SIGNATURE-----
+

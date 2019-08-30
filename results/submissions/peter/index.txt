@@ -1,0 +1,48 @@
+This analysis was performed by Peter Kosinar <the_goober@mindless.com>
+
+I'm very sorry for my poor English and for messing the things up,
+the files I created don't follow the rules you have set up.  They
+were mostly compiled from my notes and I was not able to find any
+reasonable way for rewriting them into the form you wanted :-).
+
+---------
+Filelist:
+
+advisory.txt		- the advisory
+files.tar		- other files, listed below
+index.txt		- this file
+questions.txt		- questions+answers
+timeline.idstime	- timeline with timestamps based on lisa's time
+timeline.txt		- timeline with timestamps based on apollo's time
+timestamp.txt		- md5sums of all files, signed with GPG.  My
+			  public key can be found in key.asc file, and/or
+			  at http://www.ksp.sk/~goober/challenge, along
+			  with the timestamp.txt file.
+key.asc			- My PGP public key
+
+
+Contents of files.tar:
+
+atime.txt		- access times
+cron.txt		- cron analysis
+newfiles.txt		- files that have been added/modified
+rkit.txt		- rootkit analysis
+shellcode.txt		- vulnerability analysis
+other.txt		- miscellaneous files
+
+files/
+    messages		- /var/log/messages, after completition
+    proctcp		- /proc/net/tcp
+    root_history.txt	- /root/.bash_history, after restoration
+    drosen_history.txt	- /home/drosen/.bash_history
+
+misc/
+    Cicontents		- dump of /usr/man/.Ci inode
+    Cidir		- dump of /usr/man inode
+    eggdropdir		- eggdrop's directory inode dump
+    tpackparent		- eggdrop's directory's parent inode dump
+    eggdrop_timestamp	- timestamp of eggdrop's run
+
+programs/
+    cronparse.c		- Parser for /var/log/cron
+    dumper.c		- Multi-purpose inode tool

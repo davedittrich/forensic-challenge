@@ -1,0 +1,91 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Lance Spitzner">
+<style type="text/css">
+<!--
+a:active {  text-decoration: none}
+a:hover {  text-decoration: none; color: blue}
+a:link {  text-decoration: none}
+a:visited {  text-decoration: none}
+-->
+</style>
+</head>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+
+<h1>brian</h1>
+<ul>
+<li> Interesting use of debugfs.</p>
+<li> Finds that shutdown account was removed by intruder.</p>
+<li> Well done identification of intrusion method.</p>
+<li> Well done identifiation of intruder attack points.</p>
+<li> Did not do file checksum analysis or strings analysis of the
+rootkit files, and does not find the rootkit config files. </p>
+<li> Recovers deleted messages file with debugfs and dd.</p>
+<li> Misses that /usr/man/.Ci/chmod-it has been executed.</p>
+<li> Misses the sshd password logging feature.</p>
+<li> Partial origin info for /usr/man/.Ci files.</p>
+<li> Finds sniffer, but misses sshd password logger (although
+he does find the logfile).  Also misses sshd universal password.</p>
+<li> Describes origins of /usr/man/.Ci files, but does not spot mix
+of multiple rootkit versions.</p>
+<li> Builds summary timeline, but makes no comparison with clean
+system.</p>
+<li> Summary OK, but does not mention whether user data was
+exposed.</p>
+<li> Advisory discusses the vulnerability, not impact of specific
+break-in, or how to detect that a system was compromised.</p>
+<li> Readability is OK.</p>
+<li> No checksum/strings/diassembly analysis,
+	so he misses the rootkit config files as well as the
+	sshd password logging feature, as well as any backdoors
+	in newly installed software.</p>
+
+<li> Good description of technique used; shows that debugfs
+	is a powerful program.</p>
+
+<li> Potentialy more explanation on how/what debugfs is used
+for and what it tells us.  Missed some of the technical
+issues, such as encryption used in bot, /var/tmp/nap.</p>
+
+<li> Excellent readability, summary great overall review.
+Extremelly well organized.</p>
+
+<li> Uses an interesting technique of using a shell script to check
+MD5 checksums of partition images before mounting them, and to set
+shell variables for later use.  If generalized a bit more, this would
+be a good front end for automating some steps in the forensic analysis
+and reporting process.</p>
+
+<li> Also used "debugfs", alone and combined with "dd", for accessing
+i-node information and contents, including recovery of deleted files.
+Since "debugfs" is specific to Linux, this technique may not
+generalize well to other flavors of Unix.</p>
+
+<li> Did the best job of identifying source locations for many of the
+programs installed by the intruder.  He also identified the rpc.statd
+exploit from the IDS logged information by identifying the RPC service
+number in the packet.</p>
+
+</ul>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+</html>

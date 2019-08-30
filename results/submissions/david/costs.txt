@@ -1,0 +1,47 @@
+                Cost estimate for the incident
+                ==============================
+
+To produce a costs summary for the incident, we used the following premises: 
+
+- Annual salary of every analyst/administrator involved is $70,000 
+  and there are no user-related costs.
+- System has to be recovered from the intrusion: In this case, 
+  being the compromised system just a standard Red Hat 6.2 fresh 
+  install, recovering is simple: re-install the operating system, 
+  taking a couple of hours. If we were to take the approach of 
+  removing the trojan files, and reinstalling binaries from a 
+  trusted source (like a CD, for example) that would take much longer.
+
+We are a team of three analysts, with these profiles:
+
+PROFILE                 YEARS OF EXPERIENCE
+---------      ------------------------------------------
+               System Admin.   Programming      Security
+Profile 1            8               4              4				
+Profile 2            5               4              3
+Profile 3            4               1              3
+
+
+
+So, a simple costs estimation is:
+
+Profile         Hours analyzing      Hours recovery     Total
+---------       ---------------      --------------     -----
+Profile 1             24                   2             26
+Profile 2             32                   4             36
+Profile 3             16                   2             18
+
+TOTAL SPENT HOURS   -----------------------------------> 80
+
+
+
+Salary / year            $70,000.00
+working days / year          280
+working hours / day            8
+working hours / year       2,240
+Cost per hour                $31.25
+
+Subtotal  (spent hours * cost / hour)   $2,500.00
+Benefits @ 28%                            $700.00 
+                                        =========						
+Total Labor Cost (Salary and Benefits)	$3,200.00

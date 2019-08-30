@@ -1,0 +1,9 @@
+index.txt              This file
+costs.txt              Incident cost-estimate
+evidence.txt           Time line and detailed (technical) analysis.
+                       Answers to questions are marked with "[Q1]", etc.)
+timestamp.txt.asc      pgp-signed file containing md5 hashes of
+                       index.txt, costs.txt, evidence.txt. Original
+		       filename is timestamp.txt
+
+I did not create summary.txt and advisory.txt due to time restrictions.

@@ -1,0 +1,89 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        THE HONEYNET FORENSIC CHALLENGE
+
+        January/February 2001
+
+
+        Prepared for the HoneyP.edu Incident Response Team (HIRT)
+
+        by  Brian Coyle <brianc@magicnet.net>
+
+
+
+
+-----------------------------------------------------------------------
+
+summary.txt            Management and media (non-technical) summary
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TO: HoneyP.edu Senior Management and Staff
+
+FROM: HoneyP.edu Incident Response Team (HIRT)
+
+RE: Recent computer break-in
+
+
+On November 7, 2000, The HoneyP.edu intrusion detection alarms triggered,
+alerting the incident response team to a possible break-in.  Upon further
+investigation, it was discovered a breach did occur against one of the
+university computer systems.
+
+Appropriate actions by the incident response team were undertaken to
+quickly remove the subject computer from the network, collect system
+evidence for forensic review and possible prosecution of the 
+perpetrator(s).
+
+Analysis of the evidence revealed a known vulnerability was exploited.
+An advisory to all HoneyP.edu System Administrators and Managers was
+issued with details on patching the exposure. At this time, it is believed
+only this one system was compromised.  The advisory stressed the importance 
+of reviewing similarly configured systems for intrusion. 
+
+Due to the nature of the break-in, it is recommended that each HoneyP.edu
+system be audited. Once the system reviews are completed, all system and
+user passwords must be changed.
+
+The compromised system was quickly recovered, the vulnerability patched,
+and returned to service with little disruption to the user community.
+
+

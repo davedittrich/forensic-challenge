@@ -1,0 +1,9 @@
+total 484
+-rw-r--r--   1 root     root         4702 Sun Feb 18 08:52:21 2001 advisory.txt
+-rw-r--r--   1 root     root          897 Sat Feb 17 17:08:59 2001 costs.txt
+-rw-r--r--   1 root     root        24301 Sun Feb 18 11:45:20 2001 evidence.txt
+-rw-r--r--   1 root     root       440320 Sun Feb 18 12:04:08 2001 files.tar
+-rw-r--r--   1 root     root         1972 Sun Feb 18 12:20:28 2001 index.txt
+-rw-r--r--   1 root     root          891 Sun Feb 18 08:24:36 2001 summary.txt
+-rw-r--r--   1 root     root          211 Sun Feb 18 12:19:48 2001 team.txt
+-rw-r--r--   1 root     root            0 Sun Feb 18 12:21:12 2001 timestamp.txt

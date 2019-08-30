@@ -1,0 +1,5 @@
+One of the systems were exposed to intrusion. Thanks to intrusion
+detection system we were able to detect attack in timely manner.
+We were able to sucessfully analize the attack and were able to
+bring the system back up in 1.5 hours. There is no evidence that
+the customer data was tampered with.

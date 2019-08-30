@@ -1,0 +1,397 @@
+When collecting and securing the evidence I've established that (in the
+order I intend to analyze them): 
+
+1. There was a number of packages installed, most notably wu-ftpd, lpr,
+   nfs-utils, ypserv, telnet, am-utils, screen and make(?), see
+   paragraph #10 in evidence.txt;
+
+2. There was a number of server programs installed/modified very likely
+   facilitating backdoor access to the system, "prime suspects" are
+   /usr/sbin/named, /usr/sbin/tcpd, /usr/sbin/in.telnetd,
+   /usr/sbin/in.identd and /usr/local/sbin/sshd1, see paragraph #9 in
+   evidence.txt;
+
+3. There very like was a rootkit consisting of /bin/ps, /usr/bin/top,
+   /bin/ls, /bin/netstat and /sbin/ifconfig installed on the system,
+   see paragraph #8 in evidence.txt;
+
+4. There was a number of files left behind, most notably those in
+   /usr/man/.Ci, see paragraph #10 in evidence.txt;
+
+I. "HOSTILE" PACKAGES.
+
+Closer look at files/rpm-q-a.out and comparing the package version
+numbers suggests that the packages in question (except for screen and
+make!) are very likely subset of recommended security patchset for
+RedHat 6.0 (see
+http://www.redhat.com/support/errata/rh60-errata-general.html). Indeed,
+all minor version number match exactly those found at
+ftp://ftp.redhat.com/pub/redhat/updates/6.0/i386/. Having them
+downloaded we can verify authenticity of the packages installed by
+intruder with 'rpm -V --root /home/intrusion/tmp/a -p
+just.downloaded.from.redhat.rpm' command. Apparently we can as well
+spot his screen package among 6.1 updates and the make package - in 6.1
+release. I download these two as well and verify the authenticity of
+those installed by intruder. All verifications pass and I can only
+conclude that the packages installed by intruder aren't that "hostile"
+at all, but were installed in attempt to patch security holes,
+presumably in order to protect the computer from concurrent intruders
+or own duplicate scans. Unfortunately intruder failed to correctly
+recognize minor version number of running OS and installed security
+patches targeting wrong release thus downgrading several packages, most
+notably lpr, ypserv, telnet and am-utils. It should be noted that
+downgrading telnet package explains why /usr/sbin/in.telnetd popped up
+as "suspect" for backdoor. As for 6.2 release RedHat has split the
+telnet package to telnet and telnet-server and downgrading to pre-6.2
+telnet package overwrote the in.telnetd. So that I won't consider the
+latter in further analysis. Screen and make are very likely reflect
+intruder's personal preferences and he simply used to install them... 
+
+II. THE "BACKDOOR."
+
+- former /usr/sbin/named
+
+  The file in question appears to be 8.2.2-P5 named compiled by
+  root@zagnut.goobe.net (as output from strings suggests). The file
+  apparently is a verbatim copy of (former) /usr/local/sbin/named. The
+  binary is unfortunately stripped and it's rather hard to analyze. At
+  the very least comparing strings from RedHat's and intruders's
+  binaries doesn't reveal any extra comprehensible strings (which could
+  represent a backdoor password or command to be executed):
+
+	***************
+	*** 43,48 ****
+	--- 43,49 ----
+	  endpwent
+	  sleep
+	  optarg
+	+ __bzero
+	  recvfrom
+	  h_errlist
+	  socket
+	...
+	***************
+	*** 3409,3418 ****
+	  All rights reserved.
+	  -p remote/local obsolete; use 'listen-on' in config file to specify local
+	  chdir failed for directory '%s': %s
+	! @(#)named 8.2.2-P5 Mon Feb 28 10:17:53 EST 2000 root@porky.devel.redhat.com:/usr/src/bs/BUILD/bind-8.2.2_P5/src/bin/named
+	  $Id: version.c,v 8.3 1999/01/02 06:05:14 vixie Exp $
+	! named 8.2.2-P5 Mon Feb 28 10:17:53 EST 2000
+	! root@porky.devel.redhat.com:/usr/src/bs/BUILD/bind-8.2.2_P5/src/bin/named
+	  8.2.2-P5
+	  0123456789
+	  9"0I
+	--- 3451,3460 ----
+	  All rights reserved.
+	  -p remote/local obsolete; use 'listen-on' in config file to specify local
+	  chdir failed for directory '%s': %s
+	! @(#)named 8.2.2-P5 Thu Nov 25 16:18:38 CST 1999 root@zagnut.goobe.net:/dev/.oz/src/bin/named
+	  $Id: version.c,v 8.3 1999/01/02 06:05:14 vixie Exp $
+	! named 8.2.2-P5 Thu Nov 25 16:18:38 CST 1999
+	! root@zagnut.goobe.net:/dev/.oz/src/bin/named
+	  8.2.2-P5
+	  0123456789
+	  9"0I
+
+  We can only spot extra call to __bzero libc function, when and where
+  (zagnut.goobe.net as already mentioned above) it was compiled as well
+  as which directory the source code was residing in, namely
+  /dev/.oz/src. The name of the directory indicates that
+  zagnut.goobe.net is unlikely intruder's computer as the directory was
+  probably called /dev/.oz in order to conceal it from the legitimate
+  user(s). I choose not to perform disassemble this binary at this
+  point as the program in question wasn't started upon reboot (it was
+  originally switched off, see file/chkconfig--list.out) and therefore
+  couldn't be used to provide backdoor access. 
+
+- former /usr/sbin/tcpd
+
+  Rapid look through output from nm alarmed me of function called
+  hackinit(). Examining disassembly output (partially presented in
+  files/tcpd.dis) revealed further details. hackinit() is apparently
+  called first thing in main() and builds a linked list of elements
+  structured as following:
+	struct { void *next; int i; char str[256]; } hack_list;
+  It then assigns values from the first column of /usr/man/.a to "i"
+  members and values from the second column to "str" members of the
+  above list. Once the list is initiated it's used later in main (see
+  from address #0804922A) to set a "hide" variable in a manner similar
+  to following:
+
+	for (hide=0,ptr=hack_list; ptr; ptr=ptr->next;)
+	  if (strstr(clienthostname,ptr->str) || strstr(clientip,ptr->str))
+	    hide=1;
+
+  The "hide" variable is used further in the code to bypass access
+  rules  specified in /etc/hosts.{allow|deny} and to avoid calls to
+  syslog;
+
+  The program in question is probably shouldn't be classified as
+  backdoor as it doesn't grant e.g. shell access to the computer, but
+  only bypasses access policy and conceals intruder's connections. The
+  program is rather part of the rootkit. 
+
+- former /usr/sbin/in.telnetd is not analyzed, see "hostile" packages
+  above for details.
+
+- former /usr/sbin/in.identd
+
+  Rapid look through output from nm revealed function called
+  envoye_don_le_trojan. The program also turned to have unusually small
+  text and unusually large data segments. Disassembler (see
+  files/identd.dis) provided the explanation. Apparently
+  envoye_don_le_trojan() is called first thing in main(). The function
+  first checks if the request for the connection originates from 192.87
+  B-class subnet (see address #08048602). If it happens to be the case,
+  then /bin/sh is invoked with -i argument granting anybody in the
+  whole subnet interactive access. Otherwise /tmp/.fileMeYV0p is
+  created which turned to be a verbatim copy of identd from RedHat 5.2
+  distribution (comprising the data segment) and to which execution
+  control is immediately passed. 
+
+  This program was obviously intended to provide backdoor access.
+  However! As of 6.2 release RedHat provides completely different
+  identd implementation and as result this particular backdoor would
+  never work. Indeed, in 6.2 it's /usr/sbin/identd that is invoked,
+  never /usr/sbin/in.identd. /usr/sbin/in.identd is a symbolic link
+  which intruder apparently removed first and recreated it as real
+  file. In addition even if /usr/sbin/identd were replaced the
+  malicious code wouldn't work either as it assumes that the program is
+  invoked by inetd (it does getpeername(0,...)) which is also no longer
+  case under 6.2. Installing /usr/sbin/in.identd was clearly a mistake.
+
+- former /usr/local/sbin/sshd1
+
+  Comparing nm outputs, I was able to spot a functions called
+  check_global_password which wasn't present in another 1.2.27 sshd
+  binary. Examining disassembly output (partially presented in
+  files/sshd1.dis) revealed following details. The
+  check_global_passwd() function is called whenever auth_passwd() that
+  performs plain-text password authentication fails. What the
+  check_global_passwd() does is that it builds MD5 hash of the
+  plain-text password passed as argument and compares it with a
+  precompiled value of d33e8f1a6397c6d2efd9a2aae748eb02. If it matches,
+  access with whatever earlier specified username if granted and a
+  "lets_log" variable is reset to zero. The "lets_log" variable (which
+  is initially set to one) is used later in the code to conceal login
+  sessions "authorized" by check_global_passwd() by avoiding calls to
+  syslog and the function recording login information in /var/log/utmp.
+  In addition whenever auth_passwd() or check_global_passwd() succeed
+  username, clear-text password and client hostname are appended to
+  /usr/tmp/nap. The fact that it logs even check_global_passwd()'s
+  successes must be a bug as it's effectively obsoletes whatever
+  "lets_log" variable stands for.
+
+We were able to identify at least one working backdoor providing shell
+access to the compromised system. /usr/sbin/tcpd turned to be part of a
+rootkit bypassing access policy defined in /etc/hosts.{allow|deny} for
+hosts whose IP-number or fully-qualified hostname partially
+(strstr-wise) match patterns listed in /usr/man/.a file. I'm still not
+sure about former /usr/sbin/named, but having identified backdoor in
+sshd1 I don't care very much about it (at least at this point). 
+
+III. THE "ROOTKIT."
+
+I first double-check with objdump -R that the programs in question
+don't make things they absolutely not expected to do, e.g. call
+[v]fork, connect, send, sendto system calls (see even evidence.txt).
+They don't and I decide that it's too obvious to disassemble them so I
+limit myself to superficial analysis with strings and nm. Former
+/bin/ls, /bin/ps and /usr/bin/top are not stripped and we can observe
+functions and variables named very similar to those we already observed
+in former /usr/sbin/tcpd. Apparently former /bin/ls won't show files
+listed in /usr/man/r, while /bin/ps and /usr/bin/top won't show
+processes listed in /dev/ptyp... I even dare to run these utilities and
+confirm that this is actually the case:-) I notice that former /bin/ps
+is rather old as it generates output significantly different from the
+one generated by "vanilla" RH 6.2 /bin/ps. And indeed, it turned to be
+based on procps utilities version 1.01 which by the way explains why
+/etc/psdevtab is present. I also note that files in question are
+dynamically linked with libc.so.5. 
+
+Former /bin/netstat and /sbin/ifconfig are stripped so I can only use
+strings. But it's more than enough to convince myself that /bin/netstat
+won't show connections to/from hosts whose IP-addresses (or hostnames?)
+partially match the patterns listed in /usr/libexec/awk/addy.awk.
+Purpose of /sbin/ifconfig is very likely to prevent legitimate user(s)
+from noticing that the network interface is operating in promiscuous
+mode whenever the intruder chooses to start a wire sniffer program.
+
+IV. THE HACKERWORK.
+
+The intruder has left behind a number of files. We already know what's
+the deal with few of them, namely /dev/ptyp (as well as /etc/psdevtab),
+/usr/man/r, /usr/man/.a, /usr/libexec/awk/addy.awk...
+
+Files in /usr/man/.Ci
+
+a.sh	"killing gay shit" script which explains most of "missing"
+	lines in files/rpm-V.out.
+
+addn	a program that could have been a script... strings gives rather
+	clear idea about what it does:
+
+		enter classb to hide in netstat: 
+		%d.%d
+		doing it like they do it on the discovery channel
+		echo 1 %d.%d >> /usr/libexec/awk/addy.awk
+		echo 2 %d.%d >> /usr/libexec/awk/addy.awk
+		added %d.%d to the hidden list
+
+addps	same as above, but for processes, and a script... adds entries
+	to /dev/ptyp. what's wrong with vi or any other text editor?
+
+backup/	original copies of files replaced by rootkit
+
+bx	BitchX IRC client, also found as former /bin/bx. The intruder
+	was probably planning to operate an IRC channel on the
+	compromised computer.
+
+chmod-it
+	script responsible for most of .M...... lines in
+	files/rpm-V.out. I fail to understand why intruder would do
+	it...
+
+clean, snap
+	used to wipe log files in /var/log/, intruder wanted to get rid
+	of everything that has 209.255, 209.86, echo, splitrock, etc.
+	(see clean script for more patterns)
+
+do	wipes accounts called own and adm1 from /etc/{passwd|shadow}
+
+find, killall, pstree
+	must be rootkit programs the intruder chose not to install.
+	find appears as usual find, but (presumably) won't list files
+	listed in /dev/.oz/r, killall refers to /dev/.oz/p, pstree -
+	/usr/man/.p.
+
+inetd, syslogd
+	statically linked versions of inetd, syslogd. programs were
+	never installed or ran (see files/stat.out), I don't care about
+	'em.
+
+fix	the program that was apparently used to install the rootkit
+	files. the program first collects stat(2) information about
+	target file, then replaces it with a rogue one, resets the
+	system clock to st_ctime, sets st_atime and st_mtime and resets
+	the system clock back. as result rogue file has exactly same
+	st_*times as the original one. in addition programs attempts to
+	maintain same as original checksum for the rogue program. idea
+	is to make it harder to discover it with find and sum.
+
+needz	some meaningless script printing couple of URLs.
+
+paki/slice2
+	TCP SYN flooder, a DoS tool.
+
+paki/stream.c
+	TCP packet flooder, a DoS tool.
+
+q, qs	Q tool, see http://www.securityfocus.com/tools/1217.
+
+rmS	a useless script presumably used to delete downloaded files.
+
+snif, sniff.pid, sp.pl
+	Protocol sniffer collecting clear-text passwords.
+
+scan	directory containing programs used to mount various attacks:
+
+	amd	automounter scanner and exploit program,
+		http://www.cert.org/advisories/CA-1999-12.html
+
+	bind	scans for BIND 8.2.1 and 8.2 name servers
+
+	daemon	TCP port scanner, scans for known ports as well as
+		collects version information, and a program dumping
+		IP addresses for given DNS zone.
+
+	port/strobe
+		yet another TCP port scanner, even with manual page:-)
+
+	statd	scanner and exploit programs for statd buffer
+		overrun, http://www.securityfocus.com/bid/1480,
+		exploit is original statdx.c by ron1n.
+
+	wu	scanner and exploit programs for wu-ftpd buffer
+		overrun, http://www.securityfocus.com/bid/1387,
+		exploit is wuftpd2600.c by tf8.
+
+	x	X11 scanner and keystroke sniffer program.
+
+	Apparently none of the above program, i.e. in scan and
+	subdirectories, were started (according to timestamps in
+	files/stat.out)
+
+\ /Anap	yet another essentially useless script wiping /usr/tmp/nap
+	(the one we've seen in sshd1 disassembly)
+
+Files in /usr/local. We find vanilla 8.2.2-P5 bind and ssh1 with
+backdoor in sshd1 packages. The programs in question (obviously with
+exception for sshd1:-) are very likely intruder's personal favorites.
+
+Files in /home/drosen. The only file that might contain useful
+information is .bash_history... The rest was copied from /etc/skel.
+It's not clear why would intruder create an account when he can the
+backdoor...
+
+IDS log at http://project.honeynet.org/challenge/ suggests that the
+computer felt victim for statd buffer overrun, see
+http://www.securityfocus.com/bid/1480 for details. One would expect to
+find the exploit code among those programs left by intruder, say
+/usr/man/.Ci/scan/statd/statdx, but it doesn't seem to be the case. The
+exploit code (if it was the one actually used to penetrate) actually
+differs from the one left behind by intruder and it apparently
+rpc-statd-xpl.c found on the same page at securityfocus or its
+derivative.
+
+Examining the files/stat.out suggests following time schedule:
+
+14:26:15	/etc/hosts.deny was modified
+14:45:25	UID#5000 logs on from c871553-b.jffsn1.mo.home.com,
+		see /var/log/lastlog
+14:51:54	/usr/man/.Ci is created
+14:52:10	rootkit is installed (see backup directory)
+14:52:13	protocol sniffer is started (see sniff.pid)
+14:52:14	clean is executed and logs are wiped
+14:52:15	a.sh and addps are executed (see above)
+14:52:26	am-utils rpm is installed
+14:52:32-33	lpr, make, screen, ypserv and telnet rpms are installed
+14:52:34	/bin/bx is created, probably started
+14:53:10	ssh is installed in /usr/local
+14:53:13	/etc/rc.d/rc.local modified to start backdoor upon
+		reboot
+14:53:33	sshd is started (look-up sshd.pid)
+14:53:40	wu-ftpd rpm in installed
+14:53:49	nfs-utils rpm in installed
+14:54:23	bind is installed in /usr/local
+14:54:25	/usr/local/sbin/named copied to /usr/sbin and started
+		(look-up named.pid)
+14:55:31	addn is executed, /usr/libexec/awk/addy.awk created
+14:55:58	do is executed, /etc/{passwd|shadow} were modified
+		for last time, presumably there was an account with
+		UID#5000 present
+14:56:11	rmS is executed, must be .Ci clean-up
+14:57:00	chmod-it is executed
+14:59:07	/home/drosen/.bash_history modified, drosen logs out
+15:02:28	/var/tmp/nap is modified, sshd logs root logon from
+		c871553-b.jffsn1.mo.home.com with password tw1Lightz0ne
+		which turns to be the backdoor password, 'echo -n
+		tw1Lightz0ne | md5sum' matches the precompiled value
+		we've seen when analyzing sshd backdoor
+15:03:05	/etc/inetd.conf modified, trace of the initial exploit
+		is deleted
+
+Opened questions.
+
+Does intruder operate from c871553-b.jffsn1.mo.home.com? May be... On
+the other hand it appears as ADSL subscriber and very well might be
+violated in similar way and is being used to cover up tracks.
+/var/tmp/nap could be left with purpose to frame an "innocent" user...
+
+Does intruder reside in 192.87 (see identd analysis)? According to
+whois most of the matching subnets reside in Netherlands and the name
+of the backdoor function, envoye_don_le_trojan(), suggest same origin.
+That's actually more realistic option as there is an unwritten "code"
+the hackers seem to follow by which they avoid cracking in own country.
+

@@ -1,0 +1,249 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+GMT based on the IDS system's time. The challenge states "The system's
+time zone was set to GMT-0600(CST)."
+I think the IDS system was installed with GMT-0700(MST) because there
+is a difference of almost one hour between the rpc.statd reports.
+The two systems had a time gap of 00:02:51!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Please see the following files as well:
+	* ChangeLog - my diary
+	* Ci_log - A description of the rootkit
+	* newfiles.log - A list of file which I could not get on my
+	  reference system
+	* rpm-verify-orig.log.interesting - A listing of a rpm verify
+	  against the rpm database of my reference system.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+2000-11-05 16:53:17+00
+	Failed root login, This could be ok?
+
+2000-11-05 16:53:21+00
+	Successful root login. This could be ok?
+
+2000-11-05 16:56:56+00
+	Somebody tried to insmod a module `eht0'?? I could not find
+	any information on this module. The /etc/conf.modules did not
+	change in that timeframe.
+
+------------------ First probe probably from a different attacker --------
+2000-11-05 16:57:40+00
+	A inbound telnet connection from 207.239.115.11
+		(stan.ksni.net)
+	in.telnetd pid 680
+
+2000-11-05 16:57:43+00
+	inetd reports a exit status on pid 680. The in.telnetd did not
+	like what it got.
+--------------------------------------------------------------------------
+
+2000-11-05 16:58:02+00
+	root exited
+
+2000-11-06 09:02:14+00
+	A inbound ftp connection from 128.121.247.126()
+	in.ftpd pid 973
+
+2000-11-06 09:03:32+00
+	The in.ftpd 973 closed the connection.
+
+--------------- Automated exploit script ---------------------------------
+2000-11-08 06:11:31+00
+	An inbound telnet connection from 216.216.74.2
+		(ATHM-216-216-xxx-2.home.net)
+	in.telnetd pid 2077
+
+2000-11-08 06:11:31+00
+	An inbound telnet connection from 216.216.74.2
+		(ATHM-216-216-xxx-2.home.net)
+	in.telnetd pid 2078
+
+2000-11-08 06:11:32+00
+	inetd reports a exit status on pid 2077. The in.telnetd did
+	not like what it got.
+
+2000-11-08 06:11:32+00
+	inetd reports a exit status on pid 2078. The in.telnetd did
+	not like what it got.
+	One of those two whould have been enough to find out the
+	target-OS etc.
+	At this point the attacker knows at least:
+	Red Hat Linux release 6.2 (Zoot)
+	Kernel 2.2.14-5.0 on an i?86
+
+2000-11-08 06:11:51+00 [Q1]
+	the rpc.statd reports the famous
+	".../bin/sh -c echo 4545 stream tcp nowait root /bin/sh sh \
+	-i >> /etc/inetd.conf;killall -HUP inetd"
+	This connetion cam from 216.216.74.2
+	(ATHM-216-216-xxx-2.home.net) too.
+	I was able to reproduce this exploit. Please find the relevant
+	parts of my diary[log/ChangeLog] & [log/statd.c*].
+--------------- Success for the first step ---------------------------
+
+--------------- Bindshell phase --------------------------------------
+2000-11-08 14:28:44+00
+	/usr/bin/uptime was checked to see if he is alone.
+
+2000-11-08 <14:28:44+00 ... 14:31:32+00>
+	I think the bindshell was used to create two new entries in
+	[/etc/passwd]
+	own:x:0:0::/root:/bin/bash
+	adm1:x:5000:5000:Tech Admin:/tmp:/bin/bash
+	[/etc/shadow]
+	own::10865:0:99999:7:-1:-1:134538460
+	adm1:Yi2yCGHo0wOwg:10884:0:99999:7:-1:-1:134538412
+
+2000-11-08 14:29:06+00
+	/etc/hosts.deny was cleared probably still from the bindshell.
+	This is needed to make sure he can telnet into the victim box
+	later. (Not needed for the default install!)
+---------------- Setup to use telnet into the victim box completed. --
+
+---------------- First telnet into the victim box. -------------------
+2000-11-08 14:31:32+00
+	adm1(uid=5000) logged in from c871553-b.jffsn1.mo.home.com
+	using in.telnetd
+	[Q2] It looks like the intruder comes often from the same
+	network address.
+
+2000-11-08 14:32:18+00
+	/usr/bin/ftp is executed probably to get all the packages the
+	intruder wanted.
+
+2000-11-08 <14:32:21+00 ... 14:48:15+00>
+	I think he left after all the transfers were initiated.
+---------------- End of first telnet step. ---------------------------
+
+I believe around this time the IDS box could have noticed a lot of ftp
+activity.
+
+---------------- Second telnet into the victim box. ------------------
+---------------- This is the `activity phase'. -----------------------
+2000-11-08 14:48:15+00
+	adm1(uid=5000) logged in from c871553-b.jffsn1.mo.home.com
+	(Found with the modified lastlog!)
+
+2000-11-08 <14:48:15+00 ... 14:54:44+00>
+	adm1(uid=5000) -> su -> own(uid=0)
+
+2000-11-08 14:54:44+00
+	The intruder starts to unpack his stuff in /usr/man/.Ci
+	Partial tar files are log/Ci_from_hda5.tar &
+	log/Ci_from_hda8.tar 
+	This looks like a prepackaged rootkit.
+	Please see Ci_log for a detailed description on this kit.
+ 
+2000-11-08 14:55:00+00
+	He starts the /usr/man/.Ci/install script. This includes
+	apparently all the `unknown' rpms.
+
+2000-11-08 14:55:25+00
+	The install script finished. The only thing left is the sshd
+	install.
+
+2000-11-08 14:55:57+00
+	The installation of the modified sshd starts.
+	(log/ssh.tar) This is a trojaned sshd with allows root access
+	with a predefined password. It would also collect all the
+	user/passwd pairs of ssh users and write them in clear into
+	/usr/tmp/nap.
+
+2000-11-08 14:56:04+00
+	The modified sshd package is installed.
+
+2000-11-08 14:56:24+00
+	The sshd is started.
+
+2000-11-08 14:56:31+00
+	Securing the victim? Install the updated wu-ftpd package. This
+	package has the correct md5sum!
+	log/wu-ftpd.rpm
+	$ file log/wu-ftpd.rpm
+	wu-ftpd.rpm: RPM v3 bin i386 wu-ftpd-2.6.0-14.6x
+	$ md5sum log/wu-ftpd.rpm
+	50c11f333641277ab75e6207bffb13b4  log/wu-ftpd.rpm
+
+2000-11-08 14:56:40+00
+	Install the updated nfs-utils package. This is as well the RH
+	package. 
+	log/nfs-utils.rpm
+	$ file log/nfs-utils.rpm
+	log/nfs-utils.rpm: RPM v3 bin i386 nfs-utils-0.1.9.1-1
+	$ md5sum log/nfs-utils.rpm
+	c8fb4d05baca53e48e94c7759304726f  log/nfs-utils.rpm
+
+2000-11-08 14:57:13+00
+	Start the installation of the named package.
+	(log/named.tar)
+--> Needs more investigation!!
+
+2000-11-08 14:57:16+00
+	The modified named is started.
+
+2000-11-08 14:58:38+00
+	[/usr/man/.Ci/addn] is started!
+
+2000-11-08 14:58:49+00
+	[/usr/man/.Ci/do] is started to clean up log files and
+	passwd/shadow
+
+2000-11-08 14:59:51+00
+	[/usr/man/.Ci/chmod-it] is the last part of the root-kit
+	install process. It finished here.
+	At this point everything the attacker needs to come back is in
+	place.
+---------------- Finished the root-kit etc. install ------------------
+
+---------------- The installation of tpack*.tgz begins ---------------
+This is some kind of IRC bot with is probably modified to send all the
+gathered information from the victim box to the attacker.
+
+2000-11-08 <14:59:57+00 ... 15:01:10+00>
+	create a directory "/tmp/ ", & chown it to the only real user
+	on the victim box (drosen).
+
+2000-11-08 15:01:17+00
+	su to drosen(uid=500). I don't know why he gives up
+	privileges?
+
+2000-11-08 <15:01:19+00 ... 15:01:32+00>
+	gunzip & untar the tpack*.tgz into "/tmp/ ".
+	(log/tpack.tar)
+
+2000-11-08 15:01:45+00
+	Start the installation of tpack*.
+
+2000-11-08 15:01:58+00
+	The tpack* install has finished and the attacker leaves the
+	account drosen(uid=500)
+	The interesting binary would be eggdrop (renamed to p), which
+	I believe is the actual daemon.
+	I found two incarnations of this file: one a part of the
+	tpack.tar (log/tpack.tar) and one as
+	hda8/e2recover/e2rec.21026.honeypot.hda8.dd.60532
+	(log/eggdrop)
+--> This executable needs more investigation!!
+
+2000-11-08 15:02:05+00
+	The big cleanup in "/tmp/ ". What was the reason?? Did the
+	eggdrop/p not work as expected??
+---------------- End of tpack adventure -------------------------------
+
+
+2000-11-08 15:02:43+00
+	The attacker leaves the acount adm1.
+
+2000-11-08 15:05:19+00
+	The attaker comes back through the trojaned sshd. 
+	The file /var/tmp/nap is created. This contains his password
+	in clear. This file would be a list of all the sshd users with
+	their passwords in clear.
+
+2000-11-08 <15:05:22+00 ... 15:06:03+00>
+	Final cleanup (/etc/inetd.conf & killall -HUP /usr/sbin/inetd)
+	etc. Now he is sure that the trojaned sshd works as expected.
+
+2000-11-08 15:06:06+00
+	The actual attack is over! The attacker leaves the root
+	account.
+-----------------------------------------------------------------------

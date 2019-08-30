@@ -1,0 +1,82 @@
+From mailer@stamper.itconsult.co.uk Sun Feb 25 19:07:12 2001
+Date: Mon, 26 Feb 2001 03:14:51 +0000
+From: Stamper <mailer@stamper.itconsult.co.uk>
+To: dittrich@speakeasy.net
+Subject: Proof of Posting Certificate 0048368:Timestamp of file
+    'md5sums.txt'
+
+Stamper is a service provided free of charge to Internet users.
+
+You are very welcome to use Stamper, but you may only do so if 
+you have first read our Terms of use, which exclude liability on 
+our part and which provide for you to indemnify us against any 
+potential liability arising from your use of Stamper.  By using 
+Stamper you warrant that you have read and accept the Terms.
+
+The Terms of use are available by sending email to 
+info@stamper.itconsult.co.uk or from the web page 
+http://www.itconsult.co.uk/stamper.htm.
+
+
+To: dittrich@speakeasy.net
+Received: from eve.speakeasy.net (eve.speakeasy.net [216.254.0.17]) by m05.stamper.itconsult.co.uk (NTMail 6.03.0009/NT8923.00.86181c8b) with ESMTP id ymudxaaa for post@stamper.itconsult.co.uk; Mon, 26 Feb 2001 03:14:47 +0000
+Received: (from dittrich@localhost)
+	by eve.speakeasy.net (8.10.0/8.10.0) id f1Q36h011096;
+	Sun, 25 Feb 2001 19:06:43 -0800
+Date: Sun, 25 Feb 2001 19:06:43 -0800
+Message-Id: <200102260306.f1Q36h011096@eve.speakeasy.net>
+From: dittrich@speakeasy.net
+Subject: Timestamp of file 'md5sums.txt'
+
+-----BEGIN PGP SIGNED MESSAGE-----
+
+########################################################
+#
+# This is a proof of posting certificate from
+# stamper.itconsult.co.uk certifying that a user
+# claiming to be:-
+#     dittrich@speakeasy.net
+# requested that this message be sent to:-
+#     dittrich@speakeasy.net
+#
+# This certificate was issued at 03:14 (GMT)
+# on Monday 26 February 2001 with reference 0048368
+#
+# CAUTION: while the message may well be from the sender
+#          indicated in the "From:" header, the sender
+#          has NOT been authenticated by this service
+#
+# For information about the Stamper service see
+#        http://www.itconsult.co.uk/stamper.htm
+#
+########################################################
+
+
+MD5 checksum of file 'md5sums.txt'
+dd8a69b65dc8bb717152b9d454f8f246  md5sums.txt
+
+Contents of file 'md5sums.txt'
+ -------- Start of file ---------
+e5a6f9ebab2ad87903e85bfe58000218  index.txt
+9c0402e65423233ddfd2f30bd04861c8  summary.txt
+1a3b4ef1f76fe8f0a380e0faa08b4f95  evidence.txt
+f49bfd872e2a12654d693a15cba25579  advisory.txt
+9586f8f70541a9d741f46139621e1c76  costs.txt
+f426485a389e655d1975c06f7223c5d6  mactime.txt
+d0b347dd318fc1bfb5a61898bc04da3e  files.tar.gz
+a2d9ff41a7b82fced188776bd45e7289  fstab.sh
+ --------  End of file  ---------
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3i
+Charset: noconv
+Comment: Stamper Reference Id: 0048368
+
+iQEVAgUBOpnKK4GVnbVwth+BAQHEvAf+KHR/fRwbgF0RlhFFc8RNX5b9CppScm+B
+r6r46pYO9i4qrMKFpIlRI+a8ygBWrIXZ1Ji++sal32eBsBRa+UqMr3IkU5V/EbgI
+5JP7xm/KLYDhscx8sltQDen/dzVifuAO/oS8cDgdRdJPd7mGBOK20wZCc+SI7LIX
+YyZMO9YHx+IjF2DOXK4MGK8slHhkDJRAAI1/gdApDZ+qcqCC3BNWOGFZ0lNpVIL/
+qxA3z/oQnVQ/y06PDxCsPX+aIxyo6pf+MVUc6btZdL14vn9Nl+LTDGthjFg1o+r2
+YXuc8ixRZlJPRlEHtzY/gonsBoria0XWZp6BTFlv9rZH6qe9Rkpraw==
+=fE8R
+-----END PGP SIGNATURE-----

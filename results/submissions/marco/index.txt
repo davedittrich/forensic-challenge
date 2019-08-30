@@ -1,0 +1,59 @@
+index.txt		This file.
+timestamp.txt		Timestamped md5sums of all files except
+			timestamp.txt itself.
+costs.txt		Cost estimate.
+evidence.txt		Timeline and description of the incident.
+summary.txt		Short nontechnical summary.
+advisory.txt		An advisory text how to handle this incident
+			within the IT organisation.
+ChangeLog		My diary for the investigation.
+Ci_log			A description of the rootkit.
+mactime-interesting.txt	A grave-robber generated listing started at
+			the beginning of the incident.
+newfiles.log		A find generated listing of files which are on
+			the victim but not on my reference
+			system. (Also includes all the files for which
+			I could not find the (older) rpm's)
+rpm-verify-orig.log.interesting	This file contains a somewhat shortend
+			list of file which have been change against
+			the RPM database.
+files.tar		More supporting files and patches to tools.
+r Ci_from_hda5_cleaned.tar
+r Ci_from_hda8_cleaned.tar	Two partially recovered tar files of
+			the used rootkit.
+  blowfish.c		A modified source out of the tpack package to
+			decrypt the encrypted strings in egg.log
+r eggdrop		The recovered binary of eggdrop.
+  hda1.lsdel.out
+  hda5.lsdel.out
+  hda6.lsdel.out
+  hda7.lsdel.out
+  hda8.lsdel.out	The listings from ext2 debugfs lsdel runs used
+			for e2recover.
+  lastlog.patch
+  lastlog.readme	A patch for the lastlog command
+  linsnif.c		The source of the rootkit snif program found
+			on the internet.
+  mactime.txt		The raw mactime output of the grave-robber.
+r named.tar		A named package which was part of the root
+			kit. This contains only binaries.
+r nfs-utils.rpm		The recovered RPM out of the rootkit.
+  rpm-3.0.4.patch
+  rpm-3.0.4.readme	A patch for the rpm command.
+  rpm-verify-orig.log
+  rpm-verify1.log
+  rpm-verify2.log	Some raw logs of rpm --verify
+  rpm.list		List of installed RPM's on the victim
+  rpm.list1		List of installed RPM's on the reference box.
+r ssh.tar		The complete trojaned ssh package of the
+			rootkit including sources.
+  statd.c		A statd exploit source which helped me to
+			verify the intrusion method.
+  tct-1.05.patch
+  tct-1.05.readme	A patch for the tct.
+r tpack.tar		The tpack/eggdrop package which was installed
+			and later removed.
+r wu-ftpd.rpm		The recovered RPM out of the rootkit.
+
+I finaly decided to not include  `r' marked files. They are too large.
+Please let me know if you're interested in those.

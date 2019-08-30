@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <TITLE>Index of /challenge/results/submissions/roessler/files</TITLE>
+ </HEAD>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+<H1>Index of /challenge/results/submissions/roessler/files</H1>
+<UL><LI><A HREF="/challenge/results/submissions/roessler/"> Parent Directory</A>
+<LI><A HREF="addbd.sh"> addbd.sh</A>
+<LI><A HREF="bash-histories"> bash-histories</A>
+<LI><A HREF="bash_history.root"> bash_history.root</A>
+<LI><A HREF="bigbody.gz"> bigbody.gz</A>
+<LI><A HREF="dirlist"> dirlist</A>
+<LI><A HREF="dot-fileMeYV0p"> dot-fileMeYV0p</A>
+<LI><A HREF="headers"> headers</A>
+<LI><A HREF="headers.apollo"> headers.apollo</A>
+<LI><A HREF="in.identd.S"> in.identd.S</A>
+<LI><A HREF="in.identd.s"> in.identd.s</A>
+<LI><A HREF="lastlog.c"> lastlog.c</A>
+<LI><A HREF="libfake.tar"> libfake.tar</A>
+<LI><A HREF="linsniffer.c"> linsniffer.c</A>
+<LI><A HREF="logsnippets"> logsnippets</A>
+<LI><A HREF="logsnippets.swap"> logsnippets.swap</A>
+<LI><A HREF="md5sum.mismatches"> md5sum.mismatches</A>
+<LI><A HREF="passwd.snippets"> passwd.snippets</A>
+<LI><A HREF="passwd.suspects"> passwd.suspects</A>
+<LI><A HREF="sendto.log"> sendto.log</A>
+<LI><A HREF="sendto.log.apollo"> sendto.log.apollo</A>
+<LI><A HREF="snif.s"> snif.s</A>
+<LI><A HREF="ssh.diff"> ssh.diff</A>
+<LI><A HREF="swap-environments"> swap-environments</A>
+<LI><A HREF="timeline.txt"> timeline.txt</A>
+<LI><A HREF="trojan.sh"> trojan.sh</A>
+</UL><ADDRESS>Apache/1.3.29 Server at www.honeynet.org Port 80</ADDRESS>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>

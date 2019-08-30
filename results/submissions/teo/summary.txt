@@ -1,0 +1,18 @@
+INCIDENT SUMMARY
+
+
+An intrusion into one of our servers was discovered on the morning of Nov 9.
+The server was immediately shutdown to prevent further damages and to 
+preserve evidence. 
+
+A full forensics analysis has been performed on the server. We now have full
+knowledge of when and how the intrusion took place. The hacker utilized a 
+remote buffer-overflow technique to gain entry into the server. We have also
+indentified the remote machine from which the attack was launched. After 
+gaining root access into the server, the attacker installed a network sniffer 
+and a backdoor in the form of a trojanised ssh1 daemon. He also installed 
+trojanised system programs to hide these processes.
+
+The damages are minimal and within control. The vulnerability concerned has
+been patched up, and the server shall be restored to its previous state fully.
+Normal services shall resume shortly.

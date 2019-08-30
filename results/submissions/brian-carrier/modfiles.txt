@@ -1,0 +1,158 @@
+Brian Carrier                                                  modfiles.txt
+-----------------------------------------------------------------------------
+List of files that were modified between:
+11/08/00 08:25:53 and 23:10:01 (CST)
+
+------------------------------------------------------------------------------
+
+/.bash_history -> /dev/null
+/bin/bx
+/dev/tpack  (deleted)
+/dev/tty1
+/etc/X11/applnk/Internet
+/etc/X11/wmconfig
+/etc/hosts.deny
+/etc/inetd.conf
+/etc/info-dir
+/etc/ld.so.cache
+/etc/logrotate.d
+/etc/mtab
+/etc/mtab~  (deleted)
+/etc/mtab~3560  (deleted)
+/etc/pam.d
+/etc/passwd
+/etc/psdevtab
+/etc/rc.d/init.d
+/etc/rc.d/rc.local
+/etc/rc.d/rc0.d/K28amd -> ../init.d/amd
+/etc/rc.d/rc1.d/K28amd -> ../init.d/amd
+/etc/rc.d/rc2.d/K28amd -> ../init.d/amd
+/etc/rc.d/rc3.d/K28amd -> ../init.d/amd
+/etc/rc.d/rc4.d/K28amd -> ../init.d/amd
+/etc/rc.d/rc5.d/K28amd -> ../init.d/amd
+/etc/rc.d/rc6.d/K28amd -> ../init.d/amd
+/etc/shadow
+/etc/skel
+/etc/ssh_config
+/etc/ssh_host_key
+/etc/ssh_host_key.pub
+/etc/ssh_random_seed
+/etc/sshd_config
+/etc/sysconfig
+/etc/sysconfig/.network.swpx  (deleted)
+/etc/sysconfig/network-scripts/.ifcfg-eth0.swp  (deleted)
+/home/drosen/.bash_history
+/root/.bash_history -> /dev/null
+/root/.ssh/random_seed
+/tmp/.bash_history -> /dev/null
+/tmp/ccE8mHGN.s  (deleted)
+/tmp/ccHAtPAZ.ld  (deleted)
+/tmp/ccTJvUXL.c  (deleted)
+/tmp/ccTglLym.o  (deleted)
+/tmp/ccbvMzZr.i  (deleted)
+/tmp/ccyhpcMn.o  (deleted)
+/usr/doc/am-utils-6.0.1s11
+/usr/doc/make-3.77
+/usr/doc/nfs-utils-0.1.6  (deleted)
+/usr/doc/nfs-utils-0.1.9.1
+/usr/doc/screen-3.9.4
+/usr/doc/screen-3.9.5  (deleted)
+/usr/doc/wu-ftpd-2.6.0
+/usr/doc/wu-ftpd-2.6.0/HOWTO
+/usr/doc/wu-ftpd-2.6.0/examples
+/usr/doc/ypserv-1.3.9
+/usr/games/.bash_history -> /dev/null
+/usr/include/rpcsvc
+/usr/lib/libamu.so -> libamu.so.2.1.1
+/usr/lib/libamu.so.2 -> libamu.so.2.1.1
+/usr/lib/yp/ypxfr_2perday-RPMDELETE  (deleted)
+/usr/libexec/awk/addy.awk
+/usr/local/bin/addr
+/usr/local/bin/dig
+/usr/local/bin/dnsquery
+/usr/local/bin/host
+/usr/local/bin/make-ssh-known-hosts -> make-ssh-known-hosts1
+/usr/local/bin/make-ssh-known-hosts1
+/usr/local/bin/mkservdb
+/usr/local/bin/nsupdate
+/usr/local/bin/scp -> scp1
+/usr/local/bin/scp1
+/usr/local/bin/slogin -> ssh
+/usr/local/bin/ssh -> ssh1
+/usr/local/bin/ssh-add -> ssh-add1
+/usr/local/bin/ssh-add1
+/usr/local/bin/ssh-agent -> ssh-agent1
+/usr/local/bin/ssh-agent1
+/usr/local/bin/ssh-keygen -> ssh-keygen1
+/usr/local/bin/ssh-keygen1
+/usr/local/bin/ssh1
+/usr/local/bin/stPHW5rg  (deleted)
+/usr/local/man/man1/make-ssh-known-hosts.1 -> make-ssh-known-hosts1.1
+/usr/local/man/man1/make-ssh-known-hosts1.1
+/usr/local/man/man1/scp.1 -> scp1.1
+/usr/local/man/man1/scp1.1
+/usr/local/man/man1/slogin.1 -> ssh.1
+/usr/local/man/man1/slogin1.1 -> ssh1.1
+/usr/local/man/man1/ssh-add.1 -> ssh-add1.1
+/usr/local/man/man1/ssh-add1.1
+/usr/local/man/man1/ssh-agent.1 -> ssh-agent1.1
+/usr/local/man/man1/ssh-agent1.1
+/usr/local/man/man1/ssh-keygen.1 -> ssh-keygen1.1
+/usr/local/man/man1/ssh-keygen1.1
+/usr/local/man/man1/ssh.1 -> ssh1.1
+/usr/local/man/man1/ssh1.1
+/usr/local/man/man8/sshd.8 -> sshd1.8
+/usr/local/man/man8/sshd1.8
+/usr/local/sbin/irpd
+/usr/local/sbin/named
+/usr/local/sbin/named-bootconf
+/usr/local/sbin/ndc
+/usr/local/sbin/sshd -> sshd1
+/usr/local/sbin/sshd1
+/usr/local/sbin/stEt9ai0  (deleted)
+/usr/man/.Ci/.temp6  (deleted)
+/usr/man/.Ci/backup
+/usr/man/.Ci/backup/ifconfig
+/usr/man/.Ci/backup/ls
+/usr/man/.Ci/backup/netstat
+/usr/man/.Ci/backup/ps
+/usr/man/.Ci/backup/tcpd
+/usr/man/.Ci/backup/top
+/usr/man/.Ci/bin  (deleted)
+/usr/man/.Ci/named.tgz  (deleted)
+/usr/man/.Ci/sniff.pid
+/usr/man/.Ci/ssh-1.2.27  (deleted)
+/usr/man/.Ci/tcp.log
+/usr/man/.a
+/usr/man/.p
+/usr/man/man1
+/usr/man/man5
+/usr/man/man8
+/usr/man/man8/rpc.lockd.8.gz -> lockd.8.gz
+/usr/man/man8/telnetd.8 -> in.telnetd.8
+/usr/man/p
+/usr/man/r
+/usr/sbin/named
+/var/lib/nfs/state
+/var/lib/rpm/conflictsindex.rpm
+/var/lib/rpm/fileindex.rpm
+/var/lib/rpm/groupindex.rpm
+/var/lib/rpm/nameindex.rpm
+/var/lib/rpm/packages.rpm
+/var/lib/rpm/providesindex.rpm
+/var/lib/rpm/requiredby.rpm
+/var/lib/rpm/triggerindex.rpm
+/var/lock/subsys/nfslock
+/var/log/cron
+/var/log/lastlog
+/var/log/messages
+/var/log/secure
+/var/log/tempxfer  (deleted)
+/var/log/wtmp
+/var/log/xferlog
+/var/run/named.pid
+/var/run/ndc
+/var/run/sshd.pid
+/var/run/utmp
+/var/tmp/nap
+/var/yp

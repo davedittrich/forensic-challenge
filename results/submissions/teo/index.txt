@@ -1,0 +1,60 @@
+INDEX.TXT
+
+
+index.txt:	This file
+
+team.txt:	People who contributed to this work.
+
+timestamp.txt:	Timestamp of MD5 checksums of all files listed here.
+
+costs.txt:	Incident costs estimate.
+
+evidence.txt:	Full technical analysis.
+
+summary.txt:	Incident summary for management and media.
+
+advisory.txt:	Advisory for consumption by other sysadmins.
+
+files.tar:	tar of additional files. See below.
+
+md5sums.txt:	md5 checksum of all files in this directory.
+
+
+files/filesystems_changes.txt:	Complete lists of files added/modified by the
+intruder, and a discussion of their functions.
+
+files/mactimes.txt: Output of 'mactime' for Nov 6 and later.
+
+files/rpms.txt:	List of rpms installed sorted by date.
+
+files/snif.strings:	strings output of /usr/man/.Ci/snif.
+
+files/sshd1/strings:	strings output of /usr/local/sbin/sshd1.
+
+files/hda7.unrm.strings_var.log.messages:	Extract from output of 'unrm'
+followed by strings on hda7. Looks like /var/log/messages before intruder 
+edited it.
+
+files/hda8.100332.t.txt_passwd:	Extract from output of 'unrm' and 'lazarus' on
+hda8. Looks like a deleted /etc/shadow.
+
+files/hda8.156859.t.txt_bash_history:	Extract from output of 'unrm' and
+'lazarus' on hda8. Looks like a deleted .bash_history file, before the
+intruder links it to /dev/null.
+
+files/hda8.90158.t.txt_rootkit.install:	Extract from output of 'unrm' and
+'lazarus' on hda8. Looks like a deleted rootkit install script.
+
+files/hda9.strings_ENV:	Extract from strings output on hda9. Looks like ENV
+settings when intruder telnets in as user "adm1" and executes 'su'.
+
+files/hda9.strings_in.telnetd:	Extract from strings output on hda9. Looks
+like some log of a telnet session from c871553-b.jffsn1.mo.home.com.
+
+files/hda9.strings_log: Extract from strings output on hda9. Some log entries
+of intrusion.
+
+files/hda9.strings_root.login.Nov8:	Extract from strings output on hda9.
+Shows a local root login on Nov 8.
+
+files/md5sums.txt:	md5 checksums of all files in the files directory.

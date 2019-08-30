@@ -1,0 +1,34 @@
+Time spent on incident investigation
+
+2000/11/10 person1 1.0
+2000/11/11 person1 2.0
+2001/01/27 person1 2.0
+2001/02/15 person1 1.5
+2001/02/17 person1 6.5
+2001/02/18 person1 6.0
+2001/02/18 person2 1.0
+2001/02/19 person1 8.0
+2001/02/20 person1 2.0
+2001/02/21 person1 2.0
+
+
+Damage estimates are based on a model adopted by the Incident Cost
+Analysis and Modelling Project (ICAMP).  This model is described
+on the following page:
+
+http://staff.washington.edu/person1/misc/faqs/incidentcosts.faq
+
+
+Title                 Hours Cost/hr      Total      -15%      +15%
+Incident Investigator  31.0  $70.00   $2170.00  $1848.75  $2495.50
+Incident Investigator   1.0  $70.00     $70.00    $59.50    $80.50
+
+Subtotal                              $2240.00  $1908.25  $2576.00
+
+Benefits @ 28%                         $627.20   $534.31   $721.28
+
+Subtotal Salary + Benefits            $2876.20  $2442.56  $3297.28
+
+Indirect Costs                           $0.00     $0.00     $0.00
+
+Total Costs                           $2876.20  $2442.56  $3297.28

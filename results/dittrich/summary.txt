@@ -1,0 +1,42 @@
+[The following is a summary of the intrusion into the host
+apollo.honeyp.edu.  This summary is based on information detailed
+in the file "evidence.txt".]
+
+On November 7, 2000, a Red Hat Linux 6.2 server belonging to
+honeyp.edu was compromised.  Analysis of the system confirms the
+attacker broke in through the rpc.statd daemon, a Network File System
+service.  This vulnerability was made public July 16, 2000 and CERT
+released an Advisory about the issue on August 18, 2000:
+
+    http://www.cert.org/advisories/CA-2000-17.html
+
+Once inside the system, the intruder installed multiple back doors, a
+sniffer (to capture passwords), a trojan horse Secure Shell daemon
+that logs passwords, a program for monitoring and controlling Internet
+Relay Chat (IRC) channels that supports encryption of its
+configuration files, and a set of scanning, intrusion, and denial of
+service attack programs.
+
+There is no evidence the attack was directed against this institution
+specifically, rather this was a random intrusion designed to simply
+gain access to as many systems as possible.  This incident is typical
+of IRC "war" related activity as described in CIAC document 2318,
+titled "IRC on Your Dime":
+
+    http://ciac.llnl.gov/ciac/documents/CIAC-2318_IRC_On_Your_Dime.pdf
+
+The system was taken out of service before the intruder was able to
+use any of the malicious programs installed on the system, which
+prevented any damage to other internal systems or to external
+entities.
+
+The intruder used automated tools to install malicious software, which
+did significant damage to the system (in the form of replacement of
+original operating system programs and addition of malicious programs)
+in a very short period of time.  This damage was so extensive that the
+complete re-formatting and re-installation of all operating system
+programs would be necessary to ensure control was fully regained.
+Evidence was preserved for any possible law enforcement activity.
+
+The estimated cost of analysis of this incident (see "costs.txt" for
+full break-down) is $2876.20  +/- $421.18.

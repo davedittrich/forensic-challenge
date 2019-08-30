@@ -1,0 +1,34 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+9bc28c25c5f9e783457bf1c3a039a463  ./advisory.txt
+0b75723dac340b40e241f01577a5677e  ./atime.txt
+63cf4c063e6e47031bead728d49b2a02  ./rkit.txt
+3e572a992527a9a1e4fb541c1f57a81a  ./cron.txt
+f7e5569d9c0b3469a6a1b3bc303124c4  ./shellcode.txt
+1a0a33cb488437ef9742e996ddfb2e50  ./questions.txt
+9c54dd91248acbc287178e2633dadb27  ./timeline.idstime
+8ab54745461546e29a133c9a85af0132  ./programs/dumper.c
+23445f3f5a94d5c0be43ba43887bbadc  ./programs/cronparse.c
+4888f72a9866bf18d9dc7751621e3ede  ./misc/eggdropdir
+cc68fe08eaa1b61a06c6c92880f0bd2e  ./misc/Cidir
+0b8683f7a61305dc8f46647ca2da5986  ./misc/Cicontents
+15499deb07eac33cee016085d869dfae  ./misc/tpackparent
+431ffef53d14bcd5a129d5b8e7eedd65  ./misc/eggdrop_timestamp
+bd9e5015869682215a92928759fb1d6d  ./files/proctcp
+1df9a99d80c5fbd34b683b70f036f150  ./files/messages
+fa78b85f3cd6c40094564742be5bdeb2  ./files/root_history.txt
+cfeae39a595675e903332f309905c6b9  ./files/drosen_history.txt
+f933c6fac6652ba95eea7451766a3317  ./timeline.txt
+820d06d1f0d3421b59dfaa465e8746fe  ./other.txt
+13cce5c0ca9d86906e1ccc4e03d40c46  ./files.tar
+9fd25c3c22df75d75dba0a7e5549035d  ./key.asc
+b7c684c06fb693670abccb45bcbb3f52  ./index.txt
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.1.1 (GNU/Linux)
+Comment: For info see http://www.gnupg.org
+
+iEYEARECAAYFAjqM/GMACgkQTntphL4KPuZ+4wCgu1KTM5kcNPvTexz8/NB83qoH
+DG0An0qWj1WxZuBM+aUORvdzOLul3JeN
+=e+OC
+-----END PGP SIGNATURE-----

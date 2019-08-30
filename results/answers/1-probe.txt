@@ -1,0 +1,23 @@
+##### INITIAL PROBE #####
+Blackhat makes initial connections to the Honeypot, victim7-int (apollo.honeyp.edu)
+NOTE: Any activity before 07 Nov, 2000 was valid activity by the system administrater.
+
+
+Firewall-1 logs
+---------------
+
+7Nov2000 23:06:46 accept firewall   >qfe1 useralert proto tcp src ATHM-216-216-xxx-2.home.net dst victim7-ext service rpc s_port 1517 len 60 rule 9 xlatesrc ATHM-216-216-xxx-2.home.net xlatedst victim7-int xlatesport 1517 xlatedport rpc
+7Nov2000 23:11:04 accept firewall   >qfe1 useralert proto tcp src ATHM-216-216-xxx-2.home.net dst victim7-ext s ervice rpc s_port 963 len 60 rule 9 xlatesrc ATHM-216-216-xxx-2.home.net xlatedst victim7-int xlatesport 963 xl atedport rpc
+7Nov2000 23:11:30 accept firewall   >qfe1 useralert proto tcp src ATHM-216-216-xxx-2.home.net dst victim7-ext service telnet s_port 1207 len 60 rule 9 xlatesrc ATHM-216-216-xxx-2.home.net xlatedst victim7-int xlatesport 1207 xlatedport telnet
+7Nov2000 23:11:30 accept firewall   >qfe1 useralert proto tcp src ATHM-216-216-xxx-2.home.net dst victim7-ext service telnet s_port 1208 len 60 rule 9 xlatesrc ATHM-216-216-xxx-2.home.net xlatedst victim7-int xlatesport 1208 xlatedport telnet
+
+
+Snort Alerts
+------------
+Nov 7 23:11:06 lisa snort[1260]: RPC Info Query: 216.216.74.2:963 -> 172.16.1.107:111
+Nov 7 23:11:31 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 1 hosts: TCP(2), UDP(0)
+Nov 7 23:11:31 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1209
+Nov 7 23:11:34 lisa snort[1260]: IDS08 - TELNET - daemon-active: 172.16.1.101:23 -> 216.216.74.2:1210
+Nov 7 23:11:47 lisa snort[1260]: spp_portscan: portscan status from 216.216.74.2: 2 connections across 2 hosts: TCP(2), UDP(0)
+Nov 7 23:11:51 lisa snort[1260]: IDS15 - RPC - portmap-request-status: 216.216.74.2:709 -> 172.16.1.107:111
+Nov 7 23:11:51 lisa snort[1260]: IDS362 - MISC - Shellcode X86 NOPS-UDP: 216.216.74.2:710 -> 172.16.1.107:871

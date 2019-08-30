@@ -1,0 +1,22 @@
+I did not really count the hours I spend on this. I wanted to try and
+learn something rather than getting to the results as fast as I could!
+
+I would imagine that I spend around 40 hours on this challenge
+including the related web research and tools work. I think this could
+have been done faster if it's done on a more regular basis;-) Based on
+the assumed salary of $70000 this would have cost roughly $1400 in
+salary plus all the equipment expenses etc.
+
+My background has not too much to do with system administration and or
+security;-)
+
+* Software development since 1990 mostly for Unix's
+  - Compiler and related tools.
+  - Some `support' for compiling & debugging large applications like
+    Oracle, SAP etc.
+* Linux user since I believe 1993 mostly at home.
+* Some system administration for prototype systems in work related
+  labs.
+* General troublemaker/troubleshooter;-)
+
+-- Marco Walther

@@ -1,0 +1,117 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Lance Spitzner">
+<style type="text/css">
+<!--
+a:active {  text-decoration: none}
+a:hover {  text-decoration: none; color: blue}
+a:link {  text-decoration: none}
+a:visited {  text-decoration: none}
+-->
+</style>
+</head>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+
+<h1>peter</h1>
+<ul>
+<li> Misses the purpose of some RPM installs.</p>
+<li> Misses the missing shutdown account.</p>
+<li> Recovers /var/log/messages.</p>
+<li> Recovers /root/.bash_history.</p>
+<li> Lastlog analysis. </p>
+<li> Cron child PID analysis in cron.txt!</p>
+<li> Unrms files with debugfs.</p>
+<li> Recovers logging from swap in files/messages.</p>
+<li> Recovers /proc/net/tcp from swap file.</p>
+<li> Identification of intrusion method is OK (statd, clock skew,
+shellcode in deleted /var/log/messages).</p>
+<li> Assumes the attacker runs Linux, hopcount 22 distance.</p>
+<li> Misses that some RPMs were installed to fix old bugs. [The
+reasons that lead the attacker to installing these packages are
+unclear to me.  All the packages were originated from Red Hat, Inc.,
+so there is almost no chance that they were not clear (=trojaned).
+]</p>
+<li> Finds backdoor in unused inetd.</p>
+<li> Finds backdoor in unused in.ftpd.</p>
+<li> Finds backdoor in unused in.identd.</p>
+<li> When explaining what is known about the source of programs
+found on the system, mentions RedHat 6.2 plus patch RPMs. But also
+mentions origin of rootkit stuff in the rootkit analysis.</p>
+<li> Timeline.txt is a condensed time line. The rootkit analysis has
+more detail.</p>
+<li> The report suitable for management is missing, but has suggestions
+on what would go in.</p>
+<li> Advisory is limited to statd exploit - no discussion of
+	what happened with the compromised machine.  
+	The prevention section is inaccurate: statd cannot be packet
+	filtered since it runs on a random port.  
+	The "how to detect" is marginal (active port 4545, 5002,...)
+	unusual files (/dev/ptyp and /usr/man/.Ci) No detection for
+	the trojaned installed software. </p>
+<li> Did not produce all documents as suggested, but did manage
+to get most of the information in what was produced.</p>
+<li> Lack of organization, but the content is technically OK.</p>
+<li> Misses some things (why some RPMs were installed);
+	for some reason he uses atime analysis, not the power of
+	mactime that combines all time-related info.</p>
+<li> There's some good stuff in the non-described files
+	where he recovers logging and /proc/net/tcp from swap.</p>
+<li> Lack of use of forensic analysis tools is made up for by 
+technique.</p>
+
+<li> Uses a very interesting technique of analysing cron
+logs to determine the amount of system activity by variation in
+cron PID values.  This source of data, as he points out, is not
+addressed with by most rootkit "clean" scripts.  It proves quite
+accurate in this case in obtaining corroborating information about
+login time activity.  This technique has some limitations, though, on
+systems that have continual high process turnover (e.g., major web
+servers running CGI programs, systems that have frequent inetd managed
+daemon activity, lots of interactive remote login sessions, etc.)
+There may still be "quiet" periods during which an attacker is more
+likely to be active.</p>
+<li> The rootkit analysis (all intruder files, actually) does a very
+good job of both summarizing the files installed on the system
+and identifying their source and configuration file associations.
+This would aid in then tying some of these tools to their signatures
+(as seen by IDS and firewalls) and advisories or exploit databases
+like CVE.</p>
+<li> Supports timeline using references to the data sources
+that produced his time/activity conclusions.  (See also <a
+href="addam.html">comments on Addam's entry</a>.) I would only suggest
+a little better use of whitespace to make this more readable.</p>
+<li> One problem with Peter's submission (and this is really not an
+important issue in this case) is that he did not actually produce a
+signed timestamp.  He signed the MD5 hashes of files (which can prove
+that he created the file), but there is no time associated with this
+activity, and no independant third party who can attest to the time
+at which it was created.</p>
+<li> Outstanding technical analysis (especially the cron
+analysis.)</p>
+<li> Excellent rootkit analysis, best I have seen yet.</p>
+<li> Difficult reading the time line, syntax was a little 
+confusing.  Maybe more use of whitespace.</p>
+</ul>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3659112-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</BODY>
+</html>
