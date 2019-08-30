@@ -1,7 +1,7 @@
+.. image:: ../images/page_titles_for_challenge_i.jpg
+
 Honeypot Disk Partition Images
 ==============================
-
-.. image:: images/page_titles_for_challenge_i.jpg
 
 Compressed images
 -----------------

@@ -1,8 +1,8 @@
+.. image:: images/page_titles_for_challenge.jpg
+
 ===================================
 Honeynet Project Forensic Challenge
 ===================================
-
-.. image:: images/page_titles_for_challenge.jpg
 
 This repository mirrors and repackages the original data and analyses
 from the Honeynet Project `Forensic Challenge`_.  The original web site
